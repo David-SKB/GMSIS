@@ -1,7 +1,7 @@
 
 package repairs;
 
-import java.swing.JOptionPane;
+import javax.swing.JOptionPane;
 
 //@author David Okeke
 
