@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
  */
 public class ComponentLoader {
   public static void main(String[] args){
-   JOPtionPane.showMessageDialog(null, "The application works");   
-  }
-  }  
+   JOptionPane.showMessageDialog(null, "The application works");   
+  } 
 }
