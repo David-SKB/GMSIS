@@ -5,6 +5,8 @@
  */
 package customerAccount;
 
+import java.util.List;
+
 /**
  *
  * @author athanasiosgkanos
@@ -13,16 +15,15 @@ public class Customer {
     private String fullName;
     private String address;
     private String postCode;
-    private int phone;
+    private String phone;
     private String email;
+    private List<Booking> bkLists;
     
-    public Customer
-        (String name, String address, String postC, int phone,
-                String email){
-        this.fullName = name;
-        this.address = address;
-        this.postCode = postC;
-        this.phone = phone;
-        this.email = email;
+    public Customer(){
+        
+    }
+    
+    public List<Booking> viewBookings(){
+        
     }
 }
