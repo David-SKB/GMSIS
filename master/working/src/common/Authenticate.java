@@ -1,5 +1,8 @@
 package common;
 
+import Database.DBConnection;
+import java.sql.ResultSet;
+
 /**
  *
  * @author David O
@@ -8,16 +11,23 @@ public class Authenticate
 {   
     public static boolean check(String username, String password)
     {
-        //need conn to database
-        //passes username to db to check if it exists and retrieve password
-        String SQL = "SELECT Password FROM Users WHERE Username regexp '[[:<:]]" + username + "[[:>:]]';";
-        //ResultSet rs = statement.executeQuery(SQL);
+        DBConnection c = DBConnection.getInstance();
+        c.connect();
+        String SQL = "SELECT PASSWORD FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        ResultSet rs = c.query(SQL);
         String result = "";
-        //while(rs.next())
+        try
         {
-            //result = rs.getString("Password");//retrieves the password
+            while(rs.next())
+            {
+                result = rs.getString("PASSWORD");//retrieves the password
+            }
         }
-        
+        catch (Exception e)
+        {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                    
+        }
         if (result.equals(password))
         {
             return true;
@@ -27,15 +37,24 @@ public class Authenticate
     
     public static boolean isAdmin(String username)
     {
-        String SQL = "SELECT Level FROM Users WHERE Username regexp '[[:<:]]" + username + "[[:>:]]';";
-        //ResultSet rs = statement.executeQuery(SQL);
-        String result = "";
-        //while(rs.next())
+        DBConnection c = DBConnection.getInstance();
+        c.connect();
+        String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        ResultSet rs = c.query(SQL);
+        Boolean result = false;
+        try
         {
-            //result = rs.getString("Level");//retrieves the users level
+            while(rs.next())
+            {
+                result = rs.getBoolean("SYSADM");//retrieves the users level
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
         
-        if (result.equals("Admin"))//or w/e it will be identified as in the db
+        if (result.equals("True"))
         {
             return true;
         }
