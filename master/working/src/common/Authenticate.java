@@ -8,7 +8,7 @@ public class Authenticate
 {   
     public static boolean check(String username, String password)
     {
-        //need conn to db
+        //need conn to database
         //passes username to db to check if it exists and retrieve password
         String SQL = "SELECT Password FROM Users WHERE Username regexp '[[:<:]]" + username + "[[:>:]]';";
         //ResultSet rs = statement.executeQuery(SQL);
