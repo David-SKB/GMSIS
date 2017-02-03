@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TitledPane animated="false" layoutX="686.0" layoutY="16.0" prefHeight="239.0" prefWidth="317.0" text="Add Customer">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="315.0">
+               <children>
+                  <TextField alignment="CENTER" layoutX="37.0" layoutY="21.0" prefHeight="27.0" prefWidth="230.0" promptText="Full Name" />
+                  <TextField alignment="CENTER" layoutX="37.0" layoutY="58.0" prefHeight="27.0" prefWidth="230.0" promptText="Address" />
+                  <TextField alignment="CENTER" layoutX="37.0" layoutY="97.0" prefHeight="27.0" prefWidth="230.0" promptText="Postcode" />
+                  <TextField alignment="CENTER" layoutX="37.0" layoutY="134.0" prefHeight="27.0" prefWidth="230.0" promptText="E-mail " />
+                  <Button layoutX="104.0" layoutY="170.0" mnemonicParsing="false" text="Add Customer" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TableView layoutX="21.0" layoutY="25.0" prefHeight="179.0" prefWidth="616.0" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0">
+        <columns>
+          <TableColumn prefWidth="96.0" resizable="false" text="Name" />
+          <TableColumn minWidth="0.0" prefWidth="89.0" text="Address" />
+            <TableColumn minWidth="0.0" prefWidth="89.0" text="Post Code" />
+            <TableColumn minWidth="0.0" prefWidth="89.0" text="Phone" />
+            <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
+        </columns>
+      </TableView>
+      <Button layoutX="234.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+   </children>
+</AnchorPane>
