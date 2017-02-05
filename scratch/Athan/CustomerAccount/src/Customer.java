@@ -17,13 +17,13 @@ public class Customer {
     private String postCode;
     private String phone;
     private String email;
-    private List<Booking> bkLists;
+    //private List<Booking> bkLists;
     
     public Customer(){
         
     }
     
-    public List<Booking> viewBookings(){
+    //public List<Booking> viewBookings(){
         
-    }
+    //}
 }
