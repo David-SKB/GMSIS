@@ -11,4 +11,7 @@
  */
 public class Business extends Customer{
     
+    public Business(String fName, String addr, String pCode, String phone, String email, String cType){
+        super(fName,addr,pCode,phone,email,cType);
+    }
 }

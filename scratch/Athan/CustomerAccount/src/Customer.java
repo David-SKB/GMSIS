@@ -17,13 +17,43 @@ public class Customer {
     private String postCode;
     private String phone;
     private String email;
+    private String customerType;
     //private List<Booking> bkLists;
     
-    public Customer(){
-        
+    public Customer(String fName, String addr, String pCode, String phone, String email, String cType){
+        this.fullName = fName;
+        this.address = addr;
+        this.postCode = pCode;
+        this.phone = phone;
+        this.email = email;
+        this.customerType = cType;
     }
     
     //public List<Booking> viewBookings(){
         
     //}
+    
+    public String getName(){
+        return fullName;
+    }
+    
+    public String getAddress(){
+        return address;
+    }
+    
+    public String getPostCode(){
+        return postCode;
+    }
+    
+    public String getPhone(){
+        return phone;
+    }
+    
+    public String getEmail(){
+        return email;
+    }
+    
+    public String getCustomerType(){
+        return customerType;
+    }
 }
