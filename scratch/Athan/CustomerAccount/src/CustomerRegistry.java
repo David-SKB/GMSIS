@@ -73,10 +73,9 @@ public class CustomerRegistry {
     public ArrayList<Customer> getActiveCustomers(){
         try{
             ArrayList<Customer> activeCustomers = new ArrayList<Customer>();
-            ResultSet rs;
             DBInstance.connect();
             String query = "SELECT * FROM CUSTOMER;";
-            rs = DBInstance.query(query);
+            ResultSet rs = DBInstance.query(query);
             
             while(rs.next()){
                 String fullName = rs.getString("FULLNAME");
