@@ -66,7 +66,6 @@ public class DBConnection {
             return true;
         } catch ( Exception e ) {
             return false;
-            //System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }
     }
 }

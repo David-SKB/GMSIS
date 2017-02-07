@@ -14,6 +14,7 @@ import java.util.*;
  * @author athanasiosgkanos
  */
 public class CustomerRegistry {
+    
     DBConnection DBInstance = DBConnection.getInstance();
     private static CustomerRegistry CRInstance = null;
     
