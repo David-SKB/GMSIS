@@ -83,9 +83,9 @@ public class Login extends Application
                     //actiontarget.setText("Username: "+ userTextField.getText() + " Password: " + pwBox.getText());//shows username and pass (debug)
                     String username = userTextField.getText();
                     String password = pwBox.getText();
-                    if (Authenticate.check(username, password) == true)
+                    if (DBConnection.check(username, password) == true)
                     {
-                        if (Authenticate.isAdmin(username) == true)
+                        if (DBConnection.isAdmin(username) == true)
                         {
                             //Login to admin version of system
                             actiontarget.setText("Admin Logged in");
