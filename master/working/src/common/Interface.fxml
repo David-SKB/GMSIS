@@ -43,7 +43,7 @@
             </Tab>
             <Tab text="Administration">
                <content>
-                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1024.0" />
+                  <fx:include source="../user/gui/Administration.fxml" />
                </content></Tab>
         </tabs>
       </TabPane>
