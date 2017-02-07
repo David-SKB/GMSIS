@@ -18,7 +18,7 @@
         <tabs>
             <Tab text="Home">
                <content>
-                  <fx:include source="../customers/gui/Home.fxml" />
+                  <fx:include source="../user/gui/Home.fxml" />
                </content>
             </Tab>
             <Tab text="Customer">
@@ -41,9 +41,13 @@
                   <fx:include source="../vehicles/gui/Vehicle.fxml" />
                </content>
             </Tab>
+            <Tab text="Administration">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1024.0" />
+               </content></Tab>
         </tabs>
       </TabPane>
-      <TextField layoutX="679.0" layoutY="152.0" prefHeight="27.0" prefWidth="338.0" promptText="Search" />
+      <TextField layoutX="728.0" layoutY="152.0" prefHeight="27.0" prefWidth="289.0" promptText="Search" />
       <ImageView fitHeight="150.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@GMSISBanner.jpg" />
