@@ -36,6 +36,6 @@
             <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
         </columns>
       </TableView>
-      <Button layoutX="234.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
    </children>
 </AnchorPane>

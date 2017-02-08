@@ -18,10 +18,10 @@
         <tabs>
             <Tab text="Customer">
                <content>
-                 
+
                </content>
                <content>
-                  <fx:include source="../../customers/gui/Customer.fxml" />
+                  <fx:include source="Customer.fxml" />
                </content>
             </Tab>
         </tabs>
