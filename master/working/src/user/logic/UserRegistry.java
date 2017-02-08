@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author athanasiosgkanos
+ * @author athanasiosgkanos TEST
  */
 public class UserRegistry {
     DBConnection DBInstance = DBConnection.getInstance();
