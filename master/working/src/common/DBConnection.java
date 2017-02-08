@@ -1,3 +1,5 @@
+package common;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,17 +58,16 @@ public class DBConnection {
         //System.out.println("Table created successfully");
     }
     
-    public void update(String query){
+    public boolean update(String query){
         
         try {
             stmt = c.createStatement();
             String sql = query;
             stmt.executeUpdate(sql);
             
-
+            return true;
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
+            return false;
         }
         //System.out.println("Table created successfully");
     }
