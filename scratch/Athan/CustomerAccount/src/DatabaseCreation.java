@@ -24,11 +24,14 @@ public class DatabaseCreation
 "********************************************/\n" +
 "\n" +
 "/* AUTHENTICATION */\n" +
-"CREATE TABLE AUTHENTICATION\n" +
+"CREATE TABLE USERS\n" +
 "(\n" +
-"  USERNAME  VARCHAR(50)    PRIMARY KEY     NOT NULL,\n" +
-"  PASSWORD  TEXT                           NOT NULL,\n" +
-"  SYSADM    BOOL                           NOT NULL\n" +
+"  ID              INTEGER(5)     PRIMARY KEY  NOT NULL,\n" +
+"  PASSWORD        TEXT                        NOT NULL,\n" + 
+"  SURNAME         TEXT                        NOT NULL,\n" +
+"  FIRSTNAME       TEXT                        NOT NULL,\n" + 
+"  HRATE           DECIMAL(3,2)                NOT NULL,\n" +               
+"  SYSADM          BOOL                        NOT NULL\n" +
 ");\n" +
 "\n" +
 "\n" +
