@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *
  * @author David O
  */
-public class Login extends Application 
+public class Authentication extends Application 
 {
     
     @Override
