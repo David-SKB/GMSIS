@@ -11,9 +11,9 @@ package user.logic;
  */
 public class Mechanic extends Employee{
     
-    private int hRate;
+    private double hRate;
     
-    public Mechanic(int IDNo,String sName, String fName, int rate){
+    public Mechanic(int IDNo,String sName, String fName, double rate){
         super(IDNo,sName,fName);
         this.hRate = rate;
     }

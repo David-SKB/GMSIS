@@ -28,31 +28,32 @@ public class UserRegistry {
         return URInstance;
     }
     
-    public boolean addUser(int IDNo, String password, String sName, String fName, int rate){
+    public boolean addUser(int IDNo, String password, String sName, String fName, double rate){
         boolean success;
         DBInstance.connect();       
-        String query = "INSERT INTO MECHANICS (ID, SURNAME, FIRSTNAME, RATE, PASSWORD) " + 
+        String query = "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM) " + 
                            "VALUES ( " + 
                             IDNo + ", '" +
+                            password + "', '" +
                             sName + "', '" +
                             fName + "', " +
                             rate + ", '" +
-                            password + "');";
+                            false + "');";
         success = DBInstance.update(query);
         DBInstance.closeConnection();
         return success;
     }
     
-    public boolean editUser(int IDNo, String password, String sName, String fName, int rate){
+    public boolean editUser(int IDNo, String password, String sName, String fName, double rate){
         boolean success;
         DBInstance.connect();
-        String query  = "UPDATE CUSTOMER \n" + 
+        String query  = "UPDATE USERS \n" + 
                         "SET " +
                         "ID = " + IDNo + ", " +
                         "PASSWORD = " + password + "'," +
                         "SURNAME = '" + sName + "', " +
                         "FIRSTNAME = '" + fName + "', " +
-                        "RATE = " + rate + ";";
+                        "HRATE = " + rate + ";";
         success = DBInstance.update(query);
         return success;
     }
@@ -60,7 +61,7 @@ public class UserRegistry {
     public boolean deleteUser(int IDNo){
         boolean success;
         DBInstance.connect();
-        String query = "DELETE FROM CUSTOMER\n" +
+        String query = "DELETE FROM USERS\n" +
                        "WHERE ID = " + IDNo +  "; ";
         success = DBInstance.update(query);
         return success;
@@ -70,14 +71,14 @@ public class UserRegistry {
         try{
             ArrayList<Mechanic> activeCustomers = new ArrayList<Mechanic>();
             DBInstance.connect();
-            String query = "SELECT * FROM CUSTOMER;";
+            String query = "SELECT * FROM USERS;";
             ResultSet rs = DBInstance.query(query);
             
             while(rs.next()){
                 int ID = rs.getInt("ID");
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
-                int rate = rs.getInt("HRATE");
+                double rate = rs.getDouble("HRATE");
                 activeCustomers.add(new Mechanic(ID,sName,fName,rate));
             }
             return activeCustomers;

@@ -20,4 +20,8 @@ public class Employee {
         this.surname = sName;
         this.firstName = fName;
     }
+    
+    public String getFirstName(){
+        return firstName;
+    }
 }
