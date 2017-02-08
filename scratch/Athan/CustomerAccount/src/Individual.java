@@ -11,7 +11,7 @@
  */
 public class Individual extends Customer{
     
-    public Individual(String fName, String addr, String pCode, String phone, String email, String cType){
-        super(fName,addr,pCode,phone,email,cType);
+    public Individual(String sName, String fName, String addr, String pCode, String phone, String email, String cType){
+        super(sName,fName,addr,pCode,phone,email,cType);
     }
 }

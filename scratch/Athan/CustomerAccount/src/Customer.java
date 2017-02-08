@@ -12,7 +12,8 @@ import java.util.List;
  * @author athanasiosgkanos
  */
 public class Customer {
-    private String fullName;
+    private String surname;
+    private String firstname;
     private String address;
     private String postCode;
     private String phone;
@@ -20,8 +21,9 @@ public class Customer {
     private String customerType;
     //private List<Booking> bkLists;
     
-    public Customer(String fName, String addr, String pCode, String phone, String email, String cType){
-        this.fullName = fName;
+    public Customer(String sName, String fName, String addr, String pCode, String phone, String email, String cType){
+        this.surname = sName;
+        this.firstname = fName;
         this.address = addr;
         this.postCode = pCode;
         this.phone = phone;
@@ -33,8 +35,12 @@ public class Customer {
         
     //}
     
-    public String getName(){
-        return fullName;
+    public String getSurname(){
+        return surname;
+    }
+    
+    public String getFirstname(){
+        return firstname;
     }
     
     public String getAddress(){

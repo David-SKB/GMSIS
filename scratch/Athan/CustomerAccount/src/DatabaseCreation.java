@@ -39,7 +39,8 @@ public class DatabaseCreation
 "CREATE TABLE CUSTOMER\n" +
 "(\n" +
 "  ID              INTEGER     PRIMARY KEY,\n" +
-"  FULLNAME        TEXT                        NOT NULL,\n" +
+"  SURNAME         TEXT                        NOT NULL,\n" +
+"  FIRSTNAME       TEXT                        NOT NULL,\n" +              
 "  ADDRESS         CHAR(50)                    NOT NULL,\n" +
 "  POSTCODE        TEXT                        NOT NULL,\n" +
 "  PHONE           TEXT        UNIQUE          NOT NULL,\n" +             

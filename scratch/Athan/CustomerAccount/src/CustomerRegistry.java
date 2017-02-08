@@ -28,12 +28,13 @@ public class CustomerRegistry {
         return CRInstance;
     }
     
-    public boolean addCustomer(String fullName, String address, String postcode, String phone, String email, String customerType){
+    public boolean addCustomer(String sName, String fName, String address, String postcode, String phone, String email, String customerType){
         boolean success;
         DBInstance.connect();       
-        String query = "INSERT INTO CUSTOMER (FULLNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE) " + 
+        String query = "INSERT INTO CUSTOMER (SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE) " + 
                            "VALUES ( '" + 
-                            fullName + "', '" +
+                            sName + "', '" +
+                            fName + "', '" +
                             address + "', '" +
                             postcode + "', '" +
                             phone + "', '" + 
@@ -44,12 +45,13 @@ public class CustomerRegistry {
         return success;
     }
     
-    public boolean editCustomer(String fullName, String address, String postcode, String phone, String email, String customerType){
+    public boolean editCustomer(String sName, String fName, String address, String postcode, String phone, String email, String customerType){
         boolean success;
         DBInstance.connect();
         String query  = "UPDATE CUSTOMER \n" + 
                         "SET " +
-                        "FULLNAME = '" + fullName + "', " +
+                        "SURNAME = '" + sName + "', " +
+                        "FIRSTNAME = '" + fName + "', " +
                         "ADDRESS = '" + address + "', " +
                         "POSTCODE = '" + postcode + "', " +
                         "PHONE = '" + phone + "', " + 
@@ -61,12 +63,14 @@ public class CustomerRegistry {
         return success;
     }
     
-    public boolean deleteCustomer(String fullName, String address, String postcode, String phone, String email, String customerType){
+    public boolean deleteCustomer(String sName, String fName, String phone, String email){
         boolean success;
         DBInstance.connect();
         String query = "DELETE FROM CUSTOMER\n" +
                        "WHERE PHONE = '" + phone + "'\n" +
-                       "AND EMAIL = '" + email + "'; ";
+                       "AND EMAIL = '" + email + "'\n" +
+                       "AND SURNAME = '" + sName + "'\n" +
+                       "AND FIRSTNAME = '" + fName  + "'; ";                                    
         success = DBInstance.update(query);
         return success;
     }
@@ -79,13 +83,14 @@ public class CustomerRegistry {
             ResultSet rs = DBInstance.query(query);
             
             while(rs.next()){
-                String fullName = rs.getString("FULLNAME");
+                String sName = rs.getString("SURNAME");
+                String fName = rs.getString("FIRSTNAME");
                 String address = rs.getString("ADDRESS");
                 String postCode = rs.getString("POSTCODE");
                 String phone = rs.getString("PHONE");
                 String email = rs.getString("EMAIL");
                 String customerType = rs.getString("CUSTOMERTYPE");
-                activeCustomers.add(new Customer(fullName,address,postCode,phone,email,customerType));
+                activeCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
             }
             return activeCustomers;
         }catch(SQLException e){
