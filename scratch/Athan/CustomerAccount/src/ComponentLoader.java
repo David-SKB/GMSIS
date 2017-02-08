@@ -5,7 +5,7 @@
  */
 
 
-import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,7 +13,6 @@ import javax.swing.*;
  */
 public class ComponentLoader {
     public static void main(String[] args){
-        CustomerRegistry CRInstance = CustomerRegistry.getInstance();
-        CRInstance.addCustomer("Thanasis Gkanos", "2 Cobham Road", "N22 6RP", "07450496395", "thanasisg.nirvana@hotmail.com", "Individual");
+ 
     }
 }

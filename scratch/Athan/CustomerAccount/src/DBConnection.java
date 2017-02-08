@@ -30,10 +30,8 @@ public class DBConnection {
         try{
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        System.out.println("Opened database successfully");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
         }  
     }
     public void closeConnection(){
@@ -43,7 +41,6 @@ public class DBConnection {
         }
         catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
         }
     }
     public ResultSet query(String query){
@@ -56,25 +53,20 @@ public class DBConnection {
 
         } catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
             return null;
         }
-        //System.out.println("Table created successfully");
     }
     
-    public void update(String query){
+    public boolean update(String query){
         
         try {
             stmt = c.createStatement();
             String sql = query;
             stmt.executeUpdate(sql);
-            
-
+            return true;
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
+            return false;
         }
-        //System.out.println("Table created successfully");
     }
 }
 
