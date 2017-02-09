@@ -6,29 +6,30 @@
 
 
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author athanasiosgkanos
  */
 public class Customer {
-    private String surname;
-    private String firstname;
-    private String address;
-    private String postCode;
-    private String phone;
-    private String email;
-    private String customerType;
+    private final SimpleStringProperty surname;
+    private final SimpleStringProperty firstname;
+    private final SimpleStringProperty address;
+    private final SimpleStringProperty postCode;
+    private final SimpleStringProperty phone;
+    private final SimpleStringProperty email;
+    private final SimpleStringProperty customerType;
     //private List<Booking> bkLists;
     
     public Customer(String sName, String fName, String addr, String pCode, String phone, String email, String cType){
-        this.surname = sName;
-        this.firstname = fName;
-        this.address = addr;
-        this.postCode = pCode;
-        this.phone = phone;
-        this.email = email;
-        this.customerType = cType;
+        this.surname = new SimpleStringProperty(sName);
+        this.firstname = new SimpleStringProperty(fName);
+        this.address = new SimpleStringProperty(addr);
+        this.postCode = new SimpleStringProperty(pCode);
+        this.phone = new SimpleStringProperty(phone);
+        this.email = new SimpleStringProperty(email);
+        this.customerType = new SimpleStringProperty(cType);
     }
     
     //public List<Booking> viewBookings(){
@@ -36,30 +37,30 @@ public class Customer {
     //}
     
     public String getSurname(){
-        return surname;
+        return surname.get();
     }
     
     public String getFirstname(){
-        return firstname;
+        return firstname.get();
     }
     
     public String getAddress(){
-        return address;
+        return address.get();
     }
     
     public String getPostCode(){
-        return postCode;
+        return postCode.get();
     }
     
     public String getPhone(){
-        return phone;
+        return phone.get();
     }
     
     public String getEmail(){
-        return email;
+        return email.get();
     }
     
     public String getCustomerType(){
-        return customerType;
+        return customerType.get();
     }
 }

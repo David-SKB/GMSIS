@@ -12,10 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-
-<AnchorPane fx:id="Interface" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfaceController">
+<AnchorPane fx:id="Interface" prefHeight="500.0" prefWidth="979.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InterfaceController">
    <children>
-      <TabPane layoutY="147.0" prefHeight="738.0" prefWidth="1024.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
+      <TabPane layoutX="-7.0" layoutY="147.0" prefHeight="524.0" prefWidth="1031.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
             <Tab text="Customer">
                <content>

@@ -12,30 +12,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerController">
+<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerController">
    <children>
-      <TitledPane animated="false" layoutX="686.0" layoutY="16.0" prefHeight="239.0" prefWidth="317.0" text="Add Customer">
+      <TitledPane animated="false" expanded="false" layoutX="41.0" layoutY="217.0" prefHeight="243.0" prefWidth="246.0" text="               Add Customer">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="315.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="232.0" prefWidth="143.0">
                <children>
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="21.0" prefHeight="27.0" prefWidth="230.0" promptText="Full Name" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="58.0" prefHeight="27.0" prefWidth="230.0" promptText="Address" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="97.0" prefHeight="27.0" prefWidth="230.0" promptText="Postcode" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="134.0" prefHeight="27.0" prefWidth="230.0" promptText="E-mail " />
-                  <Button layoutX="104.0" layoutY="170.0" mnemonicParsing="false" text="Add Customer" />
+                  <TextField alignment="CENTER" layoutX="35.0" layoutY="14.0" prefHeight="27.0" prefWidth="173.0" promptText="Full Name" />
+                  <TextField alignment="CENTER" layoutX="35.0" layoutY="52.0" prefHeight="27.0" prefWidth="173.0" promptText="Address" />
+                  <TextField alignment="CENTER" layoutX="34.0" layoutY="87.0" prefHeight="27.0" prefWidth="173.0" promptText="Postcode" />
+                  <TextField alignment="CENTER" layoutX="34.0" layoutY="121.0" prefHeight="27.0" prefWidth="173.0" promptText="E-mail " />
+                  <Button layoutX="70.0" layoutY="160.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="102.0" text="Submit" />
                </children>
             </AnchorPane>
         </content>
       </TitledPane>
-      <TableView fx:id="customerDetails" layoutX="41.0" layoutY="16.0" prefHeight="179.0" prefWidth="616.0" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="16.0">
+      <TableView fx:id="customerDetails" layoutX="41.0" layoutY="16.0" prefHeight="179.0" prefWidth="907.0" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="16.0">
         <columns>
-          <TableColumn prefWidth="96.0" resizable="false" text="Name" />
-          <TableColumn minWidth="0.0" prefWidth="89.0" text="Address" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="Post Code" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="Phone" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
+          <TableColumn fx:id="firstNameCol" prefWidth="96.0" resizable="false" text="First Name" />
+            <TableColumn fx:id="lastNameCol" prefWidth="96.0" resizable="false" text="Last Name" />
+          <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="123.0" text="Address" />
+            <TableColumn fx:id="postCodeCol" minWidth="0.0" prefWidth="85.0" text="Post Code" />
+            <TableColumn fx:id="phoneCol" minWidth="0.0" prefWidth="99.0" text="Phone" />
+            <TableColumn fx:id="emailCol" minWidth="0.0" prefWidth="240.0" text="E-mail" />
         </columns>
       </TableView>
-      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <Button fx:id="getActiveCustomers" layoutX="400.0" layoutY="217.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
    </children>
 </AnchorPane>
