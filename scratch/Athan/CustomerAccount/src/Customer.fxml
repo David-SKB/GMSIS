@@ -27,7 +27,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <TableView layoutX="21.0" layoutY="25.0" prefHeight="179.0" prefWidth="616.0" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0">
+      <TableView fx:id="customerDetails" layoutX="41.0" layoutY="16.0" prefHeight="179.0" prefWidth="616.0" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="16.0">
         <columns>
           <TableColumn prefWidth="96.0" resizable="false" text="Name" />
           <TableColumn minWidth="0.0" prefWidth="89.0" text="Address" />
@@ -36,6 +36,6 @@
             <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
         </columns>
       </TableView>
-      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#handle" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
    </children>
 </AnchorPane>

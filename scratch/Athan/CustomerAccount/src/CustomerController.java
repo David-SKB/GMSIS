@@ -1,5 +1,6 @@
 
 import javafx.beans.property.ObjectProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -24,9 +25,8 @@ public class CustomerController {
     private Button getActiveCustomers;
 
  
-    @FXML
-    private void handle(MouseEvent event) {
-
+    public void getActiveCustomers(ActionEvent event){
+        System.out.println("hello again");
     }
     
     

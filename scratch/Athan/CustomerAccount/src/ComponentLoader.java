@@ -27,7 +27,7 @@ public class ComponentLoader extends Application{
 
     @Override
     public void init() throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Customer.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Interface.fxml"));
         rootNode = fxmlLoader.load();
     }
     
