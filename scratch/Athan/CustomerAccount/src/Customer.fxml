@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerController">
    <children>
       <TitledPane animated="false" layoutX="686.0" layoutY="16.0" prefHeight="239.0" prefWidth="317.0" text="Add Customer">
         <content>
@@ -36,6 +36,6 @@
             <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
         </columns>
       </TableView>
-      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <Button fx:id="getActiveCustomers" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#handle" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
    </children>
 </AnchorPane>
