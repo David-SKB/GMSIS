@@ -27,6 +27,7 @@ public class BookingRegistry {
                        "VALUES(n, d, c);";
         conn.update(query);
         conn.closeConnection();
+        return true;
     }
     public boolean editBooking
     {
@@ -36,6 +37,7 @@ public class BookingRegistry {
         String query = " FROM BOOKINGS WHERE NAME = " + ;
         conn.update(query);
         conn.closeConnection();
+        return true;
     }
             
     public boolean deleteBooking(String ){
@@ -45,5 +47,15 @@ public class BookingRegistry {
         String query = "DELETE FROM BOOKINGS WHERE  = " + ;
         conn.update(query);
         conn.closeConnection();
+        return true;
+    }
+    
+    public ArrayList<Booking> getBooking(String ){
+        conn = DBCoonection.getInstance();
+        //retreive a list of all bookings
+        String query = "DELETE FROM BOOKINGS WHERE  = " + ;
+        conn.update(query);
+        conn.closeConnection();
+        return bookingList;
     }
 }
