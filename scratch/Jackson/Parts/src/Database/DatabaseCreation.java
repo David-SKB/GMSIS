@@ -84,12 +84,12 @@ public class DatabaseCreation
 "CREATE TABLE USEDPARTS (\n" +
 "  ID                INT     PRIMARY KEY     NOT NULL,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
-"  VEHICLEID         INT                  	NOT NULL,\n" +
-"  CUSTOMERID        INT                  	NOT NULL,\n" +
+"  VEHICLEID         INT                     NOT NULL,\n" +
+"  CUSTOMERID        INT                     NOT NULL,\n" +
 "  PARTNAME          INT                     NOT NULL,\n" +
 "  WARRANTYEND       DATE                    NOT NULL,\n" +
 "  WARRANTYSTART     DATE                    NOT NULL,\n" +
-"  COST				INT						NOT NULL,\n" +
+"  COST		     INT		     NOT NULL,\n" +
 "  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
