@@ -44,6 +44,8 @@ public class CustomerController {
     private TableColumn phoneCol;
     @FXML
     private TableColumn emailCol;
+    @FXML
+    private TableColumn cTypeCol;
     private final ObservableList<Customer> data = FXCollections.observableArrayList();
 
  
@@ -62,6 +64,8 @@ public class CustomerController {
                 new PropertyValueFactory<Customer, String>("phone"));
         emailCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("email"));
+        cTypeCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("customerType"));
         customerDetails.setItems(data);
     }
     
