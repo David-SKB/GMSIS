@@ -20,7 +20,7 @@ public class Customer {
     private final SimpleStringProperty phone;
     private final SimpleStringProperty email;
     private final SimpleStringProperty customerType;
-    //private List<Booking> bkLists;
+    
     
     public Customer(String sName, String fName, String addr, String pCode, String phone, String email, String cType){
         this.surname = new SimpleStringProperty(sName);
@@ -32,9 +32,6 @@ public class Customer {
         this.customerType = new SimpleStringProperty(cType);
     }
     
-    //public List<Booking> viewBookings(){
-        
-    //}
     
     public String getSurname(){
         return surname.get();
