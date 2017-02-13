@@ -14,4 +14,9 @@ public class Employee {
     int costRate;
     int hoursSpent;
     
+    public Employee(int ID, int cost, int hours){
+        EmpID = ID;
+        costRate = cost;
+        hoursSpent = hours;
+    }
 }

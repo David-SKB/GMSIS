@@ -19,17 +19,24 @@ public class BookingRegistry {
     public BookingRegistry(){
         
     }
-    public boolean addBooking(String n, String d, int c){
+    public boolean addBooking(int ID, Date date, int length, int CID, int VID, int miles, int EID){
         conn = DBConnection.getInstance();
         //insert booking into database
         conn.connect();
-        String query = "INSERT INTO BOOKINGS (NAME, DESCRIPTION, COST)" +
-                       "VALUES(n, d, c);";
+        String query = "INSERT INTO BOOKINGS (ID, BOOKDATE, TIME, TYPE, CUSTOMERID, VEHICLEREGISTRATION, MILAGE, EMPLOYEEID)" +
+                       "VALUES( '" + 
+                            ID + "', '" +
+                            date + "', '" +
+                            length + "', 'Diagnosis and Repair', '"+
+                            CID + "', '" + 
+                            VID + "', '" +
+                            miles + "', '" +
+                            EID + "');";
         conn.update(query);
         conn.closeConnection();
         return true;
     }
-    public boolean editBooking
+    public boolean editBooking()
     {
         conn = DBConnection.getInstance();
         //edit booking in database

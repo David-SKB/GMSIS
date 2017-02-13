@@ -12,6 +12,13 @@ import java.util.Date;
 public class Booking {
     int bookingID;
     Date bookingDate;
+    int bookingLength;
     
+    
+    public Booking(int ID, Date date, int length){
+        bookingID = ID;
+        bookingDate = date;
+        bookingLength = length;
+    }
     
 }
