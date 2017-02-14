@@ -2,8 +2,12 @@
 import Database.DBConnection;
 import java.util.Date;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.util.Scanner;
+
 
 public class VehicleRegistry {
    DBConnection DBInstance = DBConnection.getInstance();
@@ -40,7 +44,7 @@ public class VehicleRegistry {
    return false;
  }
   
-  public void addCar(int reg,int custID,String make,String model,int engine,String fuel,String colour,Date MOT,Date Last,int mile){
+  public void addCar(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
     
      if(!checkExists(reg)){
       try{
@@ -162,7 +166,7 @@ public class VehicleRegistry {
     }
   }
    
-  public void addVan(int reg,int custID,String make,String model,int engine,String fuel,String colour,Date MOT,Date Last,int mile){
+  public void addVan(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
    
       if(!checkExists(reg)){
        try{
@@ -190,7 +194,7 @@ public class VehicleRegistry {
   } 
  }
 }
-  public void addTruck(int reg,int custID,String make,String model,int engine,String fuel,String colour,Date MOT,Date Last,int mile){
+  public void addTruck(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
     
      if(!checkExists(reg)){
       try{
@@ -239,7 +243,6 @@ public class VehicleRegistry {
      }   
     }
     else{
-     return;   
     }
  }
 }  
@@ -249,9 +252,31 @@ public class VehicleRegistry {
      DBConnection c = DBConnection.getInstance();
       c.connect();
       Scanner input = new Scanner(System.in);
-       System.out.println("What field would you like to change?");
-       String str = input.nextLine();
-       
+       System.out.println("ENTER THE CAR'S REGISTRATION");
+       String enter = input.nextLine();
+       int registration = Integer.parseInt(enter);
+       System.out.println("ENTER THE FIELD YOU WOULD LIKE TO CHANGE");
+       String field = input.nextLine();
+       //switch
+       switch(field){
+           case "MOT":
+               changeMOT(registration);
+               break;
+           case "LAST":
+               //field = "LAST";
+               changeLast(registration);
+               break;
+           case "COLOUR":
+               //field = "COLOUR";
+               changeColour(registration);
+               break;
+           case "MILEAGE":
+               //field = "MILEAGE";
+               changeMileage(registration);
+               break;
+           default:
+               System.out.println("Sorry you cannot change that field,try again");
+       }
     } 
    catch( Exception e){
     System.err.println(e.getClass().getName() + ": " + e.getMessage() );
@@ -259,14 +284,58 @@ public class VehicleRegistry {
    }
   }
  }
-  
+  public void changeMOT(int registration){
+   DBConnection c = DBConnection.getInstance();
+   c.connect();
+    Scanner input = new Scanner(System.in);
+    System.out.println("ENTER THE NEW MOT DATE");
+    String changed = input.nextLine();
+    String query = "UPDATE VEHICLE SET MOTDATE = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
+    c.update(query);
+    System.out.println("MOT date updated successfully");
+    c.closeConnection();
+    
+  }
+  public void changeLast(int registration){
+   DBConnection c = DBConnection.getInstance();
+   c.connect();
+    Scanner input = new Scanner(System.in);
+    System.out.println("ENTER THE NEW LAST SERVICE DATE");
+    String changed = input.nextLine();
+    String query = "UPDATE VEHICLE SET LASTSERVICE = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
+    c.update(query);
+    System.out.println("Last service updated successfully");
+    c.closeConnection();
+  }
+  public void changeMileage(int registration){
+   DBConnection c = DBConnection.getInstance();
+   c.connect();
+    Scanner input = new Scanner(System.in);
+    System.out.println("ENTER THE MOST RECENT MILEAGE");
+    String changed = input.nextLine();
+    int mile = Integer.parseInt(changed);
+    String query = "UPDATE VEHICLE SET MILEAGE = " + mile + " WHERE REGISTRATION = " + registration + ";";
+    c.update(query);
+    System.out.println("MILEAGE UPDATED");
+    c.closeConnection();   
+  }
+  public void changeColour(int registration){
+   DBConnection c = DBConnection.getInstance();
+   c.connect();
+    Scanner input = new Scanner(System.in);
+    System.out.println("ENTER THE NEW COLOUR");
+    String changed = input.nextLine();
+    String query = "UPDATE VEHICLE SET COLOUR = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
+    c.update(query);
+    System.out.println("colour updated successfully");
+    c.closeConnection();  
+  }
   public void searchReg(int registration){
    try{
-    Statement stmt = null;
     DBConnection c = DBConnection.getInstance();
      c.connect();
      String sql = "SELECT * FROM VEHICLE WHERE REGISTRATION LIKE '" + registration + "';";
-      ResultSet rs = stmt.executeQuery(sql);
+      ResultSet rs = c.query(sql);
       while( rs.next() ){
         int reg = rs.getInt("REGISTRATION");
         int cID = rs.getInt("CUSTOMERID");
@@ -275,8 +344,8 @@ public class VehicleRegistry {
         int engine = rs.getInt("ENGINESIZE");
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
-        Date MOT = rs.getDate("MOTDATE");
-        Date last = rs.getDate("LASTSERVICE");
+        String MOTdate = rs.getString("MOTDATE");
+        String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         
         System.out.println("Registration = " + reg);
@@ -286,13 +355,12 @@ public class VehicleRegistry {
         System.out.println("EngineSize = " + engine);
         System.out.println("FuelType = " + fuel);
         System.out.println("Colour = " + colour);
-        System.out.println("MOT Date = " + MOT);
-        System.out.println("Last service = " + last);
+        System.out.println("MOT Date = " + MOTdate);
+        System.out.println("Last service = " + Lastdate);
         System.out.println("Current Mileage = " + mile);
         System.out.println();
       }
       rs.close();
-      stmt.close();
       c.closeConnection();
    }
    catch(SQLException e){
@@ -303,11 +371,10 @@ public class VehicleRegistry {
   
   public void searchManu(String manufacturer){
    try{
-     Statement stmt = null;
      DBConnection c = DBConnection.getInstance();
      c.connect();
       String sql = "SELECT * FROM VEHICLE WHERE MAKE LIKE '" + manufacturer + "';";
-       ResultSet rs = stmt.executeQuery(sql);
+       ResultSet rs = c.query(sql);
        while( rs.next() ){
         int reg = rs.getInt("REGISTRATION");
         int cID = rs.getInt("CUSTOMERID");
@@ -316,8 +383,8 @@ public class VehicleRegistry {
         int engine = rs.getInt("ENGINESIZE");
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
-        Date MOT = rs.getDate("MOTDATE");
-        Date last = rs.getDate("LASTSERVICE");
+        String MOT = rs.getString("MOTDATE");
+        String last = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         
         System.out.println("Registration = " + reg);
@@ -333,7 +400,6 @@ public class VehicleRegistry {
         System.out.println();   
        }
       rs.close();
-      stmt.close();
       c.closeConnection();
    }
    catch(SQLException e){
