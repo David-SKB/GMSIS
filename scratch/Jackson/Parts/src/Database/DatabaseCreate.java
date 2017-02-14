@@ -7,7 +7,11 @@ package Database;
 
 import java.sql.*;
 
-public class DatabaseCreation
+/**
+ *
+ * @author jr308
+ */
+public class DatabaseCreate
 {
    public static void main( String args[] )
   {
