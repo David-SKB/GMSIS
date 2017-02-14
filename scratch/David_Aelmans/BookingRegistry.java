@@ -40,11 +40,17 @@ public class BookingRegistry {
         return true;
     }
 
-    public boolean editBooking() {
+    public boolean editBooking(int ID, Date date, int length, int CID, int VID, int miles, int EID) {
         conn = DBConnection.getInstance();
         //edit booking in database
         conn.connect();
-        String query = " FROM BOOKINGS WHERE NAME = " +;
+        String query = "UPDATE BOOKINGS SET BOOKDATE = '"
+                + date + "', TIME = '"
+                + length + "', TYPE = 'Diagnosis and Repair', CUSTOMERID = '" 
+                + CID + "', VEHICLEREGISTRATION = '"
+                + VID + "', MILAGE = '"
+                + miles + "', EMPLOYEEID = '"
+                + EID + "' WHERE ID = '" + ID + "';";
         conn.update(query);
         conn.closeConnection();
         return true;
@@ -60,7 +66,7 @@ public class BookingRegistry {
         return true;
     }
 
-    public ArrayList<Booking> getBooking(String ) {
+    public ArrayList<Booking> getBooking(String i) {
         ArrayList<Booking> BookingList = new ArrayList<Booking>();
         conn = DBConnection.getInstance();
         conn.connect();
