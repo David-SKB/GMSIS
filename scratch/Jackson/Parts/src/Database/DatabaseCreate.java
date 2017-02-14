@@ -7,7 +7,11 @@ package Database;
 
 import java.sql.*;
 
-public class DatabaseCreation
+/**
+ *
+ * @author jr308
+ */
+public class DatabaseCreate
 {
    public static void main( String args[] )
   {
@@ -81,13 +85,18 @@ public class DatabaseCreation
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
 ");\n" +
-"CREATE TABLE REPAIRPARTS (\n" +
+"CREATE TABLE USEDPARTS (\n" +
 "  ID                INT     PRIMARY KEY     NOT NULL,\n" +
-"  REPAIRID          INT                     NOT NULL,\n" +
+"  BOOKINGID         INT                     NOT NULL,\n" +
+"  VEHICLEID         INT                     NOT NULL,\n" +
+"  CUSTOMERID        INT                     NOT NULL,\n" +
 "  PARTNAME          INT                     NOT NULL,\n" +
-"  WARRANTYEND       INT                     NOT NULL,\n" +
-"  WARRANTYSTART     INT                     NOT NULL,\n" +
-"  FOREIGN KEY(REPAIRID) REFERENCES REPAIRS(ID)\n" +
+"  WARRANTYEND       DATE                    NOT NULL,\n" +
+"  WARRANTYSTART     DATE                    NOT NULL,\n" +
+"  COST		     INT		     NOT NULL,\n" +
+"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
+"  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
+"  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLE */\n" +
 "CREATE TABLE SPECIALISTREPAIRS\n" +

@@ -24,29 +24,32 @@ public class Repairs
         String SQL = "DELETE * FROM CENTRES WHERE SPCID = '" + SPCID + "';";
         return true;
     }
-    
-    public void getOutstanding()
+
+    public void getOutstanding(String date)
     {
-        
+        //String SQL = "SELECT TYPE, ITEMID, PARTNAME, RETURNDATE FROM SPECIALISTREPAIRS, REPAIRPARTS WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'PART';";
+        //String SQL = "SELECT TYPE, ITEMID, MAKE + ' ' + MODEL, RETURNDATE FROM SPECIALISTREPAIRS, VEHICLE WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'VEHICLE';";
+        String SQL = "SELECT x, y FROM (SELECT TYPE, ITEMID, PARTNAME, RETURNDATE FROM SPECIALISTREPAIRS, REPAIRPARTS WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'PART') as x, (SELECT TYPE, ITEMID, MAKE + ' ' + MODEL, RETURNDATE FROM SPECIALISTREPAIRS, VEHICLE WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'VEHICLE') as y ORDER BY RETURNDATE ASC;";
+        //hopefully that retrieves everything, just need to output to a table
     }
     
     public void getRecords()
     {
-        
+        //req 12
     }
     
     public void deleteBooking()
     {
-        
+        //req 13
     }
     
     public void searchReg()
     {
-        
+        //req 11 / 13
     }
     
     public void searchName()
     {
-        
+        //req 13
     }
 }
