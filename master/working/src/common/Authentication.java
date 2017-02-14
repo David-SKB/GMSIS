@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.sql.ResultSet;
 
 /**
  *
@@ -85,7 +86,7 @@ public class Authentication extends Application
                     String password = pwBox.getText();
                     if (DBConnection.check(username, password) == true)
                     {
-                        if (DBConnection.isAdmin(username) == true)
+                        if (isAdmin(username) == true)
                         {
                             //Login to admin version of system
                             actiontarget.setText("Admin Logged in");
@@ -114,6 +115,28 @@ public class Authentication extends Application
         //End Gridcode
         
         primaryStage.show();
+    }
+    public static boolean isAdmin(String username){
+        DBConnection c = DBConnection.getInstance();
+        c.connect();
+        String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME = 'username';";
+        //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        ResultSet rs = c.query(SQL);
+        Boolean result = false;
+
+        try
+        {
+            while(rs.next())
+            {
+                result = rs.getBoolean("SYSADM");//retrieves the users level
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        c.closeConnection();
+        return result;
     }
 
     public static void main(String[] args) 

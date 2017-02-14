@@ -103,27 +103,7 @@ public class DBConnection {
         return false;
     }
     
-    public static boolean isAdmin(String username){
-        DBConnection c = DBConnection.getInstance();
-        c.connect();
-        //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME = 'username';";
-        //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
-        //ResultSet rs = c.query(SQL);
-        Boolean result = false;
-        /*try
-        {
-            while(rs.next())
-            {
-                result = rs.getBoolean("SYSADM");//retrieves the users level
-            }
-        }
-        catch (Exception e)
-        {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }*/
-        
-        return true;
-    }
+    
 }
 
   
