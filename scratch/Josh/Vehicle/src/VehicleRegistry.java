@@ -252,27 +252,24 @@ public class VehicleRegistry {
      DBConnection c = DBConnection.getInstance();
       c.connect();
       Scanner input = new Scanner(System.in);
-       System.out.println("ENTER THE CAR'S REGISTRATION");
-       String enter = input.nextLine();
-       int registration = Integer.parseInt(enter);
        System.out.println("ENTER THE FIELD YOU WOULD LIKE TO CHANGE");
        String field = input.nextLine();
        //switch
        switch(field){
            case "MOT":
-               changeMOT(registration);
+               changeMOT(reg);
                break;
            case "LAST":
                //field = "LAST";
-               changeLast(registration);
+               changeLast(reg);
                break;
            case "COLOUR":
                //field = "COLOUR";
-               changeColour(registration);
+               changeColour(reg);
                break;
            case "MILEAGE":
                //field = "MILEAGE";
-               changeMileage(registration);
+               changeMileage(reg);
                break;
            default:
                System.out.println("Sorry you cannot change that field,try again");
