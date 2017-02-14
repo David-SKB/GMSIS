@@ -129,7 +129,7 @@ public class Authentication extends Application
         {
             while(rs.next())
             {
-                System.out.println("wag1 fam");
+                //System.out.println("wag1 fam");
                 System.out.println(rs.getString("USERNAME"));
                 System.out.println(rs.getString("PASSWORD"));
                 //result = rs.getString("PASSWORD");//retrieves the password
