@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.sql.ResultSet;
 
 /**
  *
@@ -83,9 +84,9 @@ public class Authentication extends Application
                     //actiontarget.setText("Username: "+ userTextField.getText() + " Password: " + pwBox.getText());//shows username and pass (debug)
                     String username = userTextField.getText();
                     String password = pwBox.getText();
-                    if (DBConnection.check(username, password) == true)
+                    if (checkUsernamePassword(username, password) == true)
                     {
-                        if (DBConnection.isAdmin(username) == true)
+                        if (isAdmin(username) == true)
                         {
                             //Login to admin version of system
                             actiontarget.setText("Admin Logged in");
@@ -114,6 +115,60 @@ public class Authentication extends Application
         //End Gridcode
         
         primaryStage.show();
+    }
+    
+    public static boolean checkUsernamePassword(String username, String password){
+        DBConnection c = DBConnection.getInstance();
+        c.connect();
+        
+        String SQL = "SELECT USERNAME,PASSWORD FROM AUTHENTICATION WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "';";
+        //String SQL = "SELECT PASSWORD FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        ResultSet rs = c.query(SQL);
+        String result = "";
+        try
+        {
+            while(rs.next())
+            {
+                //System.out.println("wag1 fam");
+                System.out.println(rs.getString("USERNAME"));
+                System.out.println(rs.getString("PASSWORD"));
+                //result = rs.getString("PASSWORD");//retrieves the password
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+                    
+        }
+        if (result.equals(password))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isAdmin(String username){
+        DBConnection c = DBConnection.getInstance();
+        c.connect();
+        String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME = 'username';";
+        //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        ResultSet rs = c.query(SQL);
+        Boolean result = false;
+
+        try
+        {
+            while(rs.next())
+            {
+                result = rs.getBoolean("SYSADM");//retrieves the users level
+            }
+        }
+        catch (Exception e)
+        {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }
+        c.closeConnection();
+        return result;
     }
 
     public static void main(String[] args) 
