@@ -13,7 +13,7 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CustomerController">
+<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customers.gui.CustomerController">
    <children>
       <TitledPane fx:id="addCustomerPane" animated="false" layoutX="41.0" layoutY="217.0" prefHeight="335.0" prefWidth="291.0" text="                    Add Customer">
         <content>

@@ -109,7 +109,7 @@ public class Authentication
                         {
                                 
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/user/gui/Interface.fxml"));
+                                Parent root = FXMLLoader.load(getClass().getResource("Interface.fxml"));
                                 Scene scene = new Scene(root);
                                 Stage stage = Main.stage;
                                 stage.setScene(scene);
