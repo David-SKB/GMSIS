@@ -20,16 +20,16 @@ public class VehicleRegistry {
     return curInstance;
   }
   
-  public boolean checkExists(int reg){
+  public boolean checkExists(String reg){
    try{
     DBConnection c = DBConnection.getInstance();
      c.connect();
      String query = "SELECT * FROM VEHICLE;";
      ResultSet rs = c.query(query);
       while( rs.next() ){
-        int regCheck = rs.getInt("REGISTRATION");
+        String regCheck = rs.getString("REGISTRATION");
         System.out.println(regCheck);
-        if(reg == (regCheck)){
+        if(reg.equals(regCheck)){
           return true;  
         }   
       }
@@ -44,7 +44,7 @@ public class VehicleRegistry {
    return false;
  }
   
-  public void addCar(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
+  public void addCar(String reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
     
      if(!checkExists(reg)){
       try{
@@ -166,7 +166,7 @@ public class VehicleRegistry {
     }
   }
    
-  public void addVan(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
+  public void addVan(String reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
    
       if(!checkExists(reg)){
        try{
@@ -194,7 +194,7 @@ public class VehicleRegistry {
   } 
  }
 }
-  public void addTruck(int reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
+  public void addTruck(String reg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,String Last,int mile){
     
      if(!checkExists(reg)){
       try{
@@ -249,8 +249,6 @@ public class VehicleRegistry {
   public void edit(int reg){
    if(checkExists(reg)){
     try{
-     DBConnection c = DBConnection.getInstance();
-      c.connect();
       Scanner input = new Scanner(System.in);
        System.out.println("ENTER THE FIELD YOU WOULD LIKE TO CHANGE");
        String field = input.nextLine();
