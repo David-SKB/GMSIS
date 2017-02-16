@@ -17,6 +17,7 @@ import javafx.stage.Stage;
  */
 public class Main extends Application{
     private Parent rootNode;
+    protected static Stage stage;
     
     public static void main(String[] args){
         Application.launch(args);
@@ -26,16 +27,10 @@ public class Main extends Application{
     public void start(Stage stage) throws Exception {
         Authentication authenticate = new Authentication();
         authenticate.start(new Stage());
-        String authorised = Authentication.authorised;
-        
+        this.stage = stage;
         /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Interface.fxml"));
         rootNode = fxmlLoader.load();
-                                                        //NEED TO MODIFY IN ORDER TO HIDE/SHOW SYSADMIN TAB.
-        if(authorised.equals("Admin")){
-            stage.setScene(new Scene(rootNode));
-            stage.show();
-        }else{
-        
-        }   */     
+        stage.setScene(new Scene(rootNode));
+        stage.show();*/
     }
 }

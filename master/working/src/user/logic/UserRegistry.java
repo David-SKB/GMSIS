@@ -28,7 +28,7 @@ public class UserRegistry {
         return URInstance;
     }
     
-    public boolean addUser(int IDNo, String password, String sName, String fName, double rate){
+    public boolean addUser(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin){
         boolean success;
         DBInstance.connect();       
         String query = "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM) " + 
@@ -38,13 +38,13 @@ public class UserRegistry {
                             sName + "', '" +
                             fName + "', " +
                             rate + ", '" +
-                            false + "');";
+                            sysAdmin + "');";
         success = DBInstance.update(query);
         DBInstance.closeConnection();
         return success;
     }
     
-    public boolean editUser(int IDNo, String password, String sName, String fName, double rate){
+    public boolean editUser(int IDNo, String password, String sName, String fName, double rate, String sysAdmin){
         boolean success;
         DBInstance.connect();
         String query  = "UPDATE USERS \n" + 
@@ -53,7 +53,8 @@ public class UserRegistry {
                         "PASSWORD = " + password + "'," +
                         "SURNAME = '" + sName + "', " +
                         "FIRSTNAME = '" + fName + "', " +
-                        "HRATE = " + rate + ";";
+                        "HRATE = " + rate + ", " +
+                        "SYSADM = " + sysAdmin + ";";
         success = DBInstance.update(query);
         return success;
     }

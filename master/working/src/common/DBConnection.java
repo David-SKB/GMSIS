@@ -29,7 +29,6 @@ public class DBConnection {
         System.out.println("Opened database successfully");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
         }  
     }
     public void closeConnection(){
@@ -39,7 +38,6 @@ public class DBConnection {
         }
         catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
         }
     }
     public ResultSet query(String query){
@@ -51,11 +49,8 @@ public class DBConnection {
             return rs;
 
         } catch ( Exception e ) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            //System.exit(0);
             return null;
         }
-        //System.out.println("Table created successfully");
     }
     
     public boolean update(String query){
@@ -69,7 +64,6 @@ public class DBConnection {
         } catch ( Exception e ) {
             return false;
         }
-        //System.out.println("Table created successfully");
     }
     
     

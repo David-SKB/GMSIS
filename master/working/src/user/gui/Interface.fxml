@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="779.0" prefWidth="1151.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane layoutY="147.0" prefHeight="738.0" prefWidth="1024.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
+      <TabPane layoutY="141.0" prefHeight="638.0" prefWidth="1165.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
             <Tab text="Home">
                <content>
@@ -63,11 +63,6 @@
            </Tab>
         </tabs>
       </TabPane>
-      <TextField layoutX="728.0" layoutY="152.0" prefHeight="27.0" prefWidth="289.0" promptText="Search" />
-      <ImageView disable="true" fitHeight="150.0" fitWidth="1024.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@GMSISBanner.jpg" />
-         </image>
-      </ImageView>
+      <TextField layoutX="869.0" layoutY="144.0" prefHeight="10.0" prefWidth="289.0" promptText="Search" />
    </children>
-</Pane>
+</AnchorPane>

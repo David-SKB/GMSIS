@@ -1,7 +1,7 @@
 package common;
 
+import java.io.IOException;
 import javafx.geometry.Insets;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -17,18 +17,19 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.sql.ResultSet;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 /**
  *
  * @author David O
  */
 public class Authentication
 {
-    protected static String authorised;
-
+    
     public void start(Stage primaryStage) 
     {
-
         primaryStage.setTitle("GM-SIS Login Page");
         
         //GridCode
@@ -39,19 +40,19 @@ public class Authentication
         grid.setPadding(new Insets(25, 25, 25, 25));
         
         //Labels & Fields
-        Text teamTitle = new Text("SE Group 9");
         Text scenetitle = new Text("GM-SIS Login");
-        teamTitle.setFont(Font.font("Palatino", FontWeight.SEMI_BOLD, 25));
         scenetitle.setFont(Font.font("Palatino", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
         Label userName = new Label("Username:");
+        userName.setFont(Font.font("Palatino", FontWeight.NORMAL, 20));
         grid.add(userName, 0, 1);
 
         TextField userTextField = new TextField();
         grid.add(userTextField, 1, 1);
 
         Label pw = new Label("Password:");
+        pw.setFont(Font.font("Palatino", FontWeight.NORMAL, 20));
         grid.add(pw, 0, 2);
 
         PasswordField pwBox = new PasswordField();
@@ -63,6 +64,7 @@ public class Authentication
         
         //Button
         Button btn = new Button("Login");
+        btn.setFont(Font.font("Palatino", FontWeight.NORMAL, 20));
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
         hbBtn.getChildren().add(btn);
@@ -85,19 +87,40 @@ public class Authentication
                     //actiontarget.setText("Username: "+ userTextField.getText() + " Password: " + pwBox.getText());//shows username and pass (debug)
                     String username = userTextField.getText();
                     String password = pwBox.getText();
-                    if (checkUsernamePassword(username, password) == true)
+                    if (checkUsernamePassword(username, password))
                     {
-                        if (isAdmin(username) == true)
+                       if (isAdmin(username))
                         {
-                            //Login to admin version of system
-                            actiontarget.setText("Admin Logged in");
-                            authorised = "Admin";
+                            try {
+                                Parent root = FXMLLoader.load(getClass().getResource("/user/gui/Interface.fxml"));
+                                Scene scene = new Scene(root);
+                                Stage stage = Main.stage;
+                                stage.setScene(scene);
+                                stage.centerOnScreen();
+                                stage.setTitle("GM-SIS Home");
+                                primaryStage.close();
+                                stage.show();
+                                
+                            } catch (IOException ex) {
+                                Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         else
                         {
-                            //Login to regular version of site
-                            actiontarget.setText("User Logged in");
-                            authorised = "Admin";
+                                
+                            try {
+                                Parent root = FXMLLoader.load(getClass().getResource("/user/gui/Interface.fxml"));
+                                Scene scene = new Scene(root);
+                                Stage stage = Main.stage;
+                                stage.setScene(scene);
+                                stage.centerOnScreen();
+                                stage.setTitle("GM-SIS Home");
+                                primaryStage.close();
+                                stage.show();
+                            } catch (IOException ex) {
+                                Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
                         }
                     }
                     else
@@ -124,16 +147,20 @@ public class Authentication
         DBConnection c = DBConnection.getInstance();
         c.connect();
         
-        String SQL = "SELECT USERNAME,PASSWORD FROM AUTHENTICATION WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "';";
+        String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";
         //String SQL = "SELECT PASSWORD FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
         ResultSet rs = c.query(SQL);
-        String result = "";
-        try
+        if(rs != null){
+            return true;
+        }else{
+            return false;
+        }
+        /*try
         {
             while(rs.next())
             {
                 //System.out.println("wag1 fam");
-                System.out.println(rs.getString("USERNAME"));
+                System.out.println(rs.getString("ID"));
                 System.out.println(rs.getString("PASSWORD"));
                 //result = rs.getString("PASSWORD");//retrieves the password
                 return true;
@@ -148,18 +175,31 @@ public class Authentication
         {
             return true;
         }
-        return false;
+        return false;*/
     }
     
     public static boolean isAdmin(String username){
         DBConnection c = DBConnection.getInstance();
         c.connect();
-        String SQL = "SELECT SYSADM FROM USERS WHERE USERNAME = 'username';";
+        String SQL = "SELECT SYSADM FROM USERS WHERE ID = " + username + ";";
         //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
         ResultSet rs = c.query(SQL);
-        Boolean result = false;
 
-        try
+        try{
+            String check = rs.getString("SYSADM");
+            c.closeConnection();
+            if(check.equals("TRUE")){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception e){
+            c.closeConnection();
+            return false;
+        }
+        //Boolean result = false;
+
+        /*try
         {
             while(rs.next())
             {
@@ -169,8 +209,8 @@ public class Authentication
         catch (Exception e)
         {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }
-        c.closeConnection();
-        return result;
+        }*/
+
+        //return result;
     }  
 }
