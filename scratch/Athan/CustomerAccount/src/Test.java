@@ -11,8 +11,7 @@
 public class Test {
     public static void main(String[] args){
         CustomerRegistry cr = CustomerRegistry.getInstance();
-        boolean result = cr.addCustomer("Asder", "der", "2C", "12", "0745049394", "thanasisg.nirvana@hotmail.com", "Individual");
-        System.out.println(result);
-    
+        boolean success = cr.editCustomer("Gkanos","Athanasios","2 Cobham Road","N22 6RP","07450496355","athanasiosgkanos@hotmail.com","Individual","07450496395","thanasisg.nirvana@hotmail.com");
+        System.out.println(success);
     }
 }

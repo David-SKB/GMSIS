@@ -45,7 +45,8 @@ public class CustomerRegistry {
         return success;
     }
     
-    public boolean editCustomer(String sName, String fName, String address, String postcode, String phone, String email, String customerType){
+    public boolean editCustomer
+            (String sName, String fName, String address, String postcode, String phone, String email, String customerType, String oldP, String oldEmail){
         boolean success;
         DBInstance.connect();
         String query  = "UPDATE CUSTOMER \n" + 
@@ -57,8 +58,8 @@ public class CustomerRegistry {
                         "PHONE = '" + phone + "', " + 
                         "EMAIL = '" + email + "', " +
                         "CUSTOMERTYPE = '" + customerType + "'\n" +
-                        "WHERE PHONE = '" + phone + "' \n" + 
-                        "AND EMAIL = '" + email + "';";
+                        "WHERE PHONE = '" + oldP + "' \n" + 
+                        "AND EMAIL = '" + oldEmail + "';";
         success = DBInstance.update(query);
         return success;
     }

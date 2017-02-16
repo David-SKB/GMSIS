@@ -38,15 +38,37 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <TableView fx:id="customerDetails" layoutX="131.0" layoutY="14.0" prefHeight="179.0" prefWidth="908.0" AnchorPane.leftAnchor="131.0" AnchorPane.topAnchor="14.0">
+      <TitledPane animated="false" layoutX="826.0" layoutY="217.0" prefHeight="335.0" prefWidth="291.0" text="                    Edit Customer">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="289.0">
+               <children>
+                  <TextField fx:id="eFirstNameTextField" alignment="CENTER" layoutX="43.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" promptText="First Name" />
+                  <TextField fx:id="eLastNameTextField" alignment="CENTER" layoutX="43.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" promptText="Last Name" />
+                  <TextField fx:id="eAddrTextField" alignment="CENTER" layoutX="43.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" promptText="Address" />
+                  <TextField fx:id="ePostCodeTextField" alignment="CENTER" layoutX="43.0" layoutY="110.0" prefHeight="25.0" prefWidth="200.0" promptText="Post Code" />
+                  <TextField fx:id="ePhoneTextField" alignment="CENTER" layoutX="43.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" promptText="Phone" />
+                  <TextField fx:id="eEmailTextField" alignment="CENTER" layoutX="43.0" layoutY="177.0" prefHeight="25.0" prefWidth="200.0" promptText="E-mail " />
+                  <RadioButton fx:id="eIndividualRadioButton" layoutX="43.0" layoutY="219.0" mnemonicParsing="false" text="Individual">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="eCustomerTypeToggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="eBusinessRadionButton" layoutX="161.0" layoutY="219.0" mnemonicParsing="false" text="Business" toggleGroup="$eCustomerTypeToggle" />
+                  <Button fx:id="eSubmitChangesButton" layoutX="82.0" layoutY="258.0" mnemonicParsing="false" onAction="#submitCustomerChanges" prefHeight="27.0" prefWidth="123.0" text="Submit Changes" />
+                  <Text fx:id="eStatusText" layoutX="12.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="264.21875" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TableView fx:id="customerDetails" layoutX="33.0" layoutY="14.0" prefHeight="179.0" prefWidth="1099.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="14.0">
         <columns>
-          <TableColumn fx:id="firstNameCol" prefWidth="105.0" resizable="false" text="First Name" />
-            <TableColumn fx:id="lastNameCol" prefWidth="122.0" resizable="false" text="Last Name" />
-          <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="115.0" text="Address" />
-            <TableColumn fx:id="postCodeCol" minWidth="0.0" prefWidth="83.0" text="Post Code" />
-            <TableColumn fx:id="phoneCol" minWidth="0.0" prefWidth="139.0" text="Phone" />
-            <TableColumn fx:id="emailCol" minWidth="0.0" prefWidth="212.0" text="E-mail" />
-            <TableColumn fx:id="cTypeCol" minWidth="0.0" prefWidth="130.0" text="Customer Type" />
+          <TableColumn fx:id="firstNameCol" prefWidth="141.0" resizable="false" text="First Name" />
+            <TableColumn fx:id="lastNameCol" prefWidth="136.0" resizable="false" text="Last Name" />
+          <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="139.0" text="Address" />
+            <TableColumn fx:id="postCodeCol" minWidth="0.0" prefWidth="88.0" text="Post Code" />
+            <TableColumn fx:id="phoneCol" minWidth="0.0" prefWidth="188.0" text="Phone" />
+            <TableColumn fx:id="emailCol" minWidth="0.0" prefWidth="225.0" text="E-mail" />
+            <TableColumn fx:id="cTypeCol" minWidth="0.0" prefWidth="179.0" text="Customer Type" />
         </columns>
       </TableView>
       <Button fx:id="getActiveCustomers" layoutX="490.0" layoutY="217.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
