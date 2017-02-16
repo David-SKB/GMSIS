@@ -14,9 +14,7 @@ public class Test {
        if(vr.checkExists(1)){
         System.out.println("car was found therefore was successfully added"); 
        }
-      vr.delete(1);
-      if(!vr.checkExists(1)){
-       System.out.println("Not found therefore deleted");
-      }
+      vr.edit(1);
+      vr.searchReg(1);
     }  
 }
