@@ -12,8 +12,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -24,12 +22,13 @@ import java.sql.ResultSet;
  *
  * @author David O
  */
-public class Authentication extends Application 
+public class Authentication
 {
-    
-    @Override
+    protected static String authorised;
+
     public void start(Stage primaryStage) 
     {
+
         primaryStage.setTitle("GM-SIS Login Page");
         
         //GridCode
@@ -38,10 +37,12 @@ public class Authentication extends Application
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-
+        
         //Labels & Fields
+        Text teamTitle = new Text("SE Group 9");
         Text scenetitle = new Text("GM-SIS Login");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        teamTitle.setFont(Font.font("Palatino", FontWeight.SEMI_BOLD, 25));
+        scenetitle.setFont(Font.font("Palatino", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
         Label userName = new Label("Username:");
@@ -90,11 +91,13 @@ public class Authentication extends Application
                         {
                             //Login to admin version of system
                             actiontarget.setText("Admin Logged in");
+                            authorised = "Admin";
                         }
                         else
                         {
                             //Login to regular version of site
                             actiontarget.setText("User Logged in");
+                            authorised = "Admin";
                         }
                     }
                     else
@@ -110,7 +113,7 @@ public class Authentication extends Application
         });
         //End Button action
         
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid, 700, 400);
         primaryStage.setScene(scene);
         //End Gridcode
         
@@ -151,7 +154,7 @@ public class Authentication extends Application
     public static boolean isAdmin(String username){
         DBConnection c = DBConnection.getInstance();
         c.connect();
-        String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME = 'username';";
+        String SQL = "SELECT SYSADM FROM USERS WHERE USERNAME = 'username';";
         //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
         ResultSet rs = c.query(SQL);
         Boolean result = false;
@@ -169,11 +172,5 @@ public class Authentication extends Application
         }
         c.closeConnection();
         return result;
-    }
-
-    public static void main(String[] args) 
-    {
-        launch(args);
-    }
-    
+    }  
 }

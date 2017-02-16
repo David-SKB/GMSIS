@@ -24,23 +24,28 @@ public class DatabaseCreation
 "********************************************/\n" +
 "\n" +
 "/* AUTHENTICATION */\n" +
-"CREATE TABLE AUTHENTICATION\n" +
+"CREATE TABLE USERS\n" +
 "(\n" +
-"  USERNAME  VARCHAR(50)    PRIMARY KEY NOT NULL,\n" +
-"  PASSWORD  TEXT                NOT NULL,\n" +
-"  SYSADM    BOOL             NOT NULL\n" +
+"  ID              INTEGER(5)     PRIMARY KEY  NOT NULL,\n" +
+"  PASSWORD        TEXT                        NOT NULL,\n" + 
+"  SURNAME         TEXT                        NOT NULL,\n" +
+"  FIRSTNAME       TEXT                        NOT NULL,\n" + 
+"  HRATE           DECIMAL(3,2)                NOT NULL,\n" +               
+"  SYSADM          BOOL                        NOT NULL\n" +
 ");\n" +
 "\n" +
 "\n" +
 "/* CUSTOMER TABLE */\n" +
 "CREATE TABLE CUSTOMER\n" +
 "(\n" +
-"  ID              INT     PRIMARY KEY   NOT NULL,\n" +
-"  FULLNAME        TEXT                  NOT NULL,\n" +
-"  ADDRESS         TEXT                  NOT NULL,\n" +
-"  POSTCODE        TEXT                  NOT NULL,\n" +
-"  EMAIL           TEXT                  NOT NULL,\n" +
-"  CUSTOMERTYPE    TEXT                  NOT NULL\n" +
+"  ID              INTEGER     PRIMARY KEY,\n" +
+"  SURNAME         TEXT                        NOT NULL,\n" +
+"  FIRSTNAME       TEXT                        NOT NULL,\n" +              
+"  ADDRESS         CHAR(50)                    NOT NULL,\n" +
+"  POSTCODE        TEXT                        NOT NULL,\n" +
+"  PHONE           TEXT        UNIQUE          NOT NULL,\n" +             
+"  EMAIL           TEXT        UNIQUE          NOT NULL,\n" +
+"  CUSTOMERTYPE    TEXT                        NOT NULL\n" +
 ");\n" +
 "/* VEHICLE TABLE */\n" +
 "CREATE TABLE VEHICLE\n" +
