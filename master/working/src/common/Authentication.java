@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import user.gui.InterfaceController;
 /**
  *
  * @author David O
@@ -56,9 +57,7 @@ public class Authentication
         grid.add(pw, 0, 2);
 
         PasswordField pwBox = new PasswordField();
-        grid.add(pwBox, 1, 2);
-        
-        //grid.setGridLinesVisible(true);//Shows gridlines (debug)
+        grid.add(pwBox, 1, 2);        
         
         //End Labels & Fields
         
@@ -83,8 +82,7 @@ public class Authentication
             public void handle(ActionEvent e) 
             {
                 if ((userTextField.getText() != null && !userTextField.getText().isEmpty()) && (pwBox.getText() != null && !pwBox.getText().isEmpty())) 
-                {
-                    //actiontarget.setText("Username: "+ userTextField.getText() + " Password: " + pwBox.getText());//shows username and pass (debug)
+                {                
                     String username = userTextField.getText();
                     String password = pwBox.getText();
                     if (checkUsernamePassword(username, password))
@@ -106,21 +104,22 @@ public class Authentication
                             }
                         }
                         else
-                        {
-                                
+                        {                                
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("Interface.fxml"));
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/user/gui/Interface.fxml"));
+                                Parent root = (Parent)fxmlLoader.load();
                                 Scene scene = new Scene(root);
                                 Stage stage = Main.stage;
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
                                 stage.setTitle("GM-SIS Home");
                                 primaryStage.close();
+                                InterfaceController IC = fxmlLoader.<InterfaceController>getController();
+                                IC.tabSwitch();
                                 stage.show();
                             } catch (IOException ex) {
                                 Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
                             }
-
                         }
                     }
                     else
@@ -147,70 +146,28 @@ public class Authentication
         DBConnection c = DBConnection.getInstance();
         c.connect();
         
-        String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";
-        //String SQL = "SELECT PASSWORD FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";        
         ResultSet rs = c.query(SQL);
         if(rs != null){
             return true;
         }else{
             return false;
         }
-        /*try
-        {
-            while(rs.next())
-            {
-                //System.out.println("wag1 fam");
-                System.out.println(rs.getString("ID"));
-                System.out.println(rs.getString("PASSWORD"));
-                //result = rs.getString("PASSWORD");//retrieves the password
-                return true;
-            }
-        }
-        catch (Exception e)
-        {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-                    
-        }
-        if (result.equals(password))
-        {
-            return true;
-        }
-        return false;*/
     }
     
     public static boolean isAdmin(String username){
         DBConnection c = DBConnection.getInstance();
         c.connect();
-        String SQL = "SELECT SYSADM FROM USERS WHERE ID = " + username + ";";
-        //String SQL = "SELECT SYSADM FROM AUTHENTICATION WHERE USERNAME regexp '[[:<:]]" + username + "[[:>:]]';";
+        String SQL = "SELECT SYSADM FROM USERS WHERE ID = " + username + ";";       
         ResultSet rs = c.query(SQL);
 
         try{
             String check = rs.getString("SYSADM");
             c.closeConnection();
-            if(check.equals("TRUE")){
-                return true;
-            }else{
-                return false;
-            }
+            return check.equals("TRUE");
         }catch(Exception e){
             c.closeConnection();
             return false;
         }
-        //Boolean result = false;
-
-        /*try
-        {
-            while(rs.next())
-            {
-                result = rs.getBoolean("SYSADM");//retrieves the users level
-            }
-        }
-        catch (Exception e)
-        {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }*/
-
-        //return result;
     }  
 }

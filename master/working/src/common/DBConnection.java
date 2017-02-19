@@ -1,11 +1,9 @@
 package common;
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.util.*;
 /**
  *
  * @author JR
@@ -26,7 +24,6 @@ public class DBConnection {
         try{
         Class.forName("org.sqlite.JDBC");
         c = DriverManager.getConnection("jdbc:sqlite:test.db");
-        System.out.println("Opened database successfully");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
