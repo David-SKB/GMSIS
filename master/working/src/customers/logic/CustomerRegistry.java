@@ -115,7 +115,6 @@ public class CustomerRegistry {
             DBInstance.connect();
             String query = "SELECT * FROM CUSTOMER;";
             ResultSet rs = DBInstance.query(query);
-            
             while(rs.next()){
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");

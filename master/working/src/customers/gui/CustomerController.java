@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -19,7 +18,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -63,9 +61,8 @@ public class CustomerController {
     @FXML
     private Text statusText, eStatusText;                                               //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> data = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
-    private final ObservableList<String[]> CBoxData = FXCollections.observableArrayList();
     @FXML
-    private ChoiceBox delCustomersCBox = new ChoiceBox();
+    private ChoiceBox<Customer> delCustomersCBox = new ChoiceBox<>();
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
 
     /* ------------------------------------------------------------------
@@ -391,7 +388,6 @@ public class CustomerController {
                dataList.add(c);
             }
         }
-        
         db.closeConnection();
     }
     
