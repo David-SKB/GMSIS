@@ -44,28 +44,21 @@ public class DBConnection {
             String sql = query;
             ResultSet rs = stmt.executeQuery(sql);
             return rs;
-
-        } catch ( Exception e ) {
+        } catch (Exception e ) {
             return null;
         }
     }
     
-    public boolean update(String query){
-        
+    public boolean update(String query){        
         try {
             stmt = c.createStatement();
             String sql = query;
-            stmt.executeUpdate(sql);
-            
+            stmt.executeUpdate(sql);           
             return true;
         } catch ( Exception e ) {
             return false;
         }
-    }
-    
-    
-    
-    
+    }   
 }
 
   

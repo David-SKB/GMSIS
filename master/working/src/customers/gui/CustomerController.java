@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -34,11 +35,8 @@ import javafx.scene.text.Text;
      *        3) Add Delete customer option.
      *        4) Check the sqlite db error when building.
      *        5) Start implementing search bar.
-     *        6) Start implementing authorisation GUI.
      *        7) Start implementing SysAdmin methods LOGIC.
-     *        8) Start implementing SysAdmin GUI tab.
      *        9) Start implementing SysAdmin GUI Controller.
-     *       10) Intergrate everything on master for Login -> Interface.fxml
      * ------------------------------------------------------------------ */
 /**
  *
@@ -48,10 +46,6 @@ public class CustomerController {
     
     DBConnection db = DBConnection.getInstance();                                       //Instance of the database to open/close connection
     CustomerRegistry CR = CustomerRegistry.getInstance();                               //Instance of the Customer Registry to add/edit/delete customers from/to db.
-    @FXML
-    private AnchorPane customerTab;
-    @FXML
-    private Button getActiveCustomers;
     @FXML
     private TableView<Customer> customerDetails;                                        //FXML TableView. Table used to display rows of customers and their data.
     @FXML
@@ -69,6 +63,9 @@ public class CustomerController {
     @FXML
     private Text statusText, eStatusText;                                               //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> data = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
+    private final ObservableList<String[]> CBoxData = FXCollections.observableArrayList();
+    @FXML
+    private ChoiceBox delCustomersCBox = new ChoiceBox();
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
 
     /* ------------------------------------------------------------------
@@ -94,6 +91,7 @@ public class CustomerController {
         cTypeCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("customerType"));
         customerDetails.setItems(data);
+        delCustomersCBox.setItems(data);
         
         customerDetails.setRowFactory((TableView<Customer> tv) -> {
             TableRow<Customer> row = new TableRow<>();
@@ -196,6 +194,9 @@ public class CustomerController {
         }
     }
     
+    public void deleteCustomer(ActionEvent evt){
+    
+    }
     
     /* ------------------------------------------------------------------
      * HELPER -- Method loads the data on the Edit Customer T.Pane
