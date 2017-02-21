@@ -1,7 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="672.0" prefWidth="1165.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
+               <children>
+                  <TableView layoutX="365.0" layoutY="65.0" prefHeight="200.0" prefWidth="378.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="First Name" />
+                      <TableColumn prefWidth="75.0" text="Last Name" />
+                        <TableColumn prefWidth="75.0" text="H.Rate" />
+                        <TableColumn prefWidth="75.0" text="SysAdmin" />
+                        <TableColumn prefWidth="75.0" text="Password" />
+                    </columns>
+                  </TableView>
+                  <TitledPane animated="false" layoutX="43.0" layoutY="35.0" text="            Add User">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="14.0" promptText="First Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="47.0" promptText="Last Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="80.0" promptText="Password" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="112.0" promptText="H.Rate" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="145.0" promptText="SysAdmin" />
+                              <Button layoutX="19.0" layoutY="186.0" mnemonicParsing="false" text="Submit" />
+                              <Button layoutX="124.0" layoutY="186.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
+                              <Text layoutX="26.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane animated="false" layoutX="898.0" layoutY="28.0" text="            Edit User">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="14.0" promptText="First Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="47.0" promptText="Last Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="80.0" promptText="Password" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="112.0" promptText="H.Rate" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="145.0" promptText="SysAdmin" />
+                              <Button layoutX="43.0" layoutY="183.0" mnemonicParsing="false" text="Submit Changes" />
+                              <Text layoutX="26.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView layoutX="368.0" layoutY="42.0" prefHeight="200.0" prefWidth="391.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Name" />
+                      <TableColumn prefWidth="75.0" text="Address" />
+                        <TableColumn prefWidth="134.0" text="Email" />
+                        <TableColumn prefWidth="104.0" text="Telephone" />
+                    </columns>
+                  </TableView>
+                  <TitledPane animated="false" layoutX="43.0" layoutY="42.0" text="            Add Centre">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="208.0" prefWidth="200.0">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="14.0" promptText="Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="47.0" promptText="Address" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="80.0" promptText="Telephone" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="112.0" promptText="E-mail" />
+                              <Button layoutX="19.0" layoutY="146.0" mnemonicParsing="false" text="Submit" />
+                              <Button layoutX="124.0" layoutY="146.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="62.0" text="Clear" />
+                              <Text layoutX="24.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane animated="false" layoutX="904.0" layoutY="42.0" text="            Edit Centre">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="208.0" prefWidth="200.0">
+                           <children>
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="14.0" promptText="Name" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="47.0" promptText="Address" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="80.0" promptText="Telephone" />
+                              <TextField alignment="CENTER" layoutX="19.0" layoutY="112.0" promptText="E-mail" />
+                              <Button layoutX="43.0" layoutY="148.0" mnemonicParsing="false" text="Submit Changes" />
+                              <Text layoutX="24.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

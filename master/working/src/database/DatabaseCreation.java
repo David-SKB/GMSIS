@@ -109,11 +109,11 @@ public class DatabaseCreation
 "\n" +
 "CREATE TABLE CENTRES\n" +
 "(\n" +
-"SPCID INT NOT NULL,\n" +
-"NAME VARCHAR(255) NOT NULL,\n" +
-"ADDRESS VARCHAR(255) NOT NULL,\n" +
-"TELEPHONE VARCHAR(11) NOT NULL,\n" +
-"EMAIL VARCHAR(255) NOT NULL\n" +
+"SPCID                  INT            PRIMARY KEY            NOT NULL,\n" +
+"NAME                   VARCHAR(255)                          NOT NULL,\n" +
+"ADDRESS                VARCHAR(255)                          NOT NULL,\n" +
+"TELEPHONE              VARCHAR(11)                           NOT NULL,\n" +
+"EMAIL                  VARCHAR(255)                          NOT NULL\n" +
 ");\n" +
 "/* BOOKINGS TABLE */\n" +
 "CREATE TABLE BOOKINGS (\n" +
