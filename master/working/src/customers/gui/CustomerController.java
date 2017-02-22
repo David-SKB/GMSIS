@@ -59,7 +59,7 @@ public class CustomerController {
     @FXML
     private Toggle eIndividualRadioButton, eBusinessRadionButton;                       //FXML Toggle. RadioButtons to identify if the customer type has been edited.
     @FXML
-    private Text statusText, eStatusText;                                               //FXML Text. Display progress/erros when adding/editing customers.
+    private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> data = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
     @FXML
     private ChoiceBox<Customer> delCustomersCBox = new ChoiceBox<>();
@@ -192,7 +192,28 @@ public class CustomerController {
     }
     
     public void deleteCustomer(ActionEvent evt){
-    
+        Customer c = delCustomersCBox.getSelectionModel().getSelectedItem();
+        if(c != null){
+            db.connect();
+            String sName = c.getSurname();
+            String fName = c.getFirstname();
+            String phone = c.getPhone();
+            String email = c.getEmail();
+            CR.deleteCustomer(sName, fName, phone, email);
+            db.closeConnection();
+            getActiveCustomers(new ActionEvent());
+        }else{
+            delStatus.setText("Please select a Customer for deletion.");
+            delStatus.setFill(Color.RED);
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delStatus.setText("");
+                }
+            }, 
+            2000
+        );
+        }
     }
     
     /* ------------------------------------------------------------------
