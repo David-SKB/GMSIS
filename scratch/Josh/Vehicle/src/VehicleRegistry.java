@@ -5,6 +5,7 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.swing.*;
 import java.util.Scanner;
 
@@ -222,7 +223,7 @@ public class VehicleRegistry {
    }
   }
 }
-  public void delete(int reg){
+  public void delete(String reg){
    //check exists in db first
   if(checkExists(reg)){
    int dialogButton = JOptionPane.YES_NO_OPTION;
@@ -246,7 +247,7 @@ public class VehicleRegistry {
     }
  }
 }  
-  public void edit(int reg){
+  public void edit(String reg){
    if(checkExists(reg)){
     try{
       Scanner input = new Scanner(System.in);
@@ -279,7 +280,7 @@ public class VehicleRegistry {
    }
   }
  }
-  public void changeMOT(int registration){
+  public void changeMOT(String registration){
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
@@ -291,7 +292,7 @@ public class VehicleRegistry {
     c.closeConnection();
     
   }
-  public void changeLast(int registration){
+  public void changeLast(String registration){
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
@@ -302,7 +303,7 @@ public class VehicleRegistry {
     System.out.println("Last service updated successfully");
     c.closeConnection();
   }
-  public void changeMileage(int registration){
+  public void changeMileage(String registration){
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
@@ -314,7 +315,7 @@ public class VehicleRegistry {
     System.out.println("MILEAGE UPDATED");
     c.closeConnection();   
   }
-  public void changeColour(int registration){
+  public void changeColour(String registration){
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
@@ -325,14 +326,15 @@ public class VehicleRegistry {
     System.out.println("colour updated successfully");
     c.closeConnection();  
   }
-  public void searchReg(int registration){
+  public ArrayList<Vehicle> searchReg(String registration){
    try{
+    ArrayList<Vehicle>result = new ArrayList();
     DBConnection c = DBConnection.getInstance();
      c.connect();
      String sql = "SELECT * FROM VEHICLE WHERE REGISTRATION LIKE '" + registration + "';";
       ResultSet rs = c.query(sql);
       while( rs.next() ){
-        int reg = rs.getInt("REGISTRATION");
+        String reg = rs.getString("REGISTRATION");
         int cID = rs.getInt("CUSTOMERID");
         String make = rs.getString("MAKE");
         String model = rs.getString("MODEL");
@@ -342,36 +344,29 @@ public class VehicleRegistry {
         String MOTdate = rs.getString("MOTDATE");
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
-        
-        System.out.println("Registration = " + reg);
-        System.out.println("Customer ID = " + cID);
-        System.out.println("Make = " + make);
-        System.out.println("Model = " + model);
-        System.out.println("EngineSize = " + engine);
-        System.out.println("FuelType = " + fuel);
-        System.out.println("Colour = " + colour);
-        System.out.println("MOT Date = " + MOTdate);
-        System.out.println("Last service = " + Lastdate);
-        System.out.println("Current Mileage = " + mile);
-        System.out.println();
+        Vehicle v = new Vehicle(reg,cID,make,model,engine,fuel,colour,MOTdate,Lastdate,mile);
+        result.add(v);
       }
       rs.close();
       c.closeConnection();
+      return result;
    }
    catch(SQLException e){
     System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
      System.exit(0);
+      return null;
    }
   }
   
-  public void searchManu(String manufacturer){
+  public ArrayList<Vehicle> searchManu(String manufacturer){
    try{
+     ArrayList<Vehicle> result = new ArrayList();
      DBConnection c = DBConnection.getInstance();
      c.connect();
       String sql = "SELECT * FROM VEHICLE WHERE MAKE LIKE '" + manufacturer + "';";
        ResultSet rs = c.query(sql);
        while( rs.next() ){
-        int reg = rs.getInt("REGISTRATION");
+        String reg = rs.getString("REGISTRATION");
         int cID = rs.getInt("CUSTOMERID");
         String make = rs.getString("MAKE");
         String model = rs.getString("MODEL");
@@ -381,25 +376,48 @@ public class VehicleRegistry {
         String MOT = rs.getString("MOTDATE");
         String last = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
-        
-        System.out.println("Registration = " + reg);
-        System.out.println("Customer ID = " + cID);
-        System.out.println("Make = " + make);
-        System.out.println("Model = " + model);
-        System.out.println("EngineSize = " + engine);
-        System.out.println("FuelType = " + fuel);
-        System.out.println("Colour = " + colour);
-        System.out.println("MOT Date = " + MOT);
-        System.out.println("Last service = " + last);
-        System.out.println("Current Mileage = " + mile);
-        System.out.println();   
+        Vehicle v = new Vehicle(reg,cID,make,model,engine,fuel,colour,MOT,last,mile);
+        result.add(v);  
        }
       rs.close();
       c.closeConnection();
+      return result;
    }
    catch(SQLException e){
     System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
      System.exit(0);
+     return null;
    }   
+  }
+  public ArrayList<Vehicle> getAllVehicles(){
+   try{
+    ArrayList<Vehicle>list = new ArrayList<>();
+    DBConnection c = DBConnection.getInstance();
+     c.connect();
+     String sql = "SELECT * FROM VEHICLE;";
+      ResultSet rs = c.query(sql);
+      int count = 0;
+      while(rs.next()){
+          
+       String reg = rs.getString("REGISTRATION");
+       int cID = count;
+       String make = rs.getString("MAKE");
+       String model = rs.getString("MODEL");
+       int engine = rs.getInt("ENGINESIZE");
+       String fuel = rs.getString("FUELTYPE");
+       String colour = rs.getString("COLOUR");
+       String MOT = rs.getString("MOTDATE");
+       String last = rs.getString("LASTSERVICE");
+       int mile = rs.getInt("MILEAGE");
+       
+       Vehicle v = new Vehicle(reg,cID,make,model,engine,fuel,colour,MOT,last,mile);
+       list.add(v);
+       count++;
+      }
+     return list;
+   }
+   catch(SQLException e){
+    return null;
+   }
   }
 }
