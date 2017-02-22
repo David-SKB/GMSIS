@@ -4,6 +4,8 @@ import customers.logic.CustomerRegistry;
 import common.DBConnection;
 import customers.logic.Customer;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,11 +31,8 @@ import javafx.scene.text.Text;
 
     /* ------------------------------------------------------------------
      * TODO - 1) Check if any updates were made and display on stats.
-     *        2) Make a validation for email correctness.
-     *        3) Add Delete customer option.
      *        4) Check the sqlite db error when building.
      *        5) Start implementing search bar.
-     *        7) Start implementing SysAdmin methods LOGIC.
      *        9) Start implementing SysAdmin GUI Controller.
      * ------------------------------------------------------------------ */
 /**
@@ -133,13 +132,14 @@ public class CustomerController {
         String tempPhone = phoneTextField.getText(); 
         phoneValid = validatePhone(tempPhone, phoneTextField);
         
-        String tempCType = validateCType(customerTypeToggle);
+        String tempCType = validateCType(customerTypeToggle,"OnAdd");
         
         String tempEmail = emailTextField.getText();
         emailValid = validateTextField(tempEmail,emailTextField, "Email");
 
         if(fValid && lValid && addrValid && postCValid && phoneValid && tempCType != null &&emailValid){
             submission(tempLName,tempFName,tempAddr,tempPostC,tempPhone,tempEmail,tempCType);
+            getActiveCustomers(new ActionEvent());
         }
     }
     
@@ -176,18 +176,26 @@ public class CustomerController {
         String email = eEmailTextField.getText();
         eEmailValid = validateTextField(email,eEmailTextField, "Email");
         
-        String cType = validateCType(eCustomerTypeToggle);
+        String cType = validateCType(eCustomerTypeToggle,"OnEdit");
         
         if(eFValid && eLValid && eAddrValid && ePostCValid && ePhoneValid && eEmailValid){
             db.connect();
-                boolean result = CR.editCustomer(lName, fName, addr, postC, phone, email, cType,tempCustomer.getPhone(),tempCustomer.getEmail());
+                boolean changed = checkIfChanged(tempCustomer,lName, fName, addr, postC, phone, email, cType);
+                if(changed){
+                    boolean result = CR.editCustomer(lName, fName, addr, postC, phone, email, cType,tempCustomer.getPhone(),tempCustomer.getEmail());
+                    if(result){
+                        eStatusText.setText("Successful");
+                        eStatusText.setFill(Color.GREEN);
+                        clearCustomerDetailsOnEdit(new ActionEvent());
+                        getActiveCustomers(new ActionEvent());
+                    }
+                }else{
+                    eStatusText.setText("Nothing to update.");
+                    eStatusText.setFill(Color.RED);
+                    clearCustomerDetailsOnEdit(new ActionEvent());
+                }
             db.closeConnection();
-            if(result){
-                eStatusText.setText("Successful");
-                eStatusText.setFill(Color.GREEN);
-                clearCustomerDetailsOnEdit(new ActionEvent());
-                getActiveCustomers(new ActionEvent());
-            } 
+ 
         }
     }
     
@@ -214,6 +222,23 @@ public class CustomerController {
             2000
         );
         }
+    }
+    
+    private boolean checkIfChanged
+        (Customer oldC, String lName, String fName, String addr, String postC, 
+                    String phone, String email, String cType){
+            
+            if(oldC.getSurname().equalsIgnoreCase(lName)    &&
+               oldC.getFirstname().equalsIgnoreCase(fName)  &&
+               oldC.getAddress().equalsIgnoreCase(addr)     &&
+               oldC.getPostCode().equalsIgnoreCase(postC)   &&
+               oldC.getPhone().equalsIgnoreCase(phone)      &&
+               oldC.getEmail().equalsIgnoreCase(email)      &&
+               oldC.getCustomerType().equalsIgnoreCase(cType)){
+                return false;
+            }else{
+                return true;
+            }
     }
     
     /* ------------------------------------------------------------------
@@ -313,13 +338,19 @@ public class CustomerController {
      * from the ToggleGroup. It displayes an error message on the
      * statusText Text element at the bottomo of the T.Pane (red color).
      * ------------------------------------------------------------------ */  
-    private void noToggleSelected(){
-        statusText.setFill(Color.RED);
-        statusText.setText("Please select a customer type");
+    private void noToggleSelected(String TPane){
+        Text status;
+        if(TPane.equals("OnAdd")){
+            status = statusText;
+        }else{
+            status = eStatusText;
+        }
+        status.setFill(Color.RED);
+        status.setText("Please select a customer type");
         new java.util.Timer().schedule( 
                 new java.util.TimerTask() {
                       public void run() {
-                         statusText.setText("");
+                         status.setText("");
                       }
                  }, 
                 1500 
@@ -331,7 +362,7 @@ public class CustomerController {
      * ToggleGroup and if yes it returns its String value. If not it 
      * calls the helper method noToggleSelected to handle it.
      * ------------------------------------------------------------------ */  
-    private String validateCType(ToggleGroup tGroup){
+    private String validateCType(ToggleGroup tGroup, String TPane){
         try{
           RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
           if(toggleResult.getText().equals("Individual")){
@@ -341,7 +372,7 @@ public class CustomerController {
            }
                   
         }catch(NullPointerException e){
-                noToggleSelected();
+                noToggleSelected(TPane);
                 return null;
         }
     }
@@ -371,6 +402,24 @@ public class CustomerController {
                 1500
             );
             return false;
+        }else if(fieldName.equals("Email")){
+            Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+            Matcher mat = pattern.matcher(cData);
+            if(mat.matches()){
+                return true;
+            }else{
+                tf.setStyle("-fx-text-inner-color: red;");
+                tf.setText("Invalid " + fieldName);
+                new java.util.Timer().schedule( 
+                    new java.util.TimerTask() {
+                         public void run() {
+                            setColor(tf);
+                         }
+                    }, 
+                    1500
+                    );
+                return false;
+            }
         }
         return true;
     }

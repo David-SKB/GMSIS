@@ -12,13 +12,17 @@ package user.logic;
 public class Employee {
         
     private int IDNumber;
+    private String password;
     private String surname;
     private String firstName;
+    private boolean sysAdmin;
     
-    public Employee(int IDNo, String sName, String fName){
+    public Employee(int IDNo, String password, String sName, String fName, boolean sysAdmin){
         this.IDNumber = IDNo;
+        this.password = password;
         this.surname = sName;
         this.firstName = fName;
+        this.sysAdmin = sysAdmin;
     }
     
     public String getFirstName(){

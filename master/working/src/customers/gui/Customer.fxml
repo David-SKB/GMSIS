@@ -56,7 +56,7 @@
                      </toggleGroup>
                   </RadioButton>
                   <RadioButton fx:id="eBusinessRadionButton" layoutX="161.0" layoutY="219.0" mnemonicParsing="false" text="Business" toggleGroup="$eCustomerTypeToggle" />
-                  <Button fx:id="eSubmitChangesButton" layoutX="82.0" layoutY="258.0" mnemonicParsing="false" onAction="#submitCustomerChanges" prefHeight="27.0" prefWidth="123.0" text="Submit Changes" />
+                  <Button fx:id="eSubmitChangesButton" layoutX="82.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitCustomerChanges" prefHeight="27.0" prefWidth="123.0" text="Submit Changes" />
                   <Text fx:id="eStatusText" layoutX="12.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="264.21875" />
                </children>
             </AnchorPane>

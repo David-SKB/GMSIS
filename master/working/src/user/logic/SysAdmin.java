@@ -11,7 +11,7 @@ package user.logic;
  */
 public class SysAdmin extends Employee{
     
-    public SysAdmin(int IDNo, String sName, String fName){
-        super(IDNo,sName,fName);
+    public SysAdmin(int IDNo, String password, String sName, String fName, boolean sysAdmin){
+        super(IDNo, password, sName, fName, sysAdmin);
     }
 }

@@ -79,11 +79,38 @@ public class CustomerRegistry {
         return success;
     }
     
-    public Customer searchCustomer(String ID){
+    public Customer searchCustomerByID(String ID){
         DBInstance.connect();
         try{
             String query = "SELECT * FROM CUSTOMER\n" +
                             "WHERE ID = '" + ID + "'; "; 
+            ResultSet rs = DBInstance.query(query);
+            Customer rCustomer;
+            if(rs != null){
+                String sName = rs.getString("SURNAME");
+                String fName = rs.getString("FIRSTNAME");
+                String address = rs.getString("ADDRESS");
+                String postCode = rs.getString("POSTCODE");
+                String phone = rs.getString("PHONE");
+                String email = rs.getString("EMAIL");
+                String customerType = rs.getString("CUSTOMERTYPE");
+                rCustomer = new Customer(sName,fName,address,postCode,phone,email,customerType);
+            }else{
+                rCustomer = null;
+            }
+            DBInstance.closeConnection();
+            return rCustomer;
+        }catch(SQLException e){
+            return null;
+        }
+    }
+    
+    public Customer searchCustomer(String ph, String mail){
+        DBInstance.connect();
+        try{
+            String query = "SELECT * FROM CUSTOMER\n" +
+                            "WHERE PHONE = '" + ph + "' " +
+                            "AND EMAIL = '" + mail + "'; "; 
             ResultSet rs = DBInstance.query(query);
             Customer rCustomer;
             if(rs != null){
