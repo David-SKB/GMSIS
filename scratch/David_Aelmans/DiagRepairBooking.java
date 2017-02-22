@@ -25,4 +25,20 @@ public class DiagRepairBooking extends Booking {
         EmpID = EID;
     }
     
+    public int getCustID(){
+        return CustID.get();
+    }
+    
+    public String getVechID(){
+        return VechID.get();
+    }
+    
+    public String getMilage(){
+        return milage.get();
+    }
+        
+    public String getEmpID(){
+        return EmpID.get();
+    }
+    
 }
