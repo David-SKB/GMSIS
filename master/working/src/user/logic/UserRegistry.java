@@ -44,17 +44,18 @@ public class UserRegistry {
         return success;
     }
     
-    public boolean editUser(int IDNo, String password, String sName, String fName, double rate, String sysAdmin){
+    public boolean editUser(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin, int IDNoOld){
         boolean success;
         DBInstance.connect();
         String query  = "UPDATE USERS \n" + 
                         "SET " +
                         "ID = " + IDNo + ", " +
-                        "PASSWORD = " + password + "'," +
+                        "PASSWORD = '" + password + "'," +
                         "SURNAME = '" + sName + "', " +
                         "FIRSTNAME = '" + fName + "', " +
                         "HRATE = " + rate + ", " +
-                        "SYSADM = " + sysAdmin + ";";
+                        "SYSADM = '" + sysAdmin + "'\n" +
+                        "WHERE ID = " + IDNoOld + ";";
         success = DBInstance.update(query);
         return success;
     }

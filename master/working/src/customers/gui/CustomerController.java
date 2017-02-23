@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -30,8 +31,7 @@ import javafx.scene.text.Text;
  */
 
     /* ------------------------------------------------------------------
-     * TODO - 1) Check if any updates were made and display on stats.
-     *        4) Check the sqlite db error when building.
+     * TODO - 4) Check the sqlite db error when building.
      *        5) Start implementing search bar.
      *        9) Start implementing SysAdmin GUI Controller.
      * ------------------------------------------------------------------ */
@@ -252,6 +252,7 @@ public class CustomerController {
         ePostCodeTextField.setText(tempCustomer.getPostCode());
         ePhoneTextField.setText(tempCustomer.getPhone());
         eEmailTextField.setText(tempCustomer.getEmail());
+        eEmailTextField.setAlignment(Pos.CENTER_LEFT);
         String cType = tempCustomer.getCustomerType();
         if(cType.equals("Individual")){
             eCustomerTypeToggle.selectToggle(eIndividualRadioButton);
