@@ -5,16 +5,22 @@
  */
 package user.logic;
 
+import javafx.beans.property.SimpleDoubleProperty;
+
 /**
  *
  * @author athanasiosgkanos
  */
 public class Mechanic extends Employee{
     
-    private double hRate;
+    private final SimpleDoubleProperty hRate;
     
-    public Mechanic(int IDNo,String sName, String fName, double rate){
-        super(IDNo,sName,fName);
-        this.hRate = rate;
+    public Mechanic(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin){
+        super(IDNo, password, sName, fName,sysAdmin);
+        this.hRate = new SimpleDoubleProperty(rate);
+    }
+    
+    public double getHRate(){
+        return hRate.get();
     }
 }

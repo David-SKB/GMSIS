@@ -21,4 +21,15 @@ public class Booking {
         bookingLength = length;
     }
     
+    public String getBookingID(){
+        return bookingID.get();
+    }
+    
+    public String getBookingDate(){
+        return bookingDate.get();
+    }
+    
+    public String getBookingLength(){
+        return bookingLength.get();
+    }
 }

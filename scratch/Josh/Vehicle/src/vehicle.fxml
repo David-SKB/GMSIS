@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testController">
+ <children>
+      <Button fx:id="carButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCarButton" onMouseClicked="#addCarButton" prefHeight="26.0" prefWidth="76.0" text="Add car" />
+      <Button fx:id="vanButton" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#addVanButton" prefHeight="26.0" prefWidth="76.0" text="Add van" />
+      <Button fx:id="truckButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" onAction="#addTruckButton" text="Add truck" />
+      <Button fx:id="deleteButton" layoutX="475.0" layoutY="140.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="editButton" layoutX="544.0" layoutY="140.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="56.0" text="Edit" />
+      <TextField fx:id="regSearchTextField" layoutX="463.0" layoutY="34.0" />
+      <TextField fx:id="manuSearchTextField" layoutX="463.0" layoutY="81.0" />
+      <Label layoutX="503.0" layoutY="13.0" text="Search by reg" />
+      <Label layoutX="473.0" layoutY="65.0" text="Search by manufacturer" />
+      <TextField fx:id="makeTextField" layoutX="140.0" layoutY="52.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="modelTextField" layoutX="140.0" layoutY="81.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="regTextField" layoutX="140.0" layoutY="21.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="engineTextField" layoutX="265.0" layoutY="21.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="fuelTextField" layoutX="265.0" layoutY="52.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="colourTextField" layoutX="265.0" layoutY="81.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="MOTTextField" layoutX="378.0" layoutY="21.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="lastTextField" layoutX="378.0" layoutY="52.0" prefHeight="16.0" prefWidth="56.0" />
+      <TextField fx:id="mileageTextField" layoutX="378.0" layoutY="81.0" prefHeight="26.0" prefWidth="56.0" />
+      <Label layoutX="102.0" layoutY="26.0" text="Reg:" />
+      <Label layoutX="97.0" layoutY="57.0" text="Make:" />
+      <Label layoutX="95.0" layoutY="86.0" text="Model:" />
+      <Label layoutX="210.0" layoutY="26.0" text="Engine:" />
+      <Label layoutX="218.0" layoutY="57.0" text="Fuel:" />
+      <Label layoutX="210.0" layoutY="86.0" text="Colour:" />
+      <Label layoutX="333.0" layoutY="26.0" text="MOT:" />
+      <Label layoutX="334.0" layoutY="52.0" prefHeight="16.0" prefWidth="27.0" text="Last" />
+      <Label layoutX="324.0" layoutY="65.0" text="Service:" />
+      <Label layoutX="323.0" layoutY="86.0" text="Mileage:" />
+      <Separator layoutX="445.0" layoutY="2.0" orientation="VERTICAL" prefHeight="141.0" prefWidth="5.0" />
+      <CheckBox fx:id="warrantyCheckBox" layoutX="190.0" layoutY="118.0" mnemonicParsing="false" text="Warranty?" />
+      <Button fx:id="clearButton" layoutX="27.0" layoutY="114.0" mnemonicParsing="false" text="Clear" />
+      <TableView layoutX="6.0" layoutY="169.0" prefHeight="333.0" prefWidth="752.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="REG" />
+          <TableColumn prefWidth="75.0" text="CUSTID" />
+          <TableColumn prefWidth="75.0" text="MAKE" />
+          <TableColumn prefWidth="75.0" text="MODEL" />
+          <TableColumn prefWidth="75.0" text="ENGINE" />
+          <TableColumn prefWidth="75.0" text="FUEL" />
+          <TableColumn prefWidth="75.0" text="COLOUR" />
+          <TableColumn prefWidth="75.0" text="MOT" />
+          <TableColumn prefWidth="75.0" text="SERVICE" />
+          <TableColumn prefWidth="75.0" text="WRTY" />
+        </columns>
+      </TableView>
+   </children>   
+</AnchorPane>

@@ -1,41 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customers.gui.CustomerController">
    <children>
-      <TitledPane animated="false" layoutX="686.0" layoutY="16.0" prefHeight="239.0" prefWidth="317.0" text="Add Customer">
+      <TitledPane fx:id="addCustomerPane" animated="false" layoutX="41.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Add Customer">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="280.0" prefWidth="315.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="289.0">
                <children>
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="21.0" prefHeight="27.0" prefWidth="230.0" promptText="Full Name" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="58.0" prefHeight="27.0" prefWidth="230.0" promptText="Address" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="97.0" prefHeight="27.0" prefWidth="230.0" promptText="Postcode" />
-                  <TextField alignment="CENTER" layoutX="37.0" layoutY="134.0" prefHeight="27.0" prefWidth="230.0" promptText="E-mail " />
-                  <Button layoutX="104.0" layoutY="170.0" mnemonicParsing="false" text="Add Customer" />
+                  <TextField fx:id="firstNameTextField" alignment="CENTER" layoutX="43.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" promptText="First Name" />
+                  <TextField fx:id="lastNameTextField" alignment="CENTER" layoutX="43.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" promptText="Last Name" />
+                  <TextField fx:id="addressTextField" alignment="CENTER" layoutX="43.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" promptText="Address" />
+                  <TextField fx:id="postCodeTextField" alignment="CENTER" layoutX="43.0" layoutY="110.0" prefHeight="25.0" prefWidth="200.0" promptText="Post Code" />
+                  <TextField fx:id="phoneTextField" alignment="CENTER" layoutX="43.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" promptText="Phone" />
+                  <TextField fx:id="emailTextField" alignment="CENTER" layoutX="43.0" layoutY="177.0" prefHeight="25.0" prefWidth="200.0" promptText="E-mail " />
+                  <RadioButton fx:id="individualRadioButton" layoutX="43.0" layoutY="219.0" mnemonicParsing="false" text="Individual">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="customerTypeToggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="businessRadioButton" layoutX="161.0" layoutY="219.0" mnemonicParsing="false" text="Business" toggleGroup="$customerTypeToggle" />
+                  <Button fx:id="submitButton" layoutX="26.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitCustomerDetails" prefHeight="27.0" prefWidth="102.0" text="Submit" />
+                  <Button fx:id="clearButton" layoutX="161.0" layoutY="250.0" mnemonicParsing="false" onAction="#clearCustomerDetails" prefHeight="27.0" prefWidth="102.0" text="Clear" />
+                  <Text fx:id="statusText" layoutX="12.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="264.21875" />
                </children>
             </AnchorPane>
         </content>
       </TitledPane>
-      <TableView layoutX="21.0" layoutY="25.0" prefHeight="179.0" prefWidth="616.0" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="25.0">
+      <TitledPane animated="false" layoutX="826.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Edit Customer">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="289.0">
+               <children>
+                  <TextField fx:id="eFirstNameTextField" alignment="CENTER" layoutX="43.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" promptText="First Name" />
+                  <TextField fx:id="eLastNameTextField" alignment="CENTER" layoutX="43.0" layoutY="46.0" prefHeight="25.0" prefWidth="200.0" promptText="Last Name" />
+                  <TextField fx:id="eAddrTextField" alignment="CENTER" layoutX="43.0" layoutY="78.0" prefHeight="25.0" prefWidth="200.0" promptText="Address" />
+                  <TextField fx:id="ePostCodeTextField" alignment="CENTER" layoutX="43.0" layoutY="110.0" prefHeight="25.0" prefWidth="200.0" promptText="Post Code" />
+                  <TextField fx:id="ePhoneTextField" alignment="CENTER" layoutX="43.0" layoutY="143.0" prefHeight="25.0" prefWidth="200.0" promptText="Phone" />
+                  <TextField fx:id="eEmailTextField" alignment="CENTER" layoutX="43.0" layoutY="177.0" prefHeight="25.0" prefWidth="200.0" promptText="E-mail " />
+                  <RadioButton fx:id="eIndividualRadioButton" layoutX="43.0" layoutY="219.0" mnemonicParsing="false" text="Individual">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="eCustomerTypeToggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="eBusinessRadionButton" layoutX="161.0" layoutY="219.0" mnemonicParsing="false" text="Business" toggleGroup="$eCustomerTypeToggle" />
+                  <Button fx:id="eSubmitChangesButton" layoutX="82.0" layoutY="250.0" mnemonicParsing="false" onAction="#submitCustomerChanges" prefHeight="27.0" prefWidth="123.0" text="Submit Changes" />
+                  <Text fx:id="eStatusText" layoutX="12.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="264.21875" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TableView fx:id="customerDetails" layoutX="33.0" layoutY="14.0" prefHeight="277.0" prefWidth="1099.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="14.0">
         <columns>
-          <TableColumn prefWidth="96.0" resizable="false" text="Name" />
-          <TableColumn minWidth="0.0" prefWidth="89.0" text="Address" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="Post Code" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="Phone" />
-            <TableColumn minWidth="0.0" prefWidth="89.0" text="E-mail" />
+          <TableColumn fx:id="firstNameCol" prefWidth="141.0" resizable="false" text="First Name" />
+            <TableColumn fx:id="lastNameCol" prefWidth="136.0" resizable="false" text="Last Name" />
+          <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="139.0" text="Address" />
+            <TableColumn fx:id="postCodeCol" minWidth="0.0" prefWidth="88.0" text="Post Code" />
+            <TableColumn fx:id="phoneCol" minWidth="0.0" prefWidth="188.0" text="Phone" />
+            <TableColumn fx:id="emailCol" minWidth="0.0" prefWidth="225.0" text="E-mail" />
+            <TableColumn fx:id="cTypeCol" minWidth="0.0" prefWidth="179.0" text="Customer Type" />
         </columns>
       </TableView>
-      <Button layoutX="234.0" layoutY="217.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <Button fx:id="getActiveCustomers" layoutX="490.0" layoutY="317.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
+      <ChoiceBox fx:id="delCustomersCBox" layoutX="353.0" layoutY="460.0" prefHeight="25.0" prefWidth="277.0" />
+      <Button layoutX="680.0" layoutY="460.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
+      <Text fx:id="delStatus" layoutX="461.0" layoutY="549.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="248.21875" />
    </children>
 </AnchorPane>

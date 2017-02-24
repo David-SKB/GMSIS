@@ -1,9 +1,17 @@
+package customers.gui;
+
+import customers.logic.CustomerRegistry;
+import common.DBConnection;
+import customers.logic.Customer;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.geometry.Pos;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -13,7 +21,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -24,16 +31,9 @@ import javafx.scene.text.Text;
  */
 
     /* ------------------------------------------------------------------
-     * TODO - 1) Check if any updates were made and display on stats.
-     *        2) Make a validation for email correctness.
-     *        3) Add Delete customer option.
-     *        4) Check the sqlite db error when building.
+     * TODO - 4) Check the sqlite db error when building.
      *        5) Start implementing search bar.
-     *        6) Start implementing authorisation GUI.
-     *        7) Start implementing SysAdmin methods LOGIC.
-     *        8) Start implementing SysAdmin GUI tab.
      *        9) Start implementing SysAdmin GUI Controller.
-     *       10) Intergrate everything on master for Login -> Interface.fxml
      * ------------------------------------------------------------------ */
 /**
  *
@@ -43,10 +43,6 @@ public class CustomerController {
     
     DBConnection db = DBConnection.getInstance();                                       //Instance of the database to open/close connection
     CustomerRegistry CR = CustomerRegistry.getInstance();                               //Instance of the Customer Registry to add/edit/delete customers from/to db.
-    @FXML
-    private AnchorPane customerTab;
-    @FXML
-    private Button getActiveCustomers;
     @FXML
     private TableView<Customer> customerDetails;                                        //FXML TableView. Table used to display rows of customers and their data.
     @FXML
@@ -62,8 +58,10 @@ public class CustomerController {
     @FXML
     private Toggle eIndividualRadioButton, eBusinessRadionButton;                       //FXML Toggle. RadioButtons to identify if the customer type has been edited.
     @FXML
-    private Text statusText, eStatusText;                                               //FXML Text. Display progress/erros when adding/editing customers.
+    private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> data = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
+    @FXML
+    private ChoiceBox<Customer> delCustomersCBox = new ChoiceBox<>();
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
 
     /* ------------------------------------------------------------------
@@ -89,6 +87,7 @@ public class CustomerController {
         cTypeCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("customerType"));
         customerDetails.setItems(data);
+        delCustomersCBox.setItems(data);
         
         customerDetails.setRowFactory((TableView<Customer> tv) -> {
             TableRow<Customer> row = new TableRow<>();
@@ -133,13 +132,14 @@ public class CustomerController {
         String tempPhone = phoneTextField.getText(); 
         phoneValid = validatePhone(tempPhone, phoneTextField);
         
-        String tempCType = validateCType(customerTypeToggle);
+        String tempCType = validateCType(customerTypeToggle,"OnAdd");
         
         String tempEmail = emailTextField.getText();
         emailValid = validateTextField(tempEmail,emailTextField, "Email");
 
         if(fValid && lValid && addrValid && postCValid && phoneValid && tempCType != null &&emailValid){
             submission(tempLName,tempFName,tempAddr,tempPostC,tempPhone,tempEmail,tempCType);
+            getActiveCustomers(new ActionEvent());
         }
     }
     
@@ -176,21 +176,70 @@ public class CustomerController {
         String email = eEmailTextField.getText();
         eEmailValid = validateTextField(email,eEmailTextField, "Email");
         
-        String cType = validateCType(eCustomerTypeToggle);
+        String cType = validateCType(eCustomerTypeToggle,"OnEdit");
         
         if(eFValid && eLValid && eAddrValid && ePostCValid && ePhoneValid && eEmailValid){
             db.connect();
-                boolean result = CR.editCustomer(lName, fName, addr, postC, phone, email, cType,tempCustomer.getPhone(),tempCustomer.getEmail());
+                boolean changed = checkIfChanged(tempCustomer,lName, fName, addr, postC, phone, email, cType);
+                if(changed){
+                    boolean result = CR.editCustomer(lName, fName, addr, postC, phone, email, cType,tempCustomer.getPhone(),tempCustomer.getEmail());
+                    if(result){
+                        eStatusText.setText("Successful");
+                        eStatusText.setFill(Color.GREEN);
+                        clearCustomerDetailsOnEdit(new ActionEvent());
+                        getActiveCustomers(new ActionEvent());
+                    }
+                }else{
+                    eStatusText.setText("Nothing to update.");
+                    eStatusText.setFill(Color.RED);
+                    clearCustomerDetailsOnEdit(new ActionEvent());
+                }
             db.closeConnection();
-            if(result){
-                eStatusText.setText("Successful");
-                eStatusText.setFill(Color.GREEN);
-                clearCustomerDetailsOnEdit(new ActionEvent());
-                getActiveCustomers(new ActionEvent());
-            } 
+ 
         }
     }
     
+    public void deleteCustomer(ActionEvent evt){
+        Customer c = delCustomersCBox.getSelectionModel().getSelectedItem();
+        if(c != null){
+            db.connect();
+            String sName = c.getSurname();
+            String fName = c.getFirstname();
+            String phone = c.getPhone();
+            String email = c.getEmail();
+            CR.deleteCustomer(sName, fName, phone, email);
+            db.closeConnection();
+            getActiveCustomers(new ActionEvent());
+        }else{
+            delStatus.setText("Please select a Customer for deletion.");
+            delStatus.setFill(Color.RED);
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delStatus.setText("");
+                }
+            }, 
+            2000
+        );
+        }
+    }
+    
+    private boolean checkIfChanged
+        (Customer oldC, String lName, String fName, String addr, String postC, 
+                    String phone, String email, String cType){
+            
+            if(oldC.getSurname().equalsIgnoreCase(lName)    &&
+               oldC.getFirstname().equalsIgnoreCase(fName)  &&
+               oldC.getAddress().equalsIgnoreCase(addr)     &&
+               oldC.getPostCode().equalsIgnoreCase(postC)   &&
+               oldC.getPhone().equalsIgnoreCase(phone)      &&
+               oldC.getEmail().equalsIgnoreCase(email)      &&
+               oldC.getCustomerType().equalsIgnoreCase(cType)){
+                return false;
+            }else{
+                return true;
+            }
+    }
     
     /* ------------------------------------------------------------------
      * HELPER -- Method loads the data on the Edit Customer T.Pane
@@ -203,6 +252,7 @@ public class CustomerController {
         ePostCodeTextField.setText(tempCustomer.getPostCode());
         ePhoneTextField.setText(tempCustomer.getPhone());
         eEmailTextField.setText(tempCustomer.getEmail());
+        eEmailTextField.setAlignment(Pos.CENTER_LEFT);
         String cType = tempCustomer.getCustomerType();
         if(cType.equals("Individual")){
             eCustomerTypeToggle.selectToggle(eIndividualRadioButton);
@@ -289,13 +339,19 @@ public class CustomerController {
      * from the ToggleGroup. It displayes an error message on the
      * statusText Text element at the bottomo of the T.Pane (red color).
      * ------------------------------------------------------------------ */  
-    private void noToggleSelected(){
-        statusText.setFill(Color.RED);
-        statusText.setText("Please select a customer type");
+    private void noToggleSelected(String TPane){
+        Text status;
+        if(TPane.equals("OnAdd")){
+            status = statusText;
+        }else{
+            status = eStatusText;
+        }
+        status.setFill(Color.RED);
+        status.setText("Please select a customer type");
         new java.util.Timer().schedule( 
                 new java.util.TimerTask() {
                       public void run() {
-                         statusText.setText("");
+                         status.setText("");
                       }
                  }, 
                 1500 
@@ -307,7 +363,7 @@ public class CustomerController {
      * ToggleGroup and if yes it returns its String value. If not it 
      * calls the helper method noToggleSelected to handle it.
      * ------------------------------------------------------------------ */  
-    private String validateCType(ToggleGroup tGroup){
+    private String validateCType(ToggleGroup tGroup, String TPane){
         try{
           RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
           if(toggleResult.getText().equals("Individual")){
@@ -317,7 +373,7 @@ public class CustomerController {
            }
                   
         }catch(NullPointerException e){
-                noToggleSelected();
+                noToggleSelected(TPane);
                 return null;
         }
     }
@@ -347,6 +403,24 @@ public class CustomerController {
                 1500
             );
             return false;
+        }else if(fieldName.equals("Email")){
+            Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+            Matcher mat = pattern.matcher(cData);
+            if(mat.matches()){
+                return true;
+            }else{
+                tf.setStyle("-fx-text-inner-color: red;");
+                tf.setText("Invalid " + fieldName);
+                new java.util.Timer().schedule( 
+                    new java.util.TimerTask() {
+                         public void run() {
+                            setColor(tf);
+                         }
+                    }, 
+                    1500
+                    );
+                return false;
+            }
         }
         return true;
     }
@@ -385,7 +459,6 @@ public class CustomerController {
                dataList.add(c);
             }
         }
-        
         db.closeConnection();
     }
     

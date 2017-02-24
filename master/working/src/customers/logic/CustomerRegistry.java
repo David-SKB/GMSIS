@@ -1,3 +1,5 @@
+package customers.logic;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +7,7 @@
  */
 
 
+import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*; 
@@ -76,11 +79,38 @@ public class CustomerRegistry {
         return success;
     }
     
-    public Customer searchCustomer(String ID){
+    public Customer searchCustomerByID(String ID){
         DBInstance.connect();
         try{
             String query = "SELECT * FROM CUSTOMER\n" +
                             "WHERE ID = '" + ID + "'; "; 
+            ResultSet rs = DBInstance.query(query);
+            Customer rCustomer;
+            if(rs != null){
+                String sName = rs.getString("SURNAME");
+                String fName = rs.getString("FIRSTNAME");
+                String address = rs.getString("ADDRESS");
+                String postCode = rs.getString("POSTCODE");
+                String phone = rs.getString("PHONE");
+                String email = rs.getString("EMAIL");
+                String customerType = rs.getString("CUSTOMERTYPE");
+                rCustomer = new Customer(sName,fName,address,postCode,phone,email,customerType);
+            }else{
+                rCustomer = null;
+            }
+            DBInstance.closeConnection();
+            return rCustomer;
+        }catch(SQLException e){
+            return null;
+        }
+    }
+    
+    public Customer searchCustomer(String ph, String mail){
+        DBInstance.connect();
+        try{
+            String query = "SELECT * FROM CUSTOMER\n" +
+                            "WHERE PHONE = '" + ph + "' " +
+                            "AND EMAIL = '" + mail + "'; "; 
             ResultSet rs = DBInstance.query(query);
             Customer rCustomer;
             if(rs != null){
@@ -112,7 +142,6 @@ public class CustomerRegistry {
             DBInstance.connect();
             String query = "SELECT * FROM CUSTOMER;";
             ResultSet rs = DBInstance.query(query);
-            
             while(rs.next()){
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author athanasiosgkanos TEST
+ * @author athanasiosgkanos
  */
 public class UserRegistry {
     DBConnection DBInstance = DBConnection.getInstance();
@@ -28,7 +28,7 @@ public class UserRegistry {
         return URInstance;
     }
     
-    public boolean addUser(int IDNo, String password, String sName, String fName, double rate){
+    public boolean addUser(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin){
         boolean success;
         DBInstance.connect();       
         String query = "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM) " + 
@@ -38,22 +38,24 @@ public class UserRegistry {
                             sName + "', '" +
                             fName + "', " +
                             rate + ", '" +
-                            false + "');";
+                            sysAdmin + "');";
         success = DBInstance.update(query);
         DBInstance.closeConnection();
         return success;
     }
     
-    public boolean editUser(int IDNo, String password, String sName, String fName, double rate){
+    public boolean editUser(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin, int IDNoOld){
         boolean success;
         DBInstance.connect();
         String query  = "UPDATE USERS \n" + 
                         "SET " +
                         "ID = " + IDNo + ", " +
-                        "PASSWORD = " + password + "'," +
+                        "PASSWORD = '" + password + "'," +
                         "SURNAME = '" + sName + "', " +
                         "FIRSTNAME = '" + fName + "', " +
-                        "HRATE = " + rate + ";";
+                        "HRATE = " + rate + ", " +
+                        "SYSADM = '" + sysAdmin + "'\n" +
+                        "WHERE ID = " + IDNoOld + ";";
         success = DBInstance.update(query);
         return success;
     }
@@ -67,21 +69,28 @@ public class UserRegistry {
         return success;
     }
     
-    public ArrayList<Mechanic> getActiveUsers(){
+    public ArrayList<Employee> getActiveUsers(){
         try{
-            ArrayList<Mechanic> activeCustomers = new ArrayList<Mechanic>();
+            ArrayList<Employee> activeUsers = new ArrayList<Employee>();
             DBInstance.connect();
             String query = "SELECT * FROM USERS;";
             ResultSet rs = DBInstance.query(query);
             
             while(rs.next()){
                 int ID = rs.getInt("ID");
+                String pass = rs.getString("PASSWORD");
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
-                double rate = rs.getDouble("HRATE");
-                activeCustomers.add(new Mechanic(ID,sName,fName,rate));
+                boolean sysAdm = rs.getBoolean("SYSADM");
+                if(sysAdm){
+                    activeUsers.add(new SysAdmin(ID,pass,sName,fName,sysAdm));
+                }else{
+                    double rate = rs.getDouble("HRATE");
+                    activeUsers.add(new Mechanic(ID,pass,sName,fName,rate,sysAdm));
+                }
+
             }
-            return activeCustomers;
+            return activeUsers;
         }catch(SQLException e){
             return null;
         }
