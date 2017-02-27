@@ -10,19 +10,20 @@ package Parts;
  * @author JR
  */
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 
 public class Part {
-    private String name;
-    private String description;
+    private final SimpleStringProperty name;
+    private final SimpleStringProperty description;
     private int id;
-    private Date installationDate;
-    private Date warrantyExpiry;
+    private final SimpleStringProperty cost;
+    private final SimpleStringProperty stocklevel;
     
-    public Part(String n, String d, Date i, Date w){
-        name = n;
-        description = d;
-        installationDate = i;
-        warrantyExpiry = w;
+    public Part(String n, String d, String c, String s){
+        name = new SimpleStringProperty(n);
+        description = new SimpleStringProperty(d);
+        cost = new SimpleStringProperty(c);
+        stocklevel = new SimpleStringProperty(s);
     }
     //test
 }

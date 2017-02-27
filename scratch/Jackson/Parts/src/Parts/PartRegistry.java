@@ -12,6 +12,7 @@ package Parts;
 import Database.DBConnection;
 import java.util.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class PartRegistry {
@@ -26,7 +27,28 @@ public class PartRegistry {
         }
         return instance;
     }
-    
+     public ArrayList<Part> getStockParts(){
+        conn = DBConnection.getInstance();
+        //insert into database
+        try{
+        conn.connect();
+        String query = "SELECT * FROM STOCKPARTS;";
+        ResultSet rs = conn.query(query);
+        ArrayList<Part> partlist = new ArrayList<Part>();
+        while (rs!= null)
+        {
+            String name = rs.getString("NAME");
+            String description = rs.getString("DESCRIPTION");
+            String cost = rs.getString("COST");
+            String stock = rs.getString("STOCKLEVEL");
+            partlist.add(new Part(name,description,cost,stock));
+        }
+        conn.closeConnection();
+        return partlist;
+        }catch(SQLException e){
+            return null;
+        }
+    }
     //add part to stock
     public void addPart(String n, String d, int c){
         conn = DBConnection.getInstance();
