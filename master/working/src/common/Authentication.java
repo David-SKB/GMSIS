@@ -164,7 +164,7 @@ public class Authentication
         try{
             String check = rs.getString("SYSADM");
             c.closeConnection();
-            return check.equals("TRUE");
+            return check.equalsIgnoreCase("TRUE");
         }catch(Exception e){
             c.closeConnection();
             return false;

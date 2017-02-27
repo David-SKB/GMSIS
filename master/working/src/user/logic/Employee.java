@@ -41,7 +41,7 @@ public class Employee {
         return surname.get();
     }
     
-    public String getFirstname(){
+    public String getFirstName(){
         return firstName.get();
     }
     

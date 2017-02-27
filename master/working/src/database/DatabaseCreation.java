@@ -30,7 +30,7 @@ public class DatabaseCreation
 "  PASSWORD        TEXT                        NOT NULL,\n" + 
 "  SURNAME         TEXT                        NOT NULL,\n" +
 "  FIRSTNAME       TEXT                        NOT NULL,\n" + 
-"  HRATE           DECIMAL(3,2)                NOT NULL,\n" +               
+"  HRATE           DECIMAL(3,2),\n" +               
 "  SYSADM          BOOL                        NOT NULL\n" +
 ");\n" +
 "\n" +
