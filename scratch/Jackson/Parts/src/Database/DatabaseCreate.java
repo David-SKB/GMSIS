@@ -75,7 +75,7 @@ public class DatabaseCreate
 "  ID                INT     PRIMARY KEY  NOT NULL,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
-"  COST              INT                  NOT NULL\n" +
+"  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE REPAIRS (\n" +

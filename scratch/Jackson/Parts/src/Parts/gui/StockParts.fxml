@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1036.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <children>
-    <Button layoutX="22.0" layoutY="517.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="184.0" text="Add Part to Stock" />
+    <Button layoutX="22.0" layoutY="517.0" mnemonicParsing="false"  prefHeight="40.0" prefWidth="184.0" text="Add Part to Stock" />
     <Button layoutX="542.0" layoutY="517.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="184.0" text="Add Part to Repair" />
     <TableView layoutX="22.0" layoutY="39.0" prefHeight="468.0" prefWidth="472.0">
       <columns>

@@ -8,13 +8,17 @@ package Parts.gui;
 import Parts.PartRegistry;
 import Database.DBConnection;
 import Parts.Part;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
@@ -34,14 +38,22 @@ import javafx.scene.text.Text;
  *
  * @author jr308
  */
-public class StockPartsController {
+public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
     private TableView<Part> stockTable;
     private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
                         stockCol;
     
-    public void loadStockParts(ActionEvent event){
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("test");
+        partR.addPart("wheel", "circular", 100);
+        loadStockParts();
+    }   
+        
+    public void loadStockParts(){//ActionEvent event){
+        System.out.println("test");
         ArrayList<Part> partList = partR.getStockParts();
         ObservableList<Part> oPartList = FXCollections.observableArrayList(partList);
         stockTable.setEditable(true);
