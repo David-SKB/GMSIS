@@ -49,11 +49,12 @@ public class StockPartsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
         partR.addPart("wheel", "circular", 100);
+        System.out.println("test2");
         loadStockParts();
     }   
         
     public void loadStockParts(){//ActionEvent event){
-        System.out.println("test");
+        System.out.println("test3");
         ArrayList<Part> partList = partR.getStockParts();
         ObservableList<Part> oPartList = FXCollections.observableArrayList(partList);
         stockTable.setEditable(true);
