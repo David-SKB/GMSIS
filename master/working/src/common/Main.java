@@ -28,9 +28,5 @@ public class Main extends Application{
         Authentication authenticate = new Authentication();
         authenticate.start(new Stage());
         this.stage = stage;
-        /*FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Interface.fxml"));
-        rootNode = fxmlLoader.load();
-        stage.setScene(new Scene(rootNode));
-        stage.show();*/
     }
 }

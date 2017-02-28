@@ -152,9 +152,6 @@ public class AdminController {
             hRateValid = validateRate(tempHRate, addHRateTF);
         } 
 
-        
-
-
         if(IDValid && fnValid && lnValid && passValid && hRateValid && userType){
             if(tempCType.equals("Admin")){
                 adminSubmission(Integer.parseInt(tempID),tempFN,tempLN,tempPass);
