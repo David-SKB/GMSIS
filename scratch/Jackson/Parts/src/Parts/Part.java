@@ -35,7 +35,7 @@ public class Part {
     public String getCost(){
         return cost.get();
     }
-    public String getStockLevel(){
+    public String getStocklevel(){
         return stocklevel.get();
     }
 }

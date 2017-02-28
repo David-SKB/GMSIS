@@ -46,19 +46,21 @@ public class StockPartsController implements Initializable {
     @FXML
     private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
                         stockCol;
+    @FXML
+    private TextField quantityTextField;
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
-        //partR.addPart("wheel", "circular", 100);
+        partR.addPart("axis", "circular", 100);
         System.out.println("test2");
         loadStockParts();
     }   
         
     public void loadStockParts(){//ActionEvent event){
-        System.out.println("test3");
         
+        System.out.println("test3");
         loadParts();
         stockTable.setEditable(true);
         nameCol.setCellValueFactory(
@@ -68,13 +70,13 @@ public class StockPartsController implements Initializable {
         costCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("cost"));
         stockCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("stock"));
+                new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
     }
     
     public void loadParts(){//ActionEvent event){
         System.out.println("test4");
-        oPartList.removeAll();
+        oPartList.clear();
         ArrayList<Part> partlist = partR.getStockParts();
         System.out.println(partlist == null);
         if(partlist != null)
@@ -88,4 +90,15 @@ public class StockPartsController implements Initializable {
         }
     }
     
+    public void updateStockLevel(ActionEvent event){
+        System.out.println("in update stock level");
+        Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedPart.getName());  
+        partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        loadStockParts();
+    }
+    
 }
+
+//AnchorPane pane = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
+//rootPane.getChildren().setAll(pane);

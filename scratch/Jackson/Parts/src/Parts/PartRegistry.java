@@ -61,7 +61,15 @@ public class PartRegistry {
         //insert into database
         conn.connect();
         String query = "INSERT INTO STOCKPARTS (ID, NAME, DESCRIPTION, COST, STOCK)" +
-                       "VALUES("+ 103 + ",'"+ n + "','" + d + "','" + c + "'," + 1 + ");";
+                       "VALUES("+ 104 + ",'"+ n + "','" + d + "','" + c + "'," + 1 + ");";
+        conn.update(query);
+        conn.closeConnection();
+    }
+    public void updateStock(String n, int quantity){
+        conn = DBConnection.getInstance();
+        //insert into database
+        conn.connect();
+        String query = "UPDATE STOCKPARTS SET STOCK = STOCK + " + quantity + "  WHERE NAME = '" + n + "';";
         conn.update(query);
         conn.closeConnection();
     }
