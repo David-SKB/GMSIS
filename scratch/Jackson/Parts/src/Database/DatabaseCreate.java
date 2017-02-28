@@ -78,16 +78,8 @@ public class DatabaseCreate
 "  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
-"CREATE TABLE REPAIRS (\n" +
-"  ID                INT     PRIMARY KEY  NOT NULL,\n" +
-"  VEHICLEID         INT                  NOT NULL,\n" +
-"  CUSTOMERID        INT                  NOT NULL,\n" +
-"  TOTALCOST         INT                  NOT NULL,\n" +
-"  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
-"  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
-");\n" +
 "CREATE TABLE USEDPARTS (\n" +
-"  ID                INT     PRIMARY KEY     NOT NULL,\n" +
+"  ID                INT                     NOT NULL,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
 "  VEHICLEID         INT                     NOT NULL,\n" +
 "  CUSTOMERID        INT                     NOT NULL,\n" +
@@ -95,6 +87,7 @@ public class DatabaseCreate
 "  WARRANTYEND       DATE                    NOT NULL,\n" +
 "  WARRANTYSTART     DATE                    NOT NULL,\n" +
 "  COST		     INT		     NOT NULL,\n" +
+"  FOREIGN KEY (ID)  REFERENCES STOCKPARTS(ID),\n" +
 "  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
