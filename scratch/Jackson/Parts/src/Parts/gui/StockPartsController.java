@@ -41,32 +41,51 @@ import javafx.scene.text.Text;
 public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
+    @FXML
     private TableView<Part> stockTable;
+    @FXML
     private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
                         stockCol;
+    private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
-        partR.addPart("wheel", "circular", 100);
+        //partR.addPart("wheel", "circular", 100);
         System.out.println("test2");
         loadStockParts();
     }   
         
     public void loadStockParts(){//ActionEvent event){
         System.out.println("test3");
-        ArrayList<Part> partList = partR.getStockParts();
-        ObservableList<Part> oPartList = FXCollections.observableArrayList(partList);
+        
+        loadParts();
         stockTable.setEditable(true);
         nameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("NAME"));
+                new PropertyValueFactory<Part, String>("name"));
         descriptionCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("DESCRIPTION"));
+                new PropertyValueFactory<Part, String>("description"));
         costCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("COST"));
+                new PropertyValueFactory<Part, String>("cost"));
         stockCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("STOCK"));
+                new PropertyValueFactory<Part, String>("stock"));
         stockTable.setItems(oPartList);
+    }
+    
+    public void loadParts(){//ActionEvent event){
+        System.out.println("test4");
+        oPartList.removeAll();
+        ArrayList<Part> partlist = partR.getStockParts();
+        System.out.println(partlist == null);
+        if(partlist != null)
+        {
+            System.out.println("inside if");
+            for(int i = 0; i < partlist.size(); i++)
+            {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
     }
     
 }
