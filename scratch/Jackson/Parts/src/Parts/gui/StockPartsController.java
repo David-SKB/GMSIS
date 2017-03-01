@@ -47,7 +47,7 @@ public class StockPartsController implements Initializable {
     private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
                         stockCol;
     @FXML
-    private TextField quantityTextField;
+    private TextField quantityTextField, searchTextField;
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     
     @Override
@@ -55,13 +55,13 @@ public class StockPartsController implements Initializable {
         System.out.println("test");
         partR.addPart("axis", "circular", 100);
         System.out.println("test2");
-        loadStockParts();
+        loadAllParts();
     }   
         
     public void loadStockParts(){//ActionEvent event){
         
         System.out.println("test3");
-        loadParts();
+        //loadAllParts();
         stockTable.setEditable(true);
         nameCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("name"));
@@ -74,7 +74,24 @@ public class StockPartsController implements Initializable {
         stockTable.setItems(oPartList);
     }
     
-    public void loadParts(){//ActionEvent event){
+    public void loadUsedParts(){//ActionEvent event){
+        
+        System.out.println("test3");
+        loadAllParts();
+        stockTable.setEditable(true);
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("name"));
+        descriptionCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("description"));
+        costCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("cost"));
+        stockCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("stocklevel"));
+        stockTable.setItems(oPartList);
+        
+    }
+    
+    public void loadAllParts(){//ActionEvent event){
         System.out.println("test4");
         oPartList.clear();
         ArrayList<Part> partlist = partR.getStockParts();
@@ -88,6 +105,7 @@ public class StockPartsController implements Initializable {
                 oPartList.add(partlist.get(i));
             }
         }
+        loadStockParts();
     }
     
     public void updateStockLevel(ActionEvent event){
@@ -95,10 +113,25 @@ public class StockPartsController implements Initializable {
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedPart.getName());  
         partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        loadAllParts();
+    }
+    
+    public void searchParts(ActionEvent event){
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(),"NAME");
+        System.out.println(partlist == null);
+        if(partlist != null)
+        {
+            System.out.println("inside if");
+            for(int i = 0; i < partlist.size(); i++)
+            {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
         loadStockParts();
     }
     
 }
-
 //AnchorPane pane = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
 //rootPane.getChildren().setAll(pane);
