@@ -6,25 +6,20 @@
 package scratch.David_Aelmans;
 
 /**
- * NEED TO FIX DATES
- * BILLS
- * RS class?
- * TRY CATCH LOOPS FOR CUSTOMER/VEHICLE
- * ALSO NOTHING WORKS, MAY WANT TO GET ON THAT
  * @author David Aelmans
  */
 import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*; 
+import java.util.*;
 
 public class BookingRegistry {
 
     DBConnection conn = DBConnection.getInstance();
     private static BookingRegistry BRInstance = null;
 
-    public static BookingRegistry getInstance(){
-        if(BRInstance == null){
+    public static BookingRegistry getInstance() {
+        if (BRInstance == null) {
             BRInstance = new BookingRegistry();
         }
         return BRInstance;
@@ -52,7 +47,7 @@ public class BookingRegistry {
         conn.connect();
         String query = "UPDATE BOOKINGS SET BOOKDATE = '"
                 + date + "', TIME = '"
-                + length + "', TYPE = 'Diagnosis and Repair', CUSTOMERID = '" 
+                + length + "', TYPE = 'Diagnosis and Repair', CUSTOMERID = '"
                 + CID + "', VEHICLEREGISTRATION = '"
                 + VID + "', MILAGE = '"
                 + miles + "', EMPLOYEEID = '"
@@ -70,66 +65,54 @@ public class BookingRegistry {
         conn.closeConnection();
         return result;
     }
-    /*
-        public Customer searchCustomer(String ID){
-        DBInstance.connect();
-        try{
-            String query = "SELECT * FROM CUSTOMER\n" +
-                            "WHERE ID = '" + ID + "'; "; 
-            ResultSet rs = DBInstance.query(query);
-            Customer rCustomer;
-            if(rs != null){
-                String sName = rs.getString("SURNAME");
-                String fName = rs.getString("FIRSTNAME");
-                String address = rs.getString("ADDRESS");
-                String postCode = rs.getString("POSTCODE");
-                String phone = rs.getString("PHONE");
-                String email = rs.getString("EMAIL");
-                String customerType = rs.getString("CUSTOMERTYPE");
-                rCustomer = new Customer(sName,fName,address,postCode,phone,email,customerType);
-            }else{
-                rCustomer = null;
+
+    public Booking searchBookingID(String ID) {
+        conn.connect();
+        try {
+            String query = "SELECT * FROM BOOKINGS\n"
+                    + "WHERE ID = '" + ID + "'; ";
+            ResultSet result = conn.query(query);
+            Booking resultBooking;
+            if (result != null) {
+                String date = result.getString("DATE");
+                String length = result.getString("TIME");
+                String cusID = result.getString("CUSTOMERID");
+                String vechID = result.getString("VEHICLEREGISTRATION");
+                String mileage = result.getString("MILEAGE");
+                String empID = result.getString("EMPLOYEEID");
+                resultBooking = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            } else {
+                resultBooking = null;
             }
-            DBInstance.closeConnection();
-            return rCustomer;
-        }catch(SQLException e){
+            conn.closeConnection();
+            return resultBooking;
+        } catch (SQLException e) {
             return null;
         }
     }
-    
-    public int calculateCost
-    
-*/
-    
-    
-    public ArrayList<Booking> getListBookings() {
-        ArrayList<Booking> BookingList = new ArrayList<Booking>();
-        conn = DBConnection.getInstance();
-        conn.connect();
-        String query = "SELECT * FROM BOOKINGS;";
 
-    /*    public ArrayList<Customer> getActiveCustomers(){
-        try{
-            ArrayList<Customer> activeCustomers = new ArrayList<Customer>();
-            DBInstance.connect();
-            String query = "SELECT * FROM CUSTOMER;";
-            ResultSet rs = DBInstance.query(query);
-            
-            while(rs.next()){
-                String sName = rs.getString("SURNAME");
-                String fName = rs.getString("FIRSTNAME");
-                String address = rs.getString("ADDRESS");
-                String postCode = rs.getString("POSTCODE");
-                String phone = rs.getString("PHONE");
-                String email = rs.getString("EMAIL");
-                String customerType = rs.getString("CUSTOMERTYPE");
-                activeCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
+    public ArrayList<Booking> getListBookings() {
+        try {
+            ArrayList<Booking> BookingList = new ArrayList<Booking>();
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS;";
+            ResultSet result = conn.query(query);
+            while (result.next()) {
+                String ID = result.getString("ID");
+                String date = result.getString("DATE");
+                String length = result.getString("TIME");
+                String cusID = result.getString("CUSTOMERID");
+                String vechID = result.getString("VEHICLEREGISTRATION");
+                String mileage = result.getString("MILEAGE");
+                String empID = result.getString("EMPLOYEEID");
+                BookingList.add(new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID));
             }
-            return activeCustomers;
-        }catch(SQLException e){
+            return BookingList;
+        } catch (SQLException e) {
             return null;
         }
-    */
-    //public Booking getBooking() "customer and vehicle details and next booking date"
-    //The user should be able to search for a booking by partial or full vehicle registration number, vehicle manufacturer or customer surname and firstname.
+    }
+        //public Booking getBooking() "customer and vehicle details and next booking date"
+        //The user should be able to search for a booking by partial or full vehicle registration number, vehicle manufacturer or customer surname and firstname.
 }

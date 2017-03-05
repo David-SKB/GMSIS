@@ -4,21 +4,21 @@
  * and open the template in the editor.
  */
 package scratch.David_Aelmans;
-import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 /**
  *
  * @author dja30
  */
 public class Booking {
-    int bookingID;
-    Date bookingDate;
-    int bookingLength;
+    private final SimpleStringProperty bookingID;
+    private final SimpleStringProperty bookingDate;
+    private final SimpleStringProperty bookingLength;
     
     
-    public Booking(int ID, Date date, int length){
-        bookingID = ID;
-        bookingDate = date;
-        bookingLength = length;
+    public Booking(String ID, String date, String length){
+        bookingID = new SimpleStringProperty(ID);
+        bookingDate = new SimpleStringProperty(date);
+        bookingLength = new SimpleStringProperty(length);
     }
     
     public String getBookingID(){
