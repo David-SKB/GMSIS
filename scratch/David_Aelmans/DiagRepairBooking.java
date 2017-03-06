@@ -5,27 +5,27 @@
  */
 package scratch.David_Aelmans;
 
-import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * @author dja30
  */
 public class DiagRepairBooking extends Booking {
-    int CustID;
-    int VechID;
-    int milage;
-    int EmpID;
+    private final SimpleStringProperty CustID;
+    private final SimpleStringProperty VechID;
+    private final SimpleStringProperty milage;
+    private final SimpleStringProperty EmpID;
     
-    public DiagRepairBooking(int BID, Date date, int length, int CID, int VID, int miles, int EID){
+    public DiagRepairBooking(String BID, String date, String length, String CID, String VID, String miles, String EID){
         super(BID, date, length);
-        CustID = CID;
-        VechID = VID;
-        milage = miles;
-        EmpID = EID;
+        CustID = new SimpleStringProperty(CID);
+        VechID = new SimpleStringProperty(VID);
+        milage = new SimpleStringProperty(miles);
+        EmpID = new SimpleStringProperty(EID);
     }
     
-    public int getCustID(){
+    public String getCustID(){
         return CustID.get();
     }
     
