@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Parts.gui.StockPartsController">
+  <children>
+    <Button fx:id="addToStock" layoutX="469.0" layoutY="664.0" mnemonicParsing="false" onAction="#updateStockLevel" prefHeight="25.0" prefWidth="171.0" text="Add Part to Stock" />
+    <TableView fx:id="stockTable" layoutX="22.0" layoutY="39.0" prefHeight="611.0" prefWidth="579.0">
+      <columns>
+        <TableColumn fx:id="nameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="118.0" text="Name" />
+        <TableColumn fx:id="descriptionCol" maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="Description" />
+        <TableColumn fx:id="costCol" maxWidth="5000.0" minWidth="10.0" prefWidth="75.0" text="Cost" />
+        <TableColumn fx:id="stockCol" maxWidth="5000.0" minWidth="0.0" prefWidth="128.0" text="Stock Level" />
+      </columns>
+    </TableView>
+    <Label layoutX="22.0" layoutY="14.0" />
+      <TextField fx:id="quantityTextField" layoutX="288.0" layoutY="664.0" promptText="Quantity" />
+      <Button layoutX="689.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="View Used Parts" />
+      <TextField fx:id="searchTextField" layoutX="22.0" layoutY="9.0" prefHeight="25.0" prefWidth="507.0" />
+      <Button fx:id="searchButton" layoutX="532.0" layoutY="9.0" mnemonicParsing="false" onAction="#searchParts" prefHeight="25.0" prefWidth="71.0" text="Search" />
+      <Button layoutX="867.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="View Repairs" />
+      <Label layoutX="22.0" layoutY="669.0" text="Select part from table to increase stock" />
+  </children>
+</AnchorPane>

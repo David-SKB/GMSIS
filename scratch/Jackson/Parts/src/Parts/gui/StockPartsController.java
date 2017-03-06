@@ -41,32 +41,97 @@ import javafx.scene.text.Text;
 public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
+    @FXML
     private TableView<Part> stockTable;
+    @FXML
     private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
                         stockCol;
+    @FXML
+    private TextField quantityTextField, searchTextField;
+    private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
-        partR.addPart("wheel", "circular", 100);
+        partR.addPart("axis", "circular", 100);
         System.out.println("test2");
-        loadStockParts();
+        loadAllParts();
     }   
         
     public void loadStockParts(){//ActionEvent event){
+        
         System.out.println("test3");
-        ArrayList<Part> partList = partR.getStockParts();
-        ObservableList<Part> oPartList = FXCollections.observableArrayList(partList);
+        //loadAllParts();
         stockTable.setEditable(true);
         nameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("NAME"));
+                new PropertyValueFactory<Part, String>("name"));
         descriptionCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("DESCRIPTION"));
+                new PropertyValueFactory<Part, String>("description"));
         costCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("COST"));
+                new PropertyValueFactory<Part, String>("cost"));
         stockCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("STOCK"));
+                new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
     }
     
+    public void loadUsedParts(){//ActionEvent event){
+        
+        System.out.println("test3");
+        loadAllParts();
+        stockTable.setEditable(true);
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("name"));
+        descriptionCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("description"));
+        costCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("cost"));
+        stockCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("stocklevel"));
+        stockTable.setItems(oPartList);
+        
+    }
+    
+    public void loadAllParts(){//ActionEvent event){
+        System.out.println("test4");
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.getStockParts();
+        System.out.println(partlist == null);
+        if(partlist != null)
+        {
+            System.out.println("inside if");
+            for(int i = 0; i < partlist.size(); i++)
+            {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
+        loadStockParts();
+    }
+    
+    public void updateStockLevel(ActionEvent event){
+        System.out.println("in update stock level");
+        Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        System.out.println(selectedPart.getName());  
+        partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        loadAllParts();
+    }
+    
+    public void searchParts(ActionEvent event){
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(),"NAME");
+        System.out.println(partlist == null);
+        if(partlist != null)
+        {
+            System.out.println("inside if");
+            for(int i = 0; i < partlist.size(); i++)
+            {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
+        loadStockParts();
+    }
+    
 }
+//AnchorPane pane = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
+//rootPane.getChildren().setAll(pane);

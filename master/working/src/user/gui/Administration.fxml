@@ -19,18 +19,19 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
                <children>
-                  <TableView fx:id="userTV" layoutX="368.0" layoutY="65.0" prefHeight="200.0" prefWidth="391.0">
+                  <TableView fx:id="userTV" layoutX="291.0" layoutY="63.0" prefHeight="200.0" prefWidth="582.0">
                     <columns>
-                      <TableColumn fx:id="firstNameTableC" prefWidth="75.0" text="First Name" />
-                      <TableColumn fx:id="lastNameTableC" prefWidth="75.0" text="Last Name" />
-                        <TableColumn fx:id="hRateTableC" prefWidth="75.0" text="H.Rate" />
+                        <TableColumn fx:id="idNumberTableC" prefWidth="76.0" text="ID Number" />
+                        <TableColumn fx:id="firstNameColumn" prefWidth="110.0" text="First Name" />
+                      <TableColumn fx:id="lastNameTableC" prefWidth="125.0" text="Last Name" />
+                        <TableColumn fx:id="hRateTableC" prefWidth="53.0" text="H.Rate" />
                         <TableColumn fx:id="sysAdmTableC" prefWidth="75.0" text="SysAdmin" />
-                        <TableColumn fx:id="passTableC" prefWidth="88.0" text="Password" />
+                        <TableColumn fx:id="passTableC" prefWidth="141.0" text="Password" />
                     </columns>
                   </TableView>
-                  <Button layoutX="368.0" layoutY="284.0" mnemonicParsing="false" onAction="#getUsers" prefHeight="25.0" prefWidth="101.0" text="Get Users" />
-                  <Text fx:id="delUserStatus" layoutX="484.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="159.21875" />
-                  <Button layoutX="658.0" layoutY="284.0" mnemonicParsing="false" onAction="#delUser" prefWidth="101.0" text="Delete User" />
+                  <Button layoutX="291.0" layoutY="284.0" mnemonicParsing="false" onAction="#getUsers" prefHeight="25.0" prefWidth="101.0" text="Get Users" />
+                  <Text fx:id="delUserStatus" layoutX="431.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.21875" />
+                  <Button layoutX="772.0" layoutY="284.0" mnemonicParsing="false" onAction="#delUser" prefWidth="101.0" text="Delete User" />
                   <TitledPane animated="false" layoutX="43.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="                Add User">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
@@ -43,12 +44,12 @@
                               <Button layoutX="28.0" layoutY="214.0" mnemonicParsing="false" onAction="#submitUserDetails" text="Submit" />
                               <Button layoutX="141.0" layoutY="214.0" mnemonicParsing="false" onAction="#clearUserDetails" prefHeight="25.0" prefWidth="54.0" text="Clear" />
                               <Text fx:id="addUserStatus" layoutX="34.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
-                              <RadioButton layoutX="123.0" layoutY="186.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="66.0" text="Admin">
+                              <RadioButton layoutX="123.0" layoutY="186.0" mnemonicParsing="false" onAction="#hideRate" prefHeight="18.0" prefWidth="66.0" text="Admin">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="userRights" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton layoutX="28.0" layoutY="186.0" mnemonicParsing="false" text="Mechanic" toggleGroup="$userRights" />
+                              <RadioButton layoutX="28.0" layoutY="186.0" mnemonicParsing="false" onAction="#unhideRate" text="Mechanic" toggleGroup="$userRights" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -73,17 +74,17 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="spcTV" layoutX="368.0" layoutY="42.0" prefHeight="200.0" prefWidth="391.0">
+                  <TableView fx:id="spcTV" layoutX="334.0" layoutY="42.0" prefHeight="200.0" prefWidth="495.0">
                     <columns>
-                      <TableColumn fx:id="spcNameTableC" prefWidth="75.0" text="Name" />
-                      <TableColumn fx:id="spcAddrTableC" prefWidth="75.0" text="Address" />
-                        <TableColumn fx:id="spcEmailTableC" prefWidth="134.0" text="Email" />
-                        <TableColumn fx:id="spcPhoneTableC" prefWidth="104.0" text="Telephone" />
+                      <TableColumn fx:id="spcNameTableC" prefWidth="95.0" text="Name" />
+                      <TableColumn fx:id="spcAddrTableC" prefWidth="103.0" text="Address" />
+                        <TableColumn fx:id="spcEmailTableC" prefWidth="141.0" text="Email" />
+                        <TableColumn fx:id="spcPhoneTableC" prefWidth="154.0" text="Telephone" />
                     </columns>
                   </TableView>
-                  <Button layoutX="368.0" layoutY="264.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />
-                  <Text fx:id="delSPCStatus" layoutX="484.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="159.21875" />
-                  <Button layoutX="658.0" layoutY="264.0" mnemonicParsing="false" onAction="#deleteSPC" prefWidth="101.0" text="Delete SPC" />
+                  <Button layoutX="334.0" layoutY="264.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />
+                  <Text fx:id="delSPCStatus" layoutX="463.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.0" />
+                  <Button layoutX="728.0" layoutY="264.0" mnemonicParsing="false" onAction="#deleteSPC" prefWidth="101.0" text="Delete SPC" />
                   <TitledPane animated="false" layoutX="43.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="                Add Centre">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="224.0" prefWidth="221.0">

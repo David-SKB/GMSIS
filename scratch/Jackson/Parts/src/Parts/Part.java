@@ -26,4 +26,16 @@ public class Part {
         stocklevel = new SimpleStringProperty(s);
     }
     //test
+    public String getName(){
+        return name.get();
+    }
+    public String getDescription(){
+        return description.get();
+    }
+    public String getCost(){
+        return cost.get();
+    }
+    public String getStocklevel(){
+        return stocklevel.get();
+    }
 }

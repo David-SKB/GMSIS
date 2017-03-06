@@ -35,17 +35,23 @@ public class PartRegistry {
         String query = "SELECT * FROM STOCKPARTS;";
         ResultSet rs = conn.query(query);
         ArrayList<Part> partlist = new ArrayList<Part>();
-        while (rs!= null)
+        while (rs.next())
         {
+            System.out.println("registry test");
             String name = rs.getString("NAME");
+            System.out.println(name);
             String description = rs.getString("DESCRIPTION");
-            String cost = rs.getString("COST");
-            String stock = rs.getString("STOCKLEVEL");
-            partlist.add(new Part(name,description,cost,stock));
+            System.out.println(description);
+            int cost = rs.getInt("COST");
+            System.out.println(cost);
+            int stock = rs.getInt("STOCK");
+            System.out.println(stock);
+            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
         }
         conn.closeConnection();
         return partlist;
         }catch(SQLException e){
+            System.out.println("IN exception");
             return null;
         }
     }
@@ -54,8 +60,16 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //insert into database
         conn.connect();
-        String query = "INSERT INTO STOCKPARTS (NAME, DESCRIPTION, COST, STOCK)" +
-                       "VALUES(" + n + "," + d + "," + c + "," + 1 + ");";
+        String query = "INSERT INTO STOCKPARTS (ID, NAME, DESCRIPTION, COST, STOCK)" +
+                       "VALUES("+ 104 + ",'"+ n + "','" + d + "','" + c + "'," + 1 + ");";
+        conn.update(query);
+        conn.closeConnection();
+    }
+    public void updateStock(String n, int quantity){
+        conn = DBConnection.getInstance();
+        //insert into database
+        conn.connect();
+        String query = "UPDATE STOCKPARTS SET STOCK = STOCK + " + quantity + "  WHERE NAME = '" + n + "';";
         conn.update(query);
         conn.closeConnection();
     }
@@ -91,15 +105,34 @@ public class PartRegistry {
     }
     //search for all parts used to repair a vehicle
     //can search by vehicle or customer
-    public String searchUsedParts(int id, String searchBy){
+    public ArrayList<Part> searchStockParts(String id, String searchBy){
         conn = DBConnection.getInstance();
+        try{
         //delete from database
         conn.connect();
-        String query = "SELECT * FROM USED PARTS WHERE " + searchBy 
-                + " = " + id + ";";
+        String query = "SELECT * FROM STOCKPARTS WHERE " + searchBy 
+                + " LIKE '%" + id + "%';";
         ResultSet rs = conn.query(query);
+        ArrayList<Part> partlist = new ArrayList<Part>();
+        while (rs.next())
+        {
+            System.out.println("registry test");
+            String name = rs.getString("NAME");
+            System.out.println(name);
+            String description = rs.getString("DESCRIPTION");
+            System.out.println(description);
+            int cost = rs.getInt("COST");
+            System.out.println(cost);
+            int stock = rs.getInt("STOCK");
+            System.out.println(stock);
+            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
+        }
         conn.closeConnection();
-        return null;
+        return partlist;
+        }catch(SQLException e){
+            System.out.println("IN exception");
+            return null;
+        }
     }
     //calculates the total cost of all parts used in a specific repair
     //(parts assosicated with a specific booking)

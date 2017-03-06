@@ -28,7 +28,7 @@ public class UserRegistry {
         return URInstance;
     }
     
-    public boolean addUser(int IDNo, String password, String sName, String fName, double rate, boolean sysAdmin){
+    public boolean addUser(int IDNo, String password, String sName, String fName, double rate){
         boolean success;
         DBInstance.connect();       
         String query = "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM) " + 
@@ -38,7 +38,23 @@ public class UserRegistry {
                             sName + "', '" +
                             fName + "', " +
                             rate + ", '" +
-                            sysAdmin + "');";
+                            false + "');";
+        success = DBInstance.update(query);
+        DBInstance.closeConnection();
+        return success;
+    }
+    
+    public boolean addAdmin(int IDNo, String password, String sName, String fName){
+        boolean success;
+        DBInstance.connect();       
+        String query = "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM) " + 
+                           "VALUES ( " + 
+                            IDNo + ", '" +
+                            password + "', '" +
+                            sName + "', '" +
+                            fName + "', " +
+                            null + ", '" +
+                            true + "');";
         success = DBInstance.update(query);
         DBInstance.closeConnection();
         return success;
@@ -81,12 +97,12 @@ public class UserRegistry {
                 String pass = rs.getString("PASSWORD");
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
-                boolean sysAdm = rs.getBoolean("SYSADM");
-                if(sysAdm){
-                    activeUsers.add(new SysAdmin(ID,pass,sName,fName,sysAdm));
+                String sysAdm = rs.getString("SYSADM");
+                if(sysAdm.equalsIgnoreCase("TRUE")){
+                    activeUsers.add(new SysAdmin(ID,pass,sName,fName,true));
                 }else{
                     double rate = rs.getDouble("HRATE");
-                    activeUsers.add(new Mechanic(ID,pass,sName,fName,rate,sysAdm));
+                    activeUsers.add(new Mechanic(ID,pass,sName,fName,rate,false));
                 }
 
             }
