@@ -4,6 +4,7 @@ import customers.logic.CustomerRegistry;
 import common.DBConnection;
 import customers.logic.Customer;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -11,6 +12,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -202,14 +206,25 @@ public class CustomerController {
     public void deleteCustomer(ActionEvent evt){
         Customer c = delCustomersCBox.getSelectionModel().getSelectedItem();
         if(c != null){
-            db.connect();
-            String sName = c.getSurname();
-            String fName = c.getFirstname();
-            String phone = c.getPhone();
-            String email = c.getEmail();
-            CR.deleteCustomer(sName, fName, phone, email);
-            db.closeConnection();
-            getActiveCustomers(new ActionEvent());
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Deleting Customer");
+            alert.setHeaderText("Are you sure you want to delete this customer?");
+            alert.setContentText("Customer Details: " + c.getFirstname() + " " + c.getSurname() + 
+                    " " + c.getPhone() + " " + c.getEmail());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                db.connect();
+                String sName = c.getSurname();
+                String fName = c.getFirstname();
+                String phone = c.getPhone();
+                String email = c.getEmail();
+                CR.deleteCustomer(sName, fName, phone, email);
+                db.closeConnection();
+                getActiveCustomers(new ActionEvent());
+            } else {
+                getActiveCustomers(new ActionEvent());
+            }
         }else{
             delStatus.setText("Please select a Customer for deletion.");
             delStatus.setFill(Color.RED);
@@ -451,7 +466,6 @@ public class CustomerController {
      * db and adds them to the ObservableList. (used to display contents)
      * ------------------------------------------------------------------ */
     private void loadData(ObservableList<Customer> dataList){
-        db.connect();
         ArrayList<Customer> csAList = CR.getActiveCustomers();
         dataList.removeAll(dataList);
         if(csAList != null){
@@ -459,7 +473,6 @@ public class CustomerController {
                dataList.add(c);
             }
         }
-        db.closeConnection();
     }
     
     /* ------------------------------------------------------------------

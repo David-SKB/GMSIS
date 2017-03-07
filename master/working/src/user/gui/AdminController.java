@@ -2,12 +2,13 @@ package user.gui;
 
 import common.DBConnection;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -39,7 +40,9 @@ public class AdminController {
     private TextField addIDTF, addFNTF, addLNTX, addPassTF, addHRateTF,
                       eFNTF, eIDTF, eLNTF, ePassTF, eHRateTF;
     @FXML
-    private ToggleGroup userRights;
+    private ToggleGroup userRights,userRightsE;
+    @FXML
+    private RadioButton MechanicRBE,AdminRBE;
     @FXML
     private TextField addSPCNameTF, addSPCAddrTF, addSPCPhoneTF, addSPCEmailTF,
               editSPCNameTF, editSPCAddrTF, editSPCPhoneTF, editSPCEmailTF;
@@ -81,6 +84,7 @@ public class AdminController {
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
                      tempUser = row.getItem();
+                     loadOnEdit();
                 }
             });
             return row;
@@ -89,26 +93,37 @@ public class AdminController {
     
     public void delUser(ActionEvent evt){
         if(tempUser != null){
-            DB.connect();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Deleting User");
+            alert.setHeaderText("Are you sure you want to delete this user?");
+            alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
+                    " " + tempUser.getSurname() + " " + tempUser.getPassword());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                DB.connect();
             
-            int IDNo = tempUser.getIDNumber();
-            boolean qStatus = UR.deleteUser(IDNo);
+                int IDNo = tempUser.getIDNumber();
+                boolean qStatus = UR.deleteUser(IDNo);
             
-            DB.closeConnection();
-            if(qStatus){
-                getUsers(new ActionEvent());
-            }else{
-                delUserStatus.setText("Could not delete user.");
-                delUserStatus.setFill(Color.RED);
-                new java.util.Timer().schedule( 
-                new java.util.TimerTask() {
-                     public void run() {
-                         delUserStatus.setText("");
+                DB.closeConnection();
+                if(qStatus){
+                    getUsers(new ActionEvent());
+                }else{
+                    delUserStatus.setText("Could not delete user.");
+                    delUserStatus.setFill(Color.RED);
+                    new java.util.Timer().schedule( 
+                    new java.util.TimerTask() {
+                         public void run() {
+                             delUserStatus.setText("");
+                        }
+                    }, 
+                    2000
+                    );
                     }
-                }, 
-                2000
-                );
-                }
+            }else{
+                getUsers(new ActionEvent());
+            }
         }else{
             delUserStatus.setText("Double click from the list and press delete.");
             delUserStatus.setFill(Color.RED);
@@ -124,13 +139,13 @@ public class AdminController {
     }
     
     public void submitUserDetails(ActionEvent etv){
-        boolean IDValid = true;
-        boolean fnValid = true;
-        boolean lnValid = true;
-        boolean passValid = true;
+        boolean IDValid,
+                fnValid,
+                lnValid,
+                passValid;
         boolean hRateValid = true;
         boolean userType = true;
-        
+                
         String tempID =  addIDTF.getText(); 
         IDValid = validateID(tempID, addIDTF);
 
@@ -142,8 +157,8 @@ public class AdminController {
         
         String tempPass = addPassTF.getText();
         passValid = validateTextField(tempPass,addPassTF, "Password");
-        
-        String tempCType = validateUserType(userRights,"OnAdd");
+      
+        String tempCType = validateUserType(userRights);
         
         String tempHRate = addHRateTF.getText();
         if(tempCType == null){
@@ -164,7 +179,42 @@ public class AdminController {
     
     
     public void submitUserChanges(ActionEvent evt){
-    
+        boolean IDValid,
+                fnValid,
+                lnValid,
+                passValid;
+        boolean hRateValid = true;
+        boolean userType = true;
+         
+
+        String tempID =  eIDTF.getText(); 
+        IDValid = validateID(tempID, eIDTF);
+
+        String tempFN = eFNTF.getText();
+        fnValid = validateTextField(tempFN,eFNTF, "First Name");
+        
+        String tempLN = eLNTF.getText();    
+        lnValid = validateTextField(tempLN,eLNTF, "Last Name");
+          
+        String tempPass = ePassTF.getText();
+        passValid = validateTextField(tempPass,ePassTF, "Password");
+
+        String tempCType = validateUserType(userRightsE);
+        String tempHRate = eHRateTF.getText();
+        if(tempCType == null){
+            hRateValid = validateRate(tempHRate, eHRateTF);
+        }else if(tempCType.equalsIgnoreCase("Mechanic")){
+            hRateValid = validateRate(tempHRate, eHRateTF);
+        } 
+
+        if(IDValid && fnValid && lnValid && passValid && hRateValid && userType){
+            if(tempCType.equalsIgnoreCase("Admin")){
+                adminSubmissionOnEdit(Integer.parseInt(tempID),tempFN,tempLN,tempPass);
+            }else{
+                userSubmissionOnEdit(Integer.parseInt(tempID),tempFN,tempLN,tempPass,Double.parseDouble(tempHRate));
+            }
+            getUsers(new ActionEvent());
+        }
     }
     
     public void getSPCs(ActionEvent evt){
@@ -185,6 +235,22 @@ public class AdminController {
     
     public void submitSPCChanges(ActionEvent evt){
     
+    }
+    
+    private void loadOnEdit(){
+        eIDTF.setText(String.valueOf(tempUser.getIDNumber()));
+        eFNTF.setText(tempUser.getFirstName());
+        eLNTF.setText(tempUser.getSurname());
+        ePassTF.setText(tempUser.getPassword());
+        boolean isAdmin = tempUser.getSysAdmin();
+        if(isAdmin){
+            AdminRBE.setSelected(true);
+            hideERate();    
+        }else{
+            MechanicRBE.setSelected(true);
+            eHRateTF.setText(String.valueOf(((Mechanic)tempUser).getHRate()));
+            unhideERate();
+        }
     }
     
     private void loadData(ObservableList<Employee> dataList){
@@ -332,28 +398,23 @@ public class AdminController {
         }
     }
     
-    private String validateUserType(ToggleGroup tGroup, String TPane){
+    private String validateUserType(ToggleGroup tGroup){
         try{
-          RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
-          if(toggleResult.getText().equals("Admin")){
-               return "Admin";
-           }else{
-               return "Mechanic";
-           }
-                  
+            RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
+            if(toggleResult.getText().equals("Admin")){
+                return "Admin";
+            }else{
+                return "Mechanic";
+            }        
         }catch(NullPointerException e){
-                noToggleSelected(TPane);
+                noToggleSelected();
                 return null;
         }
     }
     
-    private void noToggleSelected(String TPane){
+    private void noToggleSelected(){
         Text status;
-        if(TPane.equals("OnAdd")){
-            status = addUserStatus;
-        }else{
-            status = editUserStatus;
-        }
+        status = addUserStatus;
         status.setFill(Color.RED);
         status.setText("Select user rigths");
         new java.util.Timer().schedule( 
@@ -366,11 +427,79 @@ public class AdminController {
             );
     }
     
+    private void hideERate(){
+        eHRateTF.setVisible(false);
+    }
+    
+    private void unhideERate(){
+        eHRateTF.setVisible(true);
+    }
+    
+    public void hideRateE(ActionEvent evt){
+        eHRateTF.setVisible(false);
+    }
+    
+    public void unhideRateE(ActionEvent evt){
+        eHRateTF.setVisible(true);
+    }
+    
     public void hideRate(ActionEvent evt){
-        addHRateTF.setVisible(false);
+            addHRateTF.setVisible(false);
     }
     
     public void unhideRate(ActionEvent evt){
         addHRateTF.setVisible(true);
+    }
+
+    private void adminSubmissionOnEdit(int ID, String firstName, String lastName, String pass) {
+        boolean editAdmin = UR.editAdmin(ID,pass,lastName,firstName,true,ID);
+        if(editAdmin){
+            editUserStatus.setText("Successful");
+            editUserStatus.setFill(Color.GREEN);
+            clearUserDetailsOnEdit(new ActionEvent());
+        }else{
+            editUserStatus.setText("Admin already exists.");
+            editUserStatus.setFill(Color.RED);
+            clearUserDetailsOnEdit(new ActionEvent());
+        } 
+    }
+
+    private void userSubmissionOnEdit(int ID, String firstName, String lastName, String pass, double hRate) {
+        boolean editUser = UR.editUser(ID, pass, lastName, firstName, hRate,false,ID);
+        if(editUser){
+            editUserStatus.setText("Successful");
+            editUserStatus.setFill(Color.GREEN);
+            clearUserDetailsOnEdit(new ActionEvent());
+        }else{
+            editUserStatus.setText("Users already exists.");
+            editUserStatus.setFill(Color.RED);
+            clearUserDetailsOnEdit(new ActionEvent());
+        }      
+    }
+    
+    private void clearUserDetailsOnEdit(ActionEvent evt){
+        eFNTF.clear();
+        eIDTF.clear();
+        eLNTF.clear();
+        ePassTF.clear();
+        eHRateTF.clear();
+        addHRateTF.setVisible(true);
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    editUserStatus.setText("");
+                }
+            }, 
+            1500
+        );
+    }
+    
+    private boolean validateUserOnEdit(String userType){
+        try{
+            boolean isAdmin = Boolean.parseBoolean(userType);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 }

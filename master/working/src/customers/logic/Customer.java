@@ -34,6 +34,7 @@ public class Customer {
         this.customerType = new SimpleStringProperty(cType);
     }
     
+    @Override
     public String toString(){
         String rString = this.getFirstname() + " " + this.getSurname() + " " + this.getPhone() + " " + this.getEmail();
         return rString;

@@ -15,11 +15,6 @@
    <children>
       <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="700.0" prefWidth="1165.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
-            <Tab text="Home">
-               <content>
-                  <AnchorPane />
-               </content>
-            </Tab>
             <Tab text="Customer">
                <content>
                  

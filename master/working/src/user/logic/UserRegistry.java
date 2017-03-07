@@ -76,6 +76,22 @@ public class UserRegistry {
         return success;
     }
     
+    public boolean editAdmin(int IDNo, String password, String sName, String fName, boolean sysAdmin, int IDNoOld){
+        boolean success;
+        DBInstance.connect();
+        String query  = "UPDATE USERS \n" + 
+                        "SET " +
+                        "ID = " + IDNo + ", " +
+                        "PASSWORD = '" + password + "'," +
+                        "SURNAME = '" + sName + "', " +
+                        "FIRSTNAME = '" + fName + "', " +
+                        "HRATE = " + null + ", " +
+                        "SYSADM = '" + sysAdmin + "'\n" +
+                        "WHERE ID = " + IDNoOld + ";";
+        success = DBInstance.update(query);
+        return success;
+    }
+    
     public boolean deleteUser(int IDNo){
         boolean success;
         DBInstance.connect();
