@@ -8,21 +8,107 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Parts.gui.StockPartsController">
   <children>
-    <Button fx:id="addToStock" layoutX="469.0" layoutY="664.0" mnemonicParsing="false" onAction="#updateStockLevel" prefHeight="25.0" prefWidth="171.0" text="Add Part to Stock" />
-    <TableView fx:id="stockTable" layoutX="22.0" layoutY="39.0" prefHeight="617.0" prefWidth="993.0">
-      <columns>
-        <TableColumn fx:id="nameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="286.0" text="Name" />
-        <TableColumn fx:id="descriptionCol" maxWidth="5000.0" minWidth="10.0" prefWidth="343.0" text="Description" />
-        <TableColumn fx:id="costCol" maxWidth="5000.0" minWidth="10.0" prefWidth="159.0" text="Cost" />
-        <TableColumn fx:id="stockCol" maxWidth="5000.0" minWidth="0.0" prefWidth="204.0" text="Stock Level" />
-      </columns>
-    </TableView>
-    <Label layoutX="22.0" layoutY="14.0" />
-      <TextField fx:id="quantityTextField" layoutX="288.0" layoutY="664.0" promptText="Quantity" />
-      <Button layoutX="689.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="View Used Parts" />
-      <TextField fx:id="searchTextField" layoutX="22.0" layoutY="9.0" prefHeight="25.0" prefWidth="507.0" />
-      <Button fx:id="searchButton" layoutX="532.0" layoutY="9.0" mnemonicParsing="false" onAction="#searchParts" prefHeight="25.0" prefWidth="71.0" text="Search" />
-      <Button layoutX="867.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="View Repairs" />
-      <Label layoutX="22.0" layoutY="669.0" text="Select part from table to increase stock" />
+      <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="661.0" prefWidth="1030.0" visible="false">
+         <children>
+            <AnchorPane layoutX="633.0" layoutY="28.0" prefHeight="336.0" prefWidth="360.0">
+               <children>
+                  <TextArea layoutX="88.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+                  <TextArea layoutX="88.0" layoutY="243.0" prefHeight="25.0" prefWidth="200.0" />
+                  <Label layoutX="3.0" layoutY="240.0" text="Stock Level" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="15.0" layoutY="205.0" prefHeight="15.0" prefWidth="52.0" text="Cost" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="4.0" layoutY="40.0" text="Description" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="88.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" />
+                  <Label layoutX="8.0" layoutY="15.0" text="Part Name" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="88.0" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+          <TableView fx:id="stockTable" layoutY="14.0" prefHeight="617.0" prefWidth="623.0">
+            <columns>
+              <TableColumn fx:id="nameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Name" />
+              <TableColumn fx:id="descriptionCol" maxWidth="5000.0" minWidth="10.0" prefWidth="198.0" text="Description" />
+              <TableColumn fx:id="costCol" maxWidth="5000.0" minWidth="10.0" prefWidth="125.0" text="Cost" />
+              <TableColumn fx:id="stockCol" maxWidth="5000.0" minWidth="0.0" prefWidth="182.0" text="Stock Level" />
+            </columns>
+          </TableView>
+          <Label />
+            <Button fx:id="addToStock" layoutX="444.0" layoutY="631.0" mnemonicParsing="false" onAction="#updateStockLevel" prefHeight="25.0" prefWidth="171.0" text="Add Part to Stock" />
+            <TextField fx:id="quantityTextField" layoutX="266.0" layoutY="631.0" promptText="Quantity" />
+            <Label layoutY="636.0" text="Select part from table to increase stock" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="usedParts" layoutX="-1.0" layoutY="45.0" prefHeight="654.0" prefWidth="1036.0">
+         <children>
+            <TableView fx:id="stockTable1" layoutX="14.0" layoutY="14.0" prefHeight="617.0" prefWidth="633.0">
+               <columns>
+                  <TableColumn fx:id="nameCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="62.0" text="Name" />
+                  <TableColumn fx:id="descriptionCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="Description" />
+                  <TableColumn fx:id="costCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="54.0" text="Cost" />
+                  <TableColumn fx:id="stockCol1" maxWidth="5000.0" minWidth="0.0" prefWidth="156.0" text="Vehicle Registration" />
+                  <TableColumn prefWidth="185.0" text="Customer">
+                     <columns>
+                        <TableColumn prefWidth="89.0" text="First Name" />
+                        <TableColumn prefWidth="76.0" text="Last Name" />
+                     </columns>
+                  </TableColumn>
+                  <TableColumn prefWidth="89.0" text="Repair ID" />
+               </columns>
+            </TableView>
+            <AnchorPane layoutX="658.0" layoutY="14.0" prefHeight="240.0" prefWidth="330.0">
+               <children>
+                  <TextArea layoutX="88.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
+                  <Label layoutX="15.0" layoutY="205.0" prefHeight="15.0" prefWidth="52.0" text="Cost" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="4.0" layoutY="40.0" text="Description" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="88.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" />
+                  <Label layoutX="8.0" layoutY="15.0" text="Part Name" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="88.0" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="658.0" layoutY="257.0" prefHeight="336.0" prefWidth="330.0">
+               <children>
+                  <TextArea layoutX="142.0" layoutY="71.0" prefHeight="25.0" prefWidth="148.0" />
+                  <TextArea layoutX="113.0" layoutY="108.0" prefHeight="25.0" prefWidth="177.0" />
+                  <Label layoutX="5.0" layoutY="113.0" text="Customer Name" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="5.0" layoutY="76.0" prefHeight="15.0" prefWidth="138.0" text="Vehicle Registration" AnchorPane.leftAnchor="5.0" />
+                  <Label layoutX="4.0" layoutY="40.0" text="Warranty Ends" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="102.0" layoutY="10.0" prefHeight="25.0" prefWidth="188.0" />
+                  <Label layoutX="8.0" layoutY="15.0" text="Date Installed" AnchorPane.leftAnchor="5.0" />
+                  <TextArea layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="188.0" />
+                  <Label layoutX="5.0" layoutY="145.0" text="Repair ID" />
+                  <TextArea layoutX="113.0" layoutY="140.0" prefHeight="25.0" prefWidth="177.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <Button layoutX="629.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="View Repairs" />
+      <Button layoutX="786.0" layoutY="15.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="171.0" text="View Used Parts" />
+      <Button fx:id="searchButton" layoutX="521.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchParts" prefHeight="25.0" prefWidth="71.0" text="Search" />
+      <TextField fx:id="searchTextField" layoutX="6.0" layoutY="13.0" prefHeight="25.0" prefWidth="507.0" />
+      <AnchorPane fx:id="usedParts1" layoutY="43.0" prefHeight="654.0" prefWidth="1036.0" visible="false">
+         <children>
+            <TableView fx:id="stockTable11" layoutX="14.0" layoutY="14.0" prefHeight="617.0" prefWidth="586.0">
+               <columns>
+                  <TableColumn fx:id="nameCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Name" />
+                  <TableColumn fx:id="descriptionCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="154.0" text="Description" />
+                  <TableColumn fx:id="costCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="79.0" text="Cost" />
+                  <TableColumn fx:id="stockCol11" maxWidth="5000.0" minWidth="0.0" prefWidth="119.0" text="Stock Level" />
+               </columns>
+            </TableView>
+            <AnchorPane layoutX="607.0" layoutY="393.0" prefHeight="238.0" prefWidth="405.0">
+               <children>
+                  <Button layoutY="2.0" mnemonicParsing="false" prefHeight="238.0" prefWidth="405.0" text="Add Part to Repair" />
+               </children>
+            </AnchorPane>
+            <TableView fx:id="stockTable111" layoutX="606.0" layoutY="46.0" prefHeight="342.0" prefWidth="405.0">
+               <columns>
+                  <TableColumn fx:id="nameCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Name" />
+                  <TableColumn fx:id="descriptionCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="88.0" text="Description" />
+                  <TableColumn fx:id="costCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="107.0" text="Cost" />
+                  <TableColumn fx:id="stockCol111" maxWidth="5000.0" minWidth="0.0" prefWidth="72.0" text="Stock Level" />
+               </columns>
+            </TableView>
+            <TextField layoutX="606.0" layoutY="14.0" prefHeight="25.0" prefWidth="307.0" />
+            <Button layoutX="920.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="91.0" text="Search" />
+         </children>
+      </AnchorPane>
   </children>
 </AnchorPane>
