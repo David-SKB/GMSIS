@@ -49,7 +49,7 @@
                                     <ToggleGroup fx:id="userRights" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton layoutX="28.0" layoutY="186.0" mnemonicParsing="false" onAction="#unhideRate" text="Mechanic" toggleGroup="$userRights" />
+                              <RadioButton layoutX="34.0" layoutY="186.0" mnemonicParsing="false" onAction="#unhideRate" text="Mechanic" toggleGroup="$userRights" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -62,10 +62,15 @@
                               <TextField fx:id="eIDTF" alignment="CENTER" layoutX="28.0" layoutY="14.0" promptText="ID Number" />
                               <TextField fx:id="eLNTF" alignment="CENTER" layoutX="28.0" layoutY="80.0" promptText="Last Name" />
                               <TextField fx:id="ePassTF" alignment="CENTER" layoutX="27.0" layoutY="113.0" promptText="Password" />
-                              <TextField fx:id="eHRateTF" alignment="CENTER" layoutX="28.0" layoutY="146.0" promptText="H.Rate" />
-                              <TextField fx:id="eSYSAdmTF" alignment="CENTER" layoutX="28.0" layoutY="179.0" promptText="SysAdmin" />
+                              <TextField fx:id="eHRateTF" alignment="CENTER" layoutX="28.0" layoutY="148.0" promptText="H.Rate" />
                               <Button layoutX="52.0" layoutY="213.0" mnemonicParsing="false" onAction="#submitUserChanges" text="Submit Changes" />
                               <Text fx:id="editUserStatus" layoutX="35.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                              <RadioButton fx:id="AdminRBE" layoutX="128.0" layoutY="183.0" mnemonicParsing="false" onAction="#hideRateE" prefHeight="18.0" prefWidth="66.0" text="Admin">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="userRightsE" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="MechanicRBE" layoutX="27.0" layoutY="183.0" mnemonicParsing="false" onAction="#unhideRateE" text="Mechanic" toggleGroup="$userRightsE" />
                            </children>
                         </AnchorPane>
                      </content>
