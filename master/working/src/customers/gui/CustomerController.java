@@ -37,7 +37,6 @@ import javafx.scene.text.Text;
     /* ------------------------------------------------------------------
      * TODO - 4) Check the sqlite db error when building.
      *        5) Start implementing search bar.
-     *        9) Start implementing SysAdmin GUI Controller.
      * ------------------------------------------------------------------ */
 /**
  *
