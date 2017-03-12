@@ -159,6 +159,26 @@ public class CustomerRegistry {
         }
     }
     
+    public int getCustomerID(String ph, String mail){
+        DBInstance.connect();
+        try{
+            String query = "SELECT ID FROM CUSTOMER\n" +
+                            "WHERE PHONE = '" + ph + "' " +
+                            "AND EMAIL = '" + mail + "'; "; 
+            ResultSet rs = DBInstance.query(query);
+            int ID;
+            if(rs != null){
+                ID = rs.getInt("ID");
+            }else{
+                return -1;
+            }
+            DBInstance.closeConnection();
+                return ID;
+        }catch(SQLException e){
+            return -1;
+        }
+    }
+    
     /*public int calculateBill(){
 
     }*/

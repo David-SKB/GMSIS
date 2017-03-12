@@ -3,6 +3,7 @@ package customers.gui;
 import customers.logic.CustomerRegistry;
 import common.DBConnection;
 import customers.logic.Customer;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -11,7 +12,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -27,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -65,8 +70,18 @@ public class CustomerController {
     private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> obsListData = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
     @FXML
-    private ChoiceBox<Customer> delCustomersCBox = new ChoiceBox<>();
+    private ChoiceBox<Customer> delCustomersCBox;
+    @FXML
+    private ChoiceBox<Customer> showVehiclesCBox;
+    @FXML 
+    private ChoiceBox<Customer> showBillCBox;
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
+
+    public CustomerController() {
+        this.showBillCBox = new ChoiceBox<>();
+        this.showVehiclesCBox = new ChoiceBox<>();
+        this.delCustomersCBox = new ChoiceBox<>();
+    }
 
     /* ------------------------------------------------------------------
      * Method handles the OnAction event of getActiveCustomers
@@ -92,6 +107,9 @@ public class CustomerController {
                 new PropertyValueFactory<Customer, String>("customerType"));
         customerDetails.setItems(obsListData);
         delCustomersCBox.setItems(obsListData);
+        showVehiclesCBox.setItems(obsListData);
+        showBillCBox.setItems(obsListData);
+        
         
         customerDetails.setRowFactory((TableView<Customer> tv) -> {
             TableRow<Customer> row = new TableRow<>();
@@ -364,6 +382,8 @@ public class CustomerController {
             if(found){
                 customerDetails.setItems(obsListData);
                 delCustomersCBox.setItems(obsListData);
+                showVehiclesCBox.setItems(obsListData);
+                showBillCBox.setItems(obsListData);
             }else{
                 obsListData.removeAll(obsListData);
                 searchBar.setText("");
@@ -389,6 +409,72 @@ public class CustomerController {
             1500
             );
         }        
+    }
+    
+    public void showCustomerVehicles(ActionEvent evt){
+        Customer c = showVehiclesCBox.getSelectionModel().getSelectedItem();
+        if(c != null){
+            Parent root;
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./CustomerVehicles.fxml"));
+                root = (Parent)fxmlLoader.load();
+                CustomerVehiclesController CVC = fxmlLoader.<CustomerVehiclesController>getController();
+                int ID = CR.getCustomerID(c.getPhone(), c.getEmail());
+                if(ID != -1){
+                    CVC.setUser(ID);
+                }
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Customer's Vehicle");
+                stage.show();
+            }catch(IOException e){}
+        }else{
+            delStatus.setText("Please select a Customer to view Vehicles.");
+            delStatus.setFill(Color.RED);
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delStatus.setText("");
+                }
+            }, 
+            2000
+            );
+        }
+    }
+    
+    public void showCustomerBills(ActionEvent evt){
+        Customer c = showBillCBox.getSelectionModel().getSelectedItem();
+        if(c != null){
+            Parent root;
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./CustomerBills.fxml"));
+                root = (Parent)fxmlLoader.load();
+                CustomerBillsController CVC = fxmlLoader.<CustomerBillsController>getController();
+                int ID = CR.getCustomerID(c.getPhone(), c.getEmail());
+                if(ID != -1){
+                    CVC.setUser(ID);
+                }
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Customer's Bill");
+                stage.show();
+            }catch(IOException e){}
+        }else{
+            delStatus.setText("Please select a Customer to view Bills.");
+            delStatus.setFill(Color.RED);
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delStatus.setText("");
+                }
+            }, 
+            2000
+            );
+        }
     }
     
     /* ------------------------------------------------------------------
