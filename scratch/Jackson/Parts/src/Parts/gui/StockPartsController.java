@@ -26,9 +26,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -41,6 +43,21 @@ import javafx.scene.text.Text;
 public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
+    
+    private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
+    //Stock Parts
+    @FXML
+    private AnchorPane stockParts;
+    
+    @FXML
+    private AnchorPane usedParts;
+    
+    @FXML 
+    private AnchorPane repairs;
+   
+    private Part selectedPart;
+    
+    //stock parts gui
     @FXML
     private TableView<Part> stockTable;
     @FXML
@@ -48,16 +65,26 @@ public class StockPartsController implements Initializable {
                         stockCol;
     @FXML
     private TextField quantityTextField, searchTextField;
-    private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
+    @FXML
+    private TextArea partNameTextArea, partDescriptionTextArea,
+            partCostTextArea, partStockLevelTextArea;
     
+    
+    //method runs when window opens
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
-        partR.addPart("axis", "circular", 100);
+        //partR.addPart("axis", "circular", 100);
         System.out.println("test2");
+        stockParts.setVisible(true);
+        usedParts.setVisible(false);
+        repairs.setVisible(false);
+        setupRowListeners();
         loadAllParts();
     }   
-        
+    
+    //STOCK METHODS
+    //loads oList into stock table
     public void loadStockParts(){//ActionEvent event){
         
         System.out.println("test3");
@@ -72,23 +99,6 @@ public class StockPartsController implements Initializable {
         stockCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
-    }
-    
-    public void loadUsedParts(){//ActionEvent event){
-        
-        System.out.println("test3");
-        loadAllParts();
-        stockTable.setEditable(true);
-        nameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("name"));
-        descriptionCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("description"));
-        costCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("cost"));
-        stockCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("stocklevel"));
-        stockTable.setItems(oPartList);
-        
     }
     
     public void loadAllParts(){//ActionEvent event){
@@ -130,6 +140,66 @@ public class StockPartsController implements Initializable {
             }
         }
         loadStockParts();
+    }
+    
+    private void setupRowListeners() {
+        stockTable.setRowFactory( table ->{
+            TableRow<Part> row = new TableRow<>();
+
+            row.setOnMouseClicked(e -> {
+                if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
+                    selectedPart = stockTable.getSelectionModel().getSelectedItem();
+                    loadPartIntoFields();
+                }
+            });
+            return row;
+        });
+    }
+    
+    public void loadPartIntoFields()
+    {
+        partNameTextArea.setText(selectedPart.getName());
+        partDescriptionTextArea.setText(selectedPart.getDescription());
+        partCostTextArea.setText(selectedPart.getCost());
+        partStockLevelTextArea.setText(selectedPart.getStocklevel());
+    }
+    
+    //USED PARTS METHODS
+    public void loadUsedParts(){//ActionEvent event){
+        
+        System.out.println("test3");
+        loadAllParts();
+        stockTable.setEditable(true);
+        nameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("name"));
+        descriptionCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("description"));
+        costCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("cost"));
+        stockCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("stocklevel"));
+        stockTable.setItems(oPartList);
+        
+    }
+    
+    //REPAIRS METHODS
+    
+    
+    //methods for changing anchor
+    public void viewUsedPartsAnchor(ActionEvent event){
+        repairs.setVisible(false);
+        stockParts.setVisible(false);
+        usedParts.setVisible(true);
+    }
+    public void viewStockPartsAnchor(ActionEvent event){
+        repairs.setVisible(false);
+        usedParts.setVisible(false);
+        stockParts.setVisible(true);
+    }
+    public void viewRepairsAnchor(ActionEvent event){
+        stockParts.setVisible(false);
+        usedParts.setVisible(false);
+        repairs.setVisible(true);
     }
     
 }
