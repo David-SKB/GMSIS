@@ -55,14 +55,15 @@ public class CustomerController {
     private TextField firstNameTextField, lastNameTextField, addressTextField,          //FXML TextFields. Those start with e are for the Edit Customer T.Pane
                       postCodeTextField, phoneTextField, emailTextField,            
                       eFirstNameTextField, eLastNameTextField, eAddrTextField, 
-                      ePostCodeTextField, ePhoneTextField, eEmailTextField;
+                      ePostCodeTextField, ePhoneTextField, eEmailTextField,
+                      searchBar;
     @FXML
     private ToggleGroup customerTypeToggle, eCustomerTypeToggle;                        //FXML ToggleGroup. First when adding a customer and second when editing.
     @FXML
     private Toggle eIndividualRadioButton, eBusinessRadionButton;                       //FXML Toggle. RadioButtons to identify if the customer type has been edited.
     @FXML
     private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
-    private final ObservableList<Customer> data = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
+    private final ObservableList<Customer> obsListData = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
     @FXML
     private ChoiceBox<Customer> delCustomersCBox = new ChoiceBox<>();
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
@@ -73,7 +74,7 @@ public class CustomerController {
      * and displayes them on the Cells of the customerDetails TableView
      * ------------------------------------------------------------------ */
     public void getActiveCustomers(ActionEvent event){
-        loadData(data);
+        loadData(obsListData);
         customerDetails.setEditable(true);
         firstNameCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("firstname"));
@@ -89,8 +90,8 @@ public class CustomerController {
                 new PropertyValueFactory<Customer, String>("email"));
         cTypeCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("customerType"));
-        customerDetails.setItems(data);
-        delCustomersCBox.setItems(data);
+        customerDetails.setItems(obsListData);
+        delCustomersCBox.setItems(obsListData);
         
         customerDetails.setRowFactory((TableView<Customer> tv) -> {
             TableRow<Customer> row = new TableRow<>();
@@ -347,6 +348,48 @@ public class CustomerController {
             1500
         );
     } 
+   
+    public void logoutCustomer(ActionEvent evt){
+        System.exit(0);
+    }
+    
+    public void searchCustomerBar(ActionEvent evt){
+        String inputData = searchBar.getText();
+        String[] data = inputData.split("\\s+");
+        if(data.length == 2){
+            getActiveCustomers(new ActionEvent());
+            String sName = data[0].substring(0,1).toUpperCase() + data[0].substring(1);
+            String fName = data[1].substring(0,1).toUpperCase() + data[1].substring(1);
+            boolean found = loadSearchedData(obsListData,sName,fName);
+            if(found){
+                customerDetails.setItems(obsListData);
+                delCustomersCBox.setItems(obsListData);
+            }else{
+                obsListData.removeAll(obsListData);
+                searchBar.setText("");
+                searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
+                new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        searchBar.setStyle("");
+                    }
+                }, 
+                1500
+                );
+                }                
+        }else{
+            searchBar.setText("");
+            searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    searchBar.setStyle("");
+                }
+            }, 
+            1500
+            );
+        }        
+    }
     
     /* ------------------------------------------------------------------
      * HELPER -- Method called when a RadioButton has not been selected
@@ -472,6 +515,19 @@ public class CustomerController {
                dataList.add(c);
             }
         }
+    }
+    
+    private boolean loadSearchedData(ObservableList<Customer> dataList, String sName, String fName){
+        ArrayList<Customer> csAList = CR.searchCustomerWithName(sName,fName);
+        dataList.removeAll(dataList);
+        if(csAList != null &&
+           !csAList.isEmpty()){
+            for(Customer c : csAList){
+                dataList.add(c);
+            }
+            return true;
+        }
+        return false;
     }
     
     /* ------------------------------------------------------------------

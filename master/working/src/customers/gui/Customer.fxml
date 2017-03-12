@@ -17,7 +17,7 @@
 
 <AnchorPane fx:id="customerTab" minHeight="0.0" minWidth="0.0" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customers.gui.CustomerController">
    <children>
-      <TitledPane fx:id="addCustomerPane" animated="false" layoutX="41.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Add Customer">
+      <TitledPane fx:id="addCustomerPane" animated="false" layoutX="33.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Add Customer">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="289.0">
                <children>
@@ -40,7 +40,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <TitledPane animated="false" layoutX="826.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Edit Customer">
+      <TitledPane animated="false" layoutX="841.0" layoutY="317.0" prefHeight="335.0" prefWidth="291.0" text="                    Edit Customer">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="289.0">
                <children>
@@ -62,7 +62,7 @@
             </AnchorPane>
          </content>
       </TitledPane>
-      <TableView fx:id="customerDetails" layoutX="33.0" layoutY="14.0" prefHeight="277.0" prefWidth="1099.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="14.0">
+      <TableView fx:id="customerDetails" layoutX="33.0" layoutY="47.0" prefHeight="255.0" prefWidth="1099.0" AnchorPane.leftAnchor="33.0" AnchorPane.topAnchor="47.0">
         <columns>
           <TableColumn fx:id="firstNameCol" prefWidth="141.0" resizable="false" text="First Name" />
             <TableColumn fx:id="lastNameCol" prefWidth="136.0" resizable="false" text="Last Name" />
@@ -74,8 +74,14 @@
         </columns>
       </TableView>
       <Button fx:id="getActiveCustomers" layoutX="490.0" layoutY="317.0" mnemonicParsing="false" onAction="#getActiveCustomers" prefHeight="27.0" prefWidth="190.0" text="Get Active Customers" />
-      <ChoiceBox fx:id="delCustomersCBox" layoutX="353.0" layoutY="460.0" prefHeight="25.0" prefWidth="277.0" />
-      <Button layoutX="680.0" layoutY="460.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
-      <Text fx:id="delStatus" layoutX="461.0" layoutY="549.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="248.21875" />
+      <ChoiceBox fx:id="delCustomersCBox" layoutX="352.0" layoutY="501.0" prefHeight="25.0" prefWidth="277.0" />
+      <Button layoutX="680.0" layoutY="501.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete Customer" />
+      <Text fx:id="delStatus" layoutX="460.0" layoutY="622.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="248.21875" />
+      <Button layoutX="754.0" layoutY="625.0" mnemonicParsing="false" onAction="#logoutCustomer" text="Logout" />
+      <TextField fx:id="searchBar" layoutX="33.0" layoutY="14.0" onAction="#searchCustomerBar" prefHeight="27.0" prefWidth="510.0" promptText="Search Customer" />
+      <Button layoutX="687.0" layoutY="401.0" mnemonicParsing="false" text="Show Vehicles" />
+      <Button layoutX="704.0" layoutY="450.0" mnemonicParsing="false" text="Show Bill" />
+      <ChoiceBox fx:id="showVehiclesCBOX" layoutX="352.0" layoutY="401.0" prefHeight="25.0" prefWidth="277.0" />
+      <ChoiceBox fx:id="showBillCBOX" layoutX="352.0" layoutY="450.0" prefHeight="25.0" prefWidth="277.0" />
    </children>
 </AnchorPane>
