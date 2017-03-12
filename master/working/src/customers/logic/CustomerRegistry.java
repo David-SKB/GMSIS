@@ -79,6 +79,33 @@ public class CustomerRegistry {
         return success;
     }
     
+    public ArrayList<Customer> searchCustomerWithName(String argSName,String argFName){
+        DBInstance.connect();
+        try{
+            String query = "SELECT * FROM CUSTOMER\n" +
+                           "WHERE SURNAME = '" + argSName + "' " +
+                           "OR SURNAME = '" + argFName + "' " + 
+                           "AND FIRSTNAME = '" + argFName + "' " +
+                           "OR FIRSTNAME = '" + argSName + "'; ";
+            ArrayList<Customer> searchedCustomers = new ArrayList<>();
+            ResultSet rs = DBInstance.query(query);
+            while(rs.next()){
+                String sName = rs.getString("SURNAME");
+                String fName = rs.getString("FIRSTNAME");
+                String address = rs.getString("ADDRESS");
+                String postCode = rs.getString("POSTCODE");
+                String phone = rs.getString("PHONE");
+                String email = rs.getString("EMAIL");
+                String customerType = rs.getString("CUSTOMERTYPE");
+                searchedCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
+            }
+            DBInstance.closeConnection();
+            return searchedCustomers;
+        }catch(SQLException e){
+            return null;
+        }
+    }
+    
     public Customer searchCustomerByID(String ID){
         DBInstance.connect();
         try{
@@ -129,6 +156,26 @@ public class CustomerRegistry {
             return rCustomer;
         }catch(SQLException e){
             return null;
+        }
+    }
+    
+    public int getCustomerID(String ph, String mail){
+        DBInstance.connect();
+        try{
+            String query = "SELECT ID FROM CUSTOMER\n" +
+                            "WHERE PHONE = '" + ph + "' " +
+                            "AND EMAIL = '" + mail + "'; "; 
+            ResultSet rs = DBInstance.query(query);
+            int ID;
+            if(rs != null){
+                ID = rs.getInt("ID");
+            }else{
+                return -1;
+            }
+            DBInstance.closeConnection();
+                return ID;
+        }catch(SQLException e){
+            return -1;
         }
     }
     

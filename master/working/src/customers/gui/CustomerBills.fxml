@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="685.0" prefWidth="769.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="customers.gui.CustomerBillsController">
+   <children>
+      <TableView layoutX="29.0" layoutY="14.0" prefHeight="642.0" prefWidth="292.0">
+        <columns>
+          <TableColumn fx:id="bookingTC" prefWidth="75.0" text="Booking" />
+          <TableColumn fx:id="bookingTC" prefWidth="139.0" text="Date" />
+            <TableColumn fx:id="bookingTC" prefWidth="75.0" text="Bill" />
+        </columns>
+      </TableView>
+      <Label layoutX="406.0" layoutY="23.0" text="First Name:" />
+      <TextField fx:id="firstNameTF" editable="false" layoutX="499.0" layoutY="18.0" />
+      <Label layoutX="406.0" layoutY="59.0" text="Last Name:" />
+      <TextField fx:id="lastNameTF" editable="false" layoutX="499.0" layoutY="54.0" />
+      <Label layoutX="406.0" layoutY="95.0" text="Address:" />
+      <TextField fx:id="addressTF" editable="false" layoutX="499.0" layoutY="90.0" />
+      <Label layoutX="406.0" layoutY="131.0" text="Post Code:" />
+      <TextField fx:id="pCodeTF" editable="false" layoutX="499.0" layoutY="126.0" />
+      <Label layoutX="406.0" layoutY="167.0" text="Phone:" />
+      <TextField fx:id="phoneTF" editable="false" layoutX="499.0" layoutY="162.0" />
+      <Label layoutX="406.0" layoutY="203.0" text="Email:" />
+      <TextField fx:id="emailTF" editable="false" layoutX="499.0" layoutY="198.0" />
+      <Label layoutX="406.0" layoutY="239.0" text="C.Type:" />
+      <TextField fx:id="cTypeTF" editable="false" layoutX="499.0" layoutY="234.0" />
+   </children>
+</AnchorPane>
