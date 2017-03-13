@@ -93,19 +93,27 @@ public class DatabaseCreation
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
 ");\n" +
-"/* SPECIALIST REPAIRS TABLE */\n" +
-"CREATE TABLE SPECIALISTREPAIRS\n" +
+"/* SPECIALIST REPAIRS TABLES */\n" +
+"CREATE TABLE REPAIRPARTS\n" +
 "(\n" +
-"CUSTOMERID             INT                    NOT NULL,\n" +
-"CONTRACT               VARCHAR(255)           NOT NULL,\n" +
-"ITEMID                 VARCHAR(255)           NOT NULL,\n" +
-"SPCID                  INT                    NOT NULL,\n" +
-"DELIVERYDATE           DATE                   NOT NULL,\n" +
-"RETURNDATE             DATE                   NOT NULL,\n" +
-"COST                   INT                    NOT NULL,\n" +
-"FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
+"PARTNAME               TEXT                    NOT NULL,\n" +
+"DESC                   TEXT                    NOT NULL,\n" +
+"PARTID                 INT       PRIMARY KEY   NOT NULL,\n" +
+"DELIVERYDATE           TEXT                    NOT NULL,\n" +
+"RETURNDATE             TEXT                    NOT NULL,\n" +
+"COST                   REAL                     NOT NULL\n" +
 ");\n" +
-"\n" +
+"CREATE TABLE REPAIRVEHICLE\n" +
+"(\n" +
+"ID                     INT       PRIMARY KEY   NOT NULL,\n" +
+"REGNO                  TEXT                    NOT NULL,\n" +
+"SPCID                  INT                     NOT NULL,\n" +
+"DELIVERYDATE           TEXT                    NOT NULL,\n" +
+"RETURNDATE             TEXT                    NOT NULL,\n" +
+"COST                   REAL                     NOT NULL,\n" +
+"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION),\n" +
+"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID)\n" +
+");\n" +
 "CREATE TABLE CENTRES\n" +
 "(\n" +
 "SPCID                  INT            PRIMARY KEY            NOT NULL,\n" +
