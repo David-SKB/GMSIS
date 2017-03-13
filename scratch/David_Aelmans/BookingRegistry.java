@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class BookingRegistry {
-
+    
     DBConnection conn = DBConnection.getInstance();
     private static BookingRegistry BRInstance = null;
 
@@ -28,7 +28,7 @@ public class BookingRegistry {
     public boolean addBooking(int ID, String date, int length, int CID, int VID, int miles, int EID) {
         //insert booking into database
         conn.connect();
-        String query = "INSERT INTO BOOKINGS (ID, BOOKDATE, TIME, TYPE, CUSTOMERID, VEHICLEREGISTRATION, MILAGE, EMPLOYEEID)"
+        String query = "INSERT INTO BOOKINGS (ID, BOOKDATE, TIME, TYPE, CUSTOMERID, VEHICLEREGISTRATION, MILEAGE, EMPLOYEEID) "
                 + "VALUES( '"
                 + ID + "', '"
                 + date + "', '"
@@ -49,7 +49,7 @@ public class BookingRegistry {
                 + date + "', TIME = '"
                 + length + "', TYPE = 'Diagnosis and Repair', CUSTOMERID = '"
                 + CID + "', VEHICLEREGISTRATION = '"
-                + VID + "', MILAGE = '"
+                + VID + "', MILEAGE = '"
                 + miles + "', EMPLOYEEID = '"
                 + EID + "' WHERE ID = '" + ID + "';";
         boolean result = conn.update(query);
@@ -60,13 +60,13 @@ public class BookingRegistry {
     public boolean deleteBooking(int ID) {
         //delete booking from database
         conn.connect();
-        String query = "DELETE FROM BOOKINGS WHERE ID =  " + ID + "');";
+        String query = "DELETE FROM BOOKINGS WHERE ID = "+ ID +");";
         boolean result = conn.update(query);
         conn.closeConnection();
         return result;
     }
 
-    public Booking searchBookingID(String ID) {
+    public Booking searchBookingID(int ID) {
         conn.connect();
         try {
             String query = "SELECT * FROM BOOKINGS\n"
@@ -74,13 +74,14 @@ public class BookingRegistry {
             ResultSet result = conn.query(query);
             Booking resultBooking;
             if (result != null) {
+                String BID = result.getString("ID");
                 String date = result.getString("DATE");
                 String length = result.getString("TIME");
                 String cusID = result.getString("CUSTOMERID");
                 String vechID = result.getString("VEHICLEREGISTRATION");
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
-                resultBooking = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+                resultBooking = new DiagRepairBooking(BID, date, length, cusID, vechID, mileage, empID);
             } else {
                 resultBooking = null;
             }
