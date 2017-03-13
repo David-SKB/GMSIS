@@ -105,18 +105,18 @@ public class DatabaseCreation
 ");\n" +
 "CREATE TABLE REPAIRVEHICLE\n" +
 "(\n" +
-"ID                     INT       PRIMARY KEY   NOT NULL,\n" +
+"ID                     INTEGER    PRIMARY KEY          ,\n" +
 "REGNO                  TEXT                    NOT NULL,\n" +
 "SPCID                  INT                     NOT NULL,\n" +
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
-"COST                   REAL                     NOT NULL,\n" +
+"COST                   REAL                    NOT NULL,\n" +
 "FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION),\n" +
 "FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID)\n" +
 ");\n" +
 "CREATE TABLE CENTRES\n" +
 "(\n" +
-"SPCID                  INT            PRIMARY KEY            NOT NULL,\n" +
+"SPCID                  INTEGER            PRIMARY KEY                ,\n" +
 "NAME                   VARCHAR(255)                          NOT NULL,\n" +
 "ADDRESS                VARCHAR(255)                          NOT NULL,\n" +
 "TELEPHONE              VARCHAR(11)                           NOT NULL,\n" +
