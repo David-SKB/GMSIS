@@ -55,6 +55,29 @@ public class PartRegistry {
             return null;
         }
     }
+     //returns all parts relevant to a given booking
+     public ArrayList<Part> getUsedParts(String id){
+        conn = DBConnection.getInstance();
+        //insert into database
+        try{
+        conn.connect();
+        String query = "SELECT * FROM USEDPARTS WHERE BOOKINGID = " + id + ";";
+        ResultSet rs = conn.query(query);
+        ArrayList<Part> partlist = new ArrayList<Part>();
+        while (rs.next())
+        {
+            String name = rs.getString("NAME");
+            String description = rs.getString("DESCRIPTION");
+            int cost = rs.getInt("COST");
+            int stock = rs.getInt("STOCK");
+            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
+        }
+        conn.closeConnection();
+        return partlist;
+        }catch(SQLException e){
+            return null;
+        }
+    }
     //add part to stock
     public void addPart(String n, String d, int c){
         conn = DBConnection.getInstance();

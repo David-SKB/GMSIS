@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1036.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="parts.gui.StockPartsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
   <children>
-    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="661.0" prefWidth="1030.0" visible="true">
+    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0" visible="true">
       <children>
         <AnchorPane layoutX="633.0" layoutY="28.0" prefHeight="336.0" prefWidth="360.0">
           <children>
@@ -22,28 +22,28 @@
             <TextArea fx:id="partDescriptionTextArea" layoutX="88.0" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
           </children>
         </AnchorPane>
-        <TableView fx:id="stockTable" layoutY="14.0" prefHeight="617.0" prefWidth="623.0">
+        <TableView fx:id="stockTable" layoutY="14.0" prefHeight="578.0" prefWidth="623.0">
           <columns>
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Name" fx:id="nameCol" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="198.0" text="Description" fx:id="descriptionCol" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="125.0" text="Cost" fx:id="costCol" />
-            <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="182.0" text="Stock Level" fx:id="stockCol" />
+            <TableColumn fx:id="nameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="117.0" text="Name" />
+            <TableColumn fx:id="descriptionCol" maxWidth="5000.0" minWidth="10.0" prefWidth="198.0" text="Description" />
+            <TableColumn fx:id="costCol" maxWidth="5000.0" minWidth="10.0" prefWidth="125.0" text="Cost" />
+            <TableColumn fx:id="stockCol" maxWidth="5000.0" minWidth="0.0" prefWidth="182.0" text="Stock Level" />
           </columns>
         </TableView>
         <Label />
-        <Button fx:id="addToStock" layoutX="444.0" layoutY="631.0" mnemonicParsing="false" onAction="#updateStockLevel" prefHeight="25.0" prefWidth="171.0" text="Add Part to Stock" />
-        <TextField fx:id="quantityTextField" layoutX="266.0" layoutY="631.0" promptText="Quantity" />
-        <Label layoutY="636.0" text="Select part from table to increase stock" />
+        <Button fx:id="addToStock" layoutX="446.0" layoutY="600.0" mnemonicParsing="false" onAction="#updateStockLevel" prefHeight="25.0" prefWidth="171.0" text="Add Part to Stock" />
+        <TextField fx:id="quantityTextField" layoutX="266.0" layoutY="600.0" promptText="Quantity" />
+        <Label layoutY="605.0" text="Select part from table to increase stock" />
       </children>
     </AnchorPane>
     <AnchorPane fx:id="usedParts" layoutX="-1.0" layoutY="45.0" prefHeight="654.0" prefWidth="1036.0" visible="false">
       <children>
         <TableView fx:id="stockTable1" layoutX="14.0" layoutY="14.0" prefHeight="617.0" prefWidth="633.0">
           <columns>
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="62.0" text="Name" fx:id="nameCol1" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="Description" fx:id="descriptionCol1" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="54.0" text="Cost" fx:id="costCol1" />
-            <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="156.0" text="Vehicle Registration" fx:id="stockCol1" />
+            <TableColumn fx:id="nameCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="62.0" text="Name" />
+            <TableColumn fx:id="descriptionCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="106.0" text="Description" />
+            <TableColumn fx:id="costCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="54.0" text="Cost" />
+            <TableColumn fx:id="stockCol1" maxWidth="5000.0" minWidth="0.0" prefWidth="156.0" text="Vehicle Registration" />
             <TableColumn prefWidth="185.0" text="Customer">
               <columns>
                 <TableColumn prefWidth="89.0" text="First Name" />
@@ -87,10 +87,10 @@
       <children>
         <TableView fx:id="stockTable11" layoutX="14.0" layoutY="14.0" prefHeight="617.0" prefWidth="586.0">
           <columns>
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Repair ID" fx:id="nameCol11" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="197.0" text="Vehicle Registration" fx:id="descriptionCol11" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="167.0" text="Customer Name" fx:id="costCol11" />
-            <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Date" fx:id="stockCol11" />
+            <TableColumn fx:id="nameCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Repair ID" />
+            <TableColumn fx:id="descriptionCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="197.0" text="Vehicle Registration" />
+            <TableColumn fx:id="costCol11" maxWidth="5000.0" minWidth="10.0" prefWidth="167.0" text="Customer Name" />
+            <TableColumn fx:id="stockCol11" maxWidth="5000.0" minWidth="0.0" prefWidth="100.0" text="Date" />
           </columns>
         </TableView>
         <AnchorPane layoutX="607.0" layoutY="393.0" prefHeight="238.0" prefWidth="405.0">
@@ -100,10 +100,10 @@
         </AnchorPane>
         <TableView fx:id="stockTable111" layoutX="606.0" layoutY="46.0" prefHeight="342.0" prefWidth="405.0">
           <columns>
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Name" fx:id="nameCol111" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="88.0" text="Description" fx:id="descriptionCol111" />
-            <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="108.0" text="Cost" fx:id="costCol111" />
-            <TableColumn maxWidth="5000.0" minWidth="0.0" prefWidth="89.0" text="Stock Level" fx:id="stockCol111" />
+            <TableColumn fx:id="nameCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Name" />
+            <TableColumn fx:id="descriptionCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="88.0" text="Description" />
+            <TableColumn fx:id="costCol111" maxWidth="5000.0" minWidth="10.0" prefWidth="108.0" text="Cost" />
+            <TableColumn fx:id="stockCol111" maxWidth="5000.0" minWidth="0.0" prefWidth="89.0" text="Stock Level" />
           </columns>
         </TableView>
         <TextField layoutX="606.0" layoutY="14.0" prefHeight="25.0" prefWidth="307.0" />
