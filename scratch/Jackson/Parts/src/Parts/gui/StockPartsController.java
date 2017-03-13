@@ -34,7 +34,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
+//
 /**
  * FXML Controller class
  *
@@ -105,6 +105,7 @@ public class StockPartsController implements Initializable {
         System.out.println("test4");
         oPartList.clear();
         ArrayList<Part> partlist = partR.getStockParts();
+        System.out.println(partlist == null);
         System.out.println(partlist == null);
         if(partlist != null)
         {
