@@ -1,5 +1,6 @@
 package specialist.logic;
 import common.DBConnection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javafx.collections.FXCollections;
@@ -14,7 +15,7 @@ public class Repairs
         
     }
     
-    public boolean addVehicle(String RegNo, int SPCID, String ExpDel, String ExpRet, double Cost)
+    public boolean addVehicle(String RegNo, int SPCID, Date ExpDel, Date ExpRet, double Cost)
     {
         boolean success;
         DBC.connect();       
@@ -27,10 +28,11 @@ public class Repairs
                             Cost + "' );";
         success = DBC.update(SQL);
         DBC.closeConnection();
+        //System.out.println(SQL);//view sql output
         return success;
     }
 
-    public boolean addPart(String Name, String Desc, int ID, String ExpDel, String ExpRet, double Cost)
+    public boolean addPart(String Name, String Desc, int ID, Date ExpDel, Date ExpRet, double Cost)
     {
         boolean success;
         DBC.connect();       

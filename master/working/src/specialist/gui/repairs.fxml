@@ -24,10 +24,10 @@
                   <TextField fx:id="IDPart" alignment="CENTER" layoutX="27.0" layoutY="88.0" prefHeight="25.0" prefWidth="174.0" promptText="ID" />
                   <TextField fx:id="DescPart" alignment="CENTER" layoutX="27.0" layoutY="56.0" prefHeight="25.0" prefWidth="174.0" promptText="Description" />
                   <Button fx:id="SubmitPartButton" layoutX="28.0" layoutY="222.0" mnemonicParsing="false" onAction="#SubmitPart" prefHeight="25.0" prefWidth="77.0" text="Submit" />
-                  <TextField fx:id="ExpDelPart" alignment="CENTER" layoutX="27.0" layoutY="121.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Delivery (DD/MM/YYYY)" />
-                  <TextField fx:id="ExpRetPart" alignment="CENTER" layoutX="27.0" layoutY="153.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Return (DD/MM/YYYY)" />
                   <TextField fx:id="CostPart" alignment="CENTER" layoutX="28.0" layoutY="188.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
                   <Button fx:id="UpdatePartButton" layoutX="122.0" layoutY="222.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Update" />
+                  <DatePicker fx:id="ExpDelPart" layoutX="28.0" layoutY="118.0" promptText="Exp Delivery" />
+                  <DatePicker fx:id="ExpRetPart" layoutX="27.0" layoutY="149.0" promptText="Exp Return" />
                </children>
             </AnchorPane>
          </content>
@@ -50,7 +50,7 @@
             <TableColumn fx:id="T1ExpDel" prefWidth="82.0" text="Exp Delivery" />
             <TableColumn fx:id="T1ExpRet" prefWidth="82.0" text="Exp Return" />
             <TableColumn fx:id="T1Cost" prefWidth="49.0" text="Cost" />
-            <TableColumn fx:id="T1Type" prefWidth="58.0" text="Type" />
+            <TableColumn fx:id="T1Type" prefWidth="58.0" text="Type" visible="false" />
         </columns>
       </TableView>
       <TableView fx:id="SPCListTable" layoutX="951.0" layoutY="399.0" onMouseClicked="#SPCRowClick" prefHeight="305.0" prefWidth="203.0">
@@ -87,17 +87,16 @@
       <Separator layoutX="724.0" layoutY="390.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
       <Text layoutX="783.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Repairs" />
       <Text layoutX="1014.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repair Centres" />
-      <DatePicker fx:id="DelDateV" layoutX="675.0" layoutY="622.0" promptText="hi der" />
       <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="250.0" prefWidth="227.0" text="Add Vehicle">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
                   <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
-                  <TextField fx:id="ExpRetVehicle" alignment="CENTER" layoutX="25.0" layoutY="120.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Return (DD/MM/YYYY)" />
-                  <TextField fx:id="ExpDelVehicle" alignment="CENTER" layoutX="25.0" layoutY="88.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Delivery (DD/MM/YYYY)" />
                   <Button fx:id="SubmitVehicleButton" layoutX="74.0" layoutY="185.0" mnemonicParsing="false" onAction="#SubmitVehicle" prefHeight="25.0" prefWidth="77.0" text="Submit" />
                   <TextField fx:id="CostVehicle" alignment="CENTER" layoutX="26.0" layoutY="153.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
                   <TextField fx:id="SPCIDVehicle" alignment="CENTER" layoutX="26.0" layoutY="56.0" prefHeight="25.0" prefWidth="173.0" promptText="SPC ID" />
+                  <DatePicker fx:id="ExpDelVehicle" layoutX="26.0" layoutY="87.0" promptText="Exp Delivery" />
+                  <DatePicker fx:id="ExpRetVehicle" layoutX="26.0" layoutY="120.0" promptText="Exp Return" />
                </children>
             </AnchorPane>
         </content>

@@ -39,19 +39,18 @@ public class RepairsController extends Application
     @FXML private TitledPane SendVehicle;
     @FXML private TextField RegNoVehicle;
     @FXML private TextField SPCIDVehicle;
-    @FXML private TextField ExpDelVehicle;
-    @FXML private TextField ExpRetVehicle;
+    @FXML private DatePicker ExpDelVehicle;
+    @FXML private DatePicker ExpRetVehicle;
     @FXML private TextField CostVehicle;
     @FXML private Button SubmitVehicleButton;
-    @FXML private DatePicker DelDateV;
     
     //Send Part Pane
     @FXML private TitledPane SendPart;
     @FXML private TextField NamePart;
     @FXML private TextField DescPart;
     @FXML private TextField IDPart;
-    @FXML private TextField ExpDelPart;
-    @FXML private TextField ExpRetPart;
+    @FXML private DatePicker ExpDelPart;
+    @FXML private DatePicker ExpRetPart;
     @FXML private TextField CostPart;
     @FXML private Button SubmitPartButton;
     @FXML private Button UpdatePartButton;
@@ -108,13 +107,13 @@ public class RepairsController extends Application
     //******************************************************
     @FXML private void SubmitVehicle() 
     {
-        boolean added  = repairs.addVehicle(RegNoVehicle.getText(), Integer.parseInt(SPCIDVehicle.getText()), ExpDelVehicle.getText(), ExpRetVehicle.getText(), Double.parseDouble(CostVehicle.getText()));
+        boolean added  = repairs.addVehicle(RegNoVehicle.getText(), Integer.parseInt(SPCIDVehicle.getText()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
         System.out.println("added: " + added);
     }
     
     @FXML private void SubmitPart() 
     {
-        boolean added  = repairs.addPart(NamePart.getText(), DescPart.getText(), Integer.parseInt(IDPart.getText()), ExpDelPart.getText(), ExpRetPart.getText(), Double.parseDouble(CostPart.getText()));
+        boolean added  = repairs.addPart(NamePart.getText(), DescPart.getText(), Integer.parseInt(IDPart.getText()), toDate(ExpDelPart), toDate(ExpRetPart), Double.parseDouble(CostPart.getText()));
         System.out.println("added: " + added);
     }
     
@@ -337,7 +336,14 @@ public class RepairsController extends Application
         }
     }
     
-    @FXML private java.sql.Date toDate(DatePicker DatePickerObject)
+    @FXML private String toString(DatePicker DatePickerObject)
+    {
+        java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
+        //System.out.println(sqlDate);
+        return sqlDate.toString();
+    }
+    
+    @FXML private Date toDate(DatePicker DatePickerObject)
     {
         java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
         //System.out.println(sqlDate);
@@ -361,7 +367,7 @@ public class RepairsController extends Application
         System.out.println(localDate + "\n" + instant + "\n" + testdate);*/
         
         //java.sql.Date sqlDate = java.sql.Date.valueOf(DelDateV.getValue());
-        System.out.println(toDate(DelDateV));
+        //System.out.println(toString(DelDateV));
         
     }
     
