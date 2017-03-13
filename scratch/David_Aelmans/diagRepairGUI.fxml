@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -8,9 +13,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1281.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scratch.David_Aelmans.DiagRepairScreenController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="1281.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scratch.David_Aelmans.DiagRepairScreenController">
    <children>
-      <Button layoutX="34.0" layoutY="570.0" mnemonicParsing="false" onAction="#reset" prefHeight="70.0" prefWidth="164.0" text="All Bookings / Reset" textFill="#a10000">
+      <Button layoutX="34.0" layoutY="570.0" mnemonicParsing="false" onAction="#reset" prefHeight="70.0" prefWidth="164.0" text="All Bookings" textFill="#140e0e">
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
@@ -25,8 +30,8 @@
               <columns>
                 <TableColumn fx:id="colID" prefWidth="75.0" text="ID" />
                   <TableColumn fx:id="colType" prefWidth="100.0" text="Date" />
-                <TableColumn fx:id="colDate" prefWidth="150.0" text="Duration" />
-                  <TableColumn fx:id="colDuration" prefWidth="85.0" text="Type" />
+                <TableColumn fx:id="colDate" prefWidth="100.0" text="Duration" />
+                  <TableColumn fx:id="colDuration" prefWidth="135.0" text="Type" />
                   <TableColumn fx:id="colVeh" prefWidth="700.0" text="Customer">
                      <columns>
                         <TableColumn fx:id="colCustID" prefWidth="75.0" text="ID" />
