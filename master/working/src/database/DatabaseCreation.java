@@ -15,7 +15,7 @@ public class DatabaseCreation
     Statement stmt;
     try {
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:test.db");
+      c = DriverManager.getConnection("jdbc:sqlite:gmsisdb.db");
       System.out.println("Opened database successfully");
 
       stmt = c.createStatement();

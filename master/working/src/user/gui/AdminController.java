@@ -7,8 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -93,14 +93,14 @@ public class AdminController {
     
     public void delUser(ActionEvent evt){
         if(tempUser != null){
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Deleting User");
-            alert.setHeaderText("Are you sure you want to delete this user?");
-            alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
-                    " " + tempUser.getSurname() + " " + tempUser.getPassword());
+            //Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            //alert.setTitle("Deleting User");
+            //alert.setHeaderText("Are you sure you want to delete this user?");
+            //alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
+                //    " " + tempUser.getSurname() + " " + tempUser.getPassword());
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            //Optional<ButtonType> result = alert.showAndWait();
+            if (true){//result.get() == ButtonType.OK){
                 DB.connect();
             
                 int IDNo = tempUser.getIDNumber();

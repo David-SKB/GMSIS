@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Parts.gui;
+package parts.gui;
 
-import Parts.PartRegistry;
-import Database.DBConnection;
-import Parts.Part;
+import parts.logic.PartRegistry;
+import common.DBConnection;
+import parts.logic.Part;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -71,8 +71,8 @@ public class StockPartsController implements Initializable {
     
     
     //method runs when window opens
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+   @Override
+   public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
         //partR.addPart("axis", "circular", 100);
         System.out.println("test2");

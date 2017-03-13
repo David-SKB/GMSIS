@@ -16,9 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -224,14 +224,14 @@ public class CustomerController {
     public void deleteCustomer(ActionEvent evt){
         Customer c = delCustomersCBox.getSelectionModel().getSelectedItem();
         if(c != null){
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Deleting Customer");
-            alert.setHeaderText("Are you sure you want to delete this customer?");
-            alert.setContentText("Customer Details: " + c.getFirstname() + " " + c.getSurname() + 
-                    " " + c.getPhone() + " " + c.getEmail());
+            //Alert alert = new Alert(AlertType.CONFIRMATION);
+            //alert.setTitle("Deleting Customer");
+            //alert.setHeaderText("Are you sure you want to delete this customer?");
+            //alert.setContentText("Customer Details: " + c.getFirstname() + " " + c.getSurname() + 
+                    //" " + c.getPhone() + " " + c.getEmail());
 
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            //Optional<ButtonType> result = alert.showAndWait();
+            if (true){//result.get() == ButtonType.OK){
                 db.connect();
                 String sName = c.getSurname();
                 String fName = c.getFirstname();

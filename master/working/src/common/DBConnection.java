@@ -22,7 +22,7 @@ public class DBConnection {
     }
     public void connect(){
         try{
-            c = DriverManager.getConnection("jdbc:sqlite:test.db");
+            c = DriverManager.getConnection("jdbc:sqlite:gmsisdb.db");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
