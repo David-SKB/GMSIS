@@ -76,23 +76,22 @@ public class DatabaseCreation
 "  ID                INT     PRIMARY KEY  NOT NULL,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
-"  COST              INT                  NOT NULL\n" +
+"  COST              INT                  NOT NULL,\n" +
+"  STOCK             INT                  NOT NULL\n" +
 ");\n" +
-"CREATE TABLE REPAIRS (\n" +
-"  ID                INT     PRIMARY KEY  NOT NULL,\n" +
-"  VEHICLEID         INT                  NOT NULL,\n" +
-"  CUSTOMERID        INT                  NOT NULL,\n" +
-"  TOTALCOST         INT                  NOT NULL,\n" +
+"CREATE TABLE USEDPARTS (\n" +
+"  ID                INT                     NOT NULL,\n" +
+"  BOOKINGID         INT                     NOT NULL,\n" +
+"  VEHICLEID         INT                     NOT NULL,\n" +
+"  CUSTOMERID        INT                     NOT NULL,\n" +
+"  PARTNAME          INT                     NOT NULL,\n" +
+"  WARRANTYEND       DATE                    NOT NULL,\n" +
+"  WARRANTYSTART     DATE                    NOT NULL,\n" +
+"  COST		     INT		     NOT NULL,\n" +
+"  FOREIGN KEY (ID)  REFERENCES STOCKPARTS(ID),\n" +
+"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(ID),\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID)\n" +
-");\n" +
-"CREATE TABLE REPAIRPARTS (\n" +
-"  ID                INT     PRIMARY KEY     NOT NULL,\n" +
-"  REPAIRID          INT                     NOT NULL,\n" +
-"  PARTNAME          INT                     NOT NULL,\n" +
-"  WARRANTYEND       INT                     NOT NULL,\n" +
-"  WARRANTYSTART     INT                     NOT NULL,\n" +
-"  FOREIGN KEY(REPAIRID) REFERENCES REPAIRS(ID)\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLE */\n" +
 "CREATE TABLE SPECIALISTREPAIRS\n" +
