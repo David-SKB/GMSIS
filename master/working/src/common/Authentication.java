@@ -17,6 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -148,9 +149,12 @@ public class Authentication
         
         String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";        
         ResultSet rs = c.query(SQL);
-        if(rs != null){
+        try{
+            if(!rs.next()){
+                return false;
+            }
             return true;
-        }else{
+        }catch(SQLException e){
             return false;
         }
     }
@@ -160,7 +164,6 @@ public class Authentication
         c.connect();
         String SQL = "SELECT SYSADM FROM USERS WHERE ID = " + username + ";";       
         ResultSet rs = c.query(SQL);
-
         try{
             String check = rs.getString("SYSADM");
             c.closeConnection();

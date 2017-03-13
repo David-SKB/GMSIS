@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
  *
  * @author jr308
  */
-public class StockPartsController implements Initializable {
+public class StockPartsController{// implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
     
@@ -71,7 +71,7 @@ public class StockPartsController implements Initializable {
     
     
     //method runs when window opens
-   @Override
+   /*@Override
    public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
         //partR.addPart("axis", "circular", 100);
@@ -81,7 +81,7 @@ public class StockPartsController implements Initializable {
         repairs.setVisible(false);
         setupRowListeners();
         loadAllParts();
-    }   
+    }   */
     
     //STOCK METHODS
     //loads oList into stock table
