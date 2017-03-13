@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package scratch.David_Aelmans;
+package David_Aelmans;
 
 import javafx.beans.property.SimpleStringProperty;
 

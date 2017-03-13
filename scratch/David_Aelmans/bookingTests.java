@@ -1,4 +1,4 @@
-package scratch.David_Aelmans;
+package David_Aelmans;
 
 /**
  *
@@ -8,8 +8,8 @@ public class bookingTests {
 
     public static void main(String args[]) {
         BookingRegistry BR = new BookingRegistry();
-        if (BR.editBooking(1, "EdiDate",1,1,1,1,1)){
-            System.out.print("Success!");
+        if(BR.deleteBooking(1)){
+            System.out.println("YAY");
         }
     }
 }

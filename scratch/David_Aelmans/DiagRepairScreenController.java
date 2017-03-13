@@ -1,8 +1,8 @@
-package scratch.David_Aelmans;
+package David_Aelmans;
 
 import common.DBConnection;
 import common.Main;
-import scratch.David_Aelmans.BookingRegistry;
+import David_Aelmans.BookingRegistry;
 import java.awt.Frame;
 import java.io.IOException;
 import java.net.URL;
@@ -43,62 +43,62 @@ public class DiagRepairScreenController implements Initializable
 	@FXML
 	private Button searchButton;
 	@FXML
-	private TableView<scratch.David_Aelmans.BookingRegistry> diagrepTable;
+	private TableView<David_Aelmans.BookingRegistry> diagrepTable;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, Integer> colID;
+	private TableColumn<David_Aelmans.BookingRegistry, Integer> colID;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colType;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colType;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colDate;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colDate;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colDuration;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colDuration;
 	//@FXML
-	//private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colVeh;
+	//private TableColumn<David_Aelmans.BookingRegistry, String> colVeh;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colVehReg;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colVehReg;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colVehManufacturer;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colVehManufacturer;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colVehMileage;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colVehMileage;
 	//@FXML
-	//private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colCust;
+	//private TableColumn<David_Aelmans.BookingRegistry, String> colCust;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colCustID;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colCustID;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colCustfirstName;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colCustfirstName;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colCustlastName;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colCustlastName;
 	//@FXML
-	//private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colMech;
+	//private TableColumn<David_Aelmans.BookingRegistry, String> colMech;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colMechID;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colMechID;
 	@FXML
-	private TableColumn<scratch.David_Aelmans.BookingRegistry, String> colMechDuration;
+	private TableColumn<David_Aelmans.BookingRegistry, String> colMechDuration;
 
-	private ObservableList<scratch.David_Aelmans.BookingRegistry> dataList;
-	private Database db;
+	private ObservableList<David_Aelmans.BookingRegistry> dataList;
+	private DBConnection conn;
 
 	@Override
 	public void initialize(URL url, ResourceBundle rb)
 	{
-		db = Database.getInstance();
+		conn = DBConnection.getInstance();
 		searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Manufacturer", new Separator(), "Customer Name"));
 		searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
-		colID.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, Integer>("ID"));
-		colType.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("type"));
-		colDate.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("date"));
-		colDuration.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("duration"));
+		colID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, Integer>("ID"));
+		colType.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("type"));
+		colDate.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("date"));
+		colDuration.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("duration"));
 
-		colVehReg.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("vehReg"));
-		colVehManufacturer.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("vehManufacturer"));
-		colVehMileage.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("vehMileage"));
+		colVehReg.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehReg"));
+		colVehManufacturer.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehManufacturer"));
+		colVehMileage.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehMileage"));
 		
-		colCustID.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("custID"));
-		colCustfirstName.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("custFirstName"));
-		colCustlastName.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("custLastName"));
+		colCustID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custID"));
+		colCustfirstName.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custFirstName"));
+		colCustlastName.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custLastName"));
 
-		colMechID.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("mechID"));
-		colMechDuration.setCellValueFactory(new PropertyValueFactory<scratch.David_Aelmans.BookingRegistry, String>("mechDuration"));
+		colMechID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("mechID"));
+		colMechDuration.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("mechDuration"));
 		displayTableData(null);
 	}
 
@@ -120,7 +120,7 @@ public class DiagRepairScreenController implements Initializable
 	@FXML
 	public void editEntry() throws IOException
 	{
-		Diagrep entry = diagrepTable.getSelectionModel().getSelectedItem();
+		BookingRegistry entry = diagrepTable.getSelectionModel().getSelectedItem();
 		if (entry == null)
 		{
 			JOptionPane.showMessageDialog(null, "Please select a booking to edit.");
@@ -143,17 +143,17 @@ public class DiagRepairScreenController implements Initializable
 	@FXML
 	public boolean deleteEntry()
 	{
-		ObservableList<Diagrep> selectedBooking = diagrepTable.getSelectionModel().getSelectedItems();
+		ObservableList<BookingRegistry> selectedBooking = diagrepTable.getSelectionModel().getSelectedItems();
 		int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected entry?", "Confirm Delete", 0);
 		if (choice == JOptionPane.NO_OPTION)	//user cancels delete operation
 		{
 			return false;
 		}
-		for (Diagrep d : selectedBooking)
+		for (BookingRegistry d : selectedBooking)
 		{
 			int bookingID = (d.getID());
 			int start = dataList.size();		//no. of entries before delete
-			db.update("DELETE FROM BookingIntegrated WHERE BookingID=\'" + bookingID + "\';");
+			conn.update("DELETE FROM BookingIntegrated WHERE BookingID=\'" + bookingID + "\';");
 			dataList.clear();
 			displayTableData(null);
 			if (start <= dataList.size())	//if no. of entries did not decrease, delete failed
@@ -224,10 +224,10 @@ public class DiagRepairScreenController implements Initializable
 			{
 				sql = "SELECT * FROM BookingIntegrated;";
 			}
-			ResultSet rs = db.query(sql);
+			ResultSet rs = conn.query(sql);
 			while (rs.next())	//starts from before the first row of results
 			{
-				dataList.add(new Diagrep(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));
+				dataList.add(new DiagRepairBooking(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));
 				diagrepTable.setItems(dataList);
 			}
 		}
@@ -251,12 +251,12 @@ public class DiagRepairScreenController implements Initializable
 			else if (choice == 0)
 			{
 				String sql = "SELECT * FROM BookingIntegrated;";
-				ResultSet rs = db.query(sql);
+				ResultSet rs = conn.query(sql);
 				while (rs.next())	//starts from before the first row of results
 				{
 					if(parseLocalDateTime(rs.getString("BookingDate")).compareTo(NOW_LOCALDATETIME()) < 0)
 					{
-						dataList.add(new Diagrep(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));
+						dataList.add(new DiagRepairBooking(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));
 					}	
 				}
 				diagrepTable.setItems(dataList);
@@ -264,7 +264,7 @@ public class DiagRepairScreenController implements Initializable
 			else
 			{
 				ArrayList<String> vehicleList = new ArrayList<String>();	
-				ResultSet rsV = db.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
+				ResultSet rsV = conn.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
 				while (rsV.next())
 				{
 					vehicleList.add(rsV.getString("VehicleRegNo"));
@@ -276,7 +276,7 @@ public class DiagRepairScreenController implements Initializable
 					return;
 				}
 				String sql = "SELECT * FROM BookingIntegrated WHERE VehicleRegNo='"+input+"';";
-				ResultSet rs = db.query(sql);
+				ResultSet rs = conn.query(sql);
 				while (rs.next())	//starts from before the first row of results
 				{
 					if(parseLocalDateTime(rs.getString("BookingDate")).compareTo(NOW_LOCALDATETIME()) < 0)
@@ -308,7 +308,7 @@ public class DiagRepairScreenController implements Initializable
 			else if (choice == 0)
 			{
 				String sql = "SELECT * FROM BookingIntegrated;";
-				ResultSet rs = db.query(sql);
+				ResultSet rs = conn.query(sql);
 				while (rs.next())	//starts from before the first row of results
 				{
 					if(parseLocalDateTime(rs.getString("BookingDate")).compareTo(NOW_LOCALDATETIME()) >= 0)
@@ -321,7 +321,7 @@ public class DiagRepairScreenController implements Initializable
 			else
 			{
 				ArrayList<String> vehicleList = new ArrayList<String>();	
-				ResultSet rsV = db.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
+				ResultSet rsV = conn.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
 				while (rsV.next())
 				{
 					vehicleList.add(rsV.getString("VehicleRegNo"));
@@ -333,7 +333,7 @@ public class DiagRepairScreenController implements Initializable
 					return;
 				}
 				String sql = "SELECT * FROM BookingIntegrated WHERE VehicleRegNo='"+input+"';";
-				ResultSet rs = db.query(sql);
+				ResultSet rs = conn.query(sql);
 				while (rs.next())	//starts from before the first row of results
 				{
 					if(parseLocalDateTime(rs.getString("BookingDate")).compareTo(NOW_LOCALDATETIME()) >= 0)
