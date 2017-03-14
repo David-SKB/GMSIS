@@ -120,7 +120,7 @@ public class DiagRepairScreenController implements Initializable
 		stage.show();
 	}
 		
-	@FXML
+	/*@FXML
 	public void editEntry() throws IOException
 	{
 		BookingRegistry entry = diagrepTable.getSelectionModel().getSelectedItem();
@@ -141,7 +141,7 @@ public class DiagRepairScreenController implements Initializable
 		stage.centerOnScreen();
 		stage.setTitle("Edit Diagnosis/Repair Booking");
 		stage.show();
-	}
+	}*/
 	
 	@FXML
 	public boolean deleteEntry()
@@ -167,7 +167,7 @@ public class DiagRepairScreenController implements Initializable
 		}
 		return true;
 	}
-/*	
+	
 	@FXML
 	public void search()
 	{
@@ -197,7 +197,7 @@ public class DiagRepairScreenController implements Initializable
 		dataList.clear();
 		displayTableData(sql);
 	}
-*/	
+
 	@FXML
 	public void displayRegistry() throws IOException
 	{

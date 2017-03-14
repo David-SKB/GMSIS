@@ -182,14 +182,14 @@ public class CustomerRegistry {
         }
     }
     
-    public ArrayList<DiagRepairBooking> getCustomerBookings(int custID){
+    /*public ArrayList<DiagRepairBooking> getCustomerBookings(int custID){
         ArrayList<DiagRepairBooking> bookingList = BR.getCustomerBookings(custID);
         return bookingList;
-    }
+    }*/
     
     public int calculateBill(DiagRepairBooking tempBooking){
         double duration = Double.parseDouble(tempBooking.getBookingLength());
-        
+        return 0;
     }
     
     public ArrayList<Customer> getActiveCustomers(){

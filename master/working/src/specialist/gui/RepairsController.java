@@ -3,6 +3,8 @@ package specialist.gui;
 import common.DBConnection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -56,8 +58,8 @@ public class RepairsController extends Application
     @FXML private TitledPane EditVehicle;
     @FXML private TextField RegNoVehicle2;
     @FXML private TextField SPCIDVehicle2;
-    @FXML private TextField ExpDelVehicle2;
-    @FXML private TextField ExpRetVehicle2;
+    @FXML private DatePicker ExpDelVehicle2;
+    @FXML private DatePicker ExpRetVehicle2;
     @FXML private TextField CostVehicle2;
     @FXML private Button UpdateVehicleButton;
     
@@ -115,10 +117,18 @@ public class RepairsController extends Application
         System.out.println("added: " + added);
     }
     
-    @FXML private void EditVehicle(int ID) 
+    @FXML private void EditVehicle() throws SQLException 
     {
-        boolean added  = repairs.editVehicle(RegNoVehicle.getText(), Integer.parseInt(SPCIDVehicle.getText()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()), ID);
-        System.out.println("added: " + added);
+        System.out.println("entered");
+        //get repair id of row to edit
+        int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
+        //int RepairID = repairs.getSPCID(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
+        System.out.println(RepairID);
+        boolean added  = repairs.editVehicle(RegNoVehicle2.getText(), Integer.parseInt(SPCIDVehicle2.getText()), toDate(ExpDelVehicle2), toDate(ExpRetVehicle2), Double.parseDouble(CostVehicle2.getText()), RepairID);
+        //refresh table
+        System.out.println("Updated: " + added);
+        RepairSearchHandler();
+        
     }
     
     @FXML private void ToggleSendPart()
@@ -342,11 +352,22 @@ public class RepairsController extends Application
     
     @FXML private void HandleEdit() throws SQLException 
     {
-        //get repair id of row to edit
-        int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
-        EditVehicle(RepairID);
-        //refresh table
-        RepairSearchHandler();
+        //Set Update textfields with data
+        EditVehicle.setVisible(true);
+        //EditPart.setVisible(false);//needs to be made
+        RegNoVehicle2.setText(MainTable.getSelectionModel().getSelectedItem().getT1REGX());
+        //gets SPC ID
+        int ID = repairs.getSPCID(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
+        SPCIDVehicle2.setText(Integer.toString(ID));
+        //convert dates
+        LocalDate expDel = StringtoLDate(MainTable.getSelectionModel().getSelectedItem().getT1EXPDELX());
+        LocalDate expRet = StringtoLDate(MainTable.getSelectionModel().getSelectedItem().getT1EXPRETX());
+        ExpDelVehicle2.setValue(expDel);
+        ExpRetVehicle2.setValue(expRet);
+        //convert cost
+        String cost = Double.toString(MainTable.getSelectionModel().getSelectedItem().getT1COSTX());
+        CostVehicle2.setText(cost);
+        UpdateVehicleButton.setDisable(false);
     }
     
     @FXML private String toString(DatePicker DatePickerObject)
@@ -361,6 +382,16 @@ public class RepairsController extends Application
         java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
         //System.out.println(sqlDate);
         return sqlDate;
+    }
+    
+    @FXML private LocalDate StringtoLDate(String value)
+    {
+
+        final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        final LocalDate newDate = LocalDate.parse(value, DATE_FORMAT);
+        
+        
+        return newDate;
     }
     
     @FXML private void TestFunction()
@@ -381,7 +412,7 @@ public class RepairsController extends Application
         
         //java.sql.Date sqlDate = java.sql.Date.valueOf(DelDateV.getValue());
         //System.out.println(toString(DelDateV));
-        
+        //ExpDelVehicle.setValue(StringtoLDate("2015-03-01"));
     }
     
     

@@ -20,6 +20,7 @@
             <TextArea fx:id="partNameTextArea" layoutX="88.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" />
             <Label layoutY="15.0" text="Part Name" AnchorPane.leftAnchor="5.0" />
             <TextArea fx:id="partDescriptionTextArea" layoutX="88.0" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
+            <Button fx:id="addPartButton" layoutX="9.0" layoutY="283.0" mnemonicParsing="false" onAction="#addStockPart" prefHeight="25.0" prefWidth="75.0" text="Add Part" />
           </children>
         </AnchorPane>
         <TableView fx:id="stockTable" layoutY="14.0" prefHeight="578.0" prefWidth="623.0">
