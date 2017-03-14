@@ -112,7 +112,8 @@ public class RepairsController extends Application implements Initializable
     @FXML private Label EditError;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
-    @FXML private ComboBox<String> TestBox;
+    @FXML private Button SPCVehicleButton;
+    
     
     //requirements left: 7, 8, 10, 12, 14
     //todo: edit onlcick retrieve data and put in textfields
@@ -483,9 +484,10 @@ public class RepairsController extends Application implements Initializable
     }
     
     @FXML private void SPCRowClick() 
-    {
+    {/*
         int SPCID = SPCListTable.getSelectionModel().getSelectedItem().getT3IDX();
         System.out.println(SPCID);
+        
         try 
         {
             SearchBySPC(SPCID);
@@ -493,7 +495,8 @@ public class RepairsController extends Application implements Initializable
         catch (SQLException ex) 
         {
             System.out.println("Select something fool");
-        }
+        }*/
+        SPCVehicleButton.setDisable(false);
     }
     
     @FXML private void HandleDelete() throws SQLException 
@@ -576,6 +579,22 @@ public class RepairsController extends Application implements Initializable
         
         
         return newDate;
+    }
+    
+    @FXML private void ListSPCVehicles()
+    {
+        int SPCID = SPCListTable.getSelectionModel().getSelectedItem().getT3IDX();
+        System.out.println(SPCID);
+        
+        try 
+        {
+            SearchBySPC(SPCID);
+        } 
+        catch (SQLException ex) 
+        {
+            System.out.println("Select something fool");
+        }
+        SPCVehicleButton.setDisable(true);
     }
     
     @FXML private void TestFunction()

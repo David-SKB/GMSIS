@@ -5,7 +5,6 @@
  */
 package specialist;
 
-import customers.*;
 
 
 public class Main {

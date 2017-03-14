@@ -96,6 +96,20 @@ public class Repairs
         DBC.closeConnection();
         return SPCList;
     }
+    //RETURN LIST OF ALL SPC'S
+    public ObservableList<SPC> getAllSPC() throws SQLException
+    {
+        ObservableList<SPC> SPCList = FXCollections.observableArrayList();
+        DBC.connect();
+        String SQL = "SELECT * FROM CENTRES ";
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+        {
+            SPCList.add(new SPC(rs.getInt("ID"), rs.getString("NAME"), rs.getString("ADDRESS"), rs.getString("TELEPHONE"), rs.getString("EMAIL")));
+        }
+        DBC.closeConnection();
+        return SPCList;
+    }
     
     public int getSPCID(String Name) throws SQLException
     {
