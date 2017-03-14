@@ -40,7 +40,7 @@ import javafx.scene.text.Text;
  *
  * @author jr308
  */
-public class StockPartsController{// implements Initializable {
+public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
     
@@ -70,8 +70,8 @@ public class StockPartsController{// implements Initializable {
             partCostTextArea, partStockLevelTextArea;
     
     
-    //method runs when window opens
-   /*@Override
+
+   @Override
    public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
         //partR.addPart("axis", "circular", 100);
@@ -81,7 +81,7 @@ public class StockPartsController{// implements Initializable {
         repairs.setVisible(false);
         setupRowListeners();
         loadAllParts();
-    }   */
+    }   
     
     //STOCK METHODS
     //loads oList into stock table
@@ -99,6 +99,7 @@ public class StockPartsController{// implements Initializable {
         stockCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
+        System.out.println("test3");
     }
     
     public void loadAllParts(){//ActionEvent event){
@@ -124,6 +125,15 @@ public class StockPartsController{// implements Initializable {
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedPart.getName());  
         partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        loadAllParts();
+    }
+    
+   public void addStockPart(ActionEvent event){
+        String name = partNameTextArea.getText();
+        String description = partDescriptionTextArea.getText();
+        int cost = Integer.parseInt(partCostTextArea.getText());
+        //String stocklevel = partStockLevelTextArea.getText();
+        partR.addPart(name, description, cost);
         loadAllParts();
     }
     

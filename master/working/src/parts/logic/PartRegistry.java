@@ -83,8 +83,8 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //insert into database
         conn.connect();
-        String query = "INSERT INTO STOCKPARTS (ID, NAME, DESCRIPTION, COST, STOCK)" +
-                       "VALUES("+ 104 + ",'"+ n + "','" + d + "','" + c + "'," + 1 + ");";
+        String query = "INSERT INTO STOCKPARTS (NAME, DESCRIPTION, COST, STOCK)" +
+                       "VALUES('" + n + "','" + d + "','" + c + "'," + 1 + ");";
         conn.update(query);
         conn.closeConnection();
     }
