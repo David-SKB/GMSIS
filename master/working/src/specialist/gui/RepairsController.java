@@ -1,22 +1,30 @@
 package specialist.gui;
 
 import common.DBConnection;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -28,16 +36,17 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import specialist.logic.*;
 
-public class RepairsController extends Application
+public class RepairsController extends Application implements Initializable
 {
     Repairs repairs = Repairs.getInstance();
     private DBConnection DBC = DBConnection.getInstance();
     //Send Vehicle Pane
     @FXML private TitledPane SendVehicle;
     @FXML private TextField RegNoVehicle;
-    @FXML private TextField SPCIDVehicle;
+    @FXML private ComboBox SPCIDVehicle;
     @FXML private DatePicker ExpDelVehicle;
     @FXML private DatePicker ExpRetVehicle;
     @FXML private TextField CostVehicle;
@@ -57,7 +66,7 @@ public class RepairsController extends Application
     //Edit Vehicle Pane
     @FXML private TitledPane EditVehicle;
     @FXML private TextField RegNoVehicle2;
-    @FXML private TextField SPCIDVehicle2;
+    @FXML private ComboBox SPCIDVehicle2;
     @FXML private DatePicker ExpDelVehicle2;
     @FXML private DatePicker ExpRetVehicle2;
     @FXML private TextField CostVehicle2;
@@ -99,16 +108,154 @@ public class RepairsController extends Application
     @FXML private ToggleGroup SearchVehicleToggle;
     @FXML private ToggleGroup SendItemToggle;
     @FXML private Label T1SearchError;
+    @FXML private Label AddError;
+    @FXML private Label EditError;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
+    @FXML private ComboBox<String> TestBox;
     
     //requirements left: 7, 8, 10, 12, 14
     //todo: edit onlcick retrieve data and put in textfields
     //******************************************************
-    @FXML private void SubmitVehicle() 
+    @FXML private void SubmitVehicle() throws SQLException 
     {
-        boolean added  = repairs.addVehicle(RegNoVehicle.getText(), Integer.parseInt(SPCIDVehicle.getText()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
-        System.out.println("added: " + added);
+        if (ValidateSubmitVehicle())
+        {
+            boolean added  = repairs.addVehicle(RegNoVehicle.getText(), repairs.getSPCID(SPCIDVehicle.getValue().toString()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
+            System.out.println("added: " + added);
+            clearAddVehicle();
+            AddError.setVisible(false);
+        }
+    }
+    
+    @FXML private boolean ValidateSubmitVehicle()
+    {
+        ClearAddVStyles();
+        boolean valid = true;
+        if (repairs.isPlate(RegNoVehicle.getText()) == false)
+        {
+            valid = false;
+            RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else
+        {
+            if (RegNoVehicle.getText().length() != 7)
+            {
+                valid = false;
+                RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+            }
+        }
+        if (SPCIDVehicle == null)
+        {
+            valid = false;
+            SPCIDVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpDelVehicle.getValue() == null)
+        {
+            valid = false;
+            ExpDelVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpRetVehicle.getValue() == null)
+        {
+            valid = false;
+            ExpRetVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        try 
+        {
+            Double.parseDouble(CostVehicle.getText());
+        }
+        catch (NumberFormatException ex)
+        {
+            CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        //***********************************
+        if (valid == false)
+        {
+            AddError.setDisable(false);
+            AddErrMsg("Invalid Input");
+            return false;
+        }
+        ClearAddVStyles();
+        AddError.setDisable(true);
+        return true;
+    }
+    
+    @FXML private boolean ValidateEditVehicle()
+    {
+        ClearAddUVStyles();
+        boolean valid = true;
+        if (repairs.isPlate(RegNoVehicle2.getText()) == false)
+        {
+            valid = false;
+            RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else
+        {
+            if (RegNoVehicle2.getText().length() != 7)
+            {
+                valid = false;
+                RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+            }
+        }
+        if (SPCIDVehicle2 == null)
+        {
+            valid = false;
+            SPCIDVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpDelVehicle2.getValue() == null)
+        {
+            valid = false;
+            ExpDelVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpRetVehicle2.getValue() == null)
+        {
+            valid = false;
+            ExpRetVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        try 
+        {
+            Double.parseDouble(CostVehicle2.getText());
+        }
+        catch (NumberFormatException ex)
+        {
+            CostVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        //***********************************
+        if (valid == false)
+        {
+            EditError.setDisable(false);
+            EditErrMsg("Invalid Input");
+            return false;
+        }
+        ClearAddUVStyles();
+        EditError.setDisable(true);
+        return true;
+    }
+    
+    @FXML private void ClearAddVStyles()
+    {
+        RegNoVehicle.setStyle(null);
+        SPCIDVehicle.setStyle(null);
+        ExpDelVehicle.setStyle(null);
+        ExpRetVehicle.setStyle(null);
+        CostVehicle.setStyle(null);
+    }
+    
+    @FXML private void ClearAddUVStyles()
+    {
+        RegNoVehicle2.setStyle(null);
+        SPCIDVehicle2.setStyle(null);
+        ExpDelVehicle2.setStyle(null);
+        ExpRetVehicle2.setStyle(null);
+        CostVehicle2.setStyle(null);
     }
     
     @FXML private void SubmitPart() 
@@ -119,22 +266,45 @@ public class RepairsController extends Application
     
     @FXML private void EditVehicle() throws SQLException 
     {
-        System.out.println("entered");
-        //get repair id of row to edit
-        int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
-        //int RepairID = repairs.getSPCID(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
-        System.out.println(RepairID);
-        boolean added  = repairs.editVehicle(RegNoVehicle2.getText(), Integer.parseInt(SPCIDVehicle2.getText()), toDate(ExpDelVehicle2), toDate(ExpRetVehicle2), Double.parseDouble(CostVehicle2.getText()), RepairID);
-        //refresh table
-        System.out.println("Updated: " + added);
-        RepairSearchHandler();
-        
+        if (ValidateEditVehicle())
+        {
+            System.out.println("entered");
+            //get repair id of row to edit
+            int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
+            //int RepairID = repairs.getSPCID(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
+            System.out.println(RepairID);
+            boolean added  = repairs.editVehicle(RegNoVehicle2.getText(), repairs.getSPCID(SPCIDVehicle2.getValue().toString()), toDate(ExpDelVehicle2), toDate(ExpRetVehicle2), Double.parseDouble(CostVehicle2.getText()), RepairID);
+            //refresh table
+            System.out.println("Updated: " + added);
+            RepairSearchHandler();
+            clearEditVehicle();
+            UpdateVehicleButton.setDisable(true);
+            EditError.setVisible(false);
+        }
     }
     
     @FXML private void ToggleSendPart()
     {
         SendVehicle.setVisible(false);
         SendPart.setVisible(true);
+    }
+    
+    private void clearAddVehicle()
+    {
+        RegNoVehicle.setText(null);
+        SPCIDVehicle.setValue(null);
+        ExpDelVehicle.setValue(null);
+        ExpRetVehicle.setValue(null);
+        CostVehicle.setText(null);
+    }
+    
+    private void clearEditVehicle()
+    {
+        RegNoVehicle2.setText(null);
+        SPCIDVehicle2.setValue(null);
+        ExpDelVehicle2.setValue(null);
+        ExpRetVehicle2.setValue(null);
+        CostVehicle2.setText(null);
     }
     
     @FXML private void ToggleSendVehicle()
@@ -307,11 +477,9 @@ public class RepairsController extends Application
         {
             RepairErrMsg("Vehicle Not Found");//make one for vehicle details table
         }
+        T1SearchError.setVisible(false);
         RepairEditButton.setDisable(false);
         RepairDeleteButton.setDisable(false);
-        
-        
-        
     }
     
     @FXML private void SPCRowClick() 
@@ -330,6 +498,13 @@ public class RepairsController extends Application
     
     @FXML private void HandleDelete() throws SQLException 
     {
+        if (MainTable.getSelectionModel().getSelectedItem() == null)
+        {
+            RepairErrMsg("Please select a row");
+            RepairEditButton.setDisable(true);
+            RepairDeleteButton.setDisable(true);
+            return;
+        }
         int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
         System.out.println(RepairID);
         
@@ -344,6 +519,8 @@ public class RepairsController extends Application
             boolean success  = repairs.deleteVehicleRepair(RepairID);
             System.out.println("Deleted: " + success);
             RepairSearchHandler();
+            clearEditVehicle();
+            UpdateVehicleButton.setDisable(true);
         } else 
         {
             //Delete Cancelled
@@ -352,13 +529,20 @@ public class RepairsController extends Application
     
     @FXML private void HandleEdit() throws SQLException 
     {
+        
+        if (MainTable.getSelectionModel().getSelectedItem() == null)
+        {
+            RepairErrMsg("Please select a row");
+            RepairEditButton.setDisable(true);
+            RepairDeleteButton.setDisable(true);
+            return;
+        }
+        LoadComboListSPC();
         //Set Update textfields with data
         EditVehicle.setVisible(true);
         //EditPart.setVisible(false);//needs to be made
         RegNoVehicle2.setText(MainTable.getSelectionModel().getSelectedItem().getT1REGX());
-        //gets SPC ID
-        int ID = repairs.getSPCID(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
-        SPCIDVehicle2.setText(Integer.toString(ID));
+        SPCIDVehicle2.setValue(MainTable.getSelectionModel().getSelectedItem().getT1SPCX());
         //convert dates
         LocalDate expDel = StringtoLDate(MainTable.getSelectionModel().getSelectedItem().getT1EXPDELX());
         LocalDate expRet = StringtoLDate(MainTable.getSelectionModel().getSelectedItem().getT1EXPRETX());
@@ -413,6 +597,8 @@ public class RepairsController extends Application
         //java.sql.Date sqlDate = java.sql.Date.valueOf(DelDateV.getValue());
         //System.out.println(toString(DelDateV));
         //ExpDelVehicle.setValue(StringtoLDate("2015-03-01"));
+        RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        SPCIDVehicle.setStyle(null);
     }
     
     
@@ -437,11 +623,51 @@ public class RepairsController extends Application
         T1SearchError.setVisible(true);
     }
     
-}
-/*
+    @FXML private void AddErrMsg(String msg)
+    {
+        AddError.setText(msg);
+        AddError.setVisible(true);
+    }
+    
+    @FXML private void EditErrMsg(String msg)
+    {
+        EditError.setText(msg);
+        EditError.setVisible(true);
+    }
+    
+    @FXML private void ComboListSPC() throws SQLException
+    {
+        ObservableList<String> SPCNameList = repairs.getSPCListCombo();
+        
+        
+    }
+    
+    @FXML private void LoadComboListSPC() throws SQLException
+    {
+        ObservableList<String> SPCNameList = repairs.getSPCListCombo();
+        SPCIDVehicle.setItems(SPCNameList);
+        SPCIDVehicle2.setItems(SPCNameList);
+    }
 
-
-private Callback< DatePicker, DateCell > dayCellFactory = (final DatePicker datePicker1) -> new DateCell()
+    @Override
+    public void initialize(URL location, ResourceBundle resources) 
+    {
+        try 
+        {
+            //NEEDS TO BE FINISHED
+            LoadComboListSPC();
+            ExpDelVehicle.setDayCellFactory(DCF);
+            ExpDelPart.setDayCellFactory(DCF);
+            ExpRetVehicle.setDayCellFactory(DCFRETURN);
+            ExpRetPart.setDayCellFactory(DCFRETURN);
+            ExpRetVehicle2.setDayCellFactory(DCFRETURN);
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
     {
         
         @Override
@@ -451,29 +677,44 @@ private Callback< DatePicker, DateCell > dayCellFactory = (final DatePicker date
             // Must call super
             super.updateItem( item , empty );
             
-            // disable all sundays + colours them red
-            DayOfWeek day = DayOfWeek.from( item );
-            if ( day == DayOfWeek.SUNDAY )
-            {
-                
-                this.setDisable ( true );
-                this.setStyle(" -fx-background-color: #ff0000; ") ;
-                
-            }
-            
             // disable all past dates + colours them red
             if (  item.isBefore( LocalDate.now() )  )
             {
                 
                 this.setDisable ( true )                        ;
-                this.setStyle(" -fx-background-color: #ff0000; ") ;
+                this.setStyle(" -fx-background-color: #FFD3D3; ") ;
                 
             }
 
         }
         
     };
+    
+    private Callback< DatePicker, DateCell > DCFRETURN = (final DatePicker myDP) -> new DateCell()
+    {
+        
+        @Override
+        public void updateItem( LocalDate item , boolean empty )
+        {
+            
+            // Must call super
+            super.updateItem( item , empty );
+            
+            // disable all past dates + colours them red
+            if (  item.isBefore( LocalDate.now() )  )
+            {
+                
+                this.setDisable ( true )                        ;
+                this.setStyle(" -fx-background-color: #FFD3D3; ") ;
+                
+            }
 
+        }
+        
+    };
+    
+}
+/*
 
 public void showError(String msg) 
 {

@@ -83,6 +83,20 @@ public class Repairs
         return SPCList;
     }
     
+    public ObservableList<String> getSPCListCombo() throws SQLException
+    {
+        ObservableList<String> SPCList = FXCollections.observableArrayList();
+        DBC.connect();
+        String SQL = "SELECT NAME FROM CENTRES ";
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+        {
+            SPCList.add(rs.getString("NAME"));
+        }
+        DBC.closeConnection();
+        return SPCList;
+    }
+    
     public int getSPCID(String Name) throws SQLException
     {
         ObservableList<ListSPC> SPCList = FXCollections.observableArrayList();
