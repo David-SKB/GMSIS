@@ -3,9 +3,6 @@ package specialist.gui;
 import common.DBConnection;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Optional;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -14,10 +11,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-//import javafx.scene.control.ButtonType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -104,6 +101,7 @@ public class RepairsController extends Application
     @FXML private Button RepairDeleteButton;
     
     //requirements left: 7, 8, 10, 12, 14
+    //todo: edit onlcick retrieve data and put in textfields
     //******************************************************
     @FXML private void SubmitVehicle() 
     {
@@ -114,6 +112,12 @@ public class RepairsController extends Application
     @FXML private void SubmitPart() 
     {
         boolean added  = repairs.addPart(NamePart.getText(), DescPart.getText(), Integer.parseInt(IDPart.getText()), toDate(ExpDelPart), toDate(ExpRetPart), Double.parseDouble(CostPart.getText()));
+        System.out.println("added: " + added);
+    }
+    
+    @FXML private void EditVehicle(int ID) 
+    {
+        boolean added  = repairs.editVehicle(RegNoVehicle.getText(), Integer.parseInt(SPCIDVehicle.getText()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()), ID);
         System.out.println("added: " + added);
     }
     
@@ -319,13 +323,13 @@ public class RepairsController extends Application
         int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
         System.out.println(RepairID);
         
-        /*Alert alert = new Alert(AlertType.CONFIRMATION);
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Delete Repair " + RepairID);
         alert.setHeaderText("");
         alert.setContentText("Are you sure you wish to proceed?");
 
-        Optional<ButtonType> result = alert.showAndWait();*/
-        if (true)//result.get() == ButtonType.OK)
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
         {
             boolean success  = repairs.deleteVehicleRepair(RepairID);
             System.out.println("Deleted: " + success);
@@ -334,6 +338,15 @@ public class RepairsController extends Application
         {
             //Delete Cancelled
         }
+    }
+    
+    @FXML private void HandleEdit() throws SQLException 
+    {
+        //get repair id of row to edit
+        int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
+        EditVehicle(RepairID);
+        //refresh table
+        RepairSearchHandler();
     }
     
     @FXML private String toString(DatePicker DatePickerObject)

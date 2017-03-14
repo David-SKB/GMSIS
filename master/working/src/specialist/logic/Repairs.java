@@ -49,6 +49,24 @@ public class Repairs
         return success;
     }
     
+    public boolean editVehicle(String RegNo, int SPCID, Date ExpDel, Date ExpRet, double Cost, int RepairID)
+    {
+        boolean success;
+        DBC.connect();       
+        String SQL ="UPDATE REPAIRVEHICLE \n" + 
+                    "SET " +
+                    "REGNO = '" + RegNo + "', " +
+                    "SPCID = '" + SPCID + "', " +
+                    "DELIVERYDATE = '" + ExpDel + "', " +
+                    "RETURNDATE = '" + ExpRet + "', " +
+                    "COST = '" + Cost + "'\n" + 
+                    "WHERE ID = '" + RepairID +  "';";
+        success = DBC.update(SQL);
+        DBC.closeConnection();
+        System.out.println(SQL);//view sql output
+        return success;
+    }
+    
     public ObservableList<ListSPC> getSPCList() throws SQLException
     {
         ObservableList<ListSPC> SPCList = FXCollections.observableArrayList();
