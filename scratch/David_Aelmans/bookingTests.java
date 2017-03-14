@@ -1,5 +1,7 @@
 package David_Aelmans;
 
+import diagrep.logic.BookingRegistry;
+
 /**
  *
  * @author dja30

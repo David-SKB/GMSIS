@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package David_Aelmans;
+package diagrep.logic;
 
 import javafx.beans.property.SimpleStringProperty;
 
@@ -18,7 +18,7 @@ public class DiagRepairBooking extends Booking {
     private final SimpleStringProperty EmpID;
     
     public DiagRepairBooking(String BID, String date, String length, String CID, String VID, String miles, String EID){
-        super(BID, date, length);
+        super(BID, date, length,"Diagnosis and Repair");
         CustID = new SimpleStringProperty(CID);
         VechID = new SimpleStringProperty(VID);
         milage = new SimpleStringProperty(miles);

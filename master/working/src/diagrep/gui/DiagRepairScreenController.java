@@ -1,8 +1,11 @@
-package David_Aelmans;
+package diagrep.gui;
+
 
 import common.DBConnection;
 import common.Main;
-import David_Aelmans.BookingRegistry;
+import diagrep.gui.AddWindowController;
+import diagrep.gui.EditWindowController;
+import diagrep.logic.DiagRepairBooking;
 import java.awt.Frame;
 import java.io.IOException;
 import java.net.URL;
@@ -43,39 +46,39 @@ public class DiagRepairScreenController implements Initializable
 	@FXML
 	private Button searchButton;
 	@FXML
-	private TableView<David_Aelmans.BookingRegistry> diagrepTable;
+	private TableView<diagrep.logic.DiagRepairBooking> diagrepTable;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, Integer> colID;
+	private TableColumn<diagrep.logic.DiagRepairBooking, Integer> colID;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colType;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colType;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colDate;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colDate;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colDuration;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colDuration;
 	//@FXML
-	//private TableColumn<David_Aelmans.BookingRegistry, String> colVeh;
+	//private TableColumn<diagrep.logic.DiagRepairBooking, String> colVeh;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colVehReg;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colVehReg;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colVehManufacturer;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colVehManufacturer;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colVehMileage;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colVehMileage;
 	//@FXML
-	//private TableColumn<David_Aelmans.BookingRegistry, String> colCust;
+	//private TableColumn<diagrep.logic.DiagRepairBooking, String> colCust;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colCustID;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colCustID;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colCustfirstName;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colCustfirstName;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colCustlastName;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colCustlastName;
 	//@FXML
-	//private TableColumn<David_Aelmans.BookingRegistry, String> colMech;
+	//private TableColumn<diagrep.logic.DiagRepairBooking, String> colMech;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colMechID;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colMechID;
 	@FXML
-	private TableColumn<David_Aelmans.BookingRegistry, String> colMechDuration;
+	private TableColumn<diagrep.logic.DiagRepairBooking, String> colMechDuration;
 
-	private ObservableList<David_Aelmans.BookingRegistry> dataList;
+	private ObservableList<diagrep.logic.DiagRepairBooking> dataList;
 	private DBConnection conn;
 
 	@Override
@@ -84,21 +87,21 @@ public class DiagRepairScreenController implements Initializable
 		conn = DBConnection.getInstance();
 		searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Manufacturer", new Separator(), "Customer Name"));
 		searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
-		colID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, Integer>("ID"));
-		colType.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("type"));
-		colDate.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("date"));
-		colDuration.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("duration"));
+		colID.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, Integer>("ID"));
+		colType.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("type"));
+		colDate.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("date"));
+		colDuration.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("duration"));
 
-		colVehReg.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehReg"));
-		colVehManufacturer.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehManufacturer"));
-		colVehMileage.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("vehMileage"));
+		colVehReg.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("vehReg"));
+		colVehManufacturer.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("vehManufacturer"));
+		colVehMileage.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("vehMileage"));
 		
-		colCustID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custID"));
-		colCustfirstName.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custFirstName"));
-		colCustlastName.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("custLastName"));
+		colCustID.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("custID"));
+		colCustfirstName.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("custFirstName"));
+		colCustlastName.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("custLastName"));
 
-		colMechID.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("mechID"));
-		colMechDuration.setCellValueFactory(new PropertyValueFactory<David_Aelmans.BookingRegistry, String>("mechDuration"));
+		colMechID.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("mechID"));
+		colMechDuration.setCellValueFactory(new PropertyValueFactory<diagrep.logic.DiagRepairBooking, String>("mechDuration"));
 		displayTableData(null);
 	}
 
@@ -143,15 +146,15 @@ public class DiagRepairScreenController implements Initializable
 	@FXML
 	public boolean deleteEntry()
 	{
-		ObservableList<BookingRegistry> selectedBooking = diagrepTable.getSelectionModel().getSelectedItems();
+		ObservableList<diagrep.logic.DiagRepairBooking> selectedBooking = diagrepTable.getSelectionModel().getSelectedItems();
 		int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected entry?", "Confirm Delete", 0);
 		if (choice == JOptionPane.NO_OPTION)	//user cancels delete operation
 		{
 			return false;
 		}
-		for (BookingRegistry d : selectedBooking)
+		for (diagrep.logic.DiagRepairBooking d : selectedBooking)
 		{
-			int bookingID = (d.getID());
+			String bookingID = (d.getBookingID());
 			int start = dataList.size();		//no. of entries before delete
 			conn.update("DELETE FROM BookingIntegrated WHERE BookingID=\'" + bookingID + "\';");
 			dataList.clear();
@@ -281,8 +284,7 @@ public class DiagRepairScreenController implements Initializable
 				{
 					if(parseLocalDateTime(rs.getString("BookingDate")).compareTo(NOW_LOCALDATETIME()) < 0)
 					{
-						dataList.add(new Diagrep(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));
-					}
+						dataList.add(diagrep.logic.DiagRepairBooking(rs.getInt("BookingID"), rs.getString("BookingType"), rs.getString("BookingDate"), rs.getString("BookingDuration"), rs.getString("VehicleRegNo"), rs.getString("VehicleManufacturer"), rs.getInt("VehicleMileage"), rs.getInt("CustomerID"), rs.getString("CustomerFirstName"), rs.getString("CustomerLastName"),  rs.getInt("MechanicID"), rs.getString("MechanicDuration")));					}
 					
 				}
 				diagrepTable.setItems(dataList);

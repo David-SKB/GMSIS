@@ -3,7 +3,7 @@
  * References:
  * NOW_LOCAL_DATE(): http://stackoverflow.com/questions/31899692/how-to-set-default-value-for-javafx-datepicker-in-fxml
  */
-package David_Aelmans;
+package diagrep.gui;
 
 import common.DBConnection;
 import java.net.URL;

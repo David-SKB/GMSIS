@@ -3,13 +3,14 @@
  *
  * @author Nexus
  */
-package David_Aelmans;
+package diagrep.gui;
 
 import common.DBConnection;
-import David_Aelmans.DiagRepairBooking;
+import diagrep.logic.DiagRepairBooking;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -61,7 +62,7 @@ public class EditWindowController implements Initializable {
 	{
 		conn = DBConnection.getInstance();
 		entryType.setItems(FXCollections.observableArrayList("Repair", new Separator(), "Maintenance"));
-		entryType.getSelectionModel().select(entry.getType());
+		entryType.getSelectionModel().select(entry.getBookingType());
 		
 		/*
 		if (entry.getType().equals("Repair"))
@@ -74,23 +75,23 @@ public class EditWindowController implements Initializable {
 		}
 		*/
 		
-		String[] line = entry.getDate().split("\\s+");
+		String[] line = entry.getBookingDate().split("\\s+");
 		entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		entryTime.setText(line[1]);
-		entryDuration.setText(entry.getDuration());
+		entryDuration.setText(entry.getBookingLength());
 		try
 		{
 			ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
-			ResultSet rsV = db.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
+			ResultSet rsV = conn.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
 			while (rsV.next())
 			{
 				vehicleList.add(rsV.getString("VehicleRegNo"));
 			}
 			entryReg.setItems(vehicleList);
-			entryReg.getSelectionModel().select(entry.getVehReg());
+			entryReg.getSelectionModel().select(entry.getVechID());
 			
 			ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
-			ResultSet rsC = db.query("SELECT DISTINCT CustomerID, CustomerFirstName, CustomerLastName FROM Customer ORDER BY CustomerFirstName;");
+			ResultSet rsC = conn.query("SELECT DISTINCT CustomerID, CustomerFirstName, CustomerLastName FROM Customer ORDER BY CustomerFirstName;");
 			while (rsC.next())
 			{
 				customerList.add(rsC.getString("CustomerID")+": "+rsC.getString("CustomerFirstName")+" "+rsC.getString("CustomerLastName"));
@@ -99,13 +100,13 @@ public class EditWindowController implements Initializable {
 			entryCustomer.getSelectionModel().select(entry.getCustID()+": "+entry.getCustFirstName()+" "+entry.getCustLastName());
 			
 			ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
-			ResultSet rsM = db.query("SELECT DISTINCT * FROM Mechanic ORDER BY MechanicFirstName;");
+			ResultSet rsM = conn.query("SELECT DISTINCT * FROM Mechanic ORDER BY MechanicFirstName;");
 			while (rsM.next())
 			{
 				mechanicList.add(rsM.getString("MechanicID"));	    //mechanicList.add(rsM.getString("MechanicID")+": "+rsM.getString("MechanicFirstName")+" "+rsM.getString("MechanicLastName"));
 			}
 			entryMechanic.setItems(mechanicList);
-			entryMechanic.getSelectionModel().select(Integer.toString(entry.getMechID()));
+			entryMechanic.getSelectionModel().select(entry.getEmpID());
 		}
 		catch (SQLException se)
 		{
@@ -121,7 +122,7 @@ public class EditWindowController implements Initializable {
 		String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
 		String[] mechData = lineM.split("[\\s,:]+");
 		String sql = "UPDATE BookingIntegrated SET BookingType='"+(String) entryType.getSelectionModel().getSelectedItem()+"', BookingDate='"+entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+" "+entryTime.getText()+"', BookingDuration='"+entryDuration.getText()+"', VehicleRegNo='"+(String) entryReg.getSelectionModel().getSelectedItem()+"', VehicleManufacturer='TEMP', VehicleMileage='0', CustomerID='"+custData[0]+"', CustomerFirstName='"+custData[1]+"', CustomerLastName='"+custData[2]+"', MechanicID='"+mechData[0]+"', MechanicDuration='00:00' WHERE BookingID="+entry.getID();
-		db.update(sql);
+		conn.update(sql);
 		parentController.reset();
 		Stage stage = (Stage) confirmButton.getScene().getWindow();
 		stage.close();
@@ -134,12 +135,12 @@ public class EditWindowController implements Initializable {
 		stage.close();
 	}
 
-	public void setEntry(Diagrep entry)
+	public void setEntry(DiagRepairBooking entry)
 	{
 		this.entry = entry;
 	}
 
-	public void setParentController(DiagrepScreenController parentController)
+	public void setParentController(DiagRepairScreenController parentController)
 	{
 		this.parentController = parentController;
 	}

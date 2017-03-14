@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package David_Aelmans;
+package diagrep.logic;
 
 /**
  * @author David Aelmans
  */
+import diagrep.logic.Booking;
+import diagrep.gui.DiagRepairBooking;
 import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
