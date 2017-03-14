@@ -87,7 +87,7 @@ public class StockPartsController implements Initializable {
     //loads oList into stock table
     public void loadStockParts(){//ActionEvent event){
         
-        System.out.println("test3");
+        //System.out.println("test3");
         //loadAllParts();
         stockTable.setEditable(true);
         nameCol.setCellValueFactory(
@@ -99,7 +99,7 @@ public class StockPartsController implements Initializable {
         stockCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
-        System.out.println("test3");
+        //System.out.println("test3");
     }
     
     public void loadAllParts(){//ActionEvent event){
