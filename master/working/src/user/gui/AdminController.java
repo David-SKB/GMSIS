@@ -7,8 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -23,12 +23,6 @@ import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.SPCRegistry;
 import user.logic.UserRegistry;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -97,14 +91,14 @@ public class AdminController {
     
     public void delUser(ActionEvent evt){
         if(tempUser != null){
-            //Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            //alert.setTitle("Deleting User");
-            //alert.setHeaderText("Are you sure you want to delete this user?");
-            //alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
-                //    " " + tempUser.getSurname() + " " + tempUser.getPassword());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Deleting User");
+            alert.setHeaderText("Are you sure you want to delete this user?");
+            alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
+                    " " + tempUser.getSurname() + " " + tempUser.getPassword());
 
-            //Optional<ButtonType> result = alert.showAndWait();
-            if (true){//result.get() == ButtonType.OK){
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
                 DB.connect();
             
                 int IDNo = tempUser.getIDNumber();
@@ -247,11 +241,74 @@ public class AdminController {
     }
     
     public void deleteSPC(ActionEvent evt){
-    
+        if(tempSPC != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Deleting SPC Centre");
+            alert.setHeaderText("Are you sure you want to delete this SPC Centre?");
+            alert.setContentText("SPC Details: " + tempSPC.getName() + " " + tempSPC.getAddress() + 
+                    " " + tempSPC.getTelephone() + " " + tempSPC.getEmail());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                DB.connect();
+                   
+                boolean qStatus = SPCReg.deleteSPC(tempSPC.getName(),tempSPC.getAddress(),
+                                 tempSPC.getTelephone(),tempSPC.getEmail());
+                
+                DB.closeConnection();
+                if(qStatus){
+                    getSPCs(new ActionEvent());
+                }else{
+                    delSPCStatus.setText("Could not delete SPC.");
+                    delSPCStatus.setFill(Color.RED);
+                    new java.util.Timer().schedule( 
+                    new java.util.TimerTask() {
+                         public void run() {
+                             delSPCStatus.setText("");
+                        }
+                    }, 
+                    2000
+                    );
+                    }
+            }else{
+                getSPCs(new ActionEvent());
+            }
+        }else{
+            delSPCStatus.setText("Double click from the list and press delete.");
+            delSPCStatus.setFill(Color.RED);
+            new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delSPCStatus.setText("");
+                }
+            }, 
+            2000
+            );
+        }
     }
     
     public void submitSPCDetails(ActionEvent evt){
-    
+        boolean nameValid,
+                addressValid,
+                telValid,
+                emailValid;
+        
+        String tempName =  addSPCNameTF.getText(); 
+        nameValid = validateTextField(tempName, addSPCNameTF, "SPC Name");
+
+        String tempAddress = addSPCAddrTF.getText();
+        addressValid = validateTextField(tempAddress, addSPCAddrTF, "Address");
+        
+        String tempPhone = addSPCPhoneTF.getText();    
+        telValid = validateTextField(tempPhone, addSPCPhoneTF, "Telephone Number");
+        
+        String tempEmail = addSPCEmailTF.getText();
+        emailValid = validateTextField(tempEmail, addSPCEmailTF, "Email");
+
+        if(nameValid && addressValid && telValid && emailValid){
+            submitSPC(tempName,tempAddress,tempPhone,tempEmail);
+        }
+            getUsers(new ActionEvent());
     }
     
     public void clearSPCDetails(ActionEvent evt){
@@ -538,5 +595,18 @@ public class AdminController {
         }catch(Exception e){
             return false;
         }
+    }
+    
+    private void submitSPC(String spcName, String spcAddress,String spcPhone, String spcEmail){
+            boolean addSPC = SPCReg.addSPC(spcName, spcAddress, spcPhone, spcEmail);
+            if(addSPC){
+                addSPCStatus.setText("Successful");
+                addSPCStatus.setFill(Color.GREEN);
+                clearUserDetails(new ActionEvent());
+            }else{
+                addSPCStatus.setText("SPC already exists.");
+                addSPCStatus.setFill(Color.RED);
+                clearUserDetails(new ActionEvent());
+            }   
     }
 }

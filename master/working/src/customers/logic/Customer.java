@@ -6,8 +6,6 @@ package customers.logic;
  * and open the template in the editor.
  */
 
-
-import java.util.List;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
