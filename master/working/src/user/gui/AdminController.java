@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import user.logic.Employee;
 import user.logic.Mechanic;
+import user.logic.SPCRegistry;
 import user.logic.UserRegistry;
 
 /*
@@ -36,6 +37,7 @@ import user.logic.UserRegistry;
 public class AdminController {
     DBConnection DB = DBConnection.getInstance();
     UserRegistry UR = UserRegistry.getInstance();
+    SPCRegistry SPCReg = SPCRegistry.getInstance();
     @FXML
     private TextField addIDTF, addFNTF, addLNTX, addPassTF, addHRateTF,
                       eFNTF, eIDTF, eLNTF, ePassTF, eHRateTF;
@@ -59,11 +61,13 @@ public class AdminController {
     @FXML
     private TableColumn spcNameTableC, spcAddrTableC, spcEmailTableC, 
                         spcPhoneTableC;
-    private final ObservableList<Employee> data = FXCollections.observableArrayList();
+    private final ObservableList<Employee> userData = FXCollections.observableArrayList();
+    private final ObservableList<SPC> spcData = FXCollections.observableArrayList();
     private Employee tempUser;
+    private SPC tempSPC;
     
     public void getUsers(ActionEvent evt){
-        loadData(data);
+        loadData(userData);
         idNumberTableC.setCellValueFactory(
                 new PropertyValueFactory<Employee, String>("IDNumber"));
         firstNameColumn.setCellValueFactory(
@@ -76,7 +80,7 @@ public class AdminController {
                 new PropertyValueFactory<Employee, String>("sysAdmin"));
         passTableC.setCellValueFactory(
                 new PropertyValueFactory<Employee, String>("password"));
-        userTV.setItems(data);
+        userTV.setItems(userData);
         
         userTV.setRowFactory((TableView<Employee> tv) -> {
             TableRow<Employee> row = new TableRow<>();
@@ -218,7 +222,28 @@ public class AdminController {
     }
     
     public void getSPCs(ActionEvent evt){
-    
+        loadDataSPC(spcData);                        
+        spcNameTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("IDNumber"));
+        spcAddrTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("firstName"));
+        spcEmailTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("surname"));
+        spcPhoneTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("hRate"));
+        spcTV.setItems(spcData);
+        
+        spcTV.setRowFactory((TableView<SPC> tv) -> {
+            TableRow<SPC> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
+                                    && event2.getClickCount() == 2) {
+                     tempSPC = row.getItem();
+                     loadOnEdit();
+                }
+            });
+            return row;
+        });
     }
     
     public void deleteSPC(ActionEvent evt){
@@ -260,6 +285,18 @@ public class AdminController {
         if(urAList != null){
             for(Employee ur : urAList){
                dataList.add(ur);
+            }
+        }
+        DB.closeConnection();
+    }
+    
+    private void loadDataSPC(ObservableList<SPC> dataList){
+        DB.connect();
+        ArrayList<SPC> spcList = SPCReg.getSPCs();
+        dataList.removeAll(dataList);
+        if(spcList != null){
+            for(SPC spc : spcList){
+               dataList.add(spc);
             }
         }
         DB.closeConnection();
