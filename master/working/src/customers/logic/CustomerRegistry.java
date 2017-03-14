@@ -8,6 +8,8 @@ package customers.logic;
 
 
 import common.DBConnection;
+import diagrep.logic.BookingRegistry;
+import diagrep.logic.DiagRepairBooking;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*; 
@@ -20,6 +22,7 @@ public class CustomerRegistry {
     
     DBConnection DBInstance = DBConnection.getInstance();
     private static CustomerRegistry CRInstance = null;
+    private BookingRegistry BR = BookingRegistry.getInstance();
     
     private CustomerRegistry(){    
     }
@@ -179,9 +182,15 @@ public class CustomerRegistry {
         }
     }
     
-    /*public int calculateBill(){
-
-    }*/
+    public ArrayList<DiagRepairBooking> getCustomerBookings(int custID){
+        ArrayList<DiagRepairBooking> bookingList = BR.getCustomerBookings(custID);
+        return bookingList;
+    }
+    
+    public int calculateBill(DiagRepairBooking tempBooking){
+        double duration = Double.parseDouble(tempBooking.getBookingLength());
+        
+    }
     
     public ArrayList<Customer> getActiveCustomers(){
         try{

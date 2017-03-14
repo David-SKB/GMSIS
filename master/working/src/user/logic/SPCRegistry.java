@@ -74,7 +74,7 @@ public class SPCRegistry {
         return success;
     }
     
-    public ArrayList<Employee> getSPCs(){
+  /*  public ArrayList<Employee> getSPCs(){
         try{
             ArrayList<SPC> SPClist = new ArrayList<SPC>();
             DBInstance.connect();
@@ -92,6 +92,6 @@ public class SPCRegistry {
         }catch(SQLException e){
             return null;
         }
-    }
+    }*/
     
 }

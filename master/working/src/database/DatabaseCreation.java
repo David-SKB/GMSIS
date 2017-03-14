@@ -124,7 +124,7 @@ public class DatabaseCreation
 ");\n" +
 "/* BOOKINGS TABLE */\n" +
 "CREATE TABLE BOOKINGS (\n" +
-"	ID                   INT    PRIMARY KEY      NOT NULL,\n" +
+"	ID                   INTEGER    PRIMARY KEY      ,\n" +
 "	BOOKDATE             VARCHAR(255)            NOT NULL,\n" +
 "	TIME                 INT                     NOT NULL,\n" +
 "	TYPE                 TEXT                    NOT NULL,\n" +
@@ -135,7 +135,10 @@ public class DatabaseCreation
 "	FOREIGN KEY(CUSTOMERID) references CUSTOMER(ID),\n" +
 "	FOREIGN KEY(VEHICLEREGISTRATION) references VEHICLE(REGISTRATION),\n" +
 "	FOREIGN KEY(EMPLOYEEID) references USERS(ID)\n" +
-");";
+");\n" + 
+"/* ADMIN USER */\n" + 
+"INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM)\n" +
+" VALUES(10000,'ADMIN','GMSIS','ADMIN',NULL,'TRUE');";
 
       stmt.executeUpdate(sql);
       stmt.close();
