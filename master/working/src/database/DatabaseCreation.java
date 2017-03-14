@@ -73,14 +73,14 @@ public class DatabaseCreation
 ");\n" +
 "/* PARTS TABLE */\n" +
 "CREATE TABLE STOCKPARTS (\n" +
-"  ID                INT     PRIMARY KEY  NOT NULL,\n" +
+"  ID                INTEGER     PRIMARY KEY  AUTOINCREMENT,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
 "  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE USEDPARTS (\n" +
-"  ID                INT                     NOT NULL,\n" +
+"  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
 "  VEHICLEID         INT                     NOT NULL,\n" +
 "  CUSTOMERID        INT                     NOT NULL,\n" +
