@@ -107,7 +107,7 @@
          </toggleGroup>
       </RadioButton>
       <RadioButton layoutX="41.0" layoutY="325.0" mnemonicParsing="false" onAction="#ToggleSendVehicle" selected="true" text="Send Vehicle" toggleGroup="$SendItemToggle" />
-      <Button fx:id="RepairEditButton" disable="true" layoutX="736.0" layoutY="392.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="92.0" text="Edit" />
+      <Button fx:id="RepairEditButton" disable="true" layoutX="736.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleEdit" prefHeight="25.0" prefWidth="92.0" text="Edit" />
       <Button fx:id="RepairDeleteButton" disable="true" layoutX="847.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleDelete" prefHeight="25.0" prefWidth="92.0" text="Delete" />
       <Label fx:id="T1SearchError" layoutX="489.0" layoutY="483.0" prefHeight="25.0" prefWidth="146.0" text="hello sir!" textFill="RED" visible="false" />
       <TitledPane fx:id="EditVehicle" animated="false" layoutX="252.0" layoutY="29.0" prefHeight="250.0" prefWidth="227.0" text="Update Repair">
@@ -115,11 +115,11 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
                   <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
-                  <TextField fx:id="ExpRetVehicle2" alignment="CENTER" layoutX="25.0" layoutY="120.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Return (DD/MM/YYYY)" />
-                  <TextField fx:id="ExpDelVehicle2" alignment="CENTER" layoutX="25.0" layoutY="88.0" prefHeight="25.0" prefWidth="174.0" promptText="Exp Delivery (DD/MM/YYYY)" />
                   <TextField fx:id="CostVehicle2" alignment="CENTER" layoutX="26.0" layoutY="153.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
                   <TextField fx:id="SPCIDVehicle2" alignment="CENTER" layoutX="26.0" layoutY="56.0" prefHeight="25.0" prefWidth="173.0" promptText="SPC ID" />
-                  <Button fx:id="UpdateVehicleButton" disable="true" layoutX="77.0" layoutY="185.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Update" />
+                  <Button fx:id="UpdateVehicleButton" disable="true" layoutX="77.0" layoutY="185.0" mnemonicParsing="false" onAction="#EditVehicle" prefHeight="25.0" prefWidth="77.0" text="Update" />
+                  <DatePicker fx:id="ExpRetVehicle2" layoutX="26.0" layoutY="119.0" promptText="Exp Return" />
+                  <DatePicker fx:id="ExpDelVehicle2" layoutX="26.0" layoutY="87.0" promptText="Exp Delivery" />
                </children>
             </AnchorPane>
          </content>

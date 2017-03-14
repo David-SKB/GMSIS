@@ -28,7 +28,7 @@ public class Repairs
                             Cost + "' );";
         success = DBC.update(SQL);
         DBC.closeConnection();
-        //System.out.println(SQL);//view sql output
+        System.out.println(SQL);//view sql output
         return success;
     }
 
@@ -51,6 +51,7 @@ public class Repairs
     
     public boolean editVehicle(String RegNo, int SPCID, Date ExpDel, Date ExpRet, double Cost, int RepairID)
     {
+        System.out.println("entered2");
         boolean success;
         DBC.connect();       
         String SQL ="UPDATE REPAIRVEHICLE \n" + 
@@ -59,11 +60,12 @@ public class Repairs
                     "SPCID = '" + SPCID + "', " +
                     "DELIVERYDATE = '" + ExpDel + "', " +
                     "RETURNDATE = '" + ExpRet + "', " +
-                    "COST = '" + Cost + "'\n" + 
+                    "COST = '" + Cost + "' \n" + 
                     "WHERE ID = '" + RepairID +  "';";
+        //System.out.println(SQL);//view sql output
         success = DBC.update(SQL);
         DBC.closeConnection();
-        System.out.println(SQL);//view sql output
+        
         return success;
     }
     
@@ -77,7 +79,23 @@ public class Repairs
         {
             SPCList.add(new ListSPC(rs.getInt("SPCID"), rs.getString("NAME")));
         }
+        DBC.closeConnection();
         return SPCList;
+    }
+    
+    public int getSPCID(String Name) throws SQLException
+    {
+        ObservableList<ListSPC> SPCList = FXCollections.observableArrayList();
+        DBC.connect();
+        String SQL = "SELECT SPCID FROM CENTRES WHERE NAME = '" + Name + "';";
+        ResultSet rs = DBC.query(SQL);
+        int ID = 0;
+        if(rs !=null)
+        {
+            ID = rs.getInt("SPCID");
+        }
+        DBC.closeConnection();
+        return ID;
     }
     
     public ObservableList<DisplayVehicle> getVehicle(String regNo) throws SQLException
@@ -93,6 +111,7 @@ public class Repairs
             //System.out.println(rs.getString("MILEAGE"));
             vehicleInfo.add(new DisplayVehicle( rs.getString("REGISTRATION"), rs.getString("MAKE"), rs.getString("MODEL"), rs.getString("FUELTYPE"), rs.getInt("MILEAGE") , rs.getString("COLOUR") ));
         }
+        DBC.closeConnection();
         return vehicleInfo;
     }
     
@@ -139,6 +158,10 @@ public class Repairs
             {
                 //resultList.add(new SearchReg( rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST"), "Vehicle" ));
                 resultList.add(new SearchName( rs.getInt("ID"), rs.getString("FIRSTNAME"), rs.getString("SURNAME"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
+            }
+            if (resultList == null)
+            {
+                System.out.println("empty g");
             }
             DBC.closeConnection();
         return resultList;
