@@ -8,8 +8,6 @@ package diagrep.logic;
 /**
  * @author David Aelmans
  */
-import diagrep.logic.Booking;
-import diagrep.gui.DiagRepairBooking;
 import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -62,7 +60,7 @@ public class BookingRegistry {
     public boolean deleteBooking(int ID) {
         //delete booking from database
         conn.connect();
-        String query = "DELETE FROM BOOKINGS WHERE ID = "+ ID +");";
+        String query = "DELETE FROM BOOKINGS WHERE ID = "+ ID;
         boolean result = conn.update(query);
         conn.closeConnection();
         return result;
@@ -96,7 +94,7 @@ public class BookingRegistry {
 
     public ArrayList<Booking> getListBookings() {
         try {
-            ArrayList<Booking> BookingList = new ArrayList<Booking>();
+            ArrayList<Booking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
             String query = "SELECT * FROM BOOKINGS;";
