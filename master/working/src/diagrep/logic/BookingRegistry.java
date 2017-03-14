@@ -25,12 +25,11 @@ public class BookingRegistry {
         return BRInstance;
     }
 
-    public boolean addBooking(int ID, String date, int length, int CID, int VID, int miles, int EID) {
+    public boolean addBooking(String date, int length, int CID, int VID, int miles, int EID) {
         //insert booking into database
         conn.connect();
-        String query = "INSERT INTO BOOKINGS (ID, BOOKDATE, TIME, TYPE, CUSTOMERID, VEHICLEREGISTRATION, MILEAGE, EMPLOYEEID) "
+        String query = "INSERT INTO BOOKINGS (BOOKDATE, TIME, TYPE, CUSTOMERID, VEHICLEREGISTRATION, MILEAGE, EMPLOYEEID) "
                 + "VALUES( '"
-                + ID + "', '"
                 + date + "', '"
                 + length + "', 'Diagnosis and Repair', '"
                 + CID + "', '"
