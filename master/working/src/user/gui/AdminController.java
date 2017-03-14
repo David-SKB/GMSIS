@@ -218,13 +218,13 @@ public class AdminController {
     public void getSPCs(ActionEvent evt){
         loadDataSPC(spcData);                        
         spcNameTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("IDNumber"));
+                new PropertyValueFactory<SPC, String>(""));
         spcAddrTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("firstName"));
+                new PropertyValueFactory<SPC, String>(""));
         spcEmailTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("surname"));
+                new PropertyValueFactory<SPC, String>(""));
         spcPhoneTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("hRate"));
+                new PropertyValueFactory<SPC, String>(""));
         spcTV.setItems(spcData);
         
         spcTV.setRowFactory((TableView<SPC> tv) -> {
@@ -308,15 +308,46 @@ public class AdminController {
         if(nameValid && addressValid && telValid && emailValid){
             submitSPC(tempName,tempAddress,tempPhone,tempEmail);
         }
-            getUsers(new ActionEvent());
+            getSPCs(new ActionEvent());
     }
     
-    public void clearSPCDetails(ActionEvent evt){
-    
+    public void clearSPCDetails(ActionEvent evt){ 
+        addSPCNameTF.clear();
+        addSPCAddrTF.clear();
+        addSPCPhoneTF.clear();
+        addSPCEmailTF.clear();
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                     addSPCStatus.setText("");
+                }
+            }, 
+            1500
+        );
     }
     
     public void submitSPCChanges(ActionEvent evt){
-    
+        boolean nameValid,
+                addressValid,
+                telValid,
+                emailValid;
+
+        String tempName =  editSPCNameTF.getText(); 
+        nameValid = validateTextField(tempName, editSPCNameTF, "SPC Name");
+
+        String tempAddress = editSPCAddrTF.getText();
+        addressValid = validateTextField(tempAddress, editSPCAddrTF, "Address");
+        
+        String tempPhone = editSPCPhoneTF.getText();    
+        telValid = validateTextField(tempPhone, editSPCPhoneTF, "Telephone Number");
+        
+        String tempEmail = editSPCEmailTF.getText();
+        emailValid = validateTextField(tempEmail, editSPCEmailTF, "Email");
+
+        if(nameValid && addressValid && telValid && emailValid){
+            submitSPConChange(tempName,tempAddress,tempPhone,tempEmail,tempName,tempAddress,tempPhone,tempEmail);
+        }
+            getSPCs(new ActionEvent());
     }
     
     private void loadOnEdit(){
@@ -598,15 +629,30 @@ public class AdminController {
     }
     
     private void submitSPC(String spcName, String spcAddress,String spcPhone, String spcEmail){
-            boolean addSPC = SPCReg.addSPC(spcName, spcAddress, spcPhone, spcEmail);
-            if(addSPC){
-                addSPCStatus.setText("Successful");
-                addSPCStatus.setFill(Color.GREEN);
-                clearUserDetails(new ActionEvent());
-            }else{
-                addSPCStatus.setText("SPC already exists.");
-                addSPCStatus.setFill(Color.RED);
-                clearUserDetails(new ActionEvent());
-            }   
+        boolean addSPC = SPCReg.addSPC(spcName, spcAddress, spcPhone, spcEmail);
+        if(addSPC){
+            addSPCStatus.setText("Successful");
+            addSPCStatus.setFill(Color.GREEN);
+            clearSPCDetails(new ActionEvent());
+        }else{
+            addSPCStatus.setText("SPC already exists.");
+            addSPCStatus.setFill(Color.RED);
+            clearSPCDetails(new ActionEvent());
+        }   
+    }
+    
+    private void submitSPConChange(String spcName, String spcAddress, String spcPhone, String spcEmail,
+                                   String oldName, String oldAddress, String oldPhone, String oldEmail){
+        boolean editSPC = SPCReg.editSPC(spcName, spcAddress, spcPhone, spcEmail,
+                                         oldName, oldAddress, oldPhone, oldEmail);
+        if(editSPC){
+            editSPCStatus.setText("Successful");
+            editSPCStatus.setFill(Color.GREEN);
+            clearSPCDetails(new ActionEvent());
+        }else{
+            editSPCStatus.setText("SPC already exists.");
+            editSPCStatus.setFill(Color.RED);
+            clearSPCDetails(new ActionEvent());
+        }          
     }
 }
