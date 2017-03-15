@@ -150,10 +150,7 @@ public class Authentication
         String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";        
         ResultSet rs = c.query(SQL);
         try{
-            if(!rs.next()){
-                return false;
-            }
-            return true;
+            return rs.isBeforeFirst();
         }catch(SQLException e){
             return false;
         }

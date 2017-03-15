@@ -246,15 +246,15 @@ public class AdminController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Deleting SPC Centre");
             alert.setHeaderText("Are you sure you want to delete this SPC Centre?");
-            alert.setContentText("SPC Details: " + tempSPC.NAMEXget() + " " + tempSPC.ADDRESSXget() + 
-                    " " + tempSPC.TELEPHONEXget() + " " + tempSPC.EMAILXget());
+            alert.setContentText("SPC Details: " + tempSPC.getNAMEX() + " " + tempSPC.getADDRESSX() + 
+                    " " + tempSPC.getTELEPHONEX() + " " + tempSPC.getEMAILX());
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 DB.connect();
                    
-                boolean qStatus = SPCReg.deleteSPC(tempSPC.NAMEXget(),tempSPC.ADDRESSXget(),
-                                 tempSPC.TELEPHONEXget(),tempSPC.EMAILXget());
+                boolean qStatus = SPCReg.deleteSPC(tempSPC.getNAMEX(),tempSPC.getADDRESSX(),
+                                 tempSPC.getTELEPHONEX(),tempSPC.getEMAILX());
                 
                 DB.closeConnection();
                 if(qStatus){
@@ -308,23 +308,38 @@ public class AdminController {
 
         if(nameValid && addressValid && telValid && emailValid){
             submitSPC(tempName,tempAddress,tempPhone,tempEmail);
-        }
             getSPCs(new ActionEvent());
+        }  
     }
     
-    public void clearSPCDetails(ActionEvent evt){ 
-        addSPCNameTF.clear();
-        addSPCAddrTF.clear();
-        addSPCPhoneTF.clear();
-        addSPCEmailTF.clear();
-        new java.util.Timer().schedule( 
-            new java.util.TimerTask() {
-                public void run() {
-                     addSPCStatus.setText("");
-                }
-            }, 
-            1500
-        );
+    public void clearSPCDetails(ActionEvent evt){
+            addSPCNameTF.clear();
+            addSPCAddrTF.clear();
+            addSPCPhoneTF.clear();
+            addSPCEmailTF.clear();
+            new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                         editSPCStatus.setText("");
+                    }
+                }, 
+                1500
+            );
+    }
+    
+    private void clearSPCDetailsOnEdit(){
+            editSPCNameTF.clear();
+            editSPCAddrTF.clear();
+            editSPCPhoneTF.clear();
+            editSPCEmailTF.clear();
+            new java.util.Timer().schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                         editSPCStatus.setText("");
+                    }
+                }, 
+                1500
+            );  
     }
     
     public void submitSPCChanges(ActionEvent evt){
@@ -346,9 +361,11 @@ public class AdminController {
         emailValid = validateTextField(tempEmail, editSPCEmailTF, "Email");
 
         if(nameValid && addressValid && telValid && emailValid){
-            submitSPConChange(tempName,tempAddress,tempPhone,tempEmail,tempName,tempAddress,tempPhone,tempEmail);
-        }
+            submitSPConChange(tempName,tempAddress,tempPhone,tempEmail,
+                              tempSPC.getNAMEX(),tempSPC.getADDRESSX(),
+                              tempSPC.getTELEPHONEX(),tempSPC.getEMAILX());
             getSPCs(new ActionEvent());
+        }
     }
     
     private void loadOnEdit(){
@@ -380,10 +397,10 @@ public class AdminController {
     }
     
     private void loadOnEditSPC(){
-        editSPCNameTF.setText(tempSPC.NAMEXget());
-        editSPCAddrTF.setText(tempSPC.ADDRESSXget());
-        editSPCPhoneTF.setText(tempSPC.TELEPHONEXget());
-        editSPCEmailTF.setText(tempSPC.EMAILXget());
+        editSPCNameTF.setText(tempSPC.getNAMEX());
+        editSPCAddrTF.setText(tempSPC.getADDRESSX());
+        editSPCPhoneTF.setText(tempSPC.getTELEPHONEX());
+        editSPCEmailTF.setText(tempSPC.getEMAILX());
     }
     
     private void loadDataSPC(ObservableList<SPC> dataList){
@@ -616,7 +633,7 @@ public class AdminController {
         eLNTF.clear();
         ePassTF.clear();
         eHRateTF.clear();
-        addHRateTF.setVisible(true);
+        eHRateTF.setVisible(true);
         new java.util.Timer().schedule( 
             new java.util.TimerTask() {
                 public void run() {
@@ -653,14 +670,27 @@ public class AdminController {
                                    String oldName, String oldAddress, String oldPhone, String oldEmail){
         boolean editSPC = SPCReg.editSPC(spcName, spcAddress, spcPhone, spcEmail,
                                          oldName, oldAddress, oldPhone, oldEmail);
-        if(editSPC){
+        boolean changed = checkIfChangedSPC(spcName, spcAddress, spcPhone, spcEmail,
+                                            oldName, oldAddress, oldPhone, oldEmail);
+        if(editSPC && changed){
             editSPCStatus.setText("Successful");
             editSPCStatus.setFill(Color.GREEN);
-            clearSPCDetails(new ActionEvent());
+            clearSPCDetailsOnEdit();
         }else{
             editSPCStatus.setText("SPC already exists.");
             editSPCStatus.setFill(Color.RED);
-            clearSPCDetails(new ActionEvent());
+            clearSPCDetailsOnEdit();
         }          
+    }
+    private boolean checkIfChangedSPC(String newName, String newAddress, String newPhone, String newEmail,
+                                   String oldName, String oldAddress, String oldPhone, String oldEmail){
+        if(newName.equalsIgnoreCase(oldName) &&
+           newAddress.equalsIgnoreCase(oldAddress) &&
+           newPhone.equalsIgnoreCase(oldPhone) &&
+           newEmail.equalsIgnoreCase(oldEmail)){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

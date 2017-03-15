@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/parts/logic/PartRegistry.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/diagrep/gui/diagRepairGUI.fxml</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/diagrep/logic/BookingRegistry.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/diagrep/logic/read</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/diagrep/logic/BookingTest.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/customers/logic/CustomerRegistry.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/diagrep/gui/AddWindowController.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/dja30/Software%20Eng%20Project/SE9/master/working/src/database/DatabaseCreation.java</file>
+            <file>file:/Users/athanasiosgkanos/NetBeansProjects/SE9/master/working/src/customers/logic/CustomerRegistry.java</file>
+            <file>file:/Users/athanasiosgkanos/NetBeansProjects/SE9/master/working/src/database/DatabaseCreation.java</file>
+            <file>file:/Users/athanasiosgkanos/NetBeansProjects/SE9/master/working/src/user/gui/Test.java</file>
+            <file>file:/Users/athanasiosgkanos/NetBeansProjects/SE9/master/working/src/user/logic/UserRegistry.java</file>
+            <file>file:/Users/athanasiosgkanos/NetBeansProjects/SE9/master/working/src/parts/gui/StockParts.java</file>
         </group>
     </open-files>
 </project-private>

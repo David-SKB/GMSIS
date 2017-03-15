@@ -25,22 +25,22 @@ public class SPC
         return IDX.get();
     }
     
-    public String NAMEXget()
+    public String getNAMEX()
     {
         return NAMEX.get();
     }
     
-    public String ADDRESSXget()
+    public String getADDRESSX()
     {
         return ADDRESSX.get();
     }
     
-    public String TELEPHONEXget()
+    public String getTELEPHONEX()
     {
         return TELEPHONEX.get();
     }
     
-    public String EMAILXget()
+    public String getEMAILX()
     {
         return EMAILX.get();
     }
