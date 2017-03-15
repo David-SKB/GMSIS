@@ -66,9 +66,10 @@ public class CustomerController {
                       ePostCodeTextField, ePhoneTextField, eEmailTextField,
                       searchBar;
     @FXML
-    private ToggleGroup customerTypeToggle, eCustomerTypeToggle;                        //FXML ToggleGroup. First when adding a customer and second when editing.
+    private ToggleGroup customerTypeToggle, eCustomerTypeToggle, customerSearchType;    //FXML ToggleGroup. First when adding a customer and second when editing.
     @FXML
-    private Toggle eIndividualRadioButton, eBusinessRadionButton;                       //FXML Toggle. RadioButtons to identify if the customer type has been edited.
+    private Toggle eIndividualRadioButton, eBusinessRadionButton,
+                   searchIndiRB,searchBusRB;                                            //FXML Toggle. RadioButtons to identify if the customer type has been edited.
     @FXML
     private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> obsListData = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
@@ -85,6 +86,11 @@ public class CustomerController {
         this.showVehiclesCBox = new ChoiceBox<>();
         this.delCustomersCBox = new ChoiceBox<>();
     }
+    
+    public void initialize() {
+        getActiveCustomers(new ActionEvent());
+    }
+    
 
     /* ------------------------------------------------------------------
      * Method handles the OnAction event of getActiveCustomers
@@ -370,20 +376,20 @@ public class CustomerController {
         );
     } 
    
-    public void logoutCustomer(ActionEvent evt){
-        Main.stage.close();
-        Authentication authenticate = new Authentication();
-        authenticate.start(new Stage());        
-    }
     
     public void searchCustomerBar(ActionEvent evt){
         String inputData = searchBar.getText();
         String[] data = inputData.split("\\s+");
         if(data.length == 2){
+            RadioButton toggleResult = (RadioButton) customerSearchType.getSelectedToggle();
+            String userType = "Individual";
+            if(toggleResult.getText().equals("Search Business")){
+                userType = "Business";
+            }
             getActiveCustomers(new ActionEvent());
             String sName = data[0].substring(0,1).toUpperCase() + data[0].substring(1);
             String fName = data[1].substring(0,1).toUpperCase() + data[1].substring(1);
-            boolean found = loadSearchedData(obsListData,sName,fName);
+            boolean found = loadSearchedData(obsListData,userType,sName,fName);
             if(found){
                 customerDetails.setItems(obsListData);
                 delCustomersCBox.setItems(obsListData);
@@ -391,6 +397,7 @@ public class CustomerController {
                 showBillCBox.setItems(obsListData);
             }else{
                 obsListData.removeAll(obsListData);
+                customerSearchType.selectToggle(searchIndiRB);
                 searchBar.setText("");
                 searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
                 new java.util.Timer().schedule( 
@@ -612,8 +619,8 @@ public class CustomerController {
         }
     }
     
-    private boolean loadSearchedData(ObservableList<Customer> dataList, String sName, String fName){
-        ArrayList<Customer> csAList = CR.searchCustomerWithName(sName,fName);
+    private boolean loadSearchedData(ObservableList<Customer> dataList, String cType, String sName, String fName){
+        ArrayList<Customer> csAList = CR.searchCustomerWithName(cType,sName,fName);
         dataList.removeAll(dataList);
         if(csAList != null &&
            !csAList.isEmpty()){

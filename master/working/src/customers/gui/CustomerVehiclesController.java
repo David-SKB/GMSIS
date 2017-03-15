@@ -35,6 +35,7 @@ public class CustomerVehiclesController {
         setUserContactDetails();
        // setUserVehicleDetails();
     }
+
     
     private void setUserContactDetails(){
         firstNameTF.setText(tempCust.getFirstname());

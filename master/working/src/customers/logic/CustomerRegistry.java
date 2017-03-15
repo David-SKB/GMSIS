@@ -82,14 +82,19 @@ public class CustomerRegistry {
         return success;
     }
     
-    public ArrayList<Customer> searchCustomerWithName(String argSName,String argFName){
+    public ArrayList<Customer> searchCustomerWithName(String cType, String argSName,String argFName){
         DBInstance.connect();
+        String custType = "Individual";
+        if(cType.equalsIgnoreCase("Business")){
+            custType = "Business";
+        }
         try{
             String query = "SELECT * FROM CUSTOMER\n" +
-                           "WHERE SURNAME = '" + argSName + "' " +
+                           "WHERE CUSTOMERTYPE = '" + custType + "' " +
+                           "AND (SURNAME = '" + argSName + "' " +
                            "OR SURNAME = '" + argFName + "' " + 
                            "AND FIRSTNAME = '" + argFName + "' " +
-                           "OR FIRSTNAME = '" + argSName + "'; ";
+                           "OR FIRSTNAME = '" + argSName  + "'); ";
             ArrayList<Customer> searchedCustomers = new ArrayList<>();
             ResultSet rs = DBInstance.query(query);
             while(rs.next()){

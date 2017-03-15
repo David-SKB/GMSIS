@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -12,7 +13,7 @@
 
 <AnchorPane prefHeight="917.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
    <children>
-      <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="776.0" prefWidth="1165.0" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
+      <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="776.0" prefWidth="1165.0" stylesheets="@tabPane.css" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
             <Tab text="Customer">
                <content>
@@ -72,5 +73,6 @@
             <Image url="@GMSISBANNER.jpg" />
          </image>
       </ImageView>
+      <Button layoutX="1016.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutCustomer" opacity="0.76" prefHeight="27.0" prefWidth="143.0" text="Logout" />
    </children>
 </AnchorPane>
