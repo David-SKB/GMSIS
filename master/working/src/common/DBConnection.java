@@ -23,6 +23,9 @@ public class DBConnection {
     public void connect(){
         try{
             c = DriverManager.getConnection("jdbc:sqlite:gmsisdb.db");
+            stmt = c.createStatement();
+            String sql = "PRAGMA foreign_keys = ON";
+            stmt.executeUpdate(sql);
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  

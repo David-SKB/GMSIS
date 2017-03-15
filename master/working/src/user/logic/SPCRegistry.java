@@ -90,6 +90,7 @@ public class SPCRegistry {
                 String spcEmail = rs.getString("EMAIL");
                 SPClist.add(new SPC(spcID,spcName,spcAddress,spcTel,spcEmail));
             }
+            DBInstance.closeConnection();
             return SPClist;
         }catch(SQLException e){
             return null;
