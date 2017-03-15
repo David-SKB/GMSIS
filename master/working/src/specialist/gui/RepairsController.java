@@ -547,7 +547,6 @@ public class RepairsController /*extends Application*/ implements Initializable
             return;
         }
         LoadComboListSPC();
-        System.out.println("wag1 fam");
         //Set Update textfields with data
         EditVehicle.setVisible(true);
         //EditPart.setVisible(false);//needs to be made
@@ -726,7 +725,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void LoadComboListSPC() throws SQLException
     {
-        System.out.println("wag1 g");
         ObservableList<String> SPCNameList = repairs.getSPCListCombo();
         SPCIDVehicle.setItems(SPCNameList);
         SPCIDVehicle2.setItems(SPCNameList);
@@ -737,7 +735,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         try 
         {
-            System.out.println("wag1!");
             //NEEDS TO BE FINISHED
             LoadComboListSPC();
             ExpDelVehicle.setDayCellFactory(DCF);
