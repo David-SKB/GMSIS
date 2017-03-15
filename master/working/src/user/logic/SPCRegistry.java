@@ -9,6 +9,7 @@ import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import specialist.logic.SPC;
 
 /**
  *
@@ -74,7 +75,7 @@ public class SPCRegistry {
         return success;
     }
     
-  /*  public ArrayList<Employee> getSPCs(){
+   public ArrayList<SPC> getSPCs(){
         try{
             ArrayList<SPC> SPClist = new ArrayList<SPC>();
             DBInstance.connect();
@@ -82,16 +83,17 @@ public class SPCRegistry {
             ResultSet rs = DBInstance.query(query);
             
             while(rs.next()){
+                int spcID = rs.getInt("SPCID");
                 String spcName = rs.getString("NAME");
                 String spcAddress = rs.getString("ADDRESS");
                 String spcTel = rs.getString("TELEPHONE");
                 String spcEmail = rs.getString("EMAIL");
-                SPClist.add(new SPC(spcName,spcAddress,spcTel,spcEmail));
+                SPClist.add(new SPC(spcID,spcName,spcAddress,spcTel,spcEmail));
             }
             return SPClist;
         }catch(SQLException e){
             return null;
         }
-    }*/
+    }
     
 }

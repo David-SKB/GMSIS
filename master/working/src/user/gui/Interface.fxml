@@ -30,7 +30,7 @@
                   
                </content>
                <content>
-                  <fx:include source="../../diagrep/gui/diagRepairGUI.fxml" />
+                  
                </content>
             </Tab>
             <Tab text="Parts">
@@ -59,10 +59,10 @@
             </Tab>
             <Tab fx:id="adminTab" text="Administration">
                <content>
-
+                    <fx:include source="Administration.fxml" />
                </content>
                <content>
-                  <fx:include source="Administration.fxml" />
+                 
                </content>
            </Tab>
         </tabs>

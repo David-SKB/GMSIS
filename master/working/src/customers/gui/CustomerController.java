@@ -1,7 +1,9 @@
 package customers.gui;
 
+import common.Authentication;
 import customers.logic.CustomerRegistry;
 import common.DBConnection;
+import common.Main;
 import customers.logic.Customer;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /*
@@ -368,7 +371,9 @@ public class CustomerController {
     } 
    
     public void logoutCustomer(ActionEvent evt){
-        System.exit(0);
+        Main.stage.close();
+        Authentication authenticate = new Authentication();
+        authenticate.start(new Stage());        
     }
     
     public void searchCustomerBar(ActionEvent evt){
@@ -428,6 +433,8 @@ public class CustomerController {
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.setTitle("Customer's Vehicle");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
                 stage.show();
             }catch(IOException e){}
         }else{
@@ -461,6 +468,8 @@ public class CustomerController {
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.setTitle("Customer's Bill");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
                 stage.show();
             }catch(IOException e){}
         }else{

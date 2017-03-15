@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import specialist.logic.SPC;
 import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.SPCRegistry;
@@ -51,14 +52,14 @@ public class AdminController {
     private TableColumn idNumberTableC, firstNameColumn, lastNameTableC, hRateTableC,
                         sysAdmTableC, passTableC;
     @FXML
-    private TableView spcTV;
+    private TableView<SPC> spcTV;
     @FXML
     private TableColumn spcNameTableC, spcAddrTableC, spcEmailTableC, 
                         spcPhoneTableC;
     private final ObservableList<Employee> userData = FXCollections.observableArrayList();
-   // private final ObservableList<SPC> spcData = FXCollections.observableArrayList();
+    private final ObservableList<SPC> spcData = FXCollections.observableArrayList();
     private Employee tempUser;
-    //private SPC tempSPC;
+    private SPC tempSPC;
     
     public void getUsers(ActionEvent evt){
         loadData(userData);
@@ -215,16 +216,16 @@ public class AdminController {
         }
     }
     
-   /* public void getSPCs(ActionEvent evt){
-        loadDataSPC(spcData);                        
+    public void getSPCs(ActionEvent evt){
+        loadDataSPC(spcData);
         spcNameTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>(""));
+                new PropertyValueFactory<SPC, String>("NAMEX"));
         spcAddrTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>(""));
+                new PropertyValueFactory<SPC, String>("ADDRESSX"));
         spcEmailTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>(""));
+                new PropertyValueFactory<SPC, String>("TELEPHONEX"));
         spcPhoneTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>(""));
+                new PropertyValueFactory<SPC, String>("EMAILX"));
         spcTV.setItems(spcData);
         
         spcTV.setRowFactory((TableView<SPC> tv) -> {
@@ -233,27 +234,27 @@ public class AdminController {
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
                      tempSPC = row.getItem();
-                     loadOnEdit();
+                     loadOnEditSPC();
                 }
             });
             return row;
         });
-    }*/
+    }
     
- /*   public void deleteSPC(ActionEvent evt){
+    public void deleteSPC(ActionEvent evt){
         if(tempSPC != null){
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Deleting SPC Centre");
             alert.setHeaderText("Are you sure you want to delete this SPC Centre?");
-            alert.setContentText("SPC Details: " + tempSPC.getName() + " " + tempSPC.getAddress() + 
-                    " " + tempSPC.getTelephone() + " " + tempSPC.getEmail());
+            alert.setContentText("SPC Details: " + tempSPC.NAMEXget() + " " + tempSPC.ADDRESSXget() + 
+                    " " + tempSPC.TELEPHONEXget() + " " + tempSPC.EMAILXget());
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
                 DB.connect();
                    
-                boolean qStatus = SPCReg.deleteSPC(tempSPC.getName(),tempSPC.getAddress(),
-                                 tempSPC.getTelephone(),tempSPC.getEmail());
+                boolean qStatus = SPCReg.deleteSPC(tempSPC.NAMEXget(),tempSPC.ADDRESSXget(),
+                                 tempSPC.TELEPHONEXget(),tempSPC.EMAILXget());
                 
                 DB.closeConnection();
                 if(qStatus){
@@ -285,9 +286,9 @@ public class AdminController {
             2000
             );
         }
-    }*/
+    }
     
-    /*public void submitSPCDetails(ActionEvent evt){
+    public void submitSPCDetails(ActionEvent evt){
         boolean nameValid,
                 addressValid,
                 telValid,
@@ -348,7 +349,7 @@ public class AdminController {
             submitSPConChange(tempName,tempAddress,tempPhone,tempEmail,tempName,tempAddress,tempPhone,tempEmail);
         }
             getSPCs(new ActionEvent());
-    }*/
+    }
     
     private void loadOnEdit(){
         eIDTF.setText(String.valueOf(tempUser.getIDNumber()));
@@ -378,7 +379,14 @@ public class AdminController {
         DB.closeConnection();
     }
     
-    /*private void loadDataSPC(ObservableList<SPC> dataList){
+    private void loadOnEditSPC(){
+        editSPCNameTF.setText(tempSPC.NAMEXget());
+        editSPCAddrTF.setText(tempSPC.ADDRESSXget());
+        editSPCPhoneTF.setText(tempSPC.TELEPHONEXget());
+        editSPCEmailTF.setText(tempSPC.EMAILXget());
+    }
+    
+    private void loadDataSPC(ObservableList<SPC> dataList){
         DB.connect();
         ArrayList<SPC> spcList = SPCReg.getSPCs();
         dataList.removeAll(dataList);
@@ -388,7 +396,7 @@ public class AdminController {
             }
         }
         DB.closeConnection();
-    }*/
+    }
     
     private void adminSubmission(int ID, String firstName, String lastName, String password){
             boolean addAdmin = UR.addAdmin(ID,password,lastName,firstName);
@@ -628,7 +636,7 @@ public class AdminController {
         }
     }
     
-   /* private void submitSPC(String spcName, String spcAddress,String spcPhone, String spcEmail){
+    private void submitSPC(String spcName, String spcAddress,String spcPhone, String spcEmail){
         boolean addSPC = SPCReg.addSPC(spcName, spcAddress, spcPhone, spcEmail);
         if(addSPC){
             addSPCStatus.setText("Successful");
@@ -639,9 +647,9 @@ public class AdminController {
             addSPCStatus.setFill(Color.RED);
             clearSPCDetails(new ActionEvent());
         }   
-    }*/
+    }
     
-   /* private void submitSPConChange(String spcName, String spcAddress, String spcPhone, String spcEmail,
+    private void submitSPConChange(String spcName, String spcAddress, String spcPhone, String spcEmail,
                                    String oldName, String oldAddress, String oldPhone, String oldEmail){
         boolean editSPC = SPCReg.editSPC(spcName, spcAddress, spcPhone, spcEmail,
                                          oldName, oldAddress, oldPhone, oldEmail);
@@ -654,5 +662,5 @@ public class AdminController {
             editSPCStatus.setFill(Color.RED);
             clearSPCDetails(new ActionEvent());
         }          
-    }*/
+    }
 }
