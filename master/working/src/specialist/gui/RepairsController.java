@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -35,12 +37,15 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import static javafx.util.Duration.seconds;
 import specialist.logic.*;
 
-public class RepairsController extends Application implements Initializable
+public class RepairsController /*extends Application*/ implements Initializable
 {
+    private FXMLLoader fXMLLoader = new FXMLLoader();
     Repairs repairs = Repairs.getInstance();
     private DBConnection DBC = DBConnection.getInstance();
     //Send Vehicle Pane
@@ -107,12 +112,13 @@ public class RepairsController extends Application implements Initializable
     @FXML private Toggle RegRadioButton;
     @FXML private ToggleGroup SearchVehicleToggle;
     @FXML private ToggleGroup SendItemToggle;
-    @FXML private Label T1SearchError;
-    @FXML private Label AddError;
-    @FXML private Label EditError;
+    @FXML private Text T1SearchError;
+    @FXML private Text AddError;
+    @FXML private Text EditError;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
     @FXML private Button SPCVehicleButton;
+    @FXML private Text T1SearchErrorText;
     
     
     //requirements left: 7, 8, 10, 12, 14
@@ -125,7 +131,6 @@ public class RepairsController extends Application implements Initializable
             boolean added  = repairs.addVehicle(RegNoVehicle.getText(), repairs.getSPCID(SPCIDVehicle.getValue().toString()), toDate(ExpDelVehicle), toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
             System.out.println("added: " + added);
             clearAddVehicle();
-            AddError.setVisible(false);
         }
     }
     
@@ -176,12 +181,10 @@ public class RepairsController extends Application implements Initializable
         //***********************************
         if (valid == false)
         {
-            AddError.setDisable(false);
             AddErrMsg("Invalid Input");
             return false;
         }
         ClearAddVStyles();
-        AddError.setDisable(true);
         return true;
     }
     
@@ -405,6 +408,7 @@ public class RepairsController extends Application implements Initializable
         if (repairs.isAlphanumeric(FirstNameSearch.getText()) == false || repairs.isAlphanumeric(LastNameSearch.getText()) == false)
         {
             RepairErrMsg("Invalid Name");
+            
         }
         else
         {
@@ -416,11 +420,13 @@ public class RepairsController extends Application implements Initializable
             }
             else
             {
-                T1SearchError.setVisible(false);
+                //T1SearchError.setVisible(false);
             }
             MainTable.setItems(resultList);
         }
     }
+    
+    
     
     @FXML private void SearchBySPC(int SPCID) throws SQLException
     {
@@ -541,6 +547,7 @@ public class RepairsController extends Application implements Initializable
             return;
         }
         LoadComboListSPC();
+        System.out.println("wag1 fam");
         //Set Update textfields with data
         EditVehicle.setVisible(true);
         //EditPart.setVisible(false);//needs to be made
@@ -620,9 +627,24 @@ public class RepairsController extends Application implements Initializable
         SPCIDVehicle.setStyle(null);
     }
     
+    /*public void reload()
+    {
+        try 
+        {
+            //NEEDS TO BE FINISHED
+            LoadComboListSPC();
+            ExpDelVehicle.setDayCellFactory(DCF);
+            ExpDelPart.setDayCellFactory(DCF);
+            ExpRetVehicle.setDayCellFactory(DCFRETURN);
+            ExpRetPart.setDayCellFactory(DCFRETURN);
+            ExpRetVehicle2.setDayCellFactory(DCFRETURN);
+        } catch (SQLException ex) 
+        {
+            Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
     
-    
-    public static void main (String args[]) throws Exception
+    /*public static void main (String args[]) throws Exception
     {
         launch(args);
     }
@@ -634,24 +656,65 @@ public class RepairsController extends Application implements Initializable
         Scene scene = new Scene(root,1168,748);
         window.setScene(scene);
         window.show();
+        System.out.println("OI");
+    }*/
+    
+    public  URL getLoc()
+    {
+        return fXMLLoader.getLocation();
+    }
+    
+    public ResourceBundle getResources()
+    {
+        return fXMLLoader.getResources();
     }
     
     @FXML private void RepairErrMsg(String msg)
     {
         T1SearchError.setText(msg);
-        T1SearchError.setVisible(true);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    T1SearchError.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
     }
     
     @FXML private void AddErrMsg(String msg)
     {
         AddError.setText(msg);
-        AddError.setVisible(true);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    AddError.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
     }
     
     @FXML private void EditErrMsg(String msg)
     {
         EditError.setText(msg);
-        EditError.setVisible(true);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    EditError.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
     }
     
     @FXML private void ComboListSPC() throws SQLException
@@ -663,6 +726,7 @@ public class RepairsController extends Application implements Initializable
     
     @FXML private void LoadComboListSPC() throws SQLException
     {
+        System.out.println("wag1 g");
         ObservableList<String> SPCNameList = repairs.getSPCListCombo();
         SPCIDVehicle.setItems(SPCNameList);
         SPCIDVehicle2.setItems(SPCNameList);
@@ -673,6 +737,7 @@ public class RepairsController extends Application implements Initializable
     {
         try 
         {
+            System.out.println("wag1!");
             //NEEDS TO BE FINISHED
             LoadComboListSPC();
             ExpDelVehicle.setDayCellFactory(DCF);
