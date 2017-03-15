@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.SplitPane?>
@@ -11,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="672.0" prefWidth="1165.0">
         <items>
@@ -39,7 +43,7 @@
                               <TextField fx:id="addLNTX" alignment="CENTER" layoutX="36.0" layoutY="80.0" promptText="Last Name" />
                               <TextField fx:id="addPassTF" alignment="CENTER" layoutX="36.0" layoutY="113.0" promptText="Password" />
                               <TextField fx:id="addHRateTF" alignment="CENTER" layoutX="36.0" layoutY="146.0" promptText="H.Rate" />
-                              <Button layoutX="36.0" layoutY="214.0" mnemonicParsing="false" onAction="#submitUserDetails" text="Submit" />
+                              <Button fx:id="submitUserBTN" layoutX="36.0" layoutY="214.0" mnemonicParsing="false" onAction="#submitUserDetails" text="Submit" />
                               <Button layoutX="129.0" layoutY="214.0" mnemonicParsing="false" onAction="#clearUserDetails" prefHeight="25.0" prefWidth="54.0" text="Clear" />
                               <Text fx:id="addUserStatus" layoutX="34.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
                               <RadioButton layoutX="123.0" layoutY="186.0" mnemonicParsing="false" onAction="#hideRate" prefHeight="18.0" prefWidth="66.0" text="Admin">
@@ -61,7 +65,7 @@
                               <TextField fx:id="eLNTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Last Name" />
                               <TextField fx:id="ePassTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="Password" />
                               <TextField fx:id="eHRateTF" alignment="CENTER" layoutX="37.0" layoutY="146.0" promptText="H.Rate" />
-                              <Button layoutX="60.0" layoutY="213.0" mnemonicParsing="false" onAction="#submitUserChanges" text="Submit Changes" />
+                              <Button fx:id="submitUserChangesBTN" layoutX="60.0" layoutY="213.0" mnemonicParsing="false" onAction="#submitUserChanges" text="Submit Changes" />
                               <Text fx:id="editUserStatus" layoutX="35.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
                               <RadioButton fx:id="AdminRBE" layoutX="122.0" layoutY="184.0" mnemonicParsing="false" onAction="#hideRateE" prefHeight="18.0" prefWidth="66.0" text="Admin">
                                  <toggleGroup>
@@ -96,7 +100,7 @@
                               <TextField fx:id="addSPCAddrTF" alignment="CENTER" layoutX="36.0" layoutY="47.0" promptText="Address" />
                               <TextField fx:id="addSPCPhoneTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Telephone" />
                               <TextField fx:id="addSPCEmailTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="E-mail" />
-                              <Button layoutX="36.0" layoutY="162.0" mnemonicParsing="false" onAction="#submitSPCDetails" text="Submit" />
+                              <Button fx:id="submitSPCBTN" layoutX="36.0" layoutY="162.0" mnemonicParsing="false" onAction="#submitSPCDetails" text="Submit" />
                               <Button layoutX="131.0" layoutY="162.0" mnemonicParsing="false" onAction="#clearSPCDetails" prefHeight="25.0" prefWidth="54.0" text="Clear" />
                               <Text fx:id="addSPCStatus" layoutX="35.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
                            </children>
@@ -111,7 +115,7 @@
                               <TextField fx:id="editSPCAddrTF" alignment="CENTER" layoutX="37.0" layoutY="47.0" promptText="Address" />
                               <TextField fx:id="editSPCPhoneTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Telephone" />
                               <TextField fx:id="editSPCEmailTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="E-mail" />
-                              <Button layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onAction="#submitSPCChanges" text="Submit Changes" />
+                              <Button fx:id="submitSPCChangesBTN" layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onAction="#submitSPCChanges" text="Submit Changes" />
                               <Text fx:id="editSPCStatus" layoutX="35.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
                            </children>
                         </AnchorPane>

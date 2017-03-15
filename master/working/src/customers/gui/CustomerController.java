@@ -8,6 +8,7 @@ import customers.logic.Customer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.collections.FXCollections;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
@@ -80,6 +82,8 @@ public class CustomerController {
     @FXML 
     private ChoiceBox<Customer> showBillCBox;
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
+    @FXML
+    private Button submitButton,eSubmitChangesButton;
 
     public CustomerController() {
         this.showBillCBox = new ChoiceBox<>();
@@ -141,6 +145,7 @@ public class CustomerController {
      *  in the database. (Prints success/fail upon completion).
      * ------------------------------------------------------------------ */        
     public void submitCustomerDetails(ActionEvent evt){
+        submitButton.setDisable(true);
         boolean fValid,
                 lValid,
                 addrValid,
@@ -171,6 +176,17 @@ public class CustomerController {
         if(fValid && lValid && addrValid && postCValid && phoneValid && tempCType != null &&emailValid){
             submission(tempLName,tempFName,tempAddr,tempPostC,tempPhone,tempEmail,tempCType);
             getActiveCustomers(new ActionEvent());
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        submitButton.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
         }
     }
     
@@ -182,6 +198,7 @@ public class CustomerController {
      *  in the db.
      * ----------------------------------------------------------------------*/ 
     public void submitCustomerChanges(){
+        eSubmitChangesButton.setDisable(true);
         boolean eFValid,
                 eLValid,
                 eAddrValid,
@@ -210,7 +227,6 @@ public class CustomerController {
         String cType = validateCType(eCustomerTypeToggle,"OnEdit");
         
         if(eFValid && eLValid && eAddrValid && ePostCValid && ePhoneValid && eEmailValid){
-            db.connect();
                 boolean changed = checkIfChanged(tempCustomer,lName, fName, addr, postC, phone, email, cType);
                 if(changed){
                     boolean result = CR.editCustomer(lName, fName, addr, postC, phone, email, cType,tempCustomer.getPhone(),tempCustomer.getEmail());
@@ -224,9 +240,18 @@ public class CustomerController {
                     eStatusText.setText("Nothing to update.");
                     eStatusText.setFill(Color.RED);
                     clearCustomerDetailsOnEdit(new ActionEvent());
-                }
-            db.closeConnection();
- 
+                } 
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        eSubmitChangesButton.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
         }
     }
     
@@ -241,13 +266,12 @@ public class CustomerController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                db.connect();
                 String sName = c.getSurname();
                 String fName = c.getFirstname();
                 String phone = c.getPhone();
                 String email = c.getEmail();
                 CR.deleteCustomer(sName, fName, phone, email);
-                db.closeConnection();
+
                 getActiveCustomers(new ActionEvent());
             } else {
                 getActiveCustomers(new ActionEvent());
@@ -255,10 +279,12 @@ public class CustomerController {
         }else{
             delStatus.setText("Please select a Customer for deletion.");
             delStatus.setFill(Color.RED);
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     delStatus.setText("");
+                    timer.cancel();
                 }
             }, 
             2000
@@ -339,10 +365,13 @@ public class CustomerController {
             RadioButton toggleResult = (RadioButton) customerTypeToggle.getSelectedToggle();
             toggleResult.setSelected(false);
         }catch(Exception e){}
-        new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     statusText.setText("");
+                    submitButton.setDisable(false);
+                    timer.cancel();
                 }
             }, 
             1500
@@ -362,14 +391,18 @@ public class CustomerController {
         ePostCodeTextField.clear();
         ePhoneTextField.clear();
         eEmailTextField.clear();
+        eEmailTextField.setAlignment(Pos.CENTER);
         try{
             RadioButton toggleResult = (RadioButton) eCustomerTypeToggle.getSelectedToggle();
             toggleResult.setSelected(false);
         }catch(Exception e){}
-        new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     eStatusText.setText("");
+                    eSubmitChangesButton.setDisable(false);
+                    timer.cancel();
                 }
             }, 
             1500
@@ -400,10 +433,12 @@ public class CustomerController {
                 customerSearchType.selectToggle(searchIndiRB);
                 searchBar.setText("");
                 searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-                new java.util.Timer().schedule( 
+                Timer timer = new Timer();
+                timer.schedule( 
                 new java.util.TimerTask() {
                     public void run() {
                         searchBar.setStyle("");
+                        timer.cancel();
                     }
                 }, 
                 1500
@@ -412,10 +447,12 @@ public class CustomerController {
         }else{
             searchBar.setText("");
             searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     searchBar.setStyle("");
+                    timer.cancel();
                 }
             }, 
             1500
@@ -447,10 +484,12 @@ public class CustomerController {
         }else{
             delStatus.setText("Please select a Customer to view Vehicles.");
             delStatus.setFill(Color.RED);
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule(  
             new java.util.TimerTask() {
                 public void run() {
                     delStatus.setText("");
+                    timer.cancel();
                 }
             }, 
             2000
@@ -482,10 +521,12 @@ public class CustomerController {
         }else{
             delStatus.setText("Please select a Customer to view Bills.");
             delStatus.setFill(Color.RED);
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     delStatus.setText("");
+                    timer.cancel();
                 }
             }, 
             2000
@@ -507,10 +548,12 @@ public class CustomerController {
         }
         status.setFill(Color.RED);
         status.setText("Please select a customer type");
-        new java.util.Timer().schedule( 
+        Timer timer = new Timer();
+            timer.schedule( 
                 new java.util.TimerTask() {
                       public void run() {
                          status.setText("");
+                         timer.cancel();
                       }
                  }, 
                 1500 
@@ -553,10 +596,12 @@ public class CustomerController {
         if(cData.equals("")){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid " + fieldName);
-            new java.util.Timer().schedule( 
+                Timer timer = new Timer();
+                timer.schedule( 
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500
@@ -570,10 +615,12 @@ public class CustomerController {
             }else{
                 tf.setStyle("-fx-text-inner-color: red;");
                 tf.setText("Invalid " + fieldName);
-                new java.util.Timer().schedule( 
+                    Timer timer = new Timer();
+                    timer.schedule(  
                     new java.util.TimerTask() {
                          public void run() {
                             setColor(tf);
+                            //timer.cancel();
                          }
                     }, 
                     1500
@@ -592,10 +639,12 @@ public class CustomerController {
         if(!checkNumeric(phone)){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid Number");
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule(  
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500

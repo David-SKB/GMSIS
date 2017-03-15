@@ -3,11 +3,13 @@ package user.gui;
 import common.DBConnection;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Timer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -56,10 +58,17 @@ public class AdminController {
     @FXML
     private TableColumn spcNameTableC, spcAddrTableC, spcEmailTableC, 
                         spcPhoneTableC;
+    @FXML
+    private Button submitUserBTN,submitUserChangesBTN,submitSPCBTN,submitSPCChangesBTN;
     private final ObservableList<Employee> userData = FXCollections.observableArrayList();
     private final ObservableList<SPC> spcData = FXCollections.observableArrayList();
     private Employee tempUser;
     private SPC tempSPC;
+    
+    public void initialize() {
+        getUsers(new ActionEvent());
+        getSPCs(new ActionEvent());
+    }
     
     public void getUsers(ActionEvent evt){
         loadData(userData);
@@ -111,10 +120,12 @@ public class AdminController {
                 }else{
                     delUserStatus.setText("Could not delete user.");
                     delUserStatus.setFill(Color.RED);
-                    new java.util.Timer().schedule( 
+                    Timer timer = new Timer();
+                    timer.schedule( 
                     new java.util.TimerTask() {
                          public void run() {
                              delUserStatus.setText("");
+                             timer.cancel();
                         }
                     }, 
                     2000
@@ -126,10 +137,12 @@ public class AdminController {
         }else{
             delUserStatus.setText("Double click from the list and press delete.");
             delUserStatus.setFill(Color.RED);
-            new java.util.Timer().schedule( 
+           Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     delUserStatus.setText("");
+                    timer.cancel();
                 }
             }, 
             2000
@@ -138,6 +151,7 @@ public class AdminController {
     }
     
     public void submitUserDetails(ActionEvent etv){
+        submitUserBTN.setDisable(true);
         boolean IDValid,
                 fnValid,
                 lnValid,
@@ -173,11 +187,23 @@ public class AdminController {
                 userSubmission(Integer.parseInt(tempID),tempFN,tempLN,tempPass,Double.parseDouble(tempHRate));
             }
             getUsers(new ActionEvent());
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        submitUserBTN.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
         }
     }
     
     
     public void submitUserChanges(ActionEvent evt){
+        submitUserChangesBTN.setDisable(true);
         boolean IDValid,
                 fnValid,
                 lnValid,
@@ -198,7 +224,7 @@ public class AdminController {
         String tempPass = ePassTF.getText();
         passValid = validateTextField(tempPass,ePassTF, "Password");
 
-        String tempCType = validateUserType(userRightsE);
+        String tempCType = validateUserTypeOnEdit(userRightsE);
         String tempHRate = eHRateTF.getText();
         if(tempCType == null){
             hRateValid = validateRate(tempHRate, eHRateTF);
@@ -213,6 +239,17 @@ public class AdminController {
                 userSubmissionOnEdit(Integer.parseInt(tempID),tempFN,tempLN,tempPass,Double.parseDouble(tempHRate));
             }
             getUsers(new ActionEvent());
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        submitUserChangesBTN.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
         }
     }
     
@@ -251,21 +288,21 @@ public class AdminController {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK){
-                DB.connect();
                    
                 boolean qStatus = SPCReg.deleteSPC(tempSPC.getNAMEX(),tempSPC.getADDRESSX(),
                                  tempSPC.getTELEPHONEX(),tempSPC.getEMAILX());
                 
-                DB.closeConnection();
                 if(qStatus){
                     getSPCs(new ActionEvent());
                 }else{
                     delSPCStatus.setText("Could not delete SPC.");
                     delSPCStatus.setFill(Color.RED);
-                    new java.util.Timer().schedule( 
+                    Timer timer = new Timer();
+                    timer.schedule( 
                     new java.util.TimerTask() {
                          public void run() {
                              delSPCStatus.setText("");
+                             timer.cancel();
                         }
                     }, 
                     2000
@@ -277,10 +314,12 @@ public class AdminController {
         }else{
             delSPCStatus.setText("Double click from the list and press delete.");
             delSPCStatus.setFill(Color.RED);
-            new java.util.Timer().schedule( 
+           Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     delSPCStatus.setText("");
+                    timer.cancel();                    
                 }
             }, 
             2000
@@ -289,6 +328,7 @@ public class AdminController {
     }
     
     public void submitSPCDetails(ActionEvent evt){
+        submitSPCBTN.setDisable(true);
         boolean nameValid,
                 addressValid,
                 telValid,
@@ -309,7 +349,19 @@ public class AdminController {
         if(nameValid && addressValid && telValid && emailValid){
             submitSPC(tempName,tempAddress,tempPhone,tempEmail);
             getSPCs(new ActionEvent());
-        }  
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        submitSPCBTN.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
+        }
+
     }
     
     public void clearSPCDetails(ActionEvent evt){
@@ -317,10 +369,13 @@ public class AdminController {
             addSPCAddrTF.clear();
             addSPCPhoneTF.clear();
             addSPCEmailTF.clear();
-            new java.util.Timer().schedule( 
+           Timer timer = new Timer();
+            timer.schedule( 
                 new java.util.TimerTask() {
                     public void run() {
                          editSPCStatus.setText("");
+                         submitSPCBTN.setDisable(false);
+                         timer.cancel();
                     }
                 }, 
                 1500
@@ -332,10 +387,13 @@ public class AdminController {
             editSPCAddrTF.clear();
             editSPCPhoneTF.clear();
             editSPCEmailTF.clear();
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+            timer.schedule( 
                 new java.util.TimerTask() {
                     public void run() {
                          editSPCStatus.setText("");
+                         submitSPCChangesBTN.setDisable(false);
+                         timer.cancel();
                     }
                 }, 
                 1500
@@ -343,6 +401,7 @@ public class AdminController {
     }
     
     public void submitSPCChanges(ActionEvent evt){
+        submitSPCChangesBTN.setDisable(true);
         boolean nameValid,
                 addressValid,
                 telValid,
@@ -365,6 +424,17 @@ public class AdminController {
                               tempSPC.getNAMEX(),tempSPC.getADDRESSX(),
                               tempSPC.getTELEPHONEX(),tempSPC.getEMAILX());
             getSPCs(new ActionEvent());
+        }else{
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() {
+                    public void run() {
+                        submitSPCChangesBTN.setDisable(false);
+                        timer.cancel();                    
+                    }
+                }, 
+                2000
+                );
         }
     }
     
@@ -385,7 +455,6 @@ public class AdminController {
     }
     
     private void loadData(ObservableList<Employee> dataList){
-        DB.connect();
         ArrayList<Employee> urAList = UR.getActiveUsers();
         dataList.removeAll(dataList);
         if(urAList != null){
@@ -393,7 +462,6 @@ public class AdminController {
                dataList.add(ur);
             }
         }
-        DB.closeConnection();
     }
     
     private void loadOnEditSPC(){
@@ -404,7 +472,6 @@ public class AdminController {
     }
     
     private void loadDataSPC(ObservableList<SPC> dataList){
-        DB.connect();
         ArrayList<SPC> spcList = SPCReg.getSPCs();
         dataList.removeAll(dataList);
         if(spcList != null){
@@ -412,7 +479,6 @@ public class AdminController {
                dataList.add(spc);
             }
         }
-        DB.closeConnection();
     }
     
     private void adminSubmission(int ID, String firstName, String lastName, String password){
@@ -452,10 +518,13 @@ public class AdminController {
             RadioButton toggleResult = (RadioButton) userRights.getSelectedToggle();
             toggleResult.setSelected(false);
         }catch(Exception e){}
-        new java.util.Timer().schedule( 
+        Timer timer = new Timer();
+                timer.schedule(
             new java.util.TimerTask() {
                 public void run() {
                     addUserStatus.setText("");
+                    submitUserBTN.setDisable(false);
+                    timer.cancel();
                 }
             }, 
             1500
@@ -466,10 +535,12 @@ public class AdminController {
         if(!checkNumeric(ID)){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid ID");
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+                timer.schedule(
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500
@@ -478,10 +549,12 @@ public class AdminController {
         }else if(ID.length() > 5){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("MAX 5 Digits");
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+                timer.schedule(
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500
@@ -509,10 +582,13 @@ public class AdminController {
         if(cData.equals("")){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid " + fieldName);
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+                timer.schedule( 
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
+                         
                       }
                  }, 
                 1500
@@ -526,10 +602,12 @@ public class AdminController {
         if(!checkRate(rate)){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid Rate");
-            new java.util.Timer().schedule( 
+            Timer timer = new Timer();
+                timer.schedule(
                 new java.util.TimerTask() {
                       public void run() {
                          setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500
@@ -562,15 +640,42 @@ public class AdminController {
         }
     }
     
+    private String validateUserTypeOnEdit(ToggleGroup tGroup){
+        try{
+            RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
+            if(toggleResult.getText().equals("Admin")){
+                return "Admin";
+            }else{
+                return "Mechanic";
+            }        
+        }catch(NullPointerException e){
+            editUserStatus.setFill(Color.RED);
+            editUserStatus.setText("Select user rigths");
+            Timer timer = new Timer();
+                timer.schedule(  
+                    new java.util.TimerTask() {
+                          public void run() {
+                             editUserStatus.setText("");
+                             timer.cancel();
+                          }
+                    }, 
+                    1500 
+                );
+            return null;
+        }
+    }
+    
     private void noToggleSelected(){
         Text status;
         status = addUserStatus;
         status.setFill(Color.RED);
         status.setText("Select user rigths");
-        new java.util.Timer().schedule( 
+        Timer timer = new Timer();
+            timer.schedule(  
                 new java.util.TimerTask() {
                       public void run() {
                          status.setText("");
+                         timer.cancel();
                       }
                  }, 
                 1500 
@@ -602,7 +707,7 @@ public class AdminController {
     }
 
     private void adminSubmissionOnEdit(int ID, String firstName, String lastName, String pass) {
-        boolean editAdmin = UR.editAdmin(ID,pass,lastName,firstName,true,ID);
+        boolean editAdmin = UR.editAdmin(ID,pass,lastName,firstName,true,tempUser.getIDNumber());
         if(editAdmin){
             editUserStatus.setText("Successful");
             editUserStatus.setFill(Color.GREEN);
@@ -615,7 +720,7 @@ public class AdminController {
     }
 
     private void userSubmissionOnEdit(int ID, String firstName, String lastName, String pass, double hRate) {
-        boolean editUser = UR.editUser(ID, pass, lastName, firstName, hRate,false,ID);
+        boolean editUser = UR.editUser(ID, pass, lastName, firstName, hRate,false,tempUser.getIDNumber());
         if(editUser){
             editUserStatus.setText("Successful");
             editUserStatus.setFill(Color.GREEN);
@@ -634,10 +739,13 @@ public class AdminController {
         ePassTF.clear();
         eHRateTF.clear();
         eHRateTF.setVisible(true);
-        new java.util.Timer().schedule( 
+        Timer timer = new Timer();
+            timer.schedule( 
             new java.util.TimerTask() {
                 public void run() {
                     editUserStatus.setText("");
+                    submitUserChangesBTN.setDisable(false);
+                    timer.cancel();
                 }
             }, 
             1500
