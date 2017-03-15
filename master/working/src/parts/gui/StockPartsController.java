@@ -69,6 +69,34 @@ public class StockPartsController implements Initializable {
     private TextArea partNameTextArea, partDescriptionTextArea,
             partCostTextArea, partStockLevelTextArea;
     
+    //used parts gui
+    @FXML
+    private TableView<Part> usedTable;
+    @FXML
+    private TableColumn nameCol1, descriptionCol1, costCol1,                          //FXML TableColumn. Columns form the TableView element.
+                        vehicleCol1, customerCol1, firstNamecol1,
+                        lastNameCol1, repairIDCol1;
+    @FXML
+    private TextArea usedPartNameTextArea, usedPartDescriptionTextArea,
+            usedPartCostTextArea, usedPartStockLevelTextArea,
+            dateInstalledTextArea, warrantyEndsTextArea, 
+            vehicleRegistrationTextArea, customerNameTextArea,
+            repairIDTextArea;
+    
+    //repairs gui
+    private final ObservableList<Part> oRepairList = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Part> repairsTable;
+    @FXML
+    private TableColumn repairIDCol, rVehicleRegistrationCol,                          //FXML TableColumn. Columns form the TableView element.
+                        rCustomerCol1, rFirstNameCol,
+                        rLastNameCol, rDateCol;
+    @FXML
+    private TableView<Part> rStockTable;
+    @FXML
+    private TableColumn rNameCol, rDescriptionCol, rCostCol,                          //FXML TableColumn. Columns form the TableView element.
+                        rStockCol;
+    //deliveries
     
 
    @Override
@@ -81,6 +109,7 @@ public class StockPartsController implements Initializable {
         repairs.setVisible(false);
         setupRowListeners();
         loadAllParts();
+        loadStockParts();
     }   
     
     //STOCK METHODS
@@ -117,7 +146,7 @@ public class StockPartsController implements Initializable {
                 oPartList.add(partlist.get(i));
             }
         }
-        loadStockParts();
+        //loadStockParts();
     }
     
     public void updateStockLevel(ActionEvent event){
@@ -195,8 +224,63 @@ public class StockPartsController implements Initializable {
     
     //REPAIRS METHODS
     
+    //load data into stock table
+    public void loadRStockParts(){//ActionEvent event){
+        rStockTable.setEditable(true);
+        rNameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("name"));
+        rDescriptionCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("description"));
+        rCostCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("cost"));
+        rStockCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("stocklevel"));
+        rStockTable.setItems(oPartList);
+    }
     
-    //methods for changing anchor
+    //load data into repairs table
+    public void loadRepairsTable(){//ActionEvent event){
+        /*
+        repairsTable.setEditable(true);
+        repairIDCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("repairID"));
+        rVehicleRegistrationCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("vehicleRegistration"));
+        rFirstNameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("firstName"));
+        rLastNameCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("lastName"));
+        rDateCol.setCellValueFactory(
+                new PropertyValueFactory<Part, String>("date"));
+        repairsTable.setItems(oRepairList);
+        */
+    }
+    //loads relevant data in RepairWrapper
+    public void loadAllRepairs(){//ActionEvent event){
+        /*
+        System.out.println("test4");
+        oRepairList.clear();
+        ArrayList<RepairWrapper> repairlist = new ArrayList<RepairWrapper>();
+        ArrayList<Booking> bookings = BookingRegistry.getRepairs();
+        for(int i = 0; i < bookings.size(); i++)
+        {
+            Vehicle vehicle = VehicleRegistry.getVehicle(bookings.get(i).getVehicleID());
+            Customer customer = CustomerRegistry.getCustomer(bookings.get(i).getCustomerID());
+            repairList.add(new RepairWrapper(bookings.get(i), vehicle, customer));
+        }
+        if(repairlist != null)
+        {
+            System.out.println("inside if");
+            for(int i = 0; i < repairlist.size(); i++)
+            {
+                System.out.println("inside for");
+                oRepairList.add(repairlist.get(i));
+            }
+        }
+        */
+    }
+    
+    //CHANGING ANCHOR METHODS
     public void viewUsedPartsAnchor(ActionEvent event){
         repairs.setVisible(false);
         stockParts.setVisible(false);
@@ -206,11 +290,17 @@ public class StockPartsController implements Initializable {
         repairs.setVisible(false);
         usedParts.setVisible(false);
         stockParts.setVisible(true);
+        loadAllParts();
+        loadStockParts();
     }
     public void viewRepairsAnchor(ActionEvent event){
         stockParts.setVisible(false);
         usedParts.setVisible(false);
         repairs.setVisible(true);
+        loadAllParts();
+        loadRStockParts();
+        loadAllRepairs();
+        loadRepairsTable();
     }
     
 }
