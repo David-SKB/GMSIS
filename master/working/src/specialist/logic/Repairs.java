@@ -11,7 +11,7 @@ public class Repairs
 {
     private static Repairs RInstance = null;
     private DBConnection DBC = DBConnection.getInstance();
-
+    private static ErrorChecks EC = ErrorChecks.getInstance();
     public Repairs()
     {
         
@@ -218,6 +218,7 @@ public class Repairs
             String query = "SELECT SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE  FROM CUSTOMER, VEHICLE WHERE REGISTRATION = '"+ RegNo + "' AND VEHICLE.CUSTOMERID = ID;";
             Customer searchedCustomers = null;
             ResultSet rs = DBC.query(query);
+            //EC.
             if(rs !=null)
             {
                 String sName = rs.getString("SURNAME");
@@ -264,8 +265,5 @@ public class Repairs
             }
         }
         return false;
-
     }
-    
-    
 }
