@@ -3,7 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/user/gui/AdminController.java</file>
+            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/user/gui/Interface.fxml</file>
+            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/user/gui/InterfaceController.java</file>
+            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/customers/gui/CustomerController.java</file>
+            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/common/Main.java</file>
+            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/customers/logic/Customer.java</file>
         </group>
     </open-files>
 </project-private>

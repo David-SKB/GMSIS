@@ -108,7 +108,6 @@ public class CustomerController {
                 new PropertyValueFactory<Customer, String>("email"));
         cTypeCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("customerType"));
-        //getActiveCustomers(new ActionEvent());
     }
     
     
@@ -116,13 +115,28 @@ public class CustomerController {
        loadData(obsListData);
        ObservableList<Node> OL =  AP.getChildren();
        TableView<Customer> tempTV = null;
+       ChoiceBox<Customer> tempCustBox = null;
+       ChoiceBox<Customer> tempVehiBox = null;
+       ChoiceBox<Customer> tempBillBox = null;
        for(Node n : OL){
            if(n instanceof TableView &&
               (n.getId()).equalsIgnoreCase("customerDetails")){
                 tempTV = (TableView<Customer>)n;
+           }else if(n instanceof ChoiceBox &&
+                   (n.getId()).equalsIgnoreCase("delCustomersCBox")){
+               tempCustBox = (ChoiceBox<Customer>)n;
+           }else if(n instanceof ChoiceBox &&
+                   (n.getId()).equalsIgnoreCase("showVehiclesCBox")){
+               tempVehiBox = (ChoiceBox<Customer>)n;
+           }else if(n instanceof ChoiceBox &&
+                   (n.getId()).equalsIgnoreCase("showBillCBox")){
+               tempBillBox = (ChoiceBox<Customer>)n;
            }
        }
        tempTV.setItems(obsListData);
+       tempCustBox.setItems(obsListData);
+       tempVehiBox.setItems(obsListData);
+       tempBillBox.setItems(obsListData);
     }
     
 
@@ -134,20 +148,6 @@ public class CustomerController {
     public void getActiveCustomers(ActionEvent event){
         loadData(obsListData);
         customerDetails.setEditable(true);
-        firstNameCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("firstname"));
-        lastNameCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("surname"));
-        addressCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("address"));
-        postCodeCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("postCode"));
-        phoneCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("phone"));
-        emailCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("email"));
-        cTypeCol.setCellValueFactory(
-                new PropertyValueFactory<Customer, String>("customerType"));
         customerDetails.setItems(obsListData);
         delCustomersCBox.setItems(obsListData);
         showVehiclesCBox.setItems(obsListData);
@@ -474,6 +474,8 @@ public class CustomerController {
                 1500
                 );
                 }                
+        }else if(inputData.equals("")){
+            getActiveCustomers(new ActionEvent());
         }else{
             searchBar.setText("");
             searchBar.setStyle("-fx-border-color: red ; -fx-border-width: 1px ;");

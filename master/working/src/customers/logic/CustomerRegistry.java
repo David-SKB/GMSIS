@@ -91,10 +91,10 @@ public class CustomerRegistry {
         try{
             String query = "SELECT * FROM CUSTOMER\n" +
                            "WHERE CUSTOMERTYPE = '" + custType + "' " +
-                           "AND (SURNAME = '" + argSName + "' " +
-                           "OR SURNAME = '" + argFName + "' " + 
-                           "AND FIRSTNAME = '" + argFName + "' " +
-                           "OR FIRSTNAME = '" + argSName  + "'); ";
+                           "AND (SURNAME LIKE '%" + argSName + "%' " +
+                           "OR SURNAME LIKE '%" + argFName + "%' " + 
+                           "AND FIRSTNAME LIKE '%" + argFName + "%' " +
+                           "OR FIRSTNAME LIKE '%" + argSName  + "%'); ";
             ArrayList<Customer> searchedCustomers = new ArrayList<>();
             ResultSet rs = DBInstance.query(query);
             while(rs.next()){

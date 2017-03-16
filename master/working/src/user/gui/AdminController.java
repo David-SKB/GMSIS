@@ -6,12 +6,16 @@ import java.util.Optional;
 import java.util.Timer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -19,6 +23,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import specialist.logic.SPC;
@@ -66,12 +71,9 @@ public class AdminController {
     private SPC tempSPC;
     
     public void initialize() {
-        getUsers(new ActionEvent());
-        getSPCs(new ActionEvent());
-    }
-    
-    public void getUsers(ActionEvent evt){
-        loadData(userData);
+        /**********************************
+         * ADMIN
+         **********************************/
         idNumberTableC.setCellValueFactory(
                 new PropertyValueFactory<Employee, String>("IDNumber"));
         firstNameColumn.setCellValueFactory(
@@ -84,8 +86,6 @@ public class AdminController {
                 new PropertyValueFactory<Employee, String>("sysAdmin"));
         passTableC.setCellValueFactory(
                 new PropertyValueFactory<Employee, String>("password"));
-        userTV.setItems(userData);
-        
         userTV.setRowFactory((TableView<Employee> tv) -> {
             TableRow<Employee> row = new TableRow<>();
             row.setOnMouseClicked(event2 -> {
@@ -97,6 +97,56 @@ public class AdminController {
             });
             return row;
         });
+        /********************************
+         * SPC
+         ********************************/
+        spcNameTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("NAMEX"));
+        spcAddrTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("ADDRESSX"));
+        spcEmailTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("TELEPHONEX"));
+        spcPhoneTableC.setCellValueFactory(
+                new PropertyValueFactory<SPC, String>("EMAILX"));                
+        spcTV.setRowFactory((TableView<SPC> tv) -> {
+            TableRow<SPC> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
+                                    && event2.getClickCount() == 2) {
+                     tempSPC = row.getItem();
+                     loadOnEditSPC();
+                }
+            });
+            return row;
+        });
+    }
+    
+    public void updateAnchorPane(AnchorPane AP){
+         loadData(userData);loadDataSPC(spcData);
+        ObservableList<Node> OL = AP.getChildren();
+        SplitPane SP = (SplitPane) OL.get(0);
+        ObservableList<Node> OL2 = SP.getItems();
+        AnchorPane userAP = (AnchorPane)OL2.get(0);
+        updateUserAP(userAP);
+        AnchorPane spcAP = (AnchorPane)OL2.get(1);
+        updateSPCAP(spcAP);
+    }
+    
+    private void updateUserAP(AnchorPane AP){
+        ObservableList<Node> OL = AP.getChildren();
+        TableView<Employee> userTV = (TableView)OL.get(0);
+        userTV.setItems(userData);
+    }
+    
+    private void updateSPCAP(AnchorPane AP){
+        ObservableList<Node> OL = AP.getChildren();
+        TableView<SPC> userTV = (TableView)OL.get(0);
+        userTV.setItems(spcData);
+    }
+    
+    public void getUsers(ActionEvent evt){
+        loadData(userData);       
+        userTV.setItems(userData);
     }
     
     public void delUser(ActionEvent evt){
@@ -255,27 +305,7 @@ public class AdminController {
     
     public void getSPCs(ActionEvent evt){
         loadDataSPC(spcData);
-        spcNameTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("NAMEX"));
-        spcAddrTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("ADDRESSX"));
-        spcEmailTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("TELEPHONEX"));
-        spcPhoneTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("EMAILX"));
         spcTV.setItems(spcData);
-        
-        spcTV.setRowFactory((TableView<SPC> tv) -> {
-            TableRow<SPC> row = new TableRow<>();
-            row.setOnMouseClicked(event2 -> {
-                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
-                                    && event2.getClickCount() == 2) {
-                     tempSPC = row.getItem();
-                     loadOnEditSPC();
-                }
-            });
-            return row;
-        });
     }
     
     public void deleteSPC(ActionEvent evt){

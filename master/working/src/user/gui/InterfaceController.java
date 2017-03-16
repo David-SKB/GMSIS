@@ -23,14 +23,22 @@ public class InterfaceController {
     @FXML
     private CustomerController customerController = new CustomerController();
     @FXML
-    private AnchorPane custCon;
+    private AnchorPane customerAP;
+    @FXML
+    private AdminController adminController = new AdminController();
+    @FXML
+    private AnchorPane adminAP;
     
     public void tabSwitch(){
         this.InterfaceTabPane.getTabs().remove(adminTab);
     }
     
-   public void custTest(){
-        this.customerController.updateAchorPane(custCon);
+    public void adminUpdate(){
+        this.adminController.updateAnchorPane(adminAP);
+    }
+    
+    public void customerUpdate(){
+        this.customerController.updateAchorPane(customerAP);
     }
     
     public void logoutCustomer(ActionEvent evt){

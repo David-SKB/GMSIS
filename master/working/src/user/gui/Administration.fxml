@@ -13,9 +13,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
    <children>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="672.0" prefWidth="1165.0" style="-fx-background-color: #fff4e8;">
+      <SplitPane fx:id="adminSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="672.0" prefWidth="1165.0" style="-fx-background-color: #fff4e8;">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
+          <AnchorPane fx:id="userAnchor" minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
                <children>
                   <TableView fx:id="userTV" layoutX="291.0" layoutY="63.0" prefHeight="200.0" prefWidth="582.0">
                     <columns>
@@ -75,7 +75,7 @@
                   </TitledPane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+          <AnchorPane fx:id="spcAnchor" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
                   <TableView fx:id="spcTV" layoutX="334.0" layoutY="42.0" prefHeight="200.0" prefWidth="495.0">
                     <columns>
