@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -33,6 +34,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -92,7 +94,35 @@ public class CustomerController {
     }
     
     public void initialize() {
-        getActiveCustomers(new ActionEvent());
+        firstNameCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("firstname"));
+        lastNameCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("surname"));
+        addressCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("address"));
+        postCodeCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("postCode"));
+        phoneCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("phone"));
+        emailCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("email"));
+        cTypeCol.setCellValueFactory(
+                new PropertyValueFactory<Customer, String>("customerType"));
+        //getActiveCustomers(new ActionEvent());
+    }
+    
+    
+    public void updateAchorPane(AnchorPane AP){
+       loadData(obsListData);
+       ObservableList<Node> OL =  AP.getChildren();
+       TableView<Customer> tempTV = null;
+       for(Node n : OL){
+           if(n instanceof TableView &&
+              (n.getId()).equalsIgnoreCase("customerDetails")){
+                tempTV = (TableView<Customer>)n;
+           }
+       }
+       tempTV.setItems(obsListData);
     }
     
 

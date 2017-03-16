@@ -341,7 +341,7 @@ public class AdminController {
         addressValid = validateTextField(tempAddress, addSPCAddrTF, "Address");
         
         String tempPhone = addSPCPhoneTF.getText();    
-        telValid = validateTextField(tempPhone, addSPCPhoneTF, "Telephone Number");
+        telValid = validatePhone(tempPhone, addSPCPhoneTF);
         
         String tempEmail = addSPCEmailTF.getText();
         emailValid = validateTextField(tempEmail, addSPCEmailTF, "Email");
@@ -414,7 +414,7 @@ public class AdminController {
         addressValid = validateTextField(tempAddress, editSPCAddrTF, "Address");
         
         String tempPhone = editSPCPhoneTF.getText();    
-        telValid = validateTextField(tempPhone, editSPCPhoneTF, "Telephone Number");
+        telValid = validatePhone(tempPhone, editSPCPhoneTF);
         
         String tempEmail = editSPCEmailTF.getText();
         emailValid = validateTextField(tempEmail, editSPCEmailTF, "Email");
@@ -579,7 +579,8 @@ public class AdminController {
     }
     
     private boolean validateTextField(String cData, TextField tf, String fieldName){
-        if(cData.equals("")){
+        if(cData.equals("") ||
+           !isAlphanumeric(cData)){
             tf.setStyle("-fx-text-inner-color: red;");
             tf.setText("Invalid " + fieldName);
             Timer timer = new Timer();
@@ -589,6 +590,32 @@ public class AdminController {
                          setColor(tf);
                          timer.cancel();
                          
+                      }
+                 }, 
+                1500
+            );
+            return false;
+        }
+        return true;
+    }
+    
+    //Error Checks (DAVID REPAIRS)
+    public boolean isAlphanumeric(String word) 
+    {
+        //returns false if not alphanumberic
+        return word.matches("[a-zA-Z]+");
+    }
+    
+    private boolean validatePhone(String phone, TextField tf){
+        if(!checkNumeric(phone)){
+            tf.setStyle("-fx-text-inner-color: red;");
+            tf.setText("Invalid Number");
+            Timer timer = new Timer();
+            timer.schedule(  
+                new java.util.TimerTask() {
+                      public void run() {
+                         setColor(tf);
+                         timer.cancel();
                       }
                  }, 
                 1500

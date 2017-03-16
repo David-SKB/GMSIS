@@ -34,7 +34,7 @@ public class Authentication
     public void start(Stage primaryStage) 
     {
         primaryStage.setTitle("GM-SIS Login Page");
-        primaryStage.getIcons().add(new Image("icon2.png"));
+        primaryStage.getIcons().add(new Image("/user/gui/icon2.png"));
         //GridCode
         GridPane grid = new GridPane();
         grid.setStyle("-fx-background-color: #fff4e8;");
@@ -99,7 +99,7 @@ public class Authentication
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
                                 stage.setTitle("GM-SIS Home");
-                                stage.getIcons().add(new Image("icon2.png"));
+                                stage.getIcons().add(new Image("/user/gui/icon2.png"));
                                 primaryStage.close();
                                 stage.show();
                                 
@@ -117,7 +117,7 @@ public class Authentication
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
                                 stage.setTitle("GM-SIS Home");
-                                stage.getIcons().add(new Image("icon2.png"));
+                                stage.getIcons().add(new Image("/user/gui/icon2.png"));
                                 primaryStage.close();
                                 InterfaceController IC = fxmlLoader.<InterfaceController>getController();
                                 IC.tabSwitch();

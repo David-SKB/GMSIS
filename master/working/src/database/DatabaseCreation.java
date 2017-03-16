@@ -9,13 +9,13 @@ import java.sql.*;
 
 public class DatabaseCreation
 {
-   public static void main( String args[] )
+   public static void createDB()
   {
     Connection c;
     Statement stmt;
     try {
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:gmsisdb.db");
+      c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
       System.out.println("Opened database successfully");
 
       stmt = c.createStatement();
@@ -149,6 +149,6 @@ public class DatabaseCreation
       System.err.println( e.getClass().getName() + ": " + e.getMessage() );
       System.exit(0);
     }
-    System.out.println("Table created successfully");
+    System.out.println("Table created successfully");  
   }
 }
