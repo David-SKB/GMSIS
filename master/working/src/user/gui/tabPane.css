@@ -5,6 +5,7 @@
 .tab-pane
 {
     -fx-tab-min-width:90px;
+    -fx-background-color:   #fff4e8;
 }
 
 .tab{
