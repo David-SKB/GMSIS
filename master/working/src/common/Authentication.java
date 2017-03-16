@@ -37,6 +37,7 @@ public class Authentication
         primaryStage.getIcons().add(new Image("icon2.png"));
         //GridCode
         GridPane grid = new GridPane();
+        grid.setStyle("-fx-background-color: #fff4e8;");
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);

@@ -15,9 +15,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.RepairsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" style="-fx-background-color: #fff4e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.RepairsController">
    <children>
-      <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" text="Add Vehicle">
+      <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" style="-fx-background-color: #fff4e8;" text="Add Vehicle">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
                <children>

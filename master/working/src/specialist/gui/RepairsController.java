@@ -779,11 +779,45 @@ public class RepairsController /*extends Application*/ implements Initializable
     };  
 }
 /*
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
 
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
 
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #ceae82;
 
+}
 
+.tab-pane .tab:selected
+{
+    -fx-background-color: #342511;
 
+}
 
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
 
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+    -fx-font-style: oblique;
+}
+
+.tab-pane:top *.tab-header-area {
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-background-color: #614f20;
+}
 */
