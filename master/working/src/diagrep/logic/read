@@ -1,0 +1,25 @@
+GUI needs 
+    SEE PARTS USED
+    SEND TO SPC TAB
+    SET PRICE
+    SEARCH BY CUSTOMER, SEARCH BY VEHICLE
+    WORKING CALENDER WITH PUBLIC AND BANK HOLIDAYS Mon-Fri 9am to 5.30pm and Sat 9am-12 noon.
+        can be viewed and edited on an hourly, daily and monthly basis.
+    VERIFICATION AND CONFIRMATIONS
+
+
+MUST BE ABLE TO
+1.	View existing “diagnosis and repair” bookings.
+2.	Search for a booking by partial vehicle registration number
+3.	Search for a booking by vehicle template.
+4.	Search for a booking by customer surname.
+5.	Select a completed “diagnosis and repair” booking and view details.
+6.	Access parts information for completed booking.
+7.	View list of future bookings.
+8.	Select a future “diagnosis and repair” booking and view details.
+9.	Attempt to make a booking outside of working hours or work day.
+10.	Edit the mileage of a vehicle associated with a past booking.
+11.	Create a new “diagnosis and repair” booking.
+12.	Logout, close application and log back in. Show created record is persistently stored.
+
+Note: At least 10 past bookings and 10 future bookings must be created and integrated with data from other modules.
