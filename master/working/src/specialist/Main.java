@@ -5,10 +5,16 @@
  */
 package specialist;
 
+import java.io.File;
+import java.io.IOException;
+
 
 
 public class Main {
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws IOException 
+        {
+            //File f = new File("src/gmsisdb.db");
+            //f.createNewFile();
+            //System.out.println(f.exists());
 	}
 }

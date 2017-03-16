@@ -1,8 +1,10 @@
 package specialist.logic;
 import common.DBConnection;
+import customers.logic.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 public class Repairs
@@ -208,6 +210,38 @@ public class Repairs
     {
         String SQL = "DELETE FROM REPAIRVEHICLE WHERE ID = " + RepairID + ";";
         return DBC.update(SQL);
+    }
+    
+    public ArrayList<Customer> searchCustomerWithReg(String cType, String argSName,String argFName){
+        DBC.connect();
+        String custType = "Individual";
+        if(cType.equalsIgnoreCase("Business")){
+            custType = "Business";
+        }
+        try{
+            String query = "SELECT * FROM CUSTOMER\n" +
+                           "WHERE CUSTOMERTYPE = '" + custType + "' " +
+                           "AND (SURNAME = '" + argSName + "' " +
+                           "OR SURNAME = '" + argFName + "' " + 
+                           "AND FIRSTNAME = '" + argFName + "' " +
+                           "OR FIRSTNAME = '" + argSName  + "'); ";
+            ArrayList<Customer> searchedCustomers = new ArrayList<>();
+            ResultSet rs = DBC.query(query);
+            while(rs.next()){
+                String sName = rs.getString("SURNAME");
+                String fName = rs.getString("FIRSTNAME");
+                String address = rs.getString("ADDRESS");
+                String postCode = rs.getString("POSTCODE");
+                String phone = rs.getString("PHONE");
+                String email = rs.getString("EMAIL");
+                String customerType = rs.getString("CUSTOMERTYPE");
+                searchedCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
+            }
+            DBC.closeConnection();
+            return searchedCustomers;
+        }catch(SQLException e){
+            return null;
+        }
     }
 
     public static Repairs getInstance()

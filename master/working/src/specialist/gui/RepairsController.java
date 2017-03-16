@@ -32,11 +32,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -107,6 +109,17 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private TableColumn T4Fuel;
     @FXML private TableColumn T4Mileage;
     @FXML private TableColumn T4Color;
+    
+    //Customer Details Pane
+    @FXML private Pane CustomerPane;
+    @FXML private Button ViewCustomerButton;
+    @FXML private TextField FnameCustomer;
+    @FXML private TextField LnameCustomer;
+    @FXML private TextArea AddressCustomer;
+    @FXML private TextField PostcodeCustomer;
+    @FXML private TextField PhoneCustomer;
+    @FXML private TextField EmailCustomer;
+    @FXML private TextField CTypeCustomer;
     
     //Misc
     @FXML private TextField RegSearch;
@@ -341,7 +354,6 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         ObservableList<ListSPC> SPCList = repairs.getSPCList();
         SPCListTable.setItems(SPCList);
-        DBC.closeConnection();
     }
     
     @FXML private void RepairSearchHandler() throws SQLException
@@ -388,10 +400,6 @@ public class RepairsController /*extends Application*/ implements Initializable
             if(resultList.isEmpty())
             {
                 RepairErrMsg("No Results Found");
-            }
-            else
-            {
-                T1SearchError.setVisible(false);
             }
             MainTable.setItems(resultList);
         }
@@ -490,7 +498,11 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void VehicleRowClick() 
     {
-        String regNo = MainTable.getSelectionModel().getSelectedItem().getT1REGX();
+        String regNo = "";
+        if (MainTable.getSelectionModel().getSelectedItem() != null)
+        {
+            regNo = MainTable.getSelectionModel().getSelectedItem().getT1REGX();
+        }
         try 
         {
             VehicleDetails(regNo);
@@ -499,7 +511,6 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             RepairErrMsg("Vehicle Not Found");//make one for vehicle details table
         }
-        T1SearchError.setVisible(false);
         RepairEditButton.setDisable(false);
         RepairDeleteButton.setDisable(false);
     }
@@ -615,12 +626,16 @@ public class RepairsController /*extends Application*/ implements Initializable
             System.out.println("Select something fool");
         }
         SPCVehicleButton.setDisable(true);
+        RepairEditButton.setDisable(true);
+        RepairDeleteButton.setDisable(true);
     }
     
     @FXML private void TestFunction()
     {
         //RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
         //SPCIDVehicle.setStyle(null);
+        //T1SearchError.setText("wag1");
+        RepairErrMsg("wtf");
     }
     
     /*public static void main (String args[]) throws Exception

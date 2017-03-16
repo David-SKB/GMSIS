@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -17,7 +18,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" style="-fx-background-color: #fff4e8;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.RepairsController">
    <children>
-      <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" style="-fx-background-color: #fff4e8;" text="Add Vehicle">
+      <TitledPane fx:id="SendVehicle" animated="false" collapsible="false" layoutX="16.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" style="-fx-background-color: #fff4e8;" text="Add Vehicle">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
                <children>
@@ -32,7 +33,7 @@
             </AnchorPane>
         </content>
       </TitledPane>
-      <TitledPane fx:id="SendPart" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="332.0" prefWidth="227.0" text="Add Part" visible="false">
+      <TitledPane fx:id="SendPart" animated="false" collapsible="false" layoutX="16.0" layoutY="29.0" prefHeight="332.0" prefWidth="227.0" text="Add Part" visible="false">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="229.0" prefWidth="225.0">
                <children>
@@ -49,15 +50,15 @@
             </AnchorPane>
          </content>
       </TitledPane>
-      <TableView layoutX="14.0" layoutY="400.0" prefHeight="305.0" prefWidth="465.0">
+      <TableView layoutX="11.0" layoutY="398.0" prefHeight="292.0" prefWidth="465.0">
         <columns>
-          <TableColumn prefWidth="120.0" text="Name" />
-          <TableColumn prefWidth="62.0" text="Type" />
-            <TableColumn prefWidth="125.0" text="ID/RegNo" />
-            <TableColumn prefWidth="156.0" text="SPC" />
+          <TableColumn prefWidth="162.0" text="SPC" />
+          <TableColumn prefWidth="97.0" text="Parts" />
+            <TableColumn prefWidth="70.0" text="Vehicles" />
+            <TableColumn prefWidth="134.0" text="SPC" />
         </columns>
       </TableView>
-      <TableView fx:id="MainTable" layoutX="489.0" layoutY="29.0" onMouseClicked="#VehicleRowClick" prefHeight="347.0" prefWidth="668.0">
+      <TableView fx:id="MainTable" layoutX="489.0" layoutY="29.0" onMouseClicked="#VehicleRowClick" prefHeight="275.0" prefWidth="668.0">
         <columns>
           <TableColumn fx:id="T1ID" prefWidth="30.0" text="ID" />
             <TableColumn fx:id="T1Fname" minWidth="0.0" prefWidth="93.0" text="Firstname" />
@@ -70,17 +71,17 @@
             <TableColumn fx:id="T1Type" prefWidth="58.0" text="Type" visible="false" />
         </columns>
       </TableView>
-      <TableView fx:id="SPCListTable" layoutX="951.0" layoutY="399.0" onMouseClicked="#SPCRowClick" prefHeight="292.0" prefWidth="203.0">
+      <TableView fx:id="SPCListTable" layoutX="489.0" layoutY="351.0" onMouseClicked="#SPCRowClick" prefHeight="292.0" prefWidth="203.0">
         <columns>
           <TableColumn fx:id="T3ID" prefWidth="25.0" resizable="false" text="ID" />
           <TableColumn fx:id="T3SPC" prefWidth="176.0" resizable="false" text="Name" />
         </columns>
       </TableView>
-      <Button layoutX="951.0" layoutY="700.0" mnemonicParsing="false" onAction="#DisplaySPC" prefHeight="25.0" prefWidth="89.0" text="List SPC's" />
-      <Button layoutX="170.0" layoutY="712.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Get Outstanding" />
-      <Button layoutX="622.0" layoutY="453.0" mnemonicParsing="false" onAction="#RepairSearchHandler" prefHeight="25.0" prefWidth="92.0" text="Search" />
-      <TextField fx:id="RegSearch" layoutX="489.0" layoutY="392.0" prefHeight="25.0" prefWidth="108.0" promptText="Registration No." />
-      <TableView fx:id="VehicleTable" layoutX="489.0" layoutY="526.0" prefHeight="50.0" prefWidth="450.0">
+      <Button layoutX="489.0" layoutY="653.0" mnemonicParsing="false" onAction="#DisplaySPC" prefHeight="25.0" prefWidth="89.0" text="List Centres" />
+      <Button layoutX="489.0" layoutY="686.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="Get Outstanding" />
+      <Button layoutX="837.0" layoutY="396.0" mnemonicParsing="false" onAction="#RepairSearchHandler" prefHeight="25.0" prefWidth="92.0" text="Search" />
+      <TextField fx:id="RegSearch" layoutX="704.0" layoutY="335.0" prefHeight="25.0" prefWidth="108.0" promptText="Registration No." />
+      <TableView fx:id="VehicleTable" layoutX="704.0" layoutY="455.0" prefHeight="50.0" prefWidth="450.0">
         <columns>
           <TableColumn fx:id="T4Reg" prefWidth="75.0" text="Registration" />
           <TableColumn fx:id="T4Make" prefWidth="75.0" text="Make" />
@@ -90,18 +91,18 @@
             <TableColumn fx:id="T4Color" prefWidth="99.0" text="Color" />
         </columns>
       </TableView>
-      <Text layoutX="685.0" layoutY="522.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Details" />
-      <Button layoutX="901.0" layoutY="583.0" mnemonicParsing="false" onAction="#TestFunction" text="Test" />
-      <TextField fx:id="FirstNameSearch" layoutX="489.0" layoutY="422.0" prefHeight="25.0" prefWidth="108.0" promptText="Firstname" />
-      <TextField fx:id="LastNameSearch" layoutX="489.0" layoutY="451.0" prefHeight="25.0" prefWidth="108.0" promptText="Surname" />
-      <Separator layoutX="489.0" layoutY="495.0" prefHeight="4.0" prefWidth="450.0" />
-      <Separator layoutX="605.0" layoutY="389.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
-      <Separator layoutX="724.0" layoutY="390.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
+      <Text layoutX="900.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Details" />
+      <Button layoutX="11.0" layoutY="698.0" mnemonicParsing="false" onAction="#TestFunction" prefHeight="25.0" prefWidth="80.0" text="Test Button" />
+      <TextField fx:id="FirstNameSearch" layoutX="704.0" layoutY="365.0" prefHeight="25.0" prefWidth="108.0" promptText="Firstname" />
+      <TextField fx:id="LastNameSearch" layoutX="704.0" layoutY="394.0" prefHeight="25.0" prefWidth="108.0" promptText="Surname" />
+      <Separator layoutX="704.0" layoutY="434.0" prefHeight="4.0" prefWidth="450.0" />
+      <Separator layoutX="820.0" layoutY="332.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
+      <Separator layoutX="939.0" layoutY="333.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
       <Text layoutX="783.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Repairs" />
-      <Text layoutX="1014.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repair Centres" />
-      <Button fx:id="RepairEditButton" disable="true" layoutX="736.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleEdit" prefHeight="25.0" prefWidth="92.0" text="Edit" />
-      <Button fx:id="RepairDeleteButton" disable="true" layoutX="847.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleDelete" prefHeight="25.0" prefWidth="92.0" text="Delete" />
-      <TitledPane fx:id="EditVehicle" animated="false" disable="true" layoutX="252.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" text="Update Repair">
+      <Text layoutX="552.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repair Centres" />
+      <Button fx:id="RepairEditButton" disable="true" layoutX="951.0" layoutY="335.0" mnemonicParsing="false" onAction="#HandleEdit" prefHeight="25.0" prefWidth="99.0" text="Edit" />
+      <Button fx:id="RepairDeleteButton" disable="true" layoutX="1055.0" layoutY="335.0" mnemonicParsing="false" onAction="#HandleDelete" prefHeight="25.0" prefWidth="99.0" text="Delete" />
+      <TitledPane fx:id="EditVehicle" animated="false" collapsible="false" disable="true" layoutX="252.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" text="Update Repair">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
@@ -116,18 +117,41 @@
             </AnchorPane>
          </content>
       </TitledPane>
-      <Button fx:id="SPCVehicleButton" disable="true" layoutX="1065.0" layoutY="700.0" mnemonicParsing="false" onAction="#ListSPCVehicles" prefHeight="25.0" prefWidth="89.0" text="View Vehicles" />
-      <Text fx:id="T1SearchError" fill="RED" layoutX="736.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="202.99999141693115" />
-      <RadioButton fx:id="RegRadioButton" layoutX="622.0" layoutY="396.0" mnemonicParsing="false" selected="true" text="Registration">
+      <Button fx:id="SPCVehicleButton" disable="true" layoutX="604.0" layoutY="653.0" mnemonicParsing="false" onAction="#ListSPCVehicles" prefHeight="25.0" prefWidth="89.0" text="View Vehicles" />
+      <Text fx:id="T1SearchError" fill="RED" layoutX="951.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="202.99999141693115" />
+      <RadioButton fx:id="RegRadioButton" layoutX="837.0" layoutY="339.0" mnemonicParsing="false" selected="true" text="Registration">
          <toggleGroup>
             <ToggleGroup fx:id="SearchVehicleToggle" />
          </toggleGroup></RadioButton>
-      <RadioButton fx:id="NameRadioButton" layoutX="622.0" layoutY="428.0" mnemonicParsing="false" text="Name" toggleGroup="$SearchVehicleToggle" />
+      <RadioButton fx:id="NameRadioButton" layoutX="837.0" layoutY="371.0" mnemonicParsing="false" text="Name" toggleGroup="$SearchVehicleToggle" />
       <RadioButton layoutX="145.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part">
          <toggleGroup>
             <ToggleGroup fx:id="SendItemToggle" />
          </toggleGroup>
       </RadioButton>
       <RadioButton layoutX="42.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendVehicle" selected="true" text="Send Vehicle" toggleGroup="$SendItemToggle" />
+      <Text layoutX="190.0" layoutY="393.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Outstanding Repairs" />
+      <Text layoutX="893.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Details" />
+      <Separator layoutX="704.0" layoutY="530.0" prefHeight="4.0" prefWidth="450.0" />
+      <Pane fx:id="CustomerPane" layoutX="704.0" layoutY="539.0" prefHeight="191.0" prefWidth="450.0">
+         <children>
+            <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Firstname" />
+            <TextField editable="false" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
+            <Text layoutX="2.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname" />
+            <TextField editable="false" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
+            <Text layoutX="2.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
+            <TextArea editable="false" layoutY="113.0" prefHeight="78.0" prefWidth="186.0" />
+            <Text layoutX="225.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postcode" />
+            <TextField editable="false" layoutX="225.0" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
+            <Text layoutX="225.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone" />
+            <TextField editable="false" layoutX="225.0" layoutY="113.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField editable="false" layoutX="225.0" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
+            <Text layoutX="225.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+            <Text layoutX="225.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Type" />
+            <TextField editable="false" layoutX="225.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" />
+         </children>
+      </Pane>
+      <Separator layoutX="11.0" layoutY="372.0" prefHeight="4.0" prefWidth="465.0" />
+      <Button disable="true" layoutX="951.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="View Customer" />
    </children>
 </Pane>
