@@ -13,9 +13,9 @@ public class RepairWrapper {
     /*
     private Customer customer;
     private Vehicle vehicle;
-    private DiagRepBooking booking;
+    private DiagRepairBooking booking;
     
-    public RepairWrapper(Customer c, Vehicle v, DiagRepBooking b)
+    public RepairWrapper(Customer c, Vehicle v, DiagRepairBooking b)
     {
         customer = c;
         vehicle = v;
@@ -24,7 +24,7 @@ public class RepairWrapper {
     
     public int getRepairID()
     {
-        return booking.getID();
+        return booking.getBookingID();
     }
     
     public String getVehicleRegistration()
@@ -34,17 +34,17 @@ public class RepairWrapper {
     
     public String getCustomerFirstName()
     {
-        return customer.getFirstName();
+        return customer.getFirstname();
     }
     
-    public String getCustomerLastName()
+    public String getCustomerSurname()
     {
-        return customer.getLastName();
+        return customer.getSurname();
     }
     
     public Date getDate()
     {
-        return booking.getDate();
+        return booking.getBookingDate();
     }
     
     */

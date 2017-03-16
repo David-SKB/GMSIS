@@ -86,7 +86,7 @@ public class StockPartsController implements Initializable {
     //repairs gui
     private final ObservableList<Part> oRepairList = FXCollections.observableArrayList();
     @FXML
-    private TableView<Part> repairsTable;
+    private TableView<RepairWrapper> repairsTable;
     @FXML
     private TableColumn repairIDCol, rVehicleRegistrationCol,                          //FXML TableColumn. Columns form the TableView element.
                         rCustomerCol1, rFirstNameCol,
@@ -265,7 +265,7 @@ public class StockPartsController implements Initializable {
         for(int i = 0; i < bookings.size(); i++)
         {
             Vehicle vehicle = VehicleRegistry.getVehicle(bookings.get(i).getVehicleID());
-            Customer customer = CustomerRegistry.getCustomer(bookings.get(i).getCustomerID());
+            Customer customer = CustomerRegistry.searchCustomerByID(bookings.get(i).getCustID());
             repairList.add(new RepairWrapper(bookings.get(i), vehicle, customer));
         }
         if(repairlist != null)
@@ -277,6 +277,14 @@ public class StockPartsController implements Initializable {
                 oRepairList.add(repairlist.get(i));
             }
         }
+        */
+    }
+    
+    public void addPartToRepair(ActionEvent event){
+        /*
+        Part selectedPart = rStockTable.getSelectionModel().getSelectedItem();
+        RepairWrapper selectedRepair = repairsTable.getSelectionModel().getSelectedItem();
+        partR.usePart(selectedRepair.getRepairID()selectedRepair.getVehicleID(),selectedRepair.getCustomerID(),selectedPart.getName(), date1, date2, selectedPart.getCost());
         */
     }
     
