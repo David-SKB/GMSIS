@@ -136,22 +136,21 @@
       <Pane fx:id="CustomerPane" layoutX="704.0" layoutY="539.0" prefHeight="191.0" prefWidth="450.0">
          <children>
             <Text layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Firstname" />
-            <TextField editable="false" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="FnameCustomer" editable="false" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
             <Text layoutX="2.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Surname" />
-            <TextField editable="false" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="LnameCustomer" editable="false" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
             <Text layoutX="2.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Address" />
-            <TextArea editable="false" layoutY="113.0" prefHeight="78.0" prefWidth="186.0" />
+            <TextArea fx:id="AddressCustomer" editable="false" layoutY="113.0" prefHeight="78.0" prefWidth="186.0" wrapText="true" />
             <Text layoutX="225.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Postcode" />
-            <TextField editable="false" layoutX="225.0" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="PostcodeCustomer" editable="false" layoutX="225.0" layoutY="23.0" prefHeight="25.0" prefWidth="186.0" />
             <Text layoutX="225.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone" />
-            <TextField editable="false" layoutX="225.0" layoutY="113.0" prefHeight="25.0" prefWidth="186.0" />
-            <TextField editable="false" layoutX="225.0" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="EmailCustomer" editable="false" layoutX="225.0" layoutY="113.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="PhoneCustomer" editable="false" layoutX="225.0" layoutY="65.0" prefHeight="25.0" prefWidth="186.0" />
             <Text layoutX="225.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
             <Text layoutX="225.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Type" />
-            <TextField editable="false" layoutX="225.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" />
+            <TextField fx:id="CTypeCustomer" editable="false" layoutX="225.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" />
          </children>
       </Pane>
       <Separator layoutX="11.0" layoutY="372.0" prefHeight="4.0" prefWidth="465.0" />
-      <Button disable="true" layoutX="951.0" layoutY="364.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="203.0" text="View Customer" />
    </children>
 </Pane>

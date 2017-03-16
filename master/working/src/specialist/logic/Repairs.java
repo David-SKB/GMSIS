@@ -211,23 +211,15 @@ public class Repairs
         String SQL = "DELETE FROM REPAIRVEHICLE WHERE ID = " + RepairID + ";";
         return DBC.update(SQL);
     }
-    
-    public ArrayList<Customer> searchCustomerWithReg(String cType, String argSName,String argFName){
+    //modified from search with name
+    public Customer searchCustomerWithReg(String RegNo){
         DBC.connect();
-        String custType = "Individual";
-        if(cType.equalsIgnoreCase("Business")){
-            custType = "Business";
-        }
         try{
-            String query = "SELECT * FROM CUSTOMER\n" +
-                           "WHERE CUSTOMERTYPE = '" + custType + "' " +
-                           "AND (SURNAME = '" + argSName + "' " +
-                           "OR SURNAME = '" + argFName + "' " + 
-                           "AND FIRSTNAME = '" + argFName + "' " +
-                           "OR FIRSTNAME = '" + argSName  + "'); ";
-            ArrayList<Customer> searchedCustomers = new ArrayList<>();
+            String query = "SELECT SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE  FROM CUSTOMER, VEHICLE WHERE REGISTRATION = '"+ RegNo + "' AND VEHICLE.CUSTOMERID = ID;";
+            Customer searchedCustomers = null;
             ResultSet rs = DBC.query(query);
-            while(rs.next()){
+            if(rs !=null)
+            {
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
                 String address = rs.getString("ADDRESS");
@@ -235,11 +227,12 @@ public class Repairs
                 String phone = rs.getString("PHONE");
                 String email = rs.getString("EMAIL");
                 String customerType = rs.getString("CUSTOMERTYPE");
-                searchedCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
+                searchedCustomers = new Customer(sName,fName,address,postCode,phone,email,customerType);
             }
             DBC.closeConnection();
             return searchedCustomers;
-        }catch(SQLException e){
+        }catch(SQLException e)
+        {
             return null;
         }
     }

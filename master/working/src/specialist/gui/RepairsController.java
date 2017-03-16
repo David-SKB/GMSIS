@@ -1,6 +1,7 @@
 package specialist.gui;
 
 import common.DBConnection;
+import customers.logic.Customer;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -112,7 +113,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     //Customer Details Pane
     @FXML private Pane CustomerPane;
-    @FXML private Button ViewCustomerButton;
     @FXML private TextField FnameCustomer;
     @FXML private TextField LnameCustomer;
     @FXML private TextArea AddressCustomer;
@@ -477,6 +477,26 @@ public class RepairsController /*extends Application*/ implements Initializable
         MainTable.setItems(resultList);
     }
     
+    @FXML private void getCustomerByReg(String RegNo) throws SQLException
+    {
+        Customer CustomerDetails = repairs.searchCustomerWithReg(RegNo);
+        if (CustomerDetails == null)
+        {
+            //some sort of error saying customer not found
+            System.out.println("soz");
+        }
+        else
+        {
+            FnameCustomer.setText(CustomerDetails.getFirstname());
+            LnameCustomer.setText(CustomerDetails.getSurname());
+            AddressCustomer.setText(CustomerDetails.getAddress());
+            PostcodeCustomer.setText(CustomerDetails.getPostCode());
+            PhoneCustomer.setText((CustomerDetails.getPhone()));
+            EmailCustomer.setText((CustomerDetails.getEmail()));
+            CTypeCustomer.setText((CustomerDetails.getCustomerType()));
+        }
+    }
+    
     @FXML private void VehicleDetails(String regNo) throws SQLException
     {
         T4Reg.setCellValueFactory(
@@ -498,6 +518,8 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void VehicleRowClick() 
     {
+        boolean vehicle  = true;
+        boolean customer = true;
         String regNo = "";
         if (MainTable.getSelectionModel().getSelectedItem() != null)
         {
@@ -509,7 +531,29 @@ public class RepairsController /*extends Application*/ implements Initializable
         } 
         catch (SQLException ex) 
         {
-            RepairErrMsg("Vehicle Not Found");//make one for vehicle details table
+            vehicle = false;
+        }
+        try 
+        {
+            getCustomerByReg(regNo);
+        } 
+        catch (SQLException ex) 
+        {
+            customer = false;
+        }
+        
+        if (customer == false & vehicle == true)
+        {
+            RepairErrMsg("Customer Not Found");
+        }
+        else if (customer == true & vehicle == false)
+        {
+            RepairErrMsg("Vehicle Not Found");
+        }
+        
+        else if (customer == false & vehicle == false)
+        {
+            RepairErrMsg("Vehicle/Customer Not Found");
         }
         RepairEditButton.setDisable(false);
         RepairDeleteButton.setDisable(false);
@@ -588,6 +632,19 @@ public class RepairsController /*extends Application*/ implements Initializable
         String cost = Double.toString(MainTable.getSelectionModel().getSelectedItem().getT1COSTX());
         CostVehicle2.setText(cost);
         EditVehicle.setDisable(false);
+    }
+    
+    @FXML private void HandleCustomer() throws SQLException 
+    {
+        
+        if (MainTable.getSelectionModel().getSelectedItem() == null)
+        {
+            RepairErrMsg("Please select a row");
+            RepairEditButton.setDisable(true);
+            RepairDeleteButton.setDisable(true);
+            return;
+        }
+        getCustomerByReg(MainTable.getSelectionModel().getSelectedItem().getT1REGX());
     }
     
     @FXML private String toString(DatePicker DatePickerObject)
