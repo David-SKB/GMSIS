@@ -5,6 +5,8 @@ import customers.logic.Customer;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,6 +37,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -136,7 +139,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button RepairDeleteButton;
     @FXML private Button SPCVehicleButton;
     @FXML private Text T1SearchErrorText;
-    
     
     //requirements left: 7, 8, 10, 12, 14
     //todo: edit onlcick retrieve data and put in textfields
@@ -687,12 +689,34 @@ public class RepairsController /*extends Application*/ implements Initializable
         RepairDeleteButton.setDisable(true);
     }
     
+    @FXML private void SetNumberRestriction(TextField field)//Restrics input to numbers only
+    {
+        DecimalFormat format = new DecimalFormat( "#.0" );
+        field.setTextFormatter( new TextFormatter<>(c ->
+        {
+        if ( c.getControlNewText().isEmpty() )
+        {
+            return c;
+        }
+        ParsePosition parsePosition = new ParsePosition( 0 );
+        Object object = format.parse( c.getControlNewText(), parsePosition );
+        if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+        {
+            return null;
+        }
+        else
+        {
+            return c;
+        }
+        }));
+    }
+    
     @FXML private void TestFunction()
     {
         //RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
         //SPCIDVehicle.setStyle(null);
         //T1SearchError.setText("wag1");
-        RepairErrMsg("wtf");
+        //RepairErrMsg("wtf");
     }
     
     /*public static void main (String args[]) throws Exception
@@ -814,6 +838,10 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        SetNumberRestriction(CostVehicle);
+        SetNumberRestriction(CostPart); 
+        SetNumberRestriction(CostVehicle2);
+        SetNumberRestriction(IDPart);
     }
     
     private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
