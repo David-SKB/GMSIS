@@ -99,9 +99,11 @@ public class DatabaseCreation
 "PARTNAME               TEXT                    NOT NULL,\n" +
 "DESC                   TEXT                    NOT NULL,\n" +
 "PARTID                 INT       PRIMARY KEY   NOT NULL,\n" +
+"SPCID                  INT                     NOT NULL,\n" +              
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
-"COST                   REAL                     NOT NULL\n" +
+"COST                   REAL                     NOT NULL,\n" +
+"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +              
 ");\n" +
 "CREATE TABLE REPAIRVEHICLE\n" +
 "(\n" +
@@ -112,7 +114,7 @@ public class DatabaseCreation
 "RETURNDATE             TEXT                    NOT NULL,\n" +
 "COST                   REAL                    NOT NULL,\n" +
 "FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
-"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID)\n" +
+"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +
 ");\n" +
 "CREATE TABLE CENTRES\n" +
 "(\n" +

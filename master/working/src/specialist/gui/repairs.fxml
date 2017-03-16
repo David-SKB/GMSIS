@@ -17,18 +17,34 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="specialist.gui.RepairsController">
    <children>
-      <TitledPane fx:id="SendPart" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="292.0" prefWidth="227.0" text="Add Part" visible="false">
+      <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" text="Add Vehicle">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
+               <children>
+                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="25.0" layoutY="35.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
+                  <Button fx:id="SubmitVehicleButton" layoutX="73.0" layoutY="197.0" mnemonicParsing="false" onAction="#SubmitVehicle" prefHeight="25.0" prefWidth="77.0" text="Submit" />
+                  <TextField fx:id="CostVehicle" alignment="CENTER" layoutX="25.0" layoutY="165.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
+                  <DatePicker fx:id="ExpDelVehicle" editable="false" layoutX="25.0" layoutY="99.0" onAction="#DPUpdateAV" promptText="              Exp Delivery" />
+                  <DatePicker fx:id="ExpRetVehicle" editable="false" layoutX="25.0" layoutY="132.0" promptText="               Exp Return" />
+                  <ComboBox fx:id="SPCIDVehicle" layoutX="25.0" layoutY="67.0" onAction="#LoadComboListSPC" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
+                  <Text fx:id="AddError" fill="RED" layoutX="27.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane fx:id="SendPart" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="332.0" prefWidth="227.0" text="Add Part" visible="false">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="229.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="NamePart" alignment="CENTER" layoutX="26.0" layoutY="22.0" prefHeight="25.0" prefWidth="173.0" promptText="Name" />
-                  <TextField fx:id="IDPart" alignment="CENTER" layoutX="27.0" layoutY="88.0" prefHeight="25.0" prefWidth="174.0" promptText="ID" />
-                  <TextField fx:id="DescPart" alignment="CENTER" layoutX="27.0" layoutY="56.0" prefHeight="25.0" prefWidth="174.0" promptText="Description" />
-                  <Button fx:id="SubmitPartButton" layoutX="74.0" layoutY="221.0" mnemonicParsing="false" onAction="#SubmitPart" prefHeight="25.0" prefWidth="77.0" text="Submit" />
-                  <TextField fx:id="CostPart" alignment="CENTER" layoutX="28.0" layoutY="188.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
-                  <DatePicker fx:id="ExpDelPart" layoutX="28.0" layoutY="118.0" promptText="Exp Delivery" />
-                  <DatePicker fx:id="ExpRetPart" layoutX="27.0" layoutY="149.0" promptText="Exp Return" />
-                  <Label fx:id="AddError1" alignment="CENTER" layoutX="25.0" layoutY="246.0" prefHeight="16.0" prefWidth="175.0" textAlignment="CENTER" textFill="RED" />
+                  <TextField fx:id="NamePart" alignment="CENTER" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="173.0" promptText="Name" />
+                  <TextField fx:id="IDPart" alignment="CENTER" layoutX="25.0" layoutY="99.0" prefHeight="25.0" prefWidth="174.0" promptText="ID" />
+                  <TextField fx:id="DescPart" alignment="CENTER" layoutX="26.0" layoutY="67.0" prefHeight="25.0" prefWidth="174.0" promptText="Description" />
+                  <Button fx:id="SubmitPartButton" layoutX="72.0" layoutY="262.0" mnemonicParsing="false" onAction="#SubmitPart" prefHeight="25.0" prefWidth="77.0" text="Submit" />
+                  <TextField fx:id="CostPart" alignment="CENTER" layoutX="26.0" layoutY="228.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
+                  <DatePicker fx:id="ExpDelPart" editable="false" layoutX="26.0" layoutY="166.0" onAction="#DPUpdateAP" promptText="              Exp Delivery" />
+                  <DatePicker fx:id="ExpRetPart" editable="false" layoutX="25.0" layoutY="196.0" promptText="               Exp Return" />
+                  <Label fx:id="AddError1" alignment="CENTER" layoutX="23.0" layoutY="287.0" prefHeight="16.0" prefWidth="175.0" textAlignment="CENTER" textFill="RED" />
+                  <ComboBox fx:id="SPCIDPart" layoutX="25.0" layoutY="134.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                </children>
             </AnchorPane>
          </content>
@@ -78,48 +94,22 @@
       <Button layoutX="901.0" layoutY="583.0" mnemonicParsing="false" onAction="#TestFunction" text="Test" />
       <TextField fx:id="FirstNameSearch" layoutX="489.0" layoutY="422.0" prefHeight="25.0" prefWidth="108.0" promptText="Firstname" />
       <TextField fx:id="LastNameSearch" layoutX="489.0" layoutY="451.0" prefHeight="25.0" prefWidth="108.0" promptText="Surname" />
-      <RadioButton fx:id="RegRadioButton" layoutX="622.0" layoutY="396.0" mnemonicParsing="false" selected="true" text="Registration">
-         <toggleGroup>
-            <ToggleGroup fx:id="SearchVehicleToggle" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="NameRadioButton" layoutX="622.0" layoutY="428.0" mnemonicParsing="false" text="Name" toggleGroup="$SearchVehicleToggle" />
       <Separator layoutX="489.0" layoutY="495.0" prefHeight="4.0" prefWidth="450.0" />
       <Separator layoutX="605.0" layoutY="389.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
       <Separator layoutX="724.0" layoutY="390.0" orientation="VERTICAL" prefHeight="94.0" prefWidth="7.0" />
       <Text layoutX="783.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Repairs" />
       <Text layoutX="1014.0" layoutY="394.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repair Centres" />
-      <TitledPane fx:id="SendVehicle" animated="false" layoutX="16.0" layoutY="29.0" prefHeight="263.0" prefWidth="227.0" text="Add Vehicle">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
-               <children>
-                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
-                  <Button fx:id="SubmitVehicleButton" layoutX="74.0" layoutY="185.0" mnemonicParsing="false" onAction="#SubmitVehicle" prefHeight="25.0" prefWidth="77.0" text="Submit" />
-                  <TextField fx:id="CostVehicle" alignment="CENTER" layoutX="26.0" layoutY="153.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
-                  <DatePicker fx:id="ExpDelVehicle" editable="false" layoutX="26.0" layoutY="87.0" promptText="              Exp Delivery" />
-                  <DatePicker fx:id="ExpRetVehicle" editable="false" layoutX="26.0" layoutY="120.0" promptText="               Exp Return" />
-                  <ComboBox fx:id="SPCIDVehicle" layoutX="26.0" layoutY="55.0" onAction="#LoadComboListSPC" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
-                  <Text fx:id="AddError" fill="RED" layoutX="26.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
-               </children>
-            </AnchorPane>
-        </content>
-      </TitledPane>
-      <RadioButton layoutX="145.0" layoutY="350.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part">
-         <toggleGroup>
-            <ToggleGroup fx:id="SendItemToggle" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton layoutX="42.0" layoutY="350.0" mnemonicParsing="false" onAction="#ToggleSendVehicle" selected="true" text="Send Vehicle" toggleGroup="$SendItemToggle" />
       <Button fx:id="RepairEditButton" disable="true" layoutX="736.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleEdit" prefHeight="25.0" prefWidth="92.0" text="Edit" />
       <Button fx:id="RepairDeleteButton" disable="true" layoutX="847.0" layoutY="392.0" mnemonicParsing="false" onAction="#HandleDelete" prefHeight="25.0" prefWidth="92.0" text="Delete" />
-      <TitledPane fx:id="EditVehicle" animated="false" layoutX="252.0" layoutY="29.0" prefHeight="263.0" prefWidth="227.0" text="Update Repair">
+      <TitledPane fx:id="EditVehicle" animated="false" disable="true" layoutX="252.0" layoutY="29.0" prefHeight="275.0" prefWidth="227.0" text="Update Repair">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
                   <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="26.0" layoutY="23.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
                   <TextField fx:id="CostVehicle2" alignment="CENTER" layoutX="26.0" layoutY="153.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
-                  <Button fx:id="UpdateVehicleButton" disable="true" layoutX="77.0" layoutY="185.0" mnemonicParsing="false" onAction="#EditVehicle" prefHeight="25.0" prefWidth="77.0" text="Update" />
-                  <DatePicker fx:id="ExpRetVehicle2" layoutX="26.0" layoutY="119.0" promptText="               Exp Return" />
-                  <DatePicker fx:id="ExpDelVehicle2" layoutX="26.0" layoutY="87.0" promptText="              Exp Delivery" />
+                  <Button fx:id="UpdateVehicleButton" layoutX="77.0" layoutY="185.0" mnemonicParsing="false" onAction="#EditVehicle" prefHeight="25.0" prefWidth="77.0" text="Update" />
+                  <DatePicker fx:id="ExpRetVehicle2" editable="false" layoutX="26.0" layoutY="119.0" promptText="               Exp Return" />
+                  <DatePicker fx:id="ExpDelVehicle2" editable="false" layoutX="26.0" layoutY="87.0" onAction="#DPUpdateUV" promptText="              Exp Delivery" />
                   <ComboBox fx:id="SPCIDVehicle2" layoutX="25.0" layoutY="55.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <Text fx:id="EditError" fill="RED" layoutX="30.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="171.13671875" />
                </children>
@@ -128,5 +118,16 @@
       </TitledPane>
       <Button fx:id="SPCVehicleButton" disable="true" layoutX="1065.0" layoutY="700.0" mnemonicParsing="false" onAction="#ListSPCVehicles" prefHeight="25.0" prefWidth="89.0" text="View Vehicles" />
       <Text fx:id="T1SearchError" fill="RED" layoutX="736.0" layoutY="433.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="202.99999141693115" />
+      <RadioButton fx:id="RegRadioButton" layoutX="622.0" layoutY="396.0" mnemonicParsing="false" selected="true" text="Registration">
+         <toggleGroup>
+            <ToggleGroup fx:id="SearchVehicleToggle" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="NameRadioButton" layoutX="622.0" layoutY="428.0" mnemonicParsing="false" text="Name" toggleGroup="$SearchVehicleToggle" />
+      <RadioButton layoutX="145.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part">
+         <toggleGroup>
+            <ToggleGroup fx:id="SendItemToggle" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="42.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendVehicle" selected="true" text="Send Vehicle" toggleGroup="$SendItemToggle" />
    </children>
 </Pane>

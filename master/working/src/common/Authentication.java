@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.image.Image;
 import user.gui.InterfaceController;
 /**
  *
@@ -33,7 +34,7 @@ public class Authentication
     public void start(Stage primaryStage) 
     {
         primaryStage.setTitle("GM-SIS Login Page");
-        
+        primaryStage.getIcons().add(new Image("icon2.png"));
         //GridCode
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -97,6 +98,7 @@ public class Authentication
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
                                 stage.setTitle("GM-SIS Home");
+                                stage.getIcons().add(new Image("icon2.png"));
                                 primaryStage.close();
                                 stage.show();
                                 
@@ -114,6 +116,7 @@ public class Authentication
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
                                 stage.setTitle("GM-SIS Home");
+                                stage.getIcons().add(new Image("icon2.png"));
                                 primaryStage.close();
                                 InterfaceController IC = fxmlLoader.<InterfaceController>getController();
                                 IC.tabSwitch();

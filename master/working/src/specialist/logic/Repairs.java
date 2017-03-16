@@ -32,15 +32,16 @@ public class Repairs
         return success;
     }
 
-    public boolean addPart(String Name, String Desc, int ID, Date ExpDel, Date ExpRet, double Cost)
+    public boolean addPart(String Name, String Desc, int ID, int SPCID, Date ExpDel, Date ExpRet, double Cost)
     {
         boolean success;
         DBC.connect();       
-        String SQL = "INSERT INTO REPAIRPARTS (PARTNAME, DESC, PARTID, DELIVERYDATE, RETURNDATE, COST) " + 
+        String SQL = "INSERT INTO REPAIRPARTS (PARTNAME, DESC, PARTID, SPCID, DELIVERYDATE, RETURNDATE, COST) " + 
                            "VALUES ( '" + 
                             Name + "', '" +
                             Desc + "', '" +
                             ID + "', '" +
+                            SPCID + "', '" +
                             ExpDel + "', '" +
                             ExpRet + "', '" +
                             Cost + "' );";

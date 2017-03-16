@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +20,6 @@ import javafx.stage.Stage;
 public class Main extends Application{
     private Parent rootNode;
     public static Stage stage;
-    
     public static void main(String[] args){
         Application.launch(args);
     }

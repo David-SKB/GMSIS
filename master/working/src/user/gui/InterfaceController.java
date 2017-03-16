@@ -28,6 +28,6 @@ public class InterfaceController {
     public void logoutCustomer(ActionEvent evt){
         Main.stage.close();
         Authentication authenticate = new Authentication();
-        authenticate.start(new Stage());        
+        authenticate.start(new Stage()); 
     }
 }
