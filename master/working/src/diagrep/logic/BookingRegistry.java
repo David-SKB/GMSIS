@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class BookingRegistry {
-    
+
     DBConnection conn = DBConnection.getInstance();
     private static BookingRegistry BRInstance = null;
 
@@ -59,7 +59,7 @@ public class BookingRegistry {
     public boolean deleteBooking(int ID) {
         //delete booking from database
         conn.connect();
-        String query = "DELETE FROM BOOKINGS WHERE ID = "+ ID;
+        String query = "DELETE FROM BOOKINGS WHERE ID = " + ID;
         boolean result = conn.update(query);
         conn.closeConnection();
         return result;
@@ -113,6 +113,102 @@ public class BookingRegistry {
             return null;
         }
     }
-        //public Booking getBooking() "customer and vehicle details and next booking date"
-        //The user should be able to search for a booking by partial or full vehicle registration number, vehicle manufacturer or customer surname and firstname.
+
+    public Booking searchBookingByDate(String date) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE DATE = '" + date + "';";
+            ResultSet result = conn.query(query);
+            String ID = result.getString("ID");
+            String length = result.getString("TIME");
+            String cusID = result.getString("CUSTOMERID");
+            String vechID = result.getString("VEHICLEREGISTRATION");
+            String mileage = result.getString("MILEAGE");
+            String empID = result.getString("EMPLOYEEID");
+            Booking searchResult = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            return searchResult;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public Booking searchBookingByCustID(String CustID) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE CUSTOMERID = '" + CustID + "';";
+            ResultSet result = conn.query(query);
+            String ID = result.getString("ID");
+            String date = result.getString("DATE");
+            String length = result.getString("TIME");
+            String cusID = result.getString("CUSTOMERID");
+            String vechID = result.getString("VEHICLEREGISTRATION");
+            String mileage = result.getString("MILEAGE");
+            String empID = result.getString("EMPLOYEEID");
+            Booking searchResult = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            return searchResult;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public Booking searchBookingByCustName(String firstName, String surname) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE CUSTID = (SELECT ID FROM CUSTOMER WHERE LIKE SURNAME = '%" + surname + "%' AND FIRSTNAME = '%" + firstName + "%';";
+            ResultSet result = conn.query(query);
+            String ID = result.getString("ID");
+            String date = result.getString("DATE");
+            String length = result.getString("TIME");
+            String cusID = result.getString("CUSTOMERID");
+            String vechID = result.getString("VEHICLEREGISTRATION");
+            String mileage = result.getString("MILEAGE");
+            String empID = result.getString("EMPLOYEEID");
+            Booking searchResult = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            return searchResult;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public Booking searchBookingByVechID(String vechID) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE LIKE VEHICLEREGISTRATION = '%" + vechID + "%';";
+            ResultSet result = conn.query(query);
+            String ID = result.getString("ID");
+            String date = result.getString("DATE");
+            String length = result.getString("TIME");
+            String cusID = result.getString("CUSTOMERID");
+            String mileage = result.getString("MILEAGE");
+            String empID = result.getString("EMPLOYEEID");
+            Booking searchResult = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            return searchResult;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public Booking searchBookingByVechModel(String model) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE VECHID = (SELECT ID FROM VEHICLE WHERE LIKE MODEL = '%" + model + "%';";
+            ResultSet result = conn.query(query);
+            String ID = result.getString("ID");
+            String date = result.getString("DATE");
+            String length = result.getString("TIME");
+            String cusID = result.getString("CUSTOMERID");
+            String vechID = result.getString("VEHICLEREGISTRATION");
+            String mileage = result.getString("MILEAGE");
+            String empID = result.getString("EMPLOYEEID");
+            Booking searchResult = new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID);
+            return searchResult;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
 }
