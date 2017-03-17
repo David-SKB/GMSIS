@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="694.0" prefWidth="929.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleGUIController">
+ <children>
+      <Button fx:id="carButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#addCarButton" prefHeight="26.0" prefWidth="76.0" text="Add car" />
+      <Button fx:id="vanButton" layoutX="14.0" layoutY="47.0" mnemonicParsing="false" onAction="#addVanButton" prefHeight="26.0" prefWidth="76.0" text="Add van" />
+      <Button fx:id="truckButton" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" onAction="#addTruckButton" text="Add truck" />
+      <Button fx:id="deleteButton" layoutX="433.0" layoutY="55.0" mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
+      <Button fx:id="editButton" layoutX="433.0" layoutY="86.0" mnemonicParsing="false" onAction="#editButton" prefHeight="26.0" prefWidth="56.0" text="Edit" />
+      <Label layoutX="801.0" layoutY="14.0" text="Search by reg" />
+      <Label layoutX="773.0" layoutY="61.0" text="Search by manufacturer" />
+      <TextField fx:id="makeTextField" layoutX="146.0" layoutY="57.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="modelTextField" layoutX="146.0" layoutY="86.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="regTextField" layoutX="146.0" layoutY="26.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="engineTextField" layoutX="253.0" layoutY="26.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="fuelTextField" layoutX="253.0" layoutY="57.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="colourTextField" layoutX="253.0" layoutY="86.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="MOTTextField" layoutX="365.0" layoutY="25.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="lastTextField" layoutX="365.0" layoutY="56.0" prefHeight="16.0" prefWidth="56.0" />
+      <TextField fx:id="mileageTextField" layoutX="365.0" layoutY="85.0" prefHeight="26.0" prefWidth="56.0" />
+      <Label layoutX="108.0" layoutY="31.0" text="Reg:" />
+      <Label layoutX="103.0" layoutY="62.0" text="Make:" />
+      <Label layoutX="101.0" layoutY="91.0" text="Model:" />
+      <Label layoutX="204.0" layoutY="31.0" text="Engine:" />
+      <Label layoutX="212.0" layoutY="61.0" text="Fuel:" />
+      <Label layoutX="205.0" layoutY="91.0" text="Colour:" />
+      <Label layoutX="320.0" layoutY="30.0" text="MOT:" />
+      <Label layoutX="321.0" layoutY="56.0" prefHeight="16.0" prefWidth="27.0" text="Last" />
+      <Label layoutX="311.0" layoutY="69.0" text="Service:" />
+      <Label layoutX="310.0" layoutY="90.0" text="Mileage:" />
+      <Separator layoutX="448.0" layoutY="444.0" orientation="VERTICAL" prefHeight="134.0" prefWidth="7.0" />
+      <CheckBox fx:id="warrantyCheckBox" layoutX="262.0" layoutY="118.0" mnemonicParsing="false" text="Warranty?" />
+      <Button fx:id="clearButton" layoutX="27.0" layoutY="114.0" mnemonicParsing="false" onAction="#clearButton" text="Clear" />
+      <TableView fx:id="vehDetails" layoutY="191.0" prefHeight="254.0" prefWidth="919.0">
+        <columns>
+          <TableColumn id="regCol" fx:id="regCol" prefWidth="75.0" text="REG" />
+          <TableColumn fx:id="makeCol" prefWidth="75.0" text="MAKE" />
+          <TableColumn fx:id="modelCol" prefWidth="75.0" text="MODEL" />
+          <TableColumn fx:id="engineCol" prefWidth="75.0" text="ENGINE" />
+          <TableColumn fx:id="fuelCol" prefWidth="75.0" text="FUEL" />
+          <TableColumn fx:id="colCol" prefWidth="75.0" text="COLOUR" />
+          <TableColumn fx:id="MOTCol" prefWidth="75.0" text="MOT" />
+          <TableColumn fx:id="warrCol" prefWidth="75.0" text="WARRANTY" />
+            <TableColumn fx:id="lastCol" prefWidth="75.0" text="LAST" />
+            <TableColumn fx:id="mileCol" prefWidth="75.0" text="Mile" />
+            <TableColumn fx:id="typeCol" prefWidth="75.0" text="TYPE" />
+        </columns>
+      </TableView>
+      <Button fx:id="refreshButton" layoutX="432.0" layoutY="25.0" mnemonicParsing="false" onAction="#vehicleDisplay" text="refresh" />
+      <Button fx:id="searchButton" layoutX="815.0" layoutY="115.0" mnemonicParsing="false" onAction="#searchButon" text="search" />
+      <TextField fx:id="regSearchTextField" layoutX="773.0" layoutY="30.0" onAction="#searchButon" prefHeight="26.0" prefWidth="142.0" />
+      <TextField fx:id="manuSearchTextField" layoutX="773.0" layoutY="82.0" onAction="#searchButon" prefHeight="26.0" prefWidth="142.0" />
+      <Label layoutX="211.0" layoutY="452.0" text="Current Details" />
+      <Label layoutX="618.0" layoutY="454.0" text="Updated details" />
+      <TextField fx:id="currMakeTextField" layoutX="109.0" layoutY="506.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currModelTextField" layoutX="109.0" layoutY="535.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currRegTextField" layoutX="109.0" layoutY="475.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currEngineTextField" layoutX="234.0" layoutY="475.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currFuelTextField" layoutX="234.0" layoutY="506.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currColourTextField" layoutX="234.0" layoutY="535.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currMOTTextField" layoutX="347.0" layoutY="475.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="currLastTextField" layoutX="347.0" layoutY="506.0" prefHeight="16.0" prefWidth="56.0" />
+      <TextField fx:id="currMileTextField" layoutX="347.0" layoutY="535.0" prefHeight="26.0" prefWidth="56.0" />
+      <Label layoutX="71.0" layoutY="480.0" text="Reg:" />
+      <Label layoutX="66.0" layoutY="511.0" text="Make:" />
+      <Label layoutX="64.0" layoutY="540.0" text="Model:" />
+      <Label layoutX="179.0" layoutY="480.0" text="Engine:" />
+      <Label layoutX="187.0" layoutY="511.0" text="Fuel:" />
+      <Label layoutX="179.0" layoutY="540.0" text="Colour:" />
+      <Label layoutX="302.0" layoutY="480.0" text="MOT:" />
+      <Label layoutX="303.0" layoutY="506.0" prefHeight="16.0" prefWidth="27.0" text="Last" />
+      <Label layoutX="293.0" layoutY="519.0" text="Service:" />
+      <Label layoutX="292.0" layoutY="540.0" text="Mileage:" />
+      <CheckBox fx:id="currWarrCheckBox" layoutX="199.0" layoutY="568.0" mnemonicParsing="false" text="Warranty?" />
+      <TextField fx:id="updateMakeTextField" layoutX="515.0" layoutY="509.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateModelTextField" layoutX="515.0" layoutY="538.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateRegTextField" layoutX="515.0" layoutY="478.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateEngineTextField" layoutX="640.0" layoutY="478.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateFuelTextField" layoutX="640.0" layoutY="509.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateColourTextField" layoutX="640.0" layoutY="538.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateMOTTextField" layoutX="753.0" layoutY="478.0" prefHeight="26.0" prefWidth="56.0" />
+      <TextField fx:id="updateLastTextField" layoutX="753.0" layoutY="509.0" prefHeight="16.0" prefWidth="56.0" />
+      <TextField fx:id="updateMileTextField" layoutX="753.0" layoutY="538.0" prefHeight="26.0" prefWidth="56.0" />
+      <Label layoutX="477.0" layoutY="483.0" text="Reg:" />
+      <Label layoutX="472.0" layoutY="514.0" text="Make:" />
+      <Label layoutX="470.0" layoutY="543.0" text="Model:" />
+      <Label layoutX="585.0" layoutY="483.0" text="Engine:" />
+      <Label layoutX="593.0" layoutY="514.0" text="Fuel:" />
+      <Label layoutX="585.0" layoutY="543.0" text="Colour:" />
+      <Label layoutX="708.0" layoutY="483.0" text="MOT:" />
+      <Label layoutX="709.0" layoutY="509.0" prefHeight="16.0" prefWidth="27.0" text="Last" />
+      <Label layoutX="699.0" layoutY="522.0" text="Service:" />
+      <Label layoutX="698.0" layoutY="543.0" text="Mileage:" />
+      <CheckBox fx:id="updateWarrCheckBox" layoutX="605.0" layoutY="571.0" mnemonicParsing="false" text="Warranty?" />
+      <Button fx:id="updateButton" layoutX="420.0" layoutY="592.0" mnemonicParsing="false" onAction="#updateButton" text="Update" />
+      <Separator layoutX="543.0" layoutY="1.0" orientation="VERTICAL" prefHeight="189.0" prefWidth="7.0" />
+      <ListView fx:id="templateList" layoutX="557.0" layoutY="26.0" prefHeight="161.0" prefWidth="198.0" />
+      <Separator layoutX="760.0" layoutY="10.0" orientation="VERTICAL" prefHeight="178.0" prefWidth="7.0" />
+      <Label fx:id="warrantyNameLabel" layoutX="102.0" layoutY="152.0" text="Name:" />
+      <TextField fx:id="warrantyNameTextField" layoutX="147.0" layoutY="147.0" prefHeight="26.0" prefWidth="76.0" />
+      <Label fx:id="warrantyAddressLabel" layoutX="230.0" layoutY="152.0" text="Address:" />
+      <TextField fx:id="warrantyAddressTextField" layoutX="286.0" layoutY="147.0" prefHeight="26.0" prefWidth="76.0" />
+      <Label fx:id="warrantyExpiryLabel" layoutX="373.0" layoutY="152.0" text="Expiry:" />
+      <TextField fx:id="warrantyExpiryTextField" layoutX="420.0" layoutY="147.0" prefHeight="26.0" prefWidth="73.0" />
+      <Label layoutX="602.0" layoutY="6.0" text="Vehicle Templates" />
+   </children>   
+</AnchorPane>
