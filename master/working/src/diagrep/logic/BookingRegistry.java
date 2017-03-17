@@ -114,6 +114,30 @@ public class BookingRegistry {
         }
     }
 
+    //method to retrieve all DiagRepairBookings
+    public ArrayList<DiagRepairBooking> getListDiagRepairBookings() {
+        try {
+            ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS;";// WHERE TYPE = DIAGREP;";
+            ResultSet result = conn.query(query);
+            while (result.next()) {
+                String ID = result.getString("ID");
+                String date = result.getString("DATE");
+                String length = result.getString("TIME");
+                String cusID = result.getString("CUSTOMERID");
+                String vechID = result.getString("VEHICLEREGISTRATION");
+                String mileage = result.getString("MILEAGE");
+                String empID = result.getString("EMPLOYEEID");
+                BookingList.add(new DiagRepairBooking(ID, date, length, cusID, vechID, mileage, empID));
+            }
+            return BookingList;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+    
     public Booking searchBookingByDate(String date) {
         try {
             conn = DBConnection.getInstance();
