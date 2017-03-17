@@ -6,10 +6,17 @@
 package parts.gui;
 
 import parts.logic.PartRegistry;
+
 import common.DBConnection;
+import customers.logic.Customer;
+import customers.logic.CustomerRegistry;
+import diagrep.logic.Booking;
+import diagrep.logic.BookingRegistry;
+import diagrep.logic.DiagRepairBooking;
 import parts.logic.Part;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +42,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 //
 /**
  * FXML Controller class
@@ -44,6 +53,9 @@ import javafx.scene.text.Text;
 public class StockPartsController implements Initializable {
     
     private PartRegistry partR = PartRegistry.getInstance();
+    private BookingRegistry bookingR = BookingRegistry.getInstance();
+    private CustomerRegistry customerR = CustomerRegistry.getInstance();
+    private VehicleRegistry vehicleR = VehicleRegistry.getInstance();
     
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     //Stock Parts
@@ -88,7 +100,7 @@ public class StockPartsController implements Initializable {
             repairIDTextArea;
     
     //repairs gui
-    private final ObservableList<Part> oRepairList = FXCollections.observableArrayList();
+    private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
     @FXML
     private TableView<RepairWrapper> repairsTable;
     @FXML
@@ -245,7 +257,7 @@ public class StockPartsController implements Initializable {
     
     //load data into repairs table
     public void loadRepairsTable(){//ActionEvent event){
-        /*
+        
         repairsTable.setEditable(true);
         repairIDCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("repairID"));
@@ -258,39 +270,42 @@ public class StockPartsController implements Initializable {
         rDateCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("date"));
         repairsTable.setItems(oRepairList);
-        */
+        
     }
     //loads relevant data in RepairWrapper
     public void loadAllRepairs(){//ActionEvent event){
-        /*
+        
         System.out.println("test4");
         oRepairList.clear();
-        ArrayList<RepairWrapper> repairlist = new ArrayList<RepairWrapper>();
-        ArrayList<Booking> bookings = BookingRegistry.getRepairs();
+        ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
+        ArrayList<DiagRepairBooking> bookings = bookingR.getListDiagRepairBookings();
         for(int i = 0; i < bookings.size(); i++)
         {
-            Vehicle vehicle = VehicleRegistry.getVehicle(bookings.get(i).getVehicleID());
-            Customer customer = CustomerRegistry.searchCustomerByID(bookings.get(i).getCustID());
-            repairList.add(new RepairWrapper(bookings.get(i), vehicle, customer));
+            Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVechID());
+            Customer customer = customerR.searchCustomerByID(bookings.get(i).getCustID());
+            repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
         }
-        if(repairlist != null)
+        if(repairList != null)
         {
             System.out.println("inside if");
-            for(int i = 0; i < repairlist.size(); i++)
+            for(int i = 0; i < repairList.size(); i++)
             {
                 System.out.println("inside for");
-                oRepairList.add(repairlist.get(i));
+                oRepairList.add(repairList.get(i));
             }
         }
-        */
+        
     }
     
     public void addPartToRepair(ActionEvent event){
-        /*
+        
         Part selectedPart = rStockTable.getSelectionModel().getSelectedItem();
         RepairWrapper selectedRepair = repairsTable.getSelectionModel().getSelectedItem();
-        partR.usePart(selectedRepair.getRepairID()selectedRepair.getVehicleID(),selectedRepair.getCustomerID(),selectedPart.getName(), date1, date2, selectedPart.getCost());
-        */
+        partR.usePart(selectedRepair.getRepairID(),selectedRepair.getVehicleRegistration(),selectedRepair.getCustomerID(),selectedPart.getName(), new Date(2017, 01, 01), new Date(2018, 01, 01), selectedPart.getCost());
+        if(Integer.parseInt(selectedPart.getStocklevel()) < 2)
+            partR.deletePart(selectedPart.getName());
+        else
+            partR.updateStock(selectedPart.getName(), -1);
     }
     
     //CHANGING ANCHOR METHODS
