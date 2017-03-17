@@ -94,6 +94,7 @@ public class PartRegistry {
         conn.connect();
         String query = "UPDATE STOCKPARTS SET STOCK = STOCK + " + quantity + "  WHERE NAME = '" + n + "';";
         conn.update(query);
+        
         conn.closeConnection();
     }
     //delete part from stock
@@ -101,14 +102,14 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "DELETE FROM STOCKPARTS WHERE NAME = " + part;
+        String query = "DELETE FROM STOCKPARTS WHERE NAME = " + part + ";";
         conn.update(query);
         conn.closeConnection();
     }
     //take part from stock to use in repair (delete from stock parts then add to used parts)
-    public boolean usePart(int bId, int vId, int cId, String partName, Date wEnd, Date wStart, int cost){
+    public boolean usePart(String bId, String vId, String cId, String partName, Date wEnd, Date wStart, String cost){
         boolean success;
-        deletePart(partName);
+        //deletePart(partName);
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
