@@ -11,19 +11,21 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
   <children>
-    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0" visible="false">
+    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0">
       <children>
-        <AnchorPane layoutX="633.0" layoutY="28.0" prefHeight="336.0" prefWidth="360.0">
+        <AnchorPane layoutX="633.0" layoutY="28.0" prefHeight="383.0" prefWidth="360.0">
           <children>
             <TextArea fx:id="partCostTextArea" layoutX="88.0" layoutY="200.0" prefHeight="25.0" prefWidth="200.0" />
             <TextArea fx:id="partStockLevelTextArea" layoutX="88.0" layoutY="243.0" prefHeight="25.0" prefWidth="200.0" />
-            <Label layoutY="240.0" text="Stock Level" AnchorPane.leftAnchor="5.0" />
+            <Label layoutX="6.0" layoutY="254.0" text="Quantity" AnchorPane.leftAnchor="6.0" />
             <Label layoutY="205.0" prefHeight="15.0" prefWidth="52.0" text="Cost" AnchorPane.leftAnchor="5.0" />
             <Label layoutY="40.0" text="Description" AnchorPane.leftAnchor="5.0" />
             <TextArea fx:id="partNameTextArea" layoutX="88.0" layoutY="10.0" prefHeight="25.0" prefWidth="200.0" />
             <Label layoutY="15.0" text="Part Name" AnchorPane.leftAnchor="5.0" />
             <TextArea fx:id="partDescriptionTextArea" layoutX="88.0" layoutY="40.0" prefHeight="150.0" prefWidth="200.0" />
-            <Button fx:id="addPartButton" layoutX="9.0" layoutY="283.0" mnemonicParsing="false" onAction="#addStockPart" prefHeight="25.0" prefWidth="75.0" text="Add Part" />
+            <Button fx:id="addPartButton" layoutX="-2.0" layoutY="344.0" mnemonicParsing="false" onAction="#addStockPart" prefHeight="25.0" prefWidth="75.0" text="Add Part" />
+                  <DatePicker fx:id="deliveryDatePicker" layoutX="114.0" layoutY="298.0" />
+                  <Label layoutX="5.0" layoutY="302.0" text="Date of delivery" />
           </children>
         </AnchorPane>
         <TableView fx:id="stockTable" layoutY="14.0" prefHeight="578.0" prefWidth="623.0">
@@ -87,7 +89,7 @@
     <Button fx:id="viewUsedPartsButton" layoutX="760.0" layoutY="15.0" mnemonicParsing="false" onAction="#viewUsedPartsAnchor" prefHeight="25.0" prefWidth="171.0" text="View Used Parts" />
     <Button fx:id="searchButton" layoutX="529.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchParts" prefHeight="25.0" prefWidth="70.99990000000253" text="Search" />
     <TextField fx:id="searchTextField" layoutX="14.0" layoutY="13.0" prefHeight="25.0" prefWidth="507.0" />
-    <AnchorPane id="usedParts1" fx:id="repairs" layoutY="43.0" prefHeight="636.0" prefWidth="1036.0">
+    <AnchorPane id="usedParts1" fx:id="repairs" layoutY="43.0" prefHeight="636.0" prefWidth="1036.0" visible="false">
       <children>
         <TableView fx:id="repairTable" layoutX="14.0" layoutY="14.0" prefHeight="611.0" prefWidth="586.0">
           <columns>
