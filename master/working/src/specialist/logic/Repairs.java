@@ -4,6 +4,7 @@ import customers.logic.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,20 +35,20 @@ public class Repairs
         return success;
     }
 
-    public boolean addPart(String Name, String Desc, int ID, int SPCID, Date ExpDel, Date ExpRet, double Cost)
+    public boolean addPart(String RegNo, int ID, int SPCID, Date ExpDel, Date ExpRet, double Cost)
     {
         boolean success;
-        DBC.connect();       
-        String SQL = "INSERT INTO REPAIRPARTS (PARTNAME, DESC, PARTID, SPCID, DELIVERYDATE, RETURNDATE, COST) " + 
+        DBC.connect();    
+        String SQL = "INSERT INTO REPAIRPARTS (REGNO, PARTID, SPCID, DELIVERYDATE, RETURNDATE, COST) " + 
                            "VALUES ( '" + 
-                            Name + "', '" +
-                            Desc + "', '" +
+                            RegNo + "', '" +
                             ID + "', '" +
                             SPCID + "', '" +
                             ExpDel + "', '" +
                             ExpRet + "', '" +
                             Cost + "' );";
         success = DBC.update(SQL);
+        System.out.println(SQL);
         DBC.closeConnection();
         return success;
     }
@@ -99,6 +100,20 @@ public class Repairs
         DBC.closeConnection();
         return SPCList;
     }
+    
+    public ObservableList<String> getPartListCombo() throws SQLException
+    {
+        ObservableList<String> PartList = FXCollections.observableArrayList();
+        DBC.connect();
+        String SQL = "SELECT NAME FROM STOCKPARTS WHERE STOCK > 0;";
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+        {
+            PartList.add(rs.getString("NAME"));
+        }
+        DBC.closeConnection();
+        return PartList;
+    }
     //RETURN LIST OF ALL SPC'S
     public ObservableList<SPC> getAllSPC() throws SQLException
     {
@@ -124,6 +139,21 @@ public class Repairs
         if(rs !=null)
         {
             ID = rs.getInt("SPCID");
+        }
+        DBC.closeConnection();
+        return ID;
+    }
+    
+    public int getPartID(String Name) throws SQLException
+    {
+        ObservableList<Integer> partList = FXCollections.observableArrayList();
+        DBC.connect();
+        String SQL = "SELECT ID FROM STOCKPARTS WHERE NAME = '" + Name + "';";
+        ResultSet rs = DBC.query(SQL);
+        int ID = 0;
+        if(rs !=null)
+        {
+            ID = rs.getInt("ID");
         }
         DBC.closeConnection();
         return ID;
@@ -190,26 +220,43 @@ public class Repairs
                 //resultList.add(new SearchReg( rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST"), "Vehicle" ));
                 resultList.add(new SearchName( rs.getInt("ID"), rs.getString("FIRSTNAME"), rs.getString("SURNAME"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
             }
-            if (resultList == null)
-            {
-                System.out.println("empty g");
-            }
             DBC.closeConnection();
         return resultList;
     }
     
-    public void getOutstanding(String date)
+    public ObservableList<OutstandingMain> getOutstanding(int SPCID) throws SQLException
     {
-        //String SQL = "SELECT TYPE, ITEMID, PARTNAME, RETURNDATE FROM SPECIALISTREPAIRS, REPAIRPARTS WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'PART';";
-        //String SQL = "SELECT TYPE, ITEMID, MAKE + ' ' + MODEL, RETURNDATE FROM SPECIALISTREPAIRS, VEHICLE WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'VEHICLE';";
-        String SQL = "SELECT x, y FROM (SELECT TYPE, ITEMID, PARTNAME, RETURNDATE FROM SPECIALISTREPAIRS, REPAIRPARTS WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'PART') as x, (SELECT TYPE, ITEMID, MAKE + ' ' + MODEL, RETURNDATE FROM SPECIALISTREPAIRS, VEHICLE WHERE RETURNDATE >= Convert(datetime, '" + date + "') AND TYPE = 'VEHICLE') as y ORDER BY RETURNDATE ASC;";
-        //hopefully that retrieves everything, just need to output to a table
+        ObservableList<OutstandingMain> resultList = FXCollections.observableArrayList();
+        
+        //FOR VEHICLES
+        String SQL = "SELECT REGNO, DELIVERYDATE, RETURNDATE, COST FROM REPAIRVEHICLE WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND SPCID = '" + SPCID + "';";
+        DBC.connect(); 
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new OutstandingMain(rs.getString("REGNO"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE"), rs.getDouble("COST"), "Vehicle"));
+            }
+        
+        //FOR PARTS
+        SQL = "SELECT PARTID, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND SPCID = '" + SPCID + "';";
+        rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new OutstandingMain(Integer.toString(rs.getInt("PARTID")), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE"), rs.getDouble("COST"), "Part"));
+            }
+
+        DBC.closeConnection();
+        return resultList;
     }
     
     public boolean deleteVehicleRepair(int RepairID)
     {
+        DBC.connect();
         String SQL = "DELETE FROM REPAIRVEHICLE WHERE ID = " + RepairID + ";";
-        return DBC.update(SQL);
+        boolean success = DBC.update(SQL);
+        DBC.closeConnection();
+        return success;
+        
     }
     //modified from search with name
     public Customer searchCustomerWithReg(String RegNo){
