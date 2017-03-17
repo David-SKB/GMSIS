@@ -5,6 +5,7 @@ import common.Main;
 import customers.gui.CustomerController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +29,12 @@ public class InterfaceController {
     private AdminController adminController = new AdminController();
     @FXML
     private AnchorPane adminAP;
+    @FXML
+    private Label welcomeUser;
+    
+    public void showWelcome(String user){
+        welcomeUser.setText("Welcome, " + user + "!");
+    }
     
     public void tabSwitch(){
         this.InterfaceTabPane.getTabs().remove(adminTab);

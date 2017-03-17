@@ -31,6 +31,9 @@ import user.gui.InterfaceController;
 public class Authentication
 {
     
+    private static String tempName;
+    private static String tempLastName;
+    
     public void start(Stage primaryStage) 
     {
         primaryStage.setTitle("GM-SIS Login Page");
@@ -93,7 +96,8 @@ public class Authentication
                        if (isAdmin(username))
                         {
                             try {
-                                Parent root = FXMLLoader.load(getClass().getResource("/user/gui/Interface.fxml"));
+                                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/user/gui/Interface.fxml"));
+                                Parent root = (Parent)fxmlLoader.load();
                                 Scene scene = new Scene(root);
                                 Stage stage = Main.stage;
                                 stage.setScene(scene);
@@ -101,8 +105,9 @@ public class Authentication
                                 stage.setTitle("GM-SIS Home");
                                 stage.getIcons().add(new Image("/user/gui/icon2.png"));
                                 primaryStage.close();
-                                stage.show();
-                                
+                                InterfaceController IC = fxmlLoader.<InterfaceController>getController();
+                                IC.showWelcome(tempName + " " + tempLastName);
+                                stage.show();   
                             } catch (IOException ex) {
                                 Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -121,6 +126,7 @@ public class Authentication
                                 primaryStage.close();
                                 InterfaceController IC = fxmlLoader.<InterfaceController>getController();
                                 IC.tabSwitch();
+                                IC.showWelcome(tempName + " " + tempLastName);
                                 stage.show();
                             } catch (IOException ex) {
                                 Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
@@ -147,20 +153,22 @@ public class Authentication
         primaryStage.show();
     }
     
-    public static boolean checkUsernamePassword(String username, String password){
+    public boolean checkUsernamePassword(String username, String password){
         DBConnection c = DBConnection.getInstance();
         c.connect();
         
-        String SQL = "SELECT ID,PASSWORD FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";        
+        String SQL = "SELECT * FROM USERS WHERE ID = '" + username + "' AND PASSWORD = '" + password + "';";        
         ResultSet rs = c.query(SQL);
         try{
+            tempName = rs.getString("FIRSTNAME");
+            tempLastName = rs.getString("SURNAME");
             return rs.isBeforeFirst();
         }catch(SQLException e){
             return false;
         }
     }
     
-    public static boolean isAdmin(String username){
+    public boolean isAdmin(String username){
         DBConnection c = DBConnection.getInstance();
         c.connect();
         String SQL = "SELECT SYSADM FROM USERS WHERE ID = " + username + ";";       

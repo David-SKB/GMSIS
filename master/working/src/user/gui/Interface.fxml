@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -9,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="917.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
+<AnchorPane prefHeight="917.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
    <children>
       <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="776.0" prefWidth="1165.0" stylesheets="@tabPane.css" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
@@ -72,10 +78,18 @@
          </image>
       </ImageView>
       <Button layoutX="1016.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutCustomer" opacity="0.76" prefHeight="27.0" prefWidth="143.0" text="Logout" />
-      <Label alignment="CENTER" layoutX="870.0" layoutY="14.0" prefHeight="27.0" prefWidth="134.0">
+      <Label fx:id="welcomeUser" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="929.0">
          <font>
-            <Font size="16.0" />
+            <Font name="Palatino Italic" size="19.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="0.8846153846153846" endY="0.9038461538461539" startX="0.26923076923076916" startY="0.5192307692307693">
+               <stops>
+                  <Stop color="#a86464" />
+                  <Stop color="#c6ab53" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
    </children>
 </AnchorPane>
