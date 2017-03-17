@@ -4,13 +4,16 @@
  * and open the template in the editor.
  */
 package parts.gui;
+import customers.logic.Customer;
+import diagrep.logic.DiagRepairBooking;
 import java.util.*;
+import vehicles.logic.Vehicle;
 /**
  *
  * @author jr308
  */
 public class RepairWrapper {
-    /*
+    
     private Customer customer;
     private Vehicle vehicle;
     private DiagRepairBooking booking;
@@ -22,7 +25,7 @@ public class RepairWrapper {
         booking = b;
     }
     
-    public int getRepairID()
+    public String getRepairID()
     {
         return booking.getBookingID();
     }
@@ -30,6 +33,11 @@ public class RepairWrapper {
     public String getVehicleRegistration()
     {
         return vehicle.getRegistration();
+    }
+    
+     public String getCustomerID()
+    {
+        return booking.getCustID();
     }
     
     public String getCustomerFirstName()
@@ -42,10 +50,10 @@ public class RepairWrapper {
         return customer.getSurname();
     }
     
-    public Date getDate()
+    public String getDate()
     {
         return booking.getBookingDate();
     }
     
-    */
+    
 }  
