@@ -10,6 +10,7 @@ package parts.logic;
  * @author JR
  */
 import java.util.Date;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Part {
