@@ -50,9 +50,8 @@ public class DatabaseCreation
 "/* VEHICLE TABLE */\n" +
 "CREATE TABLE VEHICLE\n" +
 "(\n" +
-" REGISTRATION TEXT PRIMARY KEY NOT NULL,\n" +
+" REGISTRATION INT PRIMARY KEY NOT NULL,\n" +
 " CUSTOMERID   INT NOT NULL,\n" +
-" TYPE         TEXT NOT NULL,\n" +
 " MAKE         TEXT  NOT NULL,\n" +
 " MODEL        TEXT  NOT NULL,\n" +
 " ENGINESIZE   INT   NOT NULL,\n" +
@@ -61,13 +60,12 @@ public class DatabaseCreation
 " MOTDATE      DATE  NOT NULL, \n" +
 " LASTSERVICE  DATE  NOT NULL,\n" +
 " MILEAGE      INT   NOT NULL,\n" +
-" WARRANTY     BOOLEAN   NOT NULL,\n" +
 " FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE CASCADE\n" +
 ");\n" +
 "\n" +
 "CREATE TABLE WARRANTY\n" +
 "(\n" +
-" REGISTRATION      TEXT     NOT NULL,\n" +
+" REGISTRATION      INT     NOT NULL,\n" +
 " NAME              TEXT    NOT NULL,\n" +
 " ADDRESS           TEXT    NOT NULL,\n" +
 " EXPIRYDATE        DATE    NOT NULL,\n" +
@@ -84,7 +82,7 @@ public class DatabaseCreation
 "CREATE TABLE USEDPARTS (\n" +
 "  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
-"  VEHICLEID         TEXT                     NOT NULL,\n" +
+"  VEHICLEID         INT                     NOT NULL,\n" +
 "  CUSTOMERID        INT                     NOT NULL,\n" +
 "  PARTNAME          INT                     NOT NULL,\n" +
 "  WARRANTYEND       DATE                    NOT NULL,\n" +
@@ -98,14 +96,16 @@ public class DatabaseCreation
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
 "(\n" +
-"PARTNAME               TEXT                    NOT NULL,\n" +
-"DESC                   TEXT                    NOT NULL,\n" +
-"PARTID                 INT       PRIMARY KEY   NOT NULL,\n" +
+"REPAIRID               INT       PRIMARY KEY   NOT NULL,\n" +              
+"REGNO                  TEXT                    NOT NULL,\n" +
+"PARTID                 INT                     NOT NULL,\n" +
 "SPCID                  INT                     NOT NULL,\n" +              
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
 "COST                   REAL                     NOT NULL,\n" +
-"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +              
+"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
+"FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +    
+              
 ");\n" +
 "CREATE TABLE REPAIRVEHICLE\n" +
 "(\n" +
@@ -133,7 +133,7 @@ public class DatabaseCreation
 "	TIME                 INT                     NOT NULL,\n" +
 "	TYPE                 TEXT                    NOT NULL,\n" +
 "	CUSTOMERID           INT                     NOT NULL,\n" +
-"	VEHICLEREGISTRATION  TEXT                     NOT NULL,\n" +
+"	VEHICLEREGISTRATION  INT                     NOT NULL,\n" +
 "	MILEAGE              INT                     NOT NULL,\n" +              
 "	EMPLOYEEID           INT                     NOT NULL,\n" +
 "	FOREIGN KEY(CUSTOMERID) references CUSTOMER(ID) ON DELETE NO ACTION,\n" +

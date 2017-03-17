@@ -68,9 +68,8 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     //Send Part Pane
     @FXML private TitledPane SendPart;
-    @FXML private TextField NamePart;
-    @FXML private TextField DescPart;
-    @FXML private TextField IDPart;
+    @FXML private TextField RegNoPart;
+    @FXML private ComboBox IDPart;
     @FXML private ComboBox SPCIDPart;
     @FXML private DatePicker ExpDelPart;
     @FXML private DatePicker ExpRetPart;
@@ -114,6 +113,14 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private TableColumn T4Mileage;
     @FXML private TableColumn T4Color;
     
+    //Oustanding Repairs Table Pane T5
+    @FXML private TableView<OutstandingMain> OutstandingTable;
+    @FXML private TableColumn T5RegID;
+    @FXML private TableColumn T5ExpDel;
+    @FXML private TableColumn T5ExpRet;
+    @FXML private TableColumn T5Cost;
+    @FXML private TableColumn T5Type;
+    
     //Customer Details Pane
     @FXML private Pane CustomerPane;
     @FXML private TextField FnameCustomer;
@@ -135,9 +142,11 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Text T1SearchError;
     @FXML private Text AddError;
     @FXML private Text EditError;
+    @FXML private Text AddErrorPart;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
     @FXML private Button SPCVehicleButton;
+    @FXML private Button SPCOutstandingButton;
     @FXML private Text T1SearchErrorText;
     
     //requirements left: 7, 8, 10, 12, 14
@@ -155,9 +164,12 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void SubmitPart() throws SQLException 
     {
-        boolean added  = repairs.addPart(NamePart.getText(), DescPart.getText(), Integer.parseInt(IDPart.getText()), repairs.getSPCID(SPCIDPart.getValue().toString()), toDate(ExpDelPart), toDate(ExpRetPart), Double.parseDouble(CostPart.getText()));
-        System.out.println("added: " + added);
-        ClearAddPart();
+        if (ValidateSubmitPart())
+        {
+            boolean added  = repairs.addPart(RegNoPart.getText(), repairs.getPartID(IDPart.getValue().toString()), repairs.getSPCID(SPCIDPart.getValue().toString()), toDate(ExpDelPart), toDate(ExpRetPart), Double.parseDouble(CostPart.getText()));
+            System.out.println("added: " + added);
+            ClearAddPart();
+        }
     }
     
     @FXML private void EditVehicle() throws SQLException 
@@ -186,14 +198,6 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             valid = false;
             RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
-        }
-        else
-        {
-            if (RegNoVehicle.getText().length() != 7)
-            {
-                valid = false;
-                RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
-            }
         }
         if (SPCIDVehicle == null)
         {
@@ -229,6 +233,52 @@ public class RepairsController /*extends Application*/ implements Initializable
             return false;
         }
         ClearAddVStyles();
+        return true;
+    }
+    
+    @FXML private boolean ValidateSubmitPart()
+    {
+        ClearAddPStyles();
+        boolean valid = true;
+        if (repairs.isPlate(RegNoPart.getText()) == false)
+        {
+            valid = false;
+            RegNoPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (SPCIDPart == null)
+        {
+            valid = false;
+            SPCIDPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpDelPart.getValue() == null)
+        {
+            valid = false;
+            ExpDelPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        if (ExpRetPart.getValue() == null)
+        {
+            valid = false;
+            ExpRetPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        
+        try 
+        {
+            Double.parseDouble(CostPart.getText());
+        }
+        catch (NumberFormatException ex)
+        {
+            CostPart.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        //***********************************
+        if (valid == false)
+        {
+            AddErrMsgPart("Invalid Input");
+            return false;
+        }
+        ClearAddPStyles();
         return true;
     }
     
@@ -296,6 +346,16 @@ public class RepairsController /*extends Application*/ implements Initializable
         ExpRetVehicle.setStyle(null);
         CostVehicle.setStyle(null);
     }
+    
+    @FXML private void ClearAddPStyles()
+    {
+        RegNoPart.setStyle(null);
+        IDPart.setStyle(null);
+        SPCIDPart.setStyle(null);
+        ExpDelPart.setStyle(null);
+        ExpRetPart.setStyle(null);
+        CostPart.setStyle(null);
+    }
 
     @FXML private void ClearAddUVStyles()
     {
@@ -323,9 +383,8 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void ClearAddPart()
     {
-        NamePart.setText(null);
-        DescPart.setText(null);
-        IDPart.setText(null);
+        RegNoPart.setText(null);
+        IDPart.setValue(null);
         SPCIDPart.setValue(null);
         ExpDelPart.setValue(null);
         ExpRetPart.setValue(null);
@@ -518,6 +577,29 @@ public class RepairsController /*extends Application*/ implements Initializable
         VehicleTable.setItems(vehicleInfo);
     }
     
+    @FXML private void LoadOutstanding() throws SQLException
+    {
+        T5RegID.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5REGNOX"));
+        T5ExpDel.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5EXPDELX"));
+        T5ExpRet.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5EXPRETX"));
+        T5Cost.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, Integer>("T5COSTX"));
+        T5Type.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5TYPEX"));
+        if (SPCListTable.getSelectionModel().getSelectedItem() != null)
+        {
+            ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding(SPCListTable.getSelectionModel().getSelectedItem().getT3IDX());
+            OutstandingTable.setItems(VehicleList);
+        }
+        else
+        {
+            //make error message saying no row selected
+        }
+    }
+    
     @FXML private void VehicleRowClick() 
     {
         boolean vehicle  = true;
@@ -575,6 +657,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             System.out.println("Select something fool");
         }*/
         SPCVehicleButton.setDisable(false);
+        SPCOutstandingButton.setDisable(false);
     }
     
     @FXML private void HandleDelete() throws SQLException 
@@ -711,12 +794,9 @@ public class RepairsController /*extends Application*/ implements Initializable
         }));
     }
     
-    @FXML private void TestFunction()
+    @FXML private void TestFunction() throws SQLException
     {
-        //RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
-        //SPCIDVehicle.setStyle(null);
-        //T1SearchError.setText("wag1");
-        //RepairErrMsg("wtf");
+        LoadOutstanding();
     }
     
     /*public static void main (String args[]) throws Exception
@@ -766,6 +846,22 @@ public class RepairsController /*extends Application*/ implements Initializable
             );
     }
     
+    @FXML private void AddErrMsgPart(String msg)
+    {
+        AddErrorPart.setText(msg);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    AddErrorPart.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
+    }
+    
     @FXML private void EditErrMsg(String msg)
     {
         EditError.setText(msg);
@@ -790,37 +886,52 @@ public class RepairsController /*extends Application*/ implements Initializable
         SPCIDPart.setItems(SPCNameList);
     }
     
+    @FXML private void LoadComboListPart() throws SQLException
+    {
+        ObservableList<String> PartIDList = repairs.getPartListCombo();
+        IDPart.setItems(PartIDList);
+    }
+    
     @FXML private void DPUpdateAV()
     {
-        Selection = StringtoLDate(toString(ExpDelVehicle));
-        ExpRetVehicle.setDayCellFactory(DCFRETURN);
-        if (ExpRetVehicle.getValue() != null)
+        if (ExpDelVehicle.getValue() != null)
         {
-            if (StringtoLDate(toString(ExpRetVehicle)).isBefore(Selection))
-            ExpRetVehicle.setValue(null);
+            Selection = StringtoLDate(toString(ExpDelVehicle));
+            ExpRetVehicle.setDayCellFactory(DCFRETURN);
+            if (ExpRetVehicle.getValue() != null)
+            {
+                if (StringtoLDate(toString(ExpRetVehicle)).isBefore(Selection))
+                ExpRetVehicle.setValue(null);
+            }
         }
+        
     }
     
     @FXML private void DPUpdateAP()
     {
-        Selection = StringtoLDate(toString(ExpDelPart));
-        ExpRetPart.setDayCellFactory(DCFRETURN);
-        if (ExpRetPart.getValue() != null)
+        if (ExpDelPart.getValue() != null)
         {
-            if (StringtoLDate(toString(ExpRetPart)).isBefore(Selection))
-            ExpRetPart.setValue(null);
+            Selection = StringtoLDate(toString(ExpDelPart));
+            ExpRetPart.setDayCellFactory(DCFRETURN);
+            if (ExpRetPart.getValue() != null)
+            {
+                if (StringtoLDate(toString(ExpRetPart)).isBefore(Selection))
+                ExpRetPart.setValue(null);
+            }
         }
     }
     
     @FXML private void DPUpdateUV()
     {
-
-        Selection = StringtoLDate(toString(ExpDelVehicle2));
-        if (Selection.isAfter(ExpRetVehicle2.getValue()))
+        if (ExpDelVehicle2.getValue() != null)
         {
-            ExpDelVehicle2.setValue(Previous.getValue());  
+            Selection = StringtoLDate(toString(ExpDelVehicle2));
+            if (Selection.isAfter(ExpRetVehicle2.getValue()))
+            {
+                ExpDelVehicle2.setValue(Previous.getValue());  
+            }
+            ExpRetVehicle2.setDayCellFactory(DCFRETURN);
         }
-        ExpRetVehicle2.setDayCellFactory(DCFRETURN);
     }
 
     @Override
@@ -830,6 +941,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             //NEEDS TO BE FINISHED
             LoadComboListSPC();
+            LoadComboListPart();
             ExpDelVehicle.setDayCellFactory(DCF);
             ExpDelPart.setDayCellFactory(DCF);
             ExpRetVehicle.setDayCellFactory(DCF);
@@ -841,7 +953,6 @@ public class RepairsController /*extends Application*/ implements Initializable
         SetNumberRestriction(CostVehicle);
         SetNumberRestriction(CostPart); 
         SetNumberRestriction(CostVehicle2);
-        SetNumberRestriction(IDPart);
     }
     
     private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
