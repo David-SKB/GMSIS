@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -68,6 +69,9 @@ public class StockPartsController implements Initializable {
     @FXML
     private TextArea partNameTextArea, partDescriptionTextArea,
             partCostTextArea, partStockLevelTextArea;
+    
+    @FXML 
+    private DatePicker deliveryDatePicker;
     
     //used parts gui
     @FXML
@@ -161,8 +165,9 @@ public class StockPartsController implements Initializable {
         String name = partNameTextArea.getText();
         String description = partDescriptionTextArea.getText();
         int cost = Integer.parseInt(partCostTextArea.getText());
-        //String stocklevel = partStockLevelTextArea.getText();
+        String quantity = partStockLevelTextArea.getText();
         partR.addPart(name, description, cost);
+        
         loadAllParts();
     }
     
