@@ -36,6 +36,7 @@ public class Authentication
     
     public void start(Stage primaryStage) 
     {
+        primaryStage.setResizable(false); 
         primaryStage.setTitle("GM-SIS Login Page");
         primaryStage.getIcons().add(new Image("/user/gui/icon2.png"));
         //GridCode
@@ -102,6 +103,7 @@ public class Authentication
                                 Stage stage = Main.stage;
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
+                                stage.setResizable(false);
                                 stage.setTitle("GM-SIS Home");
                                 stage.getIcons().add(new Image("/user/gui/icon2.png"));
                                 primaryStage.close();
@@ -121,6 +123,7 @@ public class Authentication
                                 Stage stage = Main.stage;
                                 stage.setScene(scene);
                                 stage.centerOnScreen();
+                                stage.setResizable(false);
                                 stage.setTitle("GM-SIS Home");
                                 stage.getIcons().add(new Image("/user/gui/icon2.png"));
                                 primaryStage.close();
