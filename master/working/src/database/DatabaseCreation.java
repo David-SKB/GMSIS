@@ -96,7 +96,7 @@ public class DatabaseCreation
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
 "(\n" +
-"REPAIRID               INT       PRIMARY KEY   NOT NULL,\n" +              
+"ID                     INT       PRIMARY KEY   NOT NULL,\n" +              
 "REGNO                  TEXT                    NOT NULL,\n" +
 "PARTID                 INT                     NOT NULL,\n" +
 "SPCID                  INT                     NOT NULL,\n" +              

@@ -48,6 +48,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import static javafx.util.Duration.seconds;
 import specialist.logic.*;
+import org.controlsfx.control.textfield.TextFields;
 
 public class RepairsController /*extends Application*/ implements Initializable
 {
