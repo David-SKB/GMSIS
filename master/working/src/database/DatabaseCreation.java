@@ -102,7 +102,6 @@ public class DatabaseCreation
 "SPCID                  INT                     NOT NULL,\n" +              
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
-"COST                   REAL                     NOT NULL,\n" +
 "FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
 "FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +    
               
