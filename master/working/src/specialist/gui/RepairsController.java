@@ -174,7 +174,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button ViewPartsButton;
     
     //
-    //todo: make vehicle reg search get firstname and lastname so table collums dont keep shitfing, also do refresh on tab click
+    //todo: make vehicle reg search get firstname and lastname so table collums dont keep shitfing, also do refresh on tab click, also green sucess messages
     //******************************************************
     @FXML private void SubmitVehicle() throws SQLException 
     {
