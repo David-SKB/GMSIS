@@ -17,7 +17,7 @@ import javafx.util.Callback;
 /**
  *
  * @author do302
- * Grab an instance and use methods as you need.
+ * initialise instance with: 
  * private static ErrorChecks EC = ErrorChecks.getInstance();
  */
 public class ErrorChecks 
@@ -39,7 +39,7 @@ public class ErrorChecks
     /**
     * Converts a DatePicker Object to String
     */
-    private String toString(DatePicker DatePickerObject)
+    public String toString(DatePicker DatePickerObject)
     {
         java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
         return sqlDate.toString();
@@ -48,7 +48,7 @@ public class ErrorChecks
     /**
     * Converts a DatePicker Object to a Date object (java.sql.Date object not java.util.Date)
     */
-    private Date toDate(DatePicker DatePickerObject)
+    public Date toDate(DatePicker DatePickerObject)
     {
         java.sql.Date sqlDate = java.sql.Date.valueOf(DatePickerObject.getValue());
         return sqlDate;
@@ -58,7 +58,7 @@ public class ErrorChecks
     *
     * Converts a LocalDate Object to String
     */
-    private LocalDate StringtoLDate(String value)
+    public LocalDate StringtoLDate(String value)
     {
         final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         final LocalDate newDate = LocalDate.parse(value, DATE_FORMAT);
@@ -69,7 +69,7 @@ public class ErrorChecks
     *
     * Call with TextField object to Restrict input to numbers (allows for decimals)
     */
-    private void SetNumberRestriction(TextField field)//Restrics input to numbers only
+    public void SetNumberRestriction(TextField field)//Restrics input to numbers only
     {
         DecimalFormat format = new DecimalFormat( "#.0" );
         field.setTextFormatter( new TextFormatter<>(c ->
@@ -121,7 +121,7 @@ public class ErrorChecks
     *
     * Displays a given message to a given JavaFX Text object for 2 seconds
     */
-    @FXML private void TimedMsg(Text TextObject, String msg)
+    public void TimedMsg(Text TextObject, String msg)
     {
         TextObject.setText(msg);
         Timer timer = new Timer();
@@ -143,13 +143,13 @@ public class ErrorChecks
     * (Can use LocalDate.now() for current day)
     * Note: StringToLdate changes a string to LocalDate
     */
-    private void DisableDatesBefore(DatePicker dp, LocalDate LD)
+    public void DisableDatesBefore(DatePicker dp, LocalDate LD)
     {
         Selection = LD;
         dp.setDayCellFactory(DCF);
     }
     
-    private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
+    public Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
     {
         @Override
         public void updateItem(LocalDate item , boolean empty)

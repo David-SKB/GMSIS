@@ -31,31 +31,29 @@ public class Repairs
                             Cost + "' );";
         success = DBC.update(SQL);
         DBC.closeConnection();
-        System.out.println(SQL);//view sql output
+        //System.out.println(SQL);//view sql output
         return success;
     }
 
-    public boolean addPart(String RegNo, int ID, int SPCID, Date ExpDel, Date ExpRet, double Cost)
+    public boolean addPart(String RegNo, int ID, int SPCID, Date ExpDel, Date ExpRet)
     {
         boolean success;
         DBC.connect();    
-        String SQL = "INSERT INTO REPAIRPARTS (REGNO, PARTID, SPCID, DELIVERYDATE, RETURNDATE, COST) " + 
+        String SQL = "INSERT INTO REPAIRPARTS (REGNO, PARTID, SPCID, DELIVERYDATE, RETURNDATE) " + 
                            "VALUES ( '" + 
                             RegNo + "', '" +
                             ID + "', '" +
                             SPCID + "', '" +
                             ExpDel + "', '" +
-                            ExpRet + "', '" +
-                            Cost + "' );";
+                            ExpRet + "' );";
         success = DBC.update(SQL);
-        System.out.println(SQL);
+        //System.out.println(SQL);
         DBC.closeConnection();
         return success;
     }
     
     public boolean editVehicle(String RegNo, int SPCID, Date ExpDel, Date ExpRet, double Cost, int RepairID)
     {
-        System.out.println("entered2");
         boolean success;
         DBC.connect();       
         String SQL ="UPDATE REPAIRVEHICLE \n" + 
@@ -70,6 +68,24 @@ public class Repairs
         success = DBC.update(SQL);
         DBC.closeConnection();
         
+        return success;
+    }
+    
+    public boolean editPart(String RegNo, int ID, int SPCID, Date ExpDel, Date ExpRet, int RepairID)
+    {
+        boolean success;
+        DBC.connect();    
+        String SQL = "UPDATE REPAIRPARTS \n" + 
+                            "SET " +
+                            "REGNO = '" + RegNo + "', " +
+                            "PARTID = '" + ID + "', " +
+                            "SPCID = '" + SPCID + "', " +
+                            "DELIVERYDATE = '" + ExpDel + "', " +
+                            "RETURNDATE = '" + ExpRet + "' \n" + 
+                            "WHERE ID = '" + RepairID +  "';";
+        success = DBC.update(SQL);
+        //System.out.println(SQL);
+        DBC.closeConnection();
         return success;
     }
     
@@ -131,7 +147,6 @@ public class Repairs
     
     public int getSPCID(String Name) throws SQLException
     {
-        ObservableList<ListSPC> SPCList = FXCollections.observableArrayList();
         DBC.connect();
         String SQL = "SELECT SPCID FROM CENTRES WHERE NAME = '" + Name + "';";
         ResultSet rs = DBC.query(SQL);
@@ -146,7 +161,6 @@ public class Repairs
     
     public int getPartID(String Name) throws SQLException
     {
-        ObservableList<Integer> partList = FXCollections.observableArrayList();
         DBC.connect();
         String SQL = "SELECT ID FROM STOCKPARTS WHERE NAME = '" + Name + "';";
         ResultSet rs = DBC.query(SQL);
@@ -169,7 +183,6 @@ public class Repairs
         ResultSet rs = DBC.query(SQL);
         if(rs != null)
         {
-            //System.out.println(rs.getString("MILEAGE"));
             vehicleInfo.add(new DisplayVehicle( rs.getString("REGISTRATION"), rs.getString("MAKE"), rs.getString("MODEL"), rs.getString("FUELTYPE"), rs.getInt("MILEAGE") , rs.getString("COLOUR") ));
         }
         DBC.closeConnection();
@@ -210,17 +223,30 @@ public class Repairs
     {
        ObservableList<SearchMain> resultList = FXCollections.observableArrayList();
             DBC.connect();
-            //String SQL = "SELECT ID, REGNO, NAME, DELIVERYDATE, RETURNDATE, COST, TYPE FROM REPAIRVEHICLE, CENTRES WHERE REPAIRVEHICLE.SPCID = " + SPCID + " AND REPAIRVEHICLE.SPCID = CENTRES.SPCID;";
             String SQL = "SELECT REPAIRVEHICLE.ID, FIRSTNAME, SURNAME, REGNO, NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRVEHICLE, CENTRES, CUSTOMER, VEHICLE WHERE REPAIRVEHICLE.SPCID = " + SPCID + " AND VEHICLE.CUSTOMERID = CUSTOMER.ID AND REPAIRVEHICLE.REGNO = VEHICLE.REGISTRATION AND REPAIRVEHICLE.SPCID = CENTRES.SPCID;";
 
             //System.out.println(SQL);
             ResultSet rs = DBC.query(SQL);
             while(rs.next())
             {
-                //resultList.add(new SearchReg( rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST"), "Vehicle" ));
                 resultList.add(new SearchName( rs.getInt("ID"), rs.getString("FIRSTNAME"), rs.getString("SURNAME"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
             }
             DBC.closeConnection();
+        return resultList;
+    }
+    
+    public ObservableList<RepairParts> getPartRepairs(String RegNo) throws SQLException
+    {
+        ObservableList<RepairParts> resultList = FXCollections.observableArrayList();
+        DBC.connect(); 
+        String SQL = "SELECT REPAIRPARTS.ID, REGNO, STOCKPARTS.NAME, CENTRES.NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS, CENTRES, STOCKPARTS WHERE REGNO = '" + RegNo + "' AND REPAIRPARTS.SPCID = CENTRES.SPCID AND PARTID = STOCKPARTS.ID;";
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new RepairParts(rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString(4), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
+            }
+
+        DBC.closeConnection();
         return resultList;
     }
     
@@ -238,7 +264,7 @@ public class Repairs
             }
         
         //FOR PARTS
-        SQL = "SELECT PARTID, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND SPCID = '" + SPCID + "';";
+        SQL = "SELECT PARTID, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS, STOCKPARTS WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND SPCID = '" + SPCID + "';";
         rs = DBC.query(SQL);
         while(rs.next())
             {
@@ -256,16 +282,24 @@ public class Repairs
         boolean success = DBC.update(SQL);
         DBC.closeConnection();
         return success;
-        
     }
-    //modified from search with name
+    
+    public boolean deletePartRepair(int RepairID)
+    {
+        DBC.connect();
+        String SQL = "DELETE FROM REPAIRPARTS WHERE ID = " + RepairID + ";";
+        boolean success = DBC.update(SQL);
+        DBC.closeConnection();
+        return success;
+    }
+    
+    //taken and modified from customer search with name
     public Customer searchCustomerWithReg(String RegNo){
         DBC.connect();
         try{
             String query = "SELECT SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE  FROM CUSTOMER, VEHICLE WHERE REGISTRATION = '"+ RegNo + "' AND VEHICLE.CUSTOMERID = ID;";
             Customer searchedCustomers = null;
             ResultSet rs = DBC.query(query);
-            //EC.
             if(rs !=null)
             {
                 String sName = rs.getString("SURNAME");
@@ -284,6 +318,19 @@ public class Repairs
             return null;
         }
     }
+    
+    public ArrayList<String> getAllVehicles() throws SQLException
+    {
+        ArrayList<String> VehicleList = new ArrayList<>();
+        DBC.connect();
+        String SQL = "SELECT REGISTRATION FROM VEHICLE;";
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                VehicleList.add(rs.getString("REGISTRATION"));
+            }
+        return VehicleList;
+    }
 
     public static Repairs getInstance()
     {
@@ -292,25 +339,5 @@ public class Repairs
             RInstance = new Repairs();
         }
         return RInstance;
-    }
-    
-    //Error Checks 
-    public boolean isAlphanumeric(String word) 
-    {
-        //returns false if not alphanumberic
-        return word.matches("[a-zA-Z]+");
-    }
-    
-    public boolean isPlate(String word) 
-    {
-        //returns false if containts special characters
-        if (word.matches("[A-Za-z0-9]+"))
-        {
-            if(word.length() <= 7)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }
