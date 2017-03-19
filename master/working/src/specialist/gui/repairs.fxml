@@ -47,13 +47,14 @@
             </AnchorPane>
          </content>
       </TitledPane>
-      <TableView fx:id="OutstandingTable" layoutX="60.0" layoutY="396.0" prefHeight="292.0" prefWidth="385.0">
+      <TableView fx:id="OutstandingTable" layoutX="17.0" layoutY="396.0" prefHeight="292.0" prefWidth="462.0">
         <columns>
-          <TableColumn fx:id="T5RegID" prefWidth="89.0" text="RegNo / ID" />
-            <TableColumn fx:id="T5ExpDel" prefWidth="85.0" text="Exp Delivery" />
-            <TableColumn fx:id="T5ExpRet" prefWidth="84.0" text="Exp Return" />
-            <TableColumn fx:id="T5Cost" prefWidth="59.0" text="Cost" />
-            <TableColumn fx:id="T5Type" prefWidth="66.0" text="Type" />
+          <TableColumn fx:id="T5RegID" prefWidth="68.0" text="RegNo / ID" />
+            <TableColumn fx:id="T5ExpDel" prefWidth="75.0" text="Exp Delivery" />
+            <TableColumn fx:id="T5ExpRet" prefWidth="68.0" text="Exp Return" />
+            <TableColumn fx:id="T5Cost" prefWidth="53.0" text="Cost" />
+            <TableColumn fx:id="T5SPCID" prefWidth="146.0" text="SPC" />
+            <TableColumn fx:id="T5Type" prefWidth="50.0" text="Type" />
         </columns>
       </TableView>
       <TableView fx:id="MainTable" layoutX="489.0" layoutY="29.0" onMouseClicked="#VehicleRowClick" prefHeight="275.0" prefWidth="668.0">
@@ -149,7 +150,7 @@
             <TextField fx:id="CTypeCustomer" editable="false" layoutX="225.0" layoutY="166.0" prefHeight="25.0" prefWidth="186.0" />
          </children>
       </Pane>
-      <Separator layoutX="11.0" layoutY="372.0" prefHeight="4.0" prefWidth="465.0" />
+      <Separator layoutX="17.0" layoutY="372.0" prefHeight="4.0" prefWidth="462.0" />
       <Button fx:id="ViewPartsButton" disable="true" layoutX="951.0" layoutY="367.0" mnemonicParsing="false" onAction="#HandleViewParts" prefHeight="25.0" prefWidth="99.0" text="View Parts" />
       <TableView fx:id="PartsTable" layoutX="552.0" layoutY="29.0" prefHeight="275.0" prefWidth="544.0" visible="false">
         <columns>

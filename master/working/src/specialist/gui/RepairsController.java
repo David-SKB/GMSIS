@@ -146,6 +146,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private TableColumn T5ExpRet;
     @FXML private TableColumn T5Cost;
     @FXML private TableColumn T5Type;
+    @FXML private TableColumn T5SPCID;
     
     //Customer Details Pane
     @FXML private Pane CustomerPane;
@@ -749,6 +750,9 @@ public class RepairsController /*extends Application*/ implements Initializable
                 new PropertyValueFactory<OutstandingMain, Integer>("T5COSTX"));
         T5Type.setCellValueFactory(
                 new PropertyValueFactory<OutstandingMain, String>("T5TYPEX"));
+        T5SPCID.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5SPCNAMEX"));
+        
         if (SPCListTable.getSelectionModel().getSelectedItem() != null)
         {
             ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding(SPCListTable.getSelectionModel().getSelectedItem().getT3IDX());

@@ -250,7 +250,7 @@ public class Repairs
         return resultList;
     }
     
-    public ObservableList<OutstandingMain> getOutstanding(int SPCID) throws SQLException
+    /*public ObservableList<OutstandingMain> getOutstanding(int SPCID) throws SQLException
     {
         ObservableList<OutstandingMain> resultList = FXCollections.observableArrayList();
         
@@ -273,8 +273,34 @@ public class Repairs
 
         DBC.closeConnection();
         return resultList;
-    }
+    }*/
     
+    public ObservableList<OutstandingMain> getOutstanding(int SPCID) throws SQLException
+    {
+        ObservableList<OutstandingMain> resultList = FXCollections.observableArrayList();
+        
+        //FOR VEHICLES
+        String SQL = "SELECT REGNO, DELIVERYDATE, RETURNDATE, COST, NAME FROM REPAIRVEHICLE, CENTRES WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND REPAIRVEHICLE.SPCID = CENTRES.SPCID;";
+        //System.out.println(SQL);
+        DBC.connect(); 
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new OutstandingMain(rs.getString("REGNO"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE"), rs.getDouble("COST"), "Vehicle", rs.getString("NAME")));
+            }
+        
+        //FOR PARTS
+        SQL = "SELECT PARTID, DELIVERYDATE, RETURNDATE, COST, CENTRES.NAME FROM REPAIRPARTS, STOCKPARTS, CENTRES WHERE RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "') AND REPAIRPARTS.SPCID = CENTRES.SPCID;";
+        //System.out.println(SQL);
+        rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new OutstandingMain(Integer.toString(rs.getInt("PARTID")), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE"), rs.getDouble("COST"), "Part", rs.getString("NAME")));
+            }
+
+        DBC.closeConnection();
+        return resultList;
+    }
     public boolean deleteVehicleRepair(int RepairID)
     {
         DBC.connect();
