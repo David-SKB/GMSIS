@@ -44,6 +44,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -59,7 +60,10 @@ public class RepairsController /*extends Application*/ implements Initializable
     private static ErrorChecks EC = ErrorChecks.getInstance();
     LocalDate Selection = LocalDate.now();
     DatePicker Previous = new DatePicker();
-    
+    int CurrentSPC = 0;
+    int PreviousSPC = -1;
+    boolean SearchedBySPC = false;
+    boolean JustDeleted = false;
     //Send Vehicle Pane
     @FXML private TitledPane SendVehicle;
     @FXML private TextField RegNoVehicle;
@@ -174,7 +178,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button ViewPartsButton;
     
     //
-    //todo: make vehicle reg search get firstname and lastname so table collums dont keep shitfing, also do refresh on tab click, also green sucess messages
+    //todo: do refresh on tab click
     //******************************************************
     @FXML private void SubmitVehicle() throws SQLException 
     {
@@ -183,6 +187,12 @@ public class RepairsController /*extends Application*/ implements Initializable
             boolean added  = repairs.addVehicle(RegNoVehicle.getText(), repairs.getSPCID(SPCIDVehicle.getValue().toString()), EC.toDate(ExpDelVehicle), EC.toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
             //System.out.println("added: " + added);
             ClearAddVehicle();
+            if (added)
+            {
+                AddError.setFill(Color.GREEN);
+                AddErrMsg("Vehicle Sent");
+
+            }
         }
     }
     
@@ -190,9 +200,16 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         if (ValidateSubmitPart())
         {
-            boolean added  = repairs.addPart(RegNoPart.getText(), repairs.getPartID(IDPart.getValue().toString()), repairs.getSPCID(SPCIDPart.getValue().toString()), EC.toDate(ExpDelPart), EC.toDate(ExpRetPart));
+            int PartID = repairs.getPartID(IDPart.getValue().toString());
+            boolean added  = repairs.addPart(RegNoPart.getText(), PartID, repairs.getSPCID(SPCIDPart.getValue().toString()), EC.toDate(ExpDelPart), EC.toDate(ExpRetPart));
             //System.out.println("added: " + added);
             ClearAddPart();
+            if (added)
+            {
+                added = repairs.removeStock(PartID);//removes one stock for the part sent
+                AddErrorPart.setFill(Color.GREEN);
+                AddErrMsgPart("Part Sent");
+            }
         }
     }
     
@@ -209,6 +226,11 @@ public class RepairsController /*extends Application*/ implements Initializable
             ClearEditVehicle();
             EditVehicle.setDisable(true);
             EditError.setVisible(false);
+            if (added)
+            {
+                EditError.setFill(Color.GREEN);
+                EditErrMsg("Vehicle Updated");
+            }
         }
     }
     
@@ -225,6 +247,11 @@ public class RepairsController /*extends Application*/ implements Initializable
             ClearEditPart();
             EditVehicle.setDisable(true);
             EditError.setVisible(false);
+            if (added)
+            {
+                EditErrorPart.setFill(Color.GREEN);
+                EditErrMsgPart("Part Updated");
+            }
         }
     }
     
@@ -232,12 +259,17 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddVStyles();
         boolean valid = true;
-        if (EC.isPlate(RegNoVehicle.getText()) == false || RegNoVehicle.getText() == null)
+        if (RegNoVehicle.getText() == null)
         {
             valid = false;
             RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
         }
-        if (SPCIDVehicle == null)
+        else if (EC.isPlate(RegNoVehicle.getText()) == false)
+        {
+            valid = false;
+            RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (SPCIDVehicle.getValue() == null)
         {
             valid = false;
             SPCIDVehicle.setStyle("-fx-border-color: #ff1e1e;");
@@ -257,9 +289,14 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         try 
         {
-            Double.parseDouble(CostVehicle.getText());
+            double cost = Double.parseDouble(CostVehicle.getText());
+            if (EC.DecimalPlaces(cost) == false)
+            {
+                CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
+                valid = false;
+            }
         }
-        catch (NumberFormatException ex)
+        catch (NullPointerException|NumberFormatException ex)
         {
             CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
@@ -267,6 +304,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         //***********************************
         if (valid == false)
         {
+            AddError.setFill(Color.RED);
             AddErrMsg("Invalid Input");
             return false;
         }
@@ -278,12 +316,22 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddPStyles();
         boolean valid = true;
-        if (EC.isPlate(RegNoPart.getText()) == false || RegNoPart.getText() == null)
+        if (RegNoPart.getText() == null)
         {
             valid = false;
             RegNoPart.setStyle("-fx-border-color: #ff1e1e;");
         }
-        if (SPCIDPart == null)
+        else if(EC.isPlate(RegNoPart.getText()) == false )
+        {
+            valid = false;
+            RegNoPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (IDPart.getValue() == null)
+        {
+            valid = false;
+            IDPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (SPCIDPart.getValue() == null)
         {
             valid = false;
             SPCIDPart.setStyle("-fx-border-color: #ff1e1e;");
@@ -303,6 +351,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         //***********************************
         if (valid == false)
         {
+            AddErrorPart.setFill(Color.RED);
             AddErrMsgPart("Invalid Input");
             return false;
         }
@@ -314,7 +363,12 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddUVStyles();
         boolean valid = true;
-        if (EC.isPlate(RegNoVehicle2.getText()) == false || RegNoVehicle2.getText() == null)
+        if (RegNoVehicle2.getText() == null)
+        {
+            valid = false;
+            RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else if (EC.isPlate(RegNoVehicle2.getText()) == false)
         {
             valid = false;
             RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
@@ -327,7 +381,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
             }
         }
-        if (SPCIDVehicle2 == null)
+        if (SPCIDVehicle2.getValue() == null)
         {
             valid = false;
             SPCIDVehicle2.setStyle("-fx-border-color: #ff1e1e;");
@@ -347,9 +401,14 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         try 
         {
-            Double.parseDouble(CostVehicle2.getText());
+            double cost = Double.parseDouble(CostVehicle2.getText());
+            if (EC.DecimalPlaces(cost) == false)
+            {
+                CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
+                valid = false;
+            }
         }
-        catch (NumberFormatException ex)
+        catch (NullPointerException|NumberFormatException ex)
         {
             CostVehicle2.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
@@ -357,7 +416,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         //***********************************
         if (valid == false)
         {
-            EditError.setDisable(false);
+            EditError.setFill(Color.RED);
             EditErrMsg("Invalid Input");
             return false;
         }
@@ -370,12 +429,22 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddUPStyles();
         boolean valid = true;
-        if (EC.isPlate(RegNoPart2.getText()) == false || RegNoPart2.getText() == null)
+        if (RegNoPart2.getText() == null)
         {
             valid = false;
             RegNoPart2.setStyle("-fx-border-color: #ff1e1e;");
         }
-        if (SPCIDPart2 == null)
+        else if (EC.isPlate(RegNoPart2.getText()) == false)
+        {
+            valid = false;
+            RegNoPart2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (IDPart2.getValue() == null)
+        {
+            valid = false;
+            IDPart2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        if (SPCIDPart2.getValue() == null)
         {
             valid = false;
             SPCIDPart2.setStyle("-fx-border-color: #ff1e1e;");
@@ -395,6 +464,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         //***********************************
         if (valid == false)
         {
+            EditErrorPart.setFill(Color.RED);
             EditErrMsgPart("Invalid Input");
             return false;
         }
@@ -521,28 +591,31 @@ public class RepairsController /*extends Application*/ implements Initializable
         ClearAddUVStyles();
         ClearEditPart();
         ClearEditVehicle();
+        SearchedBySPC = false;
     }
     
     @FXML private void SearchByReg() throws SQLException
     {
-        T1Fname.setVisible(false);
-        T1Lname.setVisible(false);
-        
         T1ID.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Integer>("T1IDX"));
+                new PropertyValueFactory<SearchName, Integer>("T1IDX"));
+        T1Fname.setCellValueFactory(
+                new PropertyValueFactory<SearchName, String>("T1FNAMEX"));
+        T1Lname.setCellValueFactory(
+                new PropertyValueFactory<SearchName, String>("T1LNAMEX"));
         T1Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1REGX"));
+                new PropertyValueFactory<SearchName, String>("T1REGX"));
         T1SPC.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1SPCX"));
+                new PropertyValueFactory<SearchName, String>("T1SPCX"));
         T1ExpDel.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPDELX"));
+                new PropertyValueFactory<SearchName, String>("T1EXPDELX"));
         T1ExpRet.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPRETX"));
+                new PropertyValueFactory<SearchName, String>("T1EXPRETX"));
         T1Cost.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Double>("T1COSTX"));
+                new PropertyValueFactory<SearchName, Double>("T1COSTX"));
             
         if (EC.isPlate(RegSearch.getText()) == false)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Invalid Plate");
         }
         else
@@ -550,6 +623,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             ObservableList<SearchMain> resultList = repairs.searchReg(RegSearch.getText());
             if(resultList.isEmpty())
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("No Results Found");
             }
             MainTable.setItems(resultList);
@@ -558,29 +632,27 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void SearchByName() throws SQLException
     {
-        T1Fname.setVisible(true);
-        T1Lname.setVisible(true);
-        
         T1ID.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Integer>("T1IDX"));
+                new PropertyValueFactory<SearchName, Integer>("T1IDX"));
         T1Fname.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1FNAMEX"));
+                new PropertyValueFactory<SearchName, String>("T1FNAMEX"));
         T1Lname.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1LNAMEX"));
+                new PropertyValueFactory<SearchName, String>("T1LNAMEX"));
         T1Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1REGX"));
+                new PropertyValueFactory<SearchName, String>("T1REGX"));
         T1SPC.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1SPCX"));
+                new PropertyValueFactory<SearchName, String>("T1SPCX"));
         T1ExpDel.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPDELX"));
+                new PropertyValueFactory<SearchName, String>("T1EXPDELX"));
         T1ExpRet.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPRETX"));
+                new PropertyValueFactory<SearchName, String>("T1EXPRETX"));
         T1Cost.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Double>("T1COSTX"));
+                new PropertyValueFactory<SearchName, Double>("T1COSTX"));
             
         
         if (EC.isAlphanumeric(FirstNameSearch.getText()) == false || EC.isAlphanumeric(LastNameSearch.getText()) == false)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Invalid Name");
             
         }
@@ -590,6 +662,7 @@ public class RepairsController /*extends Application*/ implements Initializable
 
             if(resultList.isEmpty())
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("No Results Found");
             }
             else
@@ -604,9 +677,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void SearchBySPC(int SPCID) throws SQLException
     {
-        T1Fname.setVisible(true);
-        T1Lname.setVisible(true);
-        
         T1ID.setCellValueFactory(
                 new PropertyValueFactory<SearchReg, Integer>("T1IDX"));
         T1Fname.setCellValueFactory(
@@ -633,6 +703,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         Customer CustomerDetails = repairs.searchCustomerWithReg(RegNo);
         if (CustomerDetails == null)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Customer Not Found");
         }
         else
@@ -717,15 +788,18 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         if (customer == false & vehicle == true)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Customer Not Found");
         }
         else if (customer == true & vehicle == false)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Vehicle Not Found");
         }
         
         else if (customer == false & vehicle == false)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Vehicle/Customer Not Found");
         }
         RepairEditButton.setDisable(false);
@@ -756,12 +830,13 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (MainTable.getSelectionModel().getSelectedItem() == null)
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
                 return;
             }
-            int RepairID = PartsTable.getSelectionModel().getSelectedItem().getT2IDX();
+            int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Delete Vehicle Repair ID: " + RepairID);
             alert.setHeaderText("");
@@ -772,10 +847,23 @@ public class RepairsController /*extends Application*/ implements Initializable
             {
                 boolean success  = repairs.deleteVehicleRepair(RepairID);
                 //System.out.println("Deleted: " + success);
-                RepairSearchHandler();
                 ClearEditVehicle();
                 ClearAddUVStyles();
                 EditVehicle.setDisable(true);
+                if (success)
+                {
+                   T1SearchError.setFill(Color.GREEN);
+                    RepairErrMsg("Delete Successful");
+                    if (SearchedBySPC)
+                    {
+                        JustDeleted = true;
+                        ListSPCVehicles();
+                    }
+                    else
+                    {
+                        RepairSearchHandler();
+                    }
+                }
             } else 
             {
                 //Delete Cancelled
@@ -785,6 +873,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (PartsTable.getSelectionModel().getSelectedItem() == null)
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
@@ -805,6 +894,11 @@ public class RepairsController /*extends Application*/ implements Initializable
                 ClearEditPart();
                 ClearAddUPStyles();
                 EditPart.setDisable(true);
+                if (success)
+                {
+                   T1SearchError.setFill(Color.GREEN);
+                    RepairErrMsg("Delete Successful");
+                }
             } else 
             {
                 //Delete Cancelled
@@ -818,6 +912,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (MainTable.getSelectionModel().getSelectedItem() == null)
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
@@ -844,6 +939,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (PartsTable.getSelectionModel().getSelectedItem() == null)
             {
+                T1SearchError.setFill(Color.RED);
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
@@ -871,31 +967,42 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void HandleViewParts() throws SQLException 
     {
-        //Hide Vehicle Table
-        MainTable.setVisible(false);
-        T1Header.setVisible(false);
-        ViewPartsButton.setDisable(true);
-        //Show Parts Table
-        PartsTable.setVisible(true);
-        T2Header.setVisible(true);
-        //do stuff
+        if(MainTable.getSelectionModel().getSelectedItem() !=null)
+        {
+            //Hide Vehicle Table
+            MainTable.setVisible(false);
+            T1Header.setVisible(false);
+            ViewPartsButton.setDisable(true);
+            //Show Parts Table
+            PartsTable.setVisible(true);
+            T2Header.setVisible(true);
+            //do stuff
+
+            T2RegNo.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, String>("T2REGNOX"));
+            T2Name.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, String>("T2NAMEX"));
+            T2SPC.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, String>("T2SPCX"));
+            T2ExpDel.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, String>("T2EXPDELX"));
+            T2ExpRet.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, String>("T2EXPRETX"));
+            T2Cost.setCellValueFactory(
+                    new PropertyValueFactory<RepairParts, Double>("T2COSTX"));
+
+            String RegNo = MainTable.getSelectionModel().getSelectedItem().getT1REGX();
+            ObservableList<RepairParts> PartList = repairs.getPartRepairs(RegNo);
+            PartsTable.setItems(PartList);
+            SearchedBySPC = false;
+        }
+        else
+        {
+            T1SearchError.setFill(Color.RED);
+            ViewPartsButton.setDisable(true);
+            RepairErrMsg("Please Select a Row"); 
+        }
         
-        T2RegNo.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, String>("T2REGNOX"));
-        T2Name.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, String>("T2NAMEX"));
-        T2SPC.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, String>("T2SPCX"));
-        T2ExpDel.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, String>("T2EXPDELX"));
-        T2ExpRet.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, String>("T2EXPRETX"));
-        T2Cost.setCellValueFactory(
-                new PropertyValueFactory<RepairParts, Double>("T2COSTX"));
-        
-        String RegNo = MainTable.getSelectionModel().getSelectedItem().getT1REGX();
-        ObservableList<RepairParts> PartList = repairs.getPartRepairs(RegNo);
-        PartsTable.setItems(PartList);
     }
     
     @FXML private void HandleCustomer() throws SQLException 
@@ -903,6 +1010,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         if (MainTable.getSelectionModel().getSelectedItem() == null)
         {
+            T1SearchError.setFill(Color.RED);
             RepairErrMsg("Please Select a Row");
             RepairEditButton.setDisable(true);
             RepairDeleteButton.setDisable(true);
@@ -913,10 +1021,24 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void ListSPCVehicles()
     {
-        int SPCID = SPCListTable.getSelectionModel().getSelectedItem().getT3IDX();
+        if (SPCListTable.getSelectionModel().getSelectedItem() !=null)
+        {
+            CurrentSPC = SPCListTable.getSelectionModel().getSelectedItem().getT3IDX();
+        }
+        
         try 
         {
-            SearchBySPC(SPCID);
+            if (JustDeleted)
+            {
+                SearchBySPC(PreviousSPC);
+                JustDeleted = false;
+            }
+            else
+            {
+                SearchBySPC(CurrentSPC);
+                PreviousSPC = CurrentSPC;
+            }
+            SearchedBySPC = true;
         } 
         catch (SQLException ex) 
         {
@@ -927,11 +1049,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         SPCVehicleButton.setDisable(true);
         RepairEditButton.setDisable(true);
         RepairDeleteButton.setDisable(true);
+        ViewPartsButton.setDisable(true);
     }
     
     @FXML private void TestFunction() throws SQLException
     {
-        LoadOutstanding();
+        //
     }
     
     /*public static void main (String args[]) throws Exception

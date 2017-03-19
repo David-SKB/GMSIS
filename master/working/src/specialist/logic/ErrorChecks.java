@@ -103,6 +103,24 @@ public class ErrorChecks
     
     /**
     *
+    * returns false if not max 2 decimal places (use for checking money validity)
+    */
+    public boolean DecimalPlaces(double num) 
+    {
+        String numstr = Double.toString(num);
+        String[] strarray = numstr.split("[.]");
+        if (strarray.length == 2)
+        {
+            if (strarray[1].length() > 2)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+    *
     * returns false if String isn't a plate number (in other words if it's length is > 7 and contains special characters like @#*)
     */
     public boolean isPlate(String word) 

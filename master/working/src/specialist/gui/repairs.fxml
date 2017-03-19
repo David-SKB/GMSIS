@@ -21,11 +21,11 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="25.0" layoutY="35.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
+                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="25.0" layoutY="35.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <Button fx:id="SubmitVehicleButton" layoutX="73.0" layoutY="197.0" mnemonicParsing="false" onAction="#SubmitVehicle" prefHeight="25.0" prefWidth="77.0" text="Submit" />
-                  <TextField fx:id="CostVehicle" alignment="CENTER" layoutX="25.0" layoutY="165.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
-                  <DatePicker fx:id="ExpDelVehicle" editable="false" layoutX="25.0" layoutY="99.0" onAction="#DPUpdateAV" promptText="              Exp Delivery" />
-                  <DatePicker fx:id="ExpRetVehicle" editable="false" layoutX="25.0" layoutY="132.0" promptText="               Exp Return" />
+                  <TextField fx:id="CostVehicle" alignment="CENTER" layoutX="25.0" layoutY="165.0" prefHeight="25.0" prefWidth="175.0" promptText="Cost" />
+                  <DatePicker fx:id="ExpDelVehicle" editable="false" layoutX="25.0" layoutY="99.0" onAction="#DPUpdateAV" prefWidth="175.0" promptText="              Exp Delivery" />
+                  <DatePicker fx:id="ExpRetVehicle" editable="false" layoutX="25.0" layoutY="132.0" prefWidth="175.0" promptText="               Exp Return" />
                   <ComboBox fx:id="SPCIDVehicle" layoutX="25.0" layoutY="67.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <Text fx:id="AddError" fill="RED" layoutX="27.0" layoutY="239.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
                </children>
@@ -39,9 +39,9 @@
                   <TextField fx:id="RegNoPart" alignment="CENTER" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <Button fx:id="SubmitPartButton" layoutX="74.0" layoutY="199.0" mnemonicParsing="false" onAction="#SubmitPart" prefHeight="25.0" prefWidth="77.0" text="Submit" />
                   <DatePicker fx:id="ExpDelPart" editable="false" layoutX="26.0" layoutY="133.0" onAction="#DPUpdateAP" prefHeight="25.0" prefWidth="175.0" promptText="              Exp Delivery" />
-                  <DatePicker fx:id="ExpRetPart" editable="false" layoutX="25.0" layoutY="163.0" promptText="               Exp Return" />
+                  <DatePicker fx:id="ExpRetPart" editable="false" layoutX="25.0" layoutY="163.0" prefWidth="175.0" promptText="               Exp Return" />
                   <ComboBox fx:id="SPCIDPart" layoutX="25.0" layoutY="101.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
-                  <ComboBox fx:id="IDPart" layoutX="26.0" layoutY="69.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="174.0" promptText="                    PART" />
+                  <ComboBox fx:id="IDPart" layoutX="26.0" layoutY="69.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="175.0" promptText="                    PART" />
                   <Text fx:id="AddErrorPart" fill="RED" layoutX="27.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
                </children>
             </AnchorPane>
@@ -56,7 +56,7 @@
             <TableColumn fx:id="T5Type" prefWidth="66.0" text="Type" />
         </columns>
       </TableView>
-      <TableView fx:id="MainTable" layoutX="489.0" layoutY="29.0" onMouseClicked="#VehicleRowClick" prefHeight="275.0" prefWidth="668.0" visible="false">
+      <TableView fx:id="MainTable" layoutX="489.0" layoutY="29.0" onMouseClicked="#VehicleRowClick" prefHeight="275.0" prefWidth="668.0">
         <columns>
           <TableColumn fx:id="T1ID" prefWidth="30.0" text="ID" />
             <TableColumn fx:id="T1Fname" minWidth="0.0" prefWidth="93.0" text="Firstname" />
@@ -90,7 +90,7 @@
         </columns>
       </TableView>
       <Text layoutX="900.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Details" />
-      <Button disable="true" layoutX="194.0" layoutY="699.0" mnemonicParsing="false" onAction="#TestFunction" prefHeight="25.0" prefWidth="99.0" text="Testing Button" />
+      <Button disable="true" layoutX="60.0" layoutY="699.0" mnemonicParsing="false" onAction="#TestFunction" prefHeight="25.0" prefWidth="99.0" text="Testing Button" />
       <TextField fx:id="FirstNameSearch" layoutX="704.0" layoutY="365.0" prefHeight="25.0" prefWidth="108.0" promptText="Firstname" />
       <TextField fx:id="LastNameSearch" layoutX="704.0" layoutY="394.0" prefHeight="25.0" prefWidth="108.0" promptText="Surname" />
       <Separator layoutX="704.0" layoutY="434.0" prefHeight="4.0" prefWidth="450.0" />
@@ -104,11 +104,11 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="25.0" layoutY="31.0" prefHeight="25.0" prefWidth="173.0" promptText="Registration No." />
-                  <TextField fx:id="CostVehicle2" alignment="CENTER" layoutX="25.0" layoutY="161.0" prefHeight="25.0" prefWidth="173.0" promptText="Cost" />
+                  <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="25.0" layoutY="31.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <TextField fx:id="CostVehicle2" alignment="CENTER" layoutX="25.0" layoutY="161.0" prefHeight="25.0" prefWidth="175.0" promptText="Cost" />
                   <Button fx:id="UpdateVehicleButton" layoutX="76.0" layoutY="193.0" mnemonicParsing="false" onAction="#EditVehicle" prefHeight="25.0" prefWidth="77.0" text="Update" />
-                  <DatePicker fx:id="ExpRetVehicle2" editable="false" layoutX="25.0" layoutY="127.0" promptText="               Exp Return" />
-                  <DatePicker fx:id="ExpDelVehicle2" editable="false" layoutX="25.0" layoutY="95.0" onAction="#DPUpdateUV" promptText="              Exp Delivery" />
+                  <DatePicker fx:id="ExpRetVehicle2" editable="false" layoutX="25.0" layoutY="127.0" prefWidth="175.0" promptText="               Exp Return" />
+                  <DatePicker fx:id="ExpDelVehicle2" editable="false" layoutX="25.0" layoutY="95.0" onAction="#DPUpdateUV" prefWidth="175.0" promptText="              Exp Delivery" />
                   <ComboBox fx:id="SPCIDVehicle2" layoutX="24.0" layoutY="63.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <Text fx:id="EditError" fill="RED" layoutX="29.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="171.13671875" />
                </children>
@@ -151,7 +151,7 @@
       </Pane>
       <Separator layoutX="11.0" layoutY="372.0" prefHeight="4.0" prefWidth="465.0" />
       <Button fx:id="ViewPartsButton" disable="true" layoutX="951.0" layoutY="367.0" mnemonicParsing="false" onAction="#HandleViewParts" prefHeight="25.0" prefWidth="99.0" text="View Parts" />
-      <TableView fx:id="PartsTable" layoutX="552.0" layoutY="29.0" prefHeight="275.0" prefWidth="544.0">
+      <TableView fx:id="PartsTable" layoutX="552.0" layoutY="29.0" prefHeight="275.0" prefWidth="544.0" visible="false">
         <columns>
             <TableColumn fx:id="T2RegNo" text="Registration" />
           <TableColumn fx:id="T2Name" prefWidth="105.0" text="Name" />
@@ -167,12 +167,12 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="229.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoPart2" alignment="CENTER" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
-                  <Button fx:id="SubmitPartButton2" layoutX="74.0" layoutY="199.0" mnemonicParsing="false" onAction="#EditPart" prefHeight="25.0" prefWidth="77.0" text="Update" />
-                  <DatePicker fx:id="ExpDelPart2" editable="false" layoutX="26.0" layoutY="133.0" onAction="#DPUpdateUP" prefHeight="25.0" prefWidth="175.0" promptText="              Exp Delivery" />
-                  <DatePicker fx:id="ExpRetPart2" editable="false" layoutX="25.0" layoutY="163.0" promptText="               Exp Return" />
-                  <ComboBox fx:id="SPCIDPart2" layoutX="25.0" layoutY="101.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
-                  <ComboBox fx:id="IDPart2" layoutX="26.0" layoutY="69.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="174.0" promptText="                    PART" />
+                  <TextField fx:id="RegNoPart2" alignment="CENTER" layoutX="25.0" layoutY="31.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <Button fx:id="SubmitPartButton2" layoutX="74.0" layoutY="194.0" mnemonicParsing="false" onAction="#EditPart" prefHeight="25.0" prefWidth="77.0" text="Update" />
+                  <DatePicker fx:id="ExpDelPart2" editable="false" layoutX="26.0" layoutY="128.0" onAction="#DPUpdateUP" prefHeight="25.0" prefWidth="175.0" promptText="              Exp Delivery" />
+                  <DatePicker fx:id="ExpRetPart2" editable="false" layoutX="25.0" layoutY="158.0" prefWidth="175.0" promptText="               Exp Return" />
+                  <ComboBox fx:id="SPCIDPart2" layoutX="25.0" layoutY="96.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
+                  <ComboBox fx:id="IDPart2" layoutX="26.0" layoutY="64.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="175.0" promptText="                    PART" />
                   <Text fx:id="EditErrorPart" fill="RED" layoutX="27.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
                </children>
             </AnchorPane>

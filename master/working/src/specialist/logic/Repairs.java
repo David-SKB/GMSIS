@@ -193,12 +193,12 @@ public class Repairs
     {
        ObservableList<SearchMain> resultList = FXCollections.observableArrayList();
             DBC.connect();
-            String SQL = "SELECT ID, REGNO, NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRVEHICLE, CENTRES WHERE REGNO LIKE '%" + regNo + "%' AND REPAIRVEHICLE.SPCID = CENTRES.SPCID;";
+            String SQL = "SELECT REPAIRVEHICLE.ID, FIRSTNAME, SURNAME, REGNO, NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRVEHICLE, CENTRES, CUSTOMER, VEHICLE WHERE REGNO LIKE '%" + regNo + "%' AND VEHICLE.CUSTOMERID = CUSTOMER.ID AND REPAIRVEHICLE.REGNO = VEHICLE.REGISTRATION AND REPAIRVEHICLE.SPCID = CENTRES.SPCID;";
             //System.out.println(SQL);
             ResultSet rs = DBC.query(SQL);
             while(rs.next())
             {
-                resultList.add(new SearchReg( rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST") ));
+                resultList.add(new SearchName( rs.getInt("ID"), rs.getString("FIRSTNAME"), rs.getString("SURNAME"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
             }
             DBC.closeConnection();
         return resultList;
@@ -330,6 +330,15 @@ public class Repairs
                 VehicleList.add(rs.getString("REGISTRATION"));
             }
         return VehicleList;
+    }
+    
+    public boolean removeStock(int ID)
+    {
+        DBC.connect();
+        String SQL = "UPDATE STOCKPARTS SET STOCK = STOCK-1 WHERE ID = " + ID + ";";
+        boolean success = DBC.update(SQL);
+        DBC.closeConnection();
+        return success;
     }
 
     public static Repairs getInstance()
