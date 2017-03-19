@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/user/gui/Interface.fxml</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/user/gui/InterfaceController.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/customers/gui/CustomerController.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/common/Main.java</file>
-            <file>file://homes.student.eecs.qmul.ac.uk/ag311/NetBeansProjects/SE9/master/working/src/customers/logic/Customer.java</file>
+            <file>file:/C:/Users/Manager/Documents/Uni/Year2/SE9/master/working/src/diagrep/logic/BookingRegistry.java</file>
+            <file>file:/C:/Users/Manager/Documents/Uni/Year2/SE9/master/working/src/customers/gui/CustomerController.java</file>
+            <file>file:/C:/Users/Manager/Documents/Uni/Year2/SE9/master/working/src/diagrep/gui/DiagRepairScreenController.java</file>
+            <file>file:/C:/Users/Manager/Documents/Uni/Year2/SE9/master/working/src/diagrep/logic/DiagRepairBooking.java</file>
         </group>
     </open-files>
 </project-private>

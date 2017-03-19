@@ -12,14 +12,16 @@ import javafx.beans.property.SimpleStringProperty;
 public class Booking {
     private final SimpleStringProperty bookingID;
     private final SimpleStringProperty bookingDate;
-    private final SimpleStringProperty bookingLength;
+    private final SimpleStringProperty bookingStart;
+    private final SimpleStringProperty bookingDuration;
     private final SimpleStringProperty bookingType;
     
     
-    public Booking(String ID, String date, String length, String type){
+    public Booking(String ID, String date, String start, String length, String type){
         bookingID = new SimpleStringProperty(ID);
         bookingDate = new SimpleStringProperty(date);
-        bookingLength = new SimpleStringProperty(length);
+        bookingStart = new SimpleStringProperty(start);
+        bookingDuration = new SimpleStringProperty(length);
         bookingType = new SimpleStringProperty(type);
     }
     
@@ -31,8 +33,12 @@ public class Booking {
         return bookingDate.get();
     }
     
-    public String getBookingLength(){
-        return bookingLength.get();
+    public String getBookingStart(){
+        return bookingStart.get();
+    }
+    
+    public String getBookingDuration(){
+        return bookingDuration.get();
     }
     
     public String getBookingType(){

@@ -6,6 +6,7 @@
 package diagrep.gui;
 
 import common.DBConnection;
+import diagrep.logic.BookingRegistry;
 import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class AddWindowController implements Initializable
 	public void initialize(URL url, ResourceBundle rb)
 	{
 		conn = DBConnection.getInstance();
-		entryType.setItems(FXCollections.observableArrayList("Repair", new Separator(), "Maintenance"));
+		entryType.setItems(FXCollections.observableArrayList("Diagnosis", new Separator(), "Repair"));
 		entryType.getSelectionModel().selectFirst();	//set the options to search from in dropdown list	
 		entryDate.setValue(NOW_LOCALDATE());
 		entryTime.setText("09:00");
@@ -65,28 +66,28 @@ public class AddWindowController implements Initializable
 		try	//TODO: Integrate DB Vehicle table
 		{
 			ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
-			ResultSet rsV = conn.query("SELECT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
+			ResultSet rsV = conn.query("SELECT REGISTRATION FROM VEHICLE ORDER BY VehicleRegNo;");
 			while (rsV.next())
 			{
-				vehicleList.add(rsV.getString("VehicleRegNo"));
+				vehicleList.add(rsV.getString("REGISTRATION"));
 			}
 			entryReg.setItems(vehicleList);
 			entryReg.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 			
 			ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
-			ResultSet rsC = conn.query("SELECT CustomerID, CustomerFirstName, CustomerLastName FROM Customer ORDER BY CustomerFirstName;");
+			ResultSet rsC = conn.query("SELECT ID, SURNAME, FIRSTNAME FROM CUSTOMER ORDER BY SURNAME;");
 			while (rsC.next())
 			{
-				customerList.add(rsC.getString("CustomerID")+": "+rsC.getString("CustomerFirstName")+" "+rsC.getString("CustomerLastName"));
+				customerList.add(rsC.getString("ID")+": "+rsC.getString("FIRSTNAME")+" "+rsC.getString("SURNAME"));
 			}
 			entryCustomer.setItems(customerList);
 			entryCustomer.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 			
 			ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
-			ResultSet rsM = conn.query("SELECT * FROM Mechanic ORDER BY MechanicFirstName;");
+			ResultSet rsM = conn.query("SELECT * FROM USER WHERE NOT SYSADM = 'FALSE' ORDER BY SURNAME;");
 			while (rsM.next())
 			{
-				mechanicList.add(rsM.getString("MechanicID")+": "+rsM.getString("MechanicFirstName")+" "+rsM.getString("MechanicLastName"));
+				mechanicList.add(rsM.getString("ID")+": "+rsM.getString("FIRSTNAME")+" "+rsM.getString("SURNAME"));
 			}
 			entryMechanic.setItems(mechanicList);
 			entryMechanic.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
@@ -101,15 +102,15 @@ public class AddWindowController implements Initializable
 	@FXML
 	public void addEntry()
 	{
+                BookingRegistry BR = BookingRegistry.getInstance(); 
 		String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
 		String[] custData = lineC.split("[\\s,:]+");
 		String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
 		String[] mechData = lineM.split("[\\s,:]+");
-		String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+" "+entryTime.getText();
+		String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		if (parseLocalDateTime(date).compareTo(NOW_LOCALDATETIME()) > 0)
 		{
-			String sql = "INSERT INTO BookingIntegrated VALUES (NULL,'"+(String) entryType.getSelectionModel().getSelectedItem()+"', '"+date+"', '"+entryDuration.getText()+"', '"+(String) entryReg.getSelectionModel().getSelectedItem()+"', 'TEMP', '0', '"+custData[0]+"', '"+custData[1]+"', '"+custData[2]+"', '"+mechData[0]+"', '00:00')";
-			conn.update(sql);
+			BR.addBooking(date, entryTime.getText(), Integer.parseInt(entryDuration.getText()),(String) entryType.getSelectionModel().getSelectedItem(), Integer.parseInt(custData[0]), (int) entryReg.getSelectionModel().getSelectedItem(), Integer.parseInt(mechData[0]));
 			parentController.reset();
 			Stage stage = (Stage) confirmButton.getScene().getWindow();
 			stage.close();

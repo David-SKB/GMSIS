@@ -17,8 +17,8 @@ public class DiagRepairBooking extends Booking {
     private final SimpleStringProperty milage;
     private final SimpleStringProperty EmpID;
     
-    public DiagRepairBooking(String BID, String date, String length, String CID, String VID, String miles, String EID){
-        super(BID, date, length,"Diagnosis and Repair");
+    public DiagRepairBooking(String BID, String date, String start, String length, String type, String CID, String VID, String miles, String EID){
+        super(BID, date, start, length, type);
         CustID = new SimpleStringProperty(CID);
         VechID = new SimpleStringProperty(VID);
         milage = new SimpleStringProperty(miles);
