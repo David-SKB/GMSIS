@@ -264,6 +264,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             valid = false;
             RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+            System.out.println("hi");
         }
         else if (EC.isPlate(RegNoVehicle.getText()) == false)
         {

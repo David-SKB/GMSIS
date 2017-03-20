@@ -95,7 +95,7 @@ public class Authentication
                 btn.fire();
             }
         }
-    });
+        });
         //Button action
         EventHandler btnPress = new EventHandler<ActionEvent>() 
         {

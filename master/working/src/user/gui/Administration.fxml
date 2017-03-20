@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
    <children>
-      <SplitPane fx:id="adminSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="672.0" prefWidth="1165.0" style="-fx-background-color: #fff4e8;">
+      <SplitPane fx:id="adminSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="748.0" prefWidth="1168.0" style="-fx-background-color: #fff4e8;">
         <items>
           <AnchorPane fx:id="userAnchor" minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
                <children>
-                  <TableView fx:id="userTV" layoutX="291.0" layoutY="63.0" prefHeight="200.0" prefWidth="582.0">
+                  <TableView fx:id="userTV" layoutX="290.0" layoutY="14.0" prefHeight="258.0" prefWidth="582.0">
                     <columns>
                         <TableColumn fx:id="idNumberTableC" prefWidth="76.0" text="ID Number" />
                         <TableColumn fx:id="firstNameColumn" prefWidth="110.0" text="First Name" />
@@ -30,7 +30,7 @@
                   <Button layoutX="291.0" layoutY="284.0" mnemonicParsing="false" onAction="#getUsers" prefHeight="25.0" prefWidth="101.0" text="Get Users" />
                   <Text fx:id="delUserStatus" layoutX="431.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.21875" />
                   <Button layoutX="772.0" layoutY="284.0" mnemonicParsing="false" onAction="#delUser" prefWidth="101.0" text="Delete User" />
-                  <TitledPane animated="false" layoutX="43.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="                Add User">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="43.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="Add User">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
                            <children>
@@ -52,7 +52,7 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="897.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="                Edit User">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="897.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="Edit User">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
                            <children>
@@ -77,18 +77,18 @@
             </AnchorPane>
           <AnchorPane fx:id="spcAnchor" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="spcTV" layoutX="334.0" layoutY="42.0" prefHeight="200.0" prefWidth="495.0">
+                  <TableView fx:id="spcTV" layoutX="291.0" layoutY="42.0" prefHeight="225.0" prefWidth="582.0">
                     <columns>
-                      <TableColumn fx:id="spcNameTableC" prefWidth="95.0" text="Name" />
-                      <TableColumn fx:id="spcAddrTableC" prefWidth="103.0" text="Address" />
-                        <TableColumn fx:id="spcEmailTableC" prefWidth="141.0" text="Email" />
-                        <TableColumn fx:id="spcPhoneTableC" prefWidth="154.0" text="Telephone" />
+                      <TableColumn fx:id="spcNameTableC" prefWidth="106.0" text="Name" />
+                      <TableColumn fx:id="spcAddrTableC" prefWidth="253.0" text="Address" />
+                        <TableColumn fx:id="spcEmailTableC" prefWidth="139.0" text="Email" />
+                        <TableColumn fx:id="spcPhoneTableC" prefWidth="82.0" text="Telephone" />
                     </columns>
                   </TableView>
-                  <Button layoutX="334.0" layoutY="264.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />
-                  <Text fx:id="delSPCStatus" layoutX="463.0" layoutY="282.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.0" />
-                  <Button layoutX="728.0" layoutY="264.0" mnemonicParsing="false" onAction="#deleteSPC" prefWidth="101.0" text="Delete SPC" />
-                  <TitledPane animated="false" layoutX="43.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="                Add Centre">
+                  <Button layoutX="291.0" layoutY="275.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />
+                  <Text fx:id="delSPCStatus" layoutX="464.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.0" />
+                  <Button layoutX="772.0" layoutY="276.0" mnemonicParsing="false" onAction="#deleteSPC" prefWidth="101.0" text="Delete SPC" />
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="43.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="Add Centre">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="224.0" prefWidth="221.0">
                            <children>
@@ -103,7 +103,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" layoutX="904.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="             Edit Centre">
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="904.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="Edit Centre">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="208.0" prefWidth="200.0">
                            <children>

@@ -26,7 +26,8 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import specialist.logic.SPC;
+import specialist.logic.*;
+import sun.security.x509.IssuerAlternativeNameExtension;
 import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.SPCRegistry;
@@ -39,6 +40,7 @@ import user.logic.UserRegistry;
 public class AdminController {
     DBConnection DB = DBConnection.getInstance();
     UserRegistry UR = UserRegistry.getInstance();
+    ErrorChecks EC = ErrorChecks.getInstance();
     SPCRegistry SPCReg = SPCRegistry.getInstance();
     @FXML
     private TextField addIDTF, addFNTF, addLNTX, addPassTF, addHRateTF,
@@ -49,7 +51,7 @@ public class AdminController {
     private RadioButton MechanicRBE,AdminRBE;
     @FXML
     private TextField addSPCNameTF, addSPCAddrTF, addSPCPhoneTF, addSPCEmailTF,
-              editSPCNameTF, editSPCAddrTF, editSPCPhoneTF, editSPCEmailTF;
+                      editSPCNameTF, editSPCAddrTF, editSPCPhoneTF, editSPCEmailTF;
     @FXML
     private Text addUserStatus, editUserStatus, delUserStatus,
                  addSPCStatus, editSPCStatus, delSPCStatus;
@@ -105,9 +107,9 @@ public class AdminController {
         spcAddrTableC.setCellValueFactory(
                 new PropertyValueFactory<SPC, String>("ADDRESSX"));
         spcEmailTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("TELEPHONEX"));
+                new PropertyValueFactory<SPC, String>("EMAILX"));
         spcPhoneTableC.setCellValueFactory(
-                new PropertyValueFactory<SPC, String>("EMAILX"));                
+                new PropertyValueFactory<SPC, String>("TELEPHONEX"));                
         spcTV.setRowFactory((TableView<SPC> tv) -> {
             TableRow<SPC> row = new TableRow<>();
             row.setOnMouseClicked(event2 -> {
@@ -119,6 +121,9 @@ public class AdminController {
             });
             return row;
         });
+         EC.SetNumberRestrictionPhone(addSPCPhoneTF);
+         EC.SetAddressRestriction(addSPCAddrTF);
+         EC.SetWordSpaceRestriction(addSPCNameTF);
     }
     
     public void updateAnchorPane(AnchorPane AP){
@@ -357,27 +362,18 @@ public class AdminController {
         }
     }
     
-    public void submitSPCDetails(ActionEvent evt){
+    public void submitSPCDetails(ActionEvent evt){//made changes
         submitSPCBTN.setDisable(true);
-        boolean nameValid,
-                addressValid,
+        boolean addressValid,
                 telValid,
                 emailValid;
         
-        String tempName =  addSPCNameTF.getText(); 
-        nameValid = validateTextField(tempName, addSPCNameTF, "SPC Name");
-
-        String tempAddress = addSPCAddrTF.getText();
-        addressValid = validateTextField(tempAddress, addSPCAddrTF, "Address");
+        telValid = EC.isPhone(addSPCPhoneTF.getText());//checks if valid phone
         
-        String tempPhone = addSPCPhoneTF.getText();    
-        telValid = validatePhone(tempPhone, addSPCPhoneTF);
-        
-        String tempEmail = addSPCEmailTF.getText();
-        emailValid = validateTextField(tempEmail, addSPCEmailTF, "Email");
-
-        if(nameValid && addressValid && telValid && emailValid){
-            submitSPC(tempName,tempAddress,tempPhone,tempEmail);
+        emailValid = EC.isEmail(addSPCEmailTF.getText());//checks if valid email
+        System.out.println(telValid + " " + emailValid);
+        if(telValid && emailValid){
+            submitSPC(addSPCNameTF.getText(), addSPCAddrTF.getText(), addSPCPhoneTF.getText(), addSPCEmailTF.getText());
             getSPCs(new ActionEvent());
         }else{
             Timer timer = new Timer();
@@ -391,7 +387,6 @@ public class AdminController {
                 2000
                 );
         }
-
     }
     
     public void clearSPCDetails(ActionEvent evt){
