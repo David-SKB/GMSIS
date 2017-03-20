@@ -270,6 +270,7 @@ public class VehicleGUIController implements Initializable {
   }
   
     public void loadDisplay(){
+   //select customer
    displayCustomers();
    addTemplateCars();
    list.removeAll(list);
