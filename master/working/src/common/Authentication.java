@@ -92,19 +92,11 @@ public class Authentication
         @Override
         public void handle(KeyEvent keyEvent) {
             if (keyEvent.getCode() == KeyCode.ENTER)  {
-                String text = pwBox.getText();
-
                 btn.fire();
-
-                // clear text
-                pwBox.setText("");
             }
         }
     });
-        
-        
         //Button action
-
         EventHandler btnPress = new EventHandler<ActionEvent>() 
         {
             @Override
@@ -160,13 +152,15 @@ public class Authentication
                     }
                     else
                     {
-                        if(userTextField.getText().length() > 5){
+                        if(userTextField.getText().length() != 5){
                             actiontarget.setText("Username must be 5 digits.");
                             actiontarget.setFill(Color.RED);                              
                             userTextField.clear();
+                            userTextField.requestFocus();
                         }else{
                             actiontarget.setText("Incorrect username/password");
                             actiontarget.setFill(Color.RED);
+                            pwBox.clear();
                         }
                         Timer timer = new Timer();
                         timer.schedule( 
@@ -198,36 +192,7 @@ public class Authentication
             }
         };
         
-        
-        
         btn.setOnAction(btnPress);
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         //End Button action
         
         Scene scene = new Scene(grid, 700, 400);
