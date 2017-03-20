@@ -772,43 +772,43 @@ public class RepairsController /*extends Application*/ implements Initializable
         if (MainTable.getSelectionModel().getSelectedItem() != null)
         {
             regNo = MainTable.getSelectionModel().getSelectedItem().getT1REGX();
+            try 
+            {
+                VehicleDetails(regNo);
+            } 
+            catch (SQLException ex) 
+            {
+                vehicle = false;
+            }
+            try 
+            {
+                getCustomerByReg(regNo);
+            } 
+            catch (SQLException ex) 
+            {
+                customer = false;
+            }
+
+            if (customer == false & vehicle == true)
+            {
+                T1SearchError.setFill(Color.RED);
+                RepairErrMsg("Customer Not Found");
+            }
+            else if (customer == true & vehicle == false)
+            {
+                T1SearchError.setFill(Color.RED);
+                RepairErrMsg("Vehicle Not Found");
+            }
+
+            else if (customer == false & vehicle == false)
+            {
+                T1SearchError.setFill(Color.RED);
+                RepairErrMsg("Vehicle/Customer Not Found");
+            }
+            RepairEditButton.setDisable(false);
+            RepairDeleteButton.setDisable(false);
+            ViewPartsButton.setDisable(false);
         }
-        try 
-        {
-            VehicleDetails(regNo);
-        } 
-        catch (SQLException ex) 
-        {
-            vehicle = false;
-        }
-        try 
-        {
-            getCustomerByReg(regNo);
-        } 
-        catch (SQLException ex) 
-        {
-            customer = false;
-        }
-        
-        if (customer == false & vehicle == true)
-        {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Customer Not Found");
-        }
-        else if (customer == true & vehicle == false)
-        {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Vehicle Not Found");
-        }
-        
-        else if (customer == false & vehicle == false)
-        {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Vehicle/Customer Not Found");
-        }
-        RepairEditButton.setDisable(false);
-        RepairDeleteButton.setDisable(false);
-        ViewPartsButton.setDisable(false);
     }
     
     @FXML private void SPCRowClick() 
@@ -838,6 +838,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
+                ViewPartsButton.setDisable(true);
                 return;
             }
             int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
@@ -881,6 +882,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
+                ViewPartsButton.setDisable(true);
                 return;
             }
             int RepairID = PartsTable.getSelectionModel().getSelectedItem().getT2IDX();
@@ -920,6 +922,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 RepairErrMsg("Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
+                ViewPartsButton.setDisable(true);
                 return;
             }
             LoadComboListSPC();
@@ -1004,6 +1007,8 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             T1SearchError.setFill(Color.RED);
             ViewPartsButton.setDisable(true);
+            RepairEditButton.setDisable(true);
+            RepairDeleteButton.setDisable(true);
             RepairErrMsg("Please Select a Row"); 
         }
         

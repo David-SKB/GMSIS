@@ -96,9 +96,9 @@ public class BookingRegistry {
         }
     }
 
-    public ArrayList<Booking> getListBookings() {
+    public ArrayList<DiagRepairBooking> getListBookings() {
         try {
-            ArrayList<Booking> BookingList = new ArrayList<>();
+            ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
             String query = "SELECT * FROM BOOKINGS;";
@@ -198,6 +198,9 @@ public class BookingRegistry {
 
     public ArrayList<DiagRepairBooking> searchBookingByCustName(String firstName, String surname) {
         try {
+            if(firstName == null || firstName.isEmpty() || surname == null || surname.isEmpty()){
+                return null;
+            }
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
