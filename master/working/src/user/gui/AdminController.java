@@ -487,7 +487,8 @@ public class AdminController {
     private void loadData(ObservableList<Employee> dataList){
         ArrayList<Employee> urAList = UR.getActiveUsers();
         dataList.removeAll(dataList);
-        if(urAList != null){
+        if(urAList != null &&
+           !urAList.isEmpty()){
             for(Employee ur : urAList){
                dataList.add(ur);
             }
@@ -504,7 +505,8 @@ public class AdminController {
     private void loadDataSPC(ObservableList<SPC> dataList){
         ArrayList<SPC> spcList = SPCReg.getSPCs();
         dataList.removeAll(dataList);
-        if(spcList != null){
+        if(spcList != null  &&
+           !spcList.isEmpty()){
             for(SPC spc : spcList){
                dataList.add(spc);
             }

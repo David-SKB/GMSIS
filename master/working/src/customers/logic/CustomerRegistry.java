@@ -121,7 +121,7 @@ public class CustomerRegistry {
                             "WHERE ID = '" + ID + "'; "; 
             ResultSet rs = DBInstance.query(query);
             Customer rCustomer;
-            if(rs != null){
+            if(rs.isBeforeFirst()){
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
                 String address = rs.getString("ADDRESS");
@@ -148,7 +148,7 @@ public class CustomerRegistry {
                             "AND EMAIL = '" + mail + "'; "; 
             ResultSet rs = DBInstance.query(query);
             Customer rCustomer;
-            if(rs != null){
+            if(rs.isBeforeFirst()){
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
                 String address = rs.getString("ADDRESS");
@@ -175,7 +175,7 @@ public class CustomerRegistry {
                             "AND EMAIL = '" + mail + "'; "; 
             ResultSet rs = DBInstance.query(query);
             int ID;
-            if(rs != null){
+            if(rs.isBeforeFirst()){
                 ID = rs.getInt("ID");
             }else{
                 return -1;

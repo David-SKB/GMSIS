@@ -1,3 +1,8 @@
+
+/***********************************************
+ * @author athanasiosgkanos - ec15252
+ **********************************************/
+
 package customers.gui;
 
 import common.Authentication;
@@ -6,8 +11,10 @@ import common.DBConnection;
 import common.Main;
 import customers.logic.Customer;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,6 +34,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -39,25 +48,16 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-    /* ------------------------------------------------------------------
-     * TODO - 4) Check the sqlite db error when building.
-     *        5) Start implementing search bar.
-     * ------------------------------------------------------------------ */
-/**
- *
- * @author athanasiosgkanos
- */
-public class CustomerController {
+
+public class CustomerController implements Initializable{
     
     DBConnection db = DBConnection.getInstance();                                       //Instance of the database to open/close connection
     CustomerRegistry CR = CustomerRegistry.getInstance();                               //Instance of the Customer Registry to add/edit/delete customers from/to db.
+    VehicleRegistry VR = VehicleRegistry.getInstance();
     @FXML
     private TableView<Customer> customerDetails;                                        //FXML TableView. Table used to display rows of customers and their data.
     @FXML
@@ -73,7 +73,7 @@ public class CustomerController {
     private ToggleGroup customerTypeToggle, eCustomerTypeToggle, customerSearchType;    //FXML ToggleGroup. First when adding a customer and second when editing.
     @FXML
     private Toggle eIndividualRadioButton, eBusinessRadionButton,
-                   searchIndiRB,searchBusRB;                                            //FXML Toggle. RadioButtons to identify if the customer type has been edited.
+                   searchIndiRB;                                                       //FXML Toggle. RadioButtons to identify if the customer type has been edited.
     @FXML
     private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> obsListData = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
@@ -93,7 +93,8 @@ public class CustomerController {
         this.delCustomersCBox = new ChoiceBox<>();
     }
     
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         firstNameCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("firstname"));
         lastNameCol.setCellValueFactory(
@@ -118,6 +119,8 @@ public class CustomerController {
        ChoiceBox<Customer> tempCustBox = null;
        ChoiceBox<Customer> tempVehiBox = null;
        ChoiceBox<Customer> tempBillBox = null;
+       TextField search = null;
+       RadioButton individual = null;
        for(Node n : OL){
            if(n instanceof TableView &&
               (n.getId()).equalsIgnoreCase("customerDetails")){
@@ -131,12 +134,20 @@ public class CustomerController {
            }else if(n instanceof ChoiceBox &&
                    (n.getId()).equalsIgnoreCase("showBillCBox")){
                tempBillBox = (ChoiceBox<Customer>)n;
+           }else if(n instanceof TextField &&
+                    (n.getId()).equalsIgnoreCase("searchBar")){
+               search = (TextField)n;
+           }else if(n instanceof Toggle &&
+                   (n.getId()).equalsIgnoreCase("searchIndiRB")){
+               individual = (RadioButton)n;
            }
        }
        tempTV.setItems(obsListData);
        tempCustBox.setItems(obsListData);
        tempVehiBox.setItems(obsListData);
        tempBillBox.setItems(obsListData);
+       search.setText("");
+       individual.setSelected(true);
     }
     
 
@@ -443,16 +454,24 @@ public class CustomerController {
     public void searchCustomerBar(ActionEvent evt){
         String inputData = searchBar.getText();
         String[] data = inputData.split("\\s+");
-        if(data.length == 2){
-            RadioButton toggleResult = (RadioButton) customerSearchType.getSelectedToggle();
-            String userType = "Individual";
-            if(toggleResult.getText().equals("Search Business")){
-                userType = "Business";
+        RadioButton toggleResult = (RadioButton) customerSearchType.getSelectedToggle();
+        if((data.length == 2 && (toggleResult.getText().equals("Search Individual") || toggleResult.getText().equals("Search Business")))       ||
+           (data.length == 1 && toggleResult.getText().equals("Registration No."))){
+            boolean found = false;            
+            if(!toggleResult.getText().equals("Registration No.")){
+                String userType = "Individual";
+                if(toggleResult.getText().equals("Search Business")){
+                    userType = "Business";
+                }
+                    getActiveCustomers(new ActionEvent());
+                    String sName = data[0].substring(0,1).toUpperCase() + data[0].substring(1);
+                    String fName = data[1].substring(0,1).toUpperCase() + data[1].substring(1);
+                    found = loadSearchedData(obsListData,userType,sName,fName);
+            }else{
+                getActiveCustomers(new ActionEvent());
+                String registration = data[0];
+                found = loadSearchedDataWithReg(obsListData,registration);
             }
-            getActiveCustomers(new ActionEvent());
-            String sName = data[0].substring(0,1).toUpperCase() + data[0].substring(1);
-            String fName = data[1].substring(0,1).toUpperCase() + data[1].substring(1);
-            boolean found = loadSearchedData(obsListData,userType,sName,fName);
             if(found){
                 customerDetails.setItems(obsListData);
                 delCustomersCBox.setItems(obsListData);
@@ -534,7 +553,7 @@ public class CustomerController {
         if(c != null){
             Parent root;
             try{
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./CustomerBills.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../CustomerBills.fxml"));
                 root = (Parent)fxmlLoader.load();
                 CustomerBillsController CVC = fxmlLoader.<CustomerBillsController>getController();
                 int ID = CR.getCustomerID(c.getPhone(), c.getEmail());
@@ -693,7 +712,8 @@ public class CustomerController {
     private void loadData(ObservableList<Customer> dataList){
         ArrayList<Customer> csAList = CR.getActiveCustomers();
         dataList.removeAll(dataList);
-        if(csAList != null){
+        if(csAList != null &&
+           !csAList.isEmpty()){
             for(Customer c : csAList){
                dataList.add(c);
             }
@@ -709,6 +729,21 @@ public class CustomerController {
                 dataList.add(c);
             }
             return true;
+        }
+        return false;
+    }
+    
+    private boolean loadSearchedDataWithReg(ObservableList<Customer> dataList, String registration){
+        Vehicle tempVeh = VR.searchForEdit(registration);
+        if(tempVeh != null){
+            String tempUserID  = String.valueOf(tempVeh.getId());
+
+            Customer c = CR.searchCustomerByID(tempUserID);
+            dataList.removeAll(dataList);
+            if(c != null){    
+                dataList.add(c);
+                return true;
+            }
         }
         return false;
     }

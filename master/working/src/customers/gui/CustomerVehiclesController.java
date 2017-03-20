@@ -1,8 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+/***********************************************
+ * @author athanasiosgkanos - ec15252
+ **********************************************/
+
 package customers.gui;
 
 import customers.logic.Customer;
@@ -12,28 +12,35 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
-/**
- *
- * @author athanasiosgkanos
- */
+
 public class CustomerVehiclesController {
+    @FXML
+    private TableView<Vehicle> vehTV;
     @FXML
     private TextField firstNameTF, lastNameTF, addressTF,cTypeTF,          
                       pCodeTF, phoneTF, emailTF;   
-    /*@FXML
+    @FXML
     private TableColumn registrationTC,makeTC,modelTC,engSizeTC,
-                        fuelTypeTC,colourTC,lastServiceTC,mileageTC;*/
-   // private final ObservableList<Vehicle> obsListData = FXCollections.observableArrayList();                   
+                        fuelTypeTC,colourTC,lastServiceTC,mileageTC;
+    private final ObservableList<Vehicle> obsListData = FXCollections.observableArrayList();                   
     
     CustomerRegistry CR = CustomerRegistry.getInstance();
+    VehicleRegistry VR = VehicleRegistry.getInstance();
     private Customer tempCust;
+    private int custID;
+
     
     public void setUser(int ID){
         this.tempCust = CR.searchCustomerByID(String.valueOf(ID));
+        this.custID = ID;
         setUserContactDetails();
-       // setUserVehicleDetails();
+        setUserVehicleDetails();
     }
 
     
@@ -47,17 +54,37 @@ public class CustomerVehiclesController {
         cTypeTF.setText(tempCust.getCustomerType());
     }
     
-    /*private void setUserVehicleDetails(){
+    private void setUserVehicleDetails(){
         loadData(obsListData);
-    }*/
+        registrationTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("registration"));
+        makeTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("make"));
+        modelTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("model"));
+        engSizeTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("engineSize"));
+        fuelTypeTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("fuelType"));
+        colourTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("colour"));
+        lastServiceTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("lastService"));
+        mileageTC.setCellValueFactory(
+                new PropertyValueFactory<Vehicle, String>("currentMile"));
+        vehTV.setItems(obsListData);  
+    }
     
-    /*private void loadData(ObservableList<Vehicle> dataList){
-        ArrayList<Vehicle> vhAList = ;
+  
+    
+    private void loadData(ObservableList<Vehicle> dataList){
+        ArrayList<Vehicle> vhAList = VR.searchCustomerVehicles(custID);
         dataList.removeAll(dataList);
-        if(vhAList != null){
+        if(vhAList != null &&
+           !vhAList.isEmpty()){
             for(Vehicle v : vhAList){
                dataList.add(v);
             }
         }
-    }*/
+    }
 }

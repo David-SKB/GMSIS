@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="917.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
+<AnchorPane fx:id="mainAnchor" prefHeight="917.0" prefWidth="1165.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
    <children>
       <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="776.0" prefWidth="1165.0" stylesheets="@tabPane.css" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
@@ -46,7 +46,7 @@
                   <fx:include source="../../parts/gui/StockParts.fxml" />
                </content>
             </Tab>
-            <Tab text="Vehicle">
+            <Tab fx:id="VehicleTab" text="Vehicle">
                <content>
                   
                </content>

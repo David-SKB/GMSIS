@@ -3,8 +3,11 @@ package user.gui;
 import common.Authentication;
 import common.Main;
 import customers.gui.CustomerController;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,7 +18,7 @@ import javafx.stage.Stage;
  *
  * @author athanasiosgkanos
  */
-public class InterfaceController {
+public class InterfaceController implements Initializable{
     
     @FXML
     private TabPane InterfaceTabPane;
@@ -31,6 +34,8 @@ public class InterfaceController {
     private AnchorPane adminAP;
     @FXML
     private Label welcomeUser;
+
+    
     
     public void showWelcome(String user){
         welcomeUser.setText("Welcome, " + user + "!");
@@ -52,5 +57,10 @@ public class InterfaceController {
         Main.stage.close();
         Authentication authenticate = new Authentication();
         authenticate.start(new Stage()); 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        this.InterfaceTabPane.getSelectionModel().select(0);
     }
 }

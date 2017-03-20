@@ -18,11 +18,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import user.gui.InterfaceController;
 /**
  *
@@ -57,6 +59,7 @@ public class Authentication
         grid.add(userName, 0, 1);
 
         TextField userTextField = new TextField();
+        userTextField.setPrefWidth(200);
         grid.add(userTextField, 1, 1);
 
         Label pw = new Label("Password:");
@@ -64,6 +67,7 @@ public class Authentication
         grid.add(pw, 0, 2);
 
         PasswordField pwBox = new PasswordField();
+        pwBox.setPrefWidth(200);
         grid.add(pwBox, 1, 2);        
         
         //End Labels & Fields
@@ -138,12 +142,40 @@ public class Authentication
                     }
                     else
                     {
-                        actiontarget.setText("Incorrect username/password");
+                        if(userTextField.getText().length() > 5){
+                            actiontarget.setText("Username must be 5 digits.");
+                            actiontarget.setFill(Color.RED);                              
+                            userTextField.clear();
+                        }else{
+                            actiontarget.setText("Incorrect username/password");
+                            actiontarget.setFill(Color.RED);
+                        }
+                        Timer timer = new Timer();
+                        timer.schedule( 
+                            new java.util.TimerTask() {
+                                public void run() {
+                                    actiontarget.setText("");
+                                    timer.cancel();                    
+                                }
+                            }, 
+                            2000
+                        );
                     }
                 } 
                 else 
                 {
                     actiontarget.setText("Enter username and password");
+                    actiontarget.setFill(Color.RED);
+                    Timer timer = new Timer();
+                        timer.schedule( 
+                            new java.util.TimerTask() {
+                                public void run() {
+                                    actiontarget.setText("");
+                                    timer.cancel();                    
+                                }
+                            }, 
+                            2000
+                        );
                 }
             }
         });
