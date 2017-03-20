@@ -106,7 +106,8 @@ public class VehicleGUIController implements Initializable {
                      currWarrantyExpiryTextField,
                      updateWarrantyNameTextField,
                      updateWarrantyAddressTextField,
-                     updateWarrantyExpiryTextField;
+                     updateWarrantyExpiryTextField,
+                     customerIDTextField;
                      
    @FXML
    private Button carButton,
@@ -115,7 +116,8 @@ public class VehicleGUIController implements Initializable {
                   deleteButton,
                   editButton,
                   clearButton,
-                  updateButton;
+                  updateButton,
+                  selectCustomerButton;
    @FXML
    private CheckBox warrantyCheckBox,
                     currWarrCheckBox,
@@ -187,6 +189,17 @@ public class VehicleGUIController implements Initializable {
     activeCustomers.addAll(currentCustomers);
      customerSelectorChoiceBox.setItems(activeCustomers);
      customerSelectorChoiceBox.getSelectionModel().selectFirst();
+  }
+  
+  @FXML
+  public void selectCustomerButton(ActionEvent event){
+   Customer c = (Customer) customerSelectorChoiceBox.getValue();
+    CustomerRegistry cr = CustomerRegistry.getInstance();
+     String phone = c.getPhone();
+     String email = c.getEmail();
+     int id = cr.getCustomerID(phone, email);
+     String idString = Integer.toString(id);
+     customerIDTextField.setText(idString);
   }
   
   @FXML
