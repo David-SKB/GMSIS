@@ -7,6 +7,8 @@ package vehicles.gui;
  */
 
 import common.DBConnection;
+import customers.logic.Customer;
+import customers.logic.CustomerRegistry;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -32,6 +34,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -97,7 +100,13 @@ public class VehicleGUIController implements Initializable {
                      updateMileTextField,
                      warrantyNameTextField,
                      warrantyAddressTextField,
-                     warrantyExpiryTextField;
+                     warrantyExpiryTextField,
+                     currWarrantyNameTextField,
+                     currWarrantyAddressTextField,
+                     currWarrantyExpiryTextField,
+                     updateWarrantyNameTextField,
+                     updateWarrantyAddressTextField,
+                     updateWarrantyExpiryTextField;
                      
    @FXML
    private Button carButton,
@@ -112,7 +121,11 @@ public class VehicleGUIController implements Initializable {
                     currWarrCheckBox,
                     updateWarrCheckBox;
    @FXML
+   private ChoiceBox customerSelectorChoiceBox;
+   @FXML
    private ObservableList<Vehicle> list = FXCollections.observableArrayList();
+   @FXML
+   private ObservableList<Customer> activeCustomers = FXCollections.observableArrayList();
    @FXML
    private TableView<Vehicle> vehDetails;
    @FXML
@@ -120,6 +133,8 @@ public class VehicleGUIController implements Initializable {
                        mileCol,warrCol,typeCol;
    @FXML
    private Vehicle tempVehicle;
+   @FXML
+   private Customer tempCustomer;
    @FXML
    ListView<Template> templateList = new ListView<Template>();
    @FXML
@@ -164,6 +179,15 @@ public class VehicleGUIController implements Initializable {
    templateList.setCellFactory(ComboBoxListCell.forListView(carsTemplate));
    templateList.toString();
   }
+   
+  @FXML 
+  public void displayCustomers(){
+   CustomerRegistry cr = CustomerRegistry.getInstance();
+    ArrayList<Customer> currentCustomers = cr.getActiveCustomers();
+    activeCustomers.addAll(currentCustomers);
+     customerSelectorChoiceBox.setItems(activeCustomers);
+     customerSelectorChoiceBox.getSelectionModel().selectFirst();
+  }
   
   @FXML
   public void updateButton(ActionEvent event){
@@ -190,7 +214,6 @@ public class VehicleGUIController implements Initializable {
   
   
   public void vehicleDisplay(ActionEvent event){
-   //tableview
    list.removeAll(list);
    ArrayList<Vehicle> all = new ArrayList<>();
    all = loadVehicles();
@@ -247,6 +270,7 @@ public class VehicleGUIController implements Initializable {
   }
   
     public void loadDisplay(){
+   displayCustomers();
    addTemplateCars();
    list.removeAll(list);
    ArrayList<Vehicle> all = new ArrayList<>();
@@ -300,6 +324,7 @@ public class VehicleGUIController implements Initializable {
             });
             return row;
         });
+    
       
   }
   
@@ -340,9 +365,19 @@ public class VehicleGUIController implements Initializable {
    fuelTextField.setText(temp.getFuelType());
    colourTextField.setText(temp.getColour());
    MOTTextField.setText(String.valueOf(temp.getMOTRenewal()));
-   warrantyCheckBox.setSelected(temp.getWarranty());
    lastTextField.setText(temp.getLastService());
    mileageTextField.setText(String.valueOf(temp.getCurrentMile()));
+   if(temp.getWarranty()){
+    warrantyCheckBox.setSelected(true);
+    ArrayList<String> details = new ArrayList();
+     details = vr.getWarranty(temp.getRegistration());
+      warrantyNameTextField.setText(details.get(0));
+      warrantyAddressTextField.setText(details.get(0));
+      warrantyExpiryTextField.setText(details.get(0));
+   }
+   else{
+    warrantyCheckBox.setSelected(false);  
+   }
   }
    
   public ArrayList<Vehicle> loadVehicles(){
@@ -563,6 +598,8 @@ public class VehicleGUIController implements Initializable {
            warrantyAddressCheck,
            warrantyExpiryCheck,
            mileageCheck = true;
+   
+   //check customer id
    
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();

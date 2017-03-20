@@ -50,6 +50,32 @@ public class VehicleRegistry {
    } 
    return false;
  }
+ public ArrayList<String> getWarranty(String reg){
+  ArrayList<String> warrantyDetails = new ArrayList();
+  try{
+   DBConnection c = DBConnection.getInstance();
+    c.connect();
+    //sql statement
+    String sql = "SELECT * FROM WARRANTY WHERE REGISTRATION = " + reg + ";";
+    ResultSet rs = c.query(sql);
+     if( rs.next() ){
+      String name = rs.getString("NAME");
+      String address = rs.getString("ADDRESS");
+      String expiry = rs.getString("EXPIRY");
+      warrantyDetails.add(name);
+      warrantyDetails.add(address);
+      warrantyDetails.add(expiry);
+     }
+     rs.close();
+     c.closeConnection();
+     return warrantyDetails;
+  }
+  catch(SQLException e){
+   System.err.println(e.getClass().getName() + ": " + e.getMessage() );
+    System.exit(0);    
+  }
+  return warrantyDetails;
+ }
  
  public boolean checkWarranty(String reg){
    try{
@@ -78,6 +104,13 @@ public class VehicleRegistry {
    try{
     DBConnection c = DBConnection.getInstance();
      c.connect();
+     int warr = 0;
+     if(warranty == true){
+      warr = 1;
+     }
+     else{
+      warr = 0;   
+     }
      //query for update
      String query = "UPDATE VEHICLE " +
                     "SET REGISTRATION = '" + newReg + "'," +
@@ -87,7 +120,7 @@ public class VehicleRegistry {
                     "FUELTYPE = '" + fuel +"'," +
                     "COLOUR = '" + colour +"'," +
                     "MOTDATE = '" + MOT +"'," +
-                    "WARRANTY = '" + warranty +"'," +
+                    "WARRANTY = '" + warr +"'," +
                     "LASTSERVICE = '" + last +"'," +
                     "MILEAGE = " + mile + " " +
                     "WHERE REGISTRATION = '" + oldReg + "';";
@@ -141,6 +174,13 @@ public class VehicleRegistry {
       try{
       DBConnection c = DBConnection.getInstance();
        c.connect();
+       int warr = 0;
+       if(warranty == true){
+        warr = 1;   
+       }
+       else{
+        warr = 0;   
+       }
      
        String query = "INSERT INTO VEHICLE(REGISTRATION,CUSTOMERID,TYPE,MAKE,MODEL,ENGINESIZE,FUELTYPE,COLOUR,MOTDATE,WARRANTY,LASTSERVICE,MILEAGE)"+
                     "VALUES ( '" + 
@@ -153,7 +193,7 @@ public class VehicleRegistry {
                             fuel + "', '" +
                             colour + "', '" +
                             MOT + "', '" +
-                            warranty + "', '" +
+                            warr + "', '" +
                             Last + "', '" +
                             mile + "' );";
         boolean test = c.update(query);
@@ -172,6 +212,13 @@ public class VehicleRegistry {
        try{
        DBConnection c = DBConnection.getInstance();
         c.connect();
+        int warr = 0;
+        if(warranty == true){
+         warr = 1;   
+        }
+        else{
+         warr = 0;   
+        }
          String query = "INSERT INTO VEHICLE(REGISTRATION,CUSTOMERID,TYPE,MAKE,MODEL,ENGINESIZE,FUELTYPE,COLOUR,MOTDATE,WARRANTY,LASTSERVICE,MILEAGE)"+
                     "VALUES ( '" + 
                             reg + "', '" +
@@ -183,7 +230,7 @@ public class VehicleRegistry {
                             fuel + "', '" +
                             colour + "', '" +
                             MOT + "', '" +
-                            warranty + "', '" +
+                            warr + "', '" +
                             Last + "', '" +
                             mile + "' );";
          c.update(query);
@@ -202,6 +249,13 @@ public class VehicleRegistry {
       try{
      DBConnection c = DBConnection.getInstance();
      c.connect();
+     int warr = 0;
+     if(warranty == true){
+      warr = 1;   
+     }
+     else{
+      warr = 0;    
+     }
      String query = "INSERT INTO VEHICLE(REGISTRATION,CUSTOMERID,TYPE,MAKE,MODEL,ENGINESIZE,FUELTYPE,COLOUR,MOTDATE,WARRANTY,LASTSERVICE,MILEAGE)"+
                     "VALUES ( '" + 
                             reg + "', '" +
@@ -213,7 +267,7 @@ public class VehicleRegistry {
                             fuel + "', '" +
                             colour + "', '" +
                             MOT + "', '" +
-                            warranty + "', '" +
+                            warr + "', '" +
                             Last + "', '" +
                             mile + "' );";
          c.update(query);
@@ -310,7 +364,14 @@ public class VehicleRegistry {
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
         String MOTdate = rs.getString("MOTDATE");
-        boolean warranty = rs.getBoolean("WARRANTY");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
@@ -344,7 +405,14 @@ public class VehicleRegistry {
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
         String MOTdate = rs.getString("MOTDATE");
-        boolean warranty = rs.getBoolean("WARRANTY");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
@@ -376,7 +444,14 @@ public class VehicleRegistry {
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
         String MOTdate = rs.getString("MOTDATE");
-        boolean warranty = rs.getBoolean("WARRANTY");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         //CREATE VEHICLE OBJECT FROM SEARCH
@@ -392,7 +467,6 @@ public class VehicleRegistry {
      return null;
    }   
   }
-  
   public ArrayList<Vehicle> searchReg(String registration){
    try{
     ArrayList<Vehicle>result = new ArrayList();
@@ -411,7 +485,14 @@ public class VehicleRegistry {
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
         String MOTdate = rs.getString("MOTDATE");
-        boolean warranty = rs.getBoolean("WARRANTY");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
@@ -445,7 +526,14 @@ public class VehicleRegistry {
         String fuel = rs.getString("FUELTYPE");
         String colour = rs.getString("COLOUR");
         String MOT = rs.getString("MOTDATE");
-        boolean warranty = rs.getBoolean("WARRANTY");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
         String last = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOT,warranty,last,mile);
@@ -480,7 +568,14 @@ public class VehicleRegistry {
        String fuel = rs.getString("FUELTYPE");
        String colour = rs.getString("COLOUR");
        String MOT = rs.getString("MOTDATE");
-       boolean warranty = rs.getBoolean("WARRANTY");
+       int warr = rs.getInt("WARRANTY");
+       boolean warranty = false;
+       if(warr == 0){
+        warranty = false;   
+       }
+       else{
+        warranty = true;   
+       }
        String last = rs.getString("LASTSERVICE");
        int mile = rs.getInt("MILEAGE");
        
