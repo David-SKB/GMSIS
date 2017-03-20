@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import user.gui.InterfaceController;
 /**
@@ -86,8 +88,24 @@ public class Authentication
         grid.add(actiontarget, 1, 6);
         //End Text position
         
+        pwBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent keyEvent) {
+            if (keyEvent.getCode() == KeyCode.ENTER)  {
+                String text = pwBox.getText();
+
+                btn.fire();
+
+                // clear text
+                pwBox.setText("");
+            }
+        }
+    });
+        
+        
         //Button action
-        btn.setOnAction(new EventHandler<ActionEvent>() 
+
+        EventHandler btnPress = new EventHandler<ActionEvent>() 
         {
             @Override
             public void handle(ActionEvent e) 
@@ -178,7 +196,38 @@ public class Authentication
                         );
                 }
             }
-        });
+        };
+        
+        
+        
+        btn.setOnAction(btnPress);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         //End Button action
         
         Scene scene = new Scene(grid, 700, 400);
