@@ -6,6 +6,7 @@
 package diagrep.gui;
 
 import common.DBConnection;
+import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -26,45 +27,42 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
-
 public class EditWindowController implements Initializable {
-    
-	@FXML
-	private Button confirmButton;
-	@FXML
-	private Button cancelButton;
-	@FXML
-	private ChoiceBox entryType;
-	@FXML
-	private DatePicker entryDate;
-	@FXML
-	private TextField entryTime;
-	@FXML
-	private TextField entryDuration;
-	@FXML
-	private ChoiceBox entryReg;
-	@FXML
-	private ChoiceBox entryCustomer;
-	@FXML
-	private ChoiceBox entryMechanic;
 
-	private DiagRepairScreenController parentController;
-	private DiagRepairBooking entry;
-	private DBConnection conn;
+    @FXML
+    private Button confirmButton;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private ChoiceBox entryType;
+    @FXML
+    private DatePicker entryDate;
+    @FXML
+    private TextField entryTime;
+    @FXML
+    private TextField entryDuration;
+    @FXML
+    private ChoiceBox entryReg;
+    @FXML
+    private ChoiceBox entryCustomer;
+    @FXML
+    private ChoiceBox entryMechanic;
 
-	@Override
-	public void initialize(URL url, ResourceBundle rb)
-	{
+    private DiagRepairScreenController parentController;
+    private DiagRepairBooking entry;
+    private DBConnection conn;
 
-	}
-	
-	public void reinit()
-	{
-		conn = DBConnection.getInstance();
-		entryType.setItems(FXCollections.observableArrayList("Repair", new Separator(), "Maintenance"));
-		entryType.getSelectionModel().select(entry.getBookingType());
-		
-		/*
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+
+    }
+
+    public void reinit() {
+        conn = DBConnection.getInstance();
+        entryType.setItems(FXCollections.observableArrayList("Diagnosis", new Separator(), "Repair"));
+        entryType.getSelectionModel().select(entry.getBookingType());
+
+        /*
 		if (entry.getType().equals("Repair"))
 		{
 			entryType.getSelectionModel().selectFirst();	
@@ -73,76 +71,66 @@ public class EditWindowController implements Initializable {
 		{
 			entryType.getSelectionModel().selectLast();
 		}
-		*/
-		
-		String[] line = entry.getBookingDate().split("\\s+");
-		entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		entryTime.setText(line[1]);
-		entryDuration.setText(entry.getBookingLength());
-		try
-		{
-			ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
-			ResultSet rsV = conn.query("SELECT DISTINCT VehicleRegNo FROM BookingIntegrated ORDER BY VehicleRegNo;");
-			while (rsV.next())
-			{
-				vehicleList.add(rsV.getString("VehicleRegNo"));
-			}
-			entryReg.setItems(vehicleList);
-			entryReg.getSelectionModel().select(entry.getVechID());
-			
-			ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
-			ResultSet rsC = conn.query("SELECT DISTINCT CustomerID, CustomerFirstName, CustomerLastName FROM Customer ORDER BY CustomerFirstName;");
-			while (rsC.next())
-			{
-				customerList.add(rsC.getString("CustomerID")+": "+rsC.getString("CustomerFirstName")+" "+rsC.getString("CustomerLastName"));
-			}
-			entryCustomer.setItems(customerList);
-			entryCustomer.getSelectionModel().select(entry.getCustID()+": "+entry.getCustFirstName()+" "+entry.getCustLastName());
-			
-			ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
-			ResultSet rsM = conn.query("SELECT DISTINCT * FROM Mechanic ORDER BY MechanicFirstName;");
-			while (rsM.next())
-			{
-				mechanicList.add(rsM.getString("MechanicID"));	    //mechanicList.add(rsM.getString("MechanicID")+": "+rsM.getString("MechanicFirstName")+" "+rsM.getString("MechanicLastName"));
-			}
-			entryMechanic.setItems(mechanicList);
-			entryMechanic.getSelectionModel().select(entry.getEmpID());
-		}
-		catch (SQLException se)
-		{
-			se.printStackTrace();
-		}
-	}
+         */
+        String[] line = entry.getBookingDate().split("\\s+");
+        entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        entryTime.setText(line[1]);
+        entryDuration.setText(entry.getBookingDuration());
+        try {
+            ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
+            ResultSet rsV = conn.query("SELECT REGISTRATION FROM VEHICLE ORDER BY VehicleRegNo;");
+            while (rsV.next()) {
+                vehicleList.add(rsV.getString("REGISTRATION"));
+            }
+            entryReg.setItems(vehicleList);
+            entryReg.getSelectionModel().select(entry.getVechID());	//set the options to search from in dropdown list
 
-	@FXML
-	private void editEntry(ActionEvent event)
-	{
-		String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
-		String[] custData = lineC.split("[\\s,:]+");
-		String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
-		String[] mechData = lineM.split("[\\s,:]+");
-		String sql = "UPDATE BookingIntegrated SET BookingType='"+(String) entryType.getSelectionModel().getSelectedItem()+"', BookingDate='"+entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+" "+entryTime.getText()+"', BookingDuration='"+entryDuration.getText()+"', VehicleRegNo='"+(String) entryReg.getSelectionModel().getSelectedItem()+"', VehicleManufacturer='TEMP', VehicleMileage='0', CustomerID='"+custData[0]+"', CustomerFirstName='"+custData[1]+"', CustomerLastName='"+custData[2]+"', MechanicID='"+mechData[0]+"', MechanicDuration='00:00' WHERE BookingID="+entry.getID();
-		conn.update(sql);
-		parentController.reset();
-		Stage stage = (Stage) confirmButton.getScene().getWindow();
-		stage.close();
-	}
+            ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
+            ResultSet rsC = conn.query("SELECT ID, SURNAME, FIRSTNAME FROM CUSTOMER ORDER BY SURNAME;");
+            while (rsC.next()) {
+                customerList.add(rsC.getString("ID") + ": " + rsC.getString("FIRSTNAME") + " " + rsC.getString("SURNAME"));
+            }
+            entryCustomer.setItems(customerList);
+            entryCustomer.getSelectionModel().select(entry.getCustID());	//set the options to search from in dropdown list
 
-	@FXML
-	private void cancel(ActionEvent event)
-	{
-		Stage stage = (Stage) cancelButton.getScene().getWindow();
-		stage.close();
-	}
+            ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
+            ResultSet rsM = conn.query("SELECT * FROM USER WHERE NOT SYSADM = 'FALSE' ORDER BY SURNAME;");
+            while (rsM.next()) {
+                mechanicList.add(rsM.getString("ID") + ": " + rsM.getString("FIRSTNAME") + " " + rsM.getString("SURNAME"));
+            }
+            entryMechanic.setItems(mechanicList);
+            entryMechanic.getSelectionModel().select(entry.getEmpID());	//set the options to search from in dropdown list
+        } catch (SQLException se) {
+            se.printStackTrace();
+        }
+    }
 
-	public void setEntry(DiagRepairBooking entry)
-	{
-		this.entry = entry;
-	}
+    @FXML
+    private void editEntry(ActionEvent event) {
+        BookingRegistry BR = BookingRegistry.getInstance();
+        String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
+        String[] custData = lineC.split("[\\s,:]+");
+        String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
+        String[] mechData = lineM.split("[\\s,:]+");
+        String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        BR.addBooking(date, entryTime.getText(), Integer.parseInt(entryDuration.getText()), (String) entryType.getSelectionModel().getSelectedItem(), Integer.parseInt(custData[0]), (int) entryReg.getSelectionModel().getSelectedItem(), Integer.parseInt(mechData[0]));
+        parentController.reset();
+        Stage stage = (Stage) confirmButton.getScene().getWindow();
+        stage.close();
+    }
 
-	public void setParentController(DiagRepairScreenController parentController)
-	{
-		this.parentController = parentController;
-	}
-    
+    @FXML
+    private void cancel(ActionEvent event) {
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    public void setEntry(DiagRepairBooking entry) {
+        this.entry = entry;
+    }
+
+    public void setParentController(DiagRepairScreenController parentController) {
+        this.parentController = parentController;
+    }
+
 }
