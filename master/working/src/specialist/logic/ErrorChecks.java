@@ -2,18 +2,22 @@ package specialist.logic;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Timer;
+import java.util.function.UnaryOperator;
 import javafx.fxml.FXML;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 /**
  *
  * @author do302
@@ -69,7 +73,7 @@ public class ErrorChecks
     *
     * Call with TextField object to Restrict input to numbers (allows for decimals)
     */
-    public void SetNumberRestriction(TextField field)//Restrics input to numbers only
+    public void SetNumberRestriction(TextField field)//Restrics input to numbers only (allows decimals) 
     {
         DecimalFormat format = new DecimalFormat( "#.0" );
         field.setTextFormatter( new TextFormatter<>(c ->
@@ -90,6 +94,42 @@ public class ErrorChecks
         }
         }));
     }
+    
+    public void SetNumberRestrictionPhone(TextField field)//Restrics input to numbers only (no decimals)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[0-9]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    
+    public void SetWordSpaceRestriction(TextField field)//Restrics input to words and spaces
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[a-zA-Z ]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    
+    public void SetAddressRestriction(TextField field)//Restrics input letters, spaces, numbers and commas only
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[0-9a-zA-Z, ]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
 
     /**
     *
@@ -99,6 +139,40 @@ public class ErrorChecks
     {
         //returns false if not alphanumberic
         return word.matches("[a-zA-Z]+");
+    }
+    
+    /**
+    *
+    * returns false if not 11 digits
+    */
+    public boolean isPhone(String word) 
+    {
+        //returns false if not a number
+        if (word.length() == 11 && word.matches("[0-9]*"))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+    *
+    * returns false if passed String is not a valid email
+    */
+    public boolean isEmail(String email) 
+    {
+        //returns false if not email
+        boolean result = true;
+        try 
+        {
+            InternetAddress emailAddr = new InternetAddress(email);
+            emailAddr.validate();
+        } 
+        catch (AddressException ex) 
+        {
+            result = false;
+        }
+        return result;
     }
     
     /**
