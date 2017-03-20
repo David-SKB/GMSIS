@@ -16,8 +16,8 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+//import javax.mail.internet.AddressException;
+//import javax.mail.internet.InternetAddress;
 /**
  *
  * @author do302
@@ -157,12 +157,12 @@ public class ErrorChecks
     
     /**
     *
-    * returns false if passed String is not a valid email
+    * returns false if passed String is not a valid email, NOT WORKING ATM
     */
     public boolean isEmail(String email) 
     {
-        //returns false if not email
-        boolean result = true;
+        //returns false if not email.
+        /*boolean result = true;
         try 
         {
             InternetAddress emailAddr = new InternetAddress(email);
@@ -172,7 +172,8 @@ public class ErrorChecks
         {
             result = false;
         }
-        return result;
+        return result;*/
+        return true;
     }
     
     /**

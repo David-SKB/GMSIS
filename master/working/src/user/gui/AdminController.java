@@ -27,7 +27,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import specialist.logic.*;
-import sun.security.x509.IssuerAlternativeNameExtension;
 import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.SPCRegistry;
