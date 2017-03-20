@@ -61,6 +61,13 @@ public class componentLoader{
      alert.setContentText("Mileage text field must be a whole number");
      alert.showAndWait();
    }
+     public void showIDFailure(){
+     Alert alert = new Alert(AlertType.ERROR);
+     alert.setTitle("Customer ID error");
+     alert.setHeaderText("Error");
+     alert.setContentText("You must select a customer");
+     alert.showAndWait();
+   }
     
     public void showFuelStringFailure(){
      Alert alert = new Alert(AlertType.ERROR);

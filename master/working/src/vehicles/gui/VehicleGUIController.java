@@ -614,7 +614,16 @@ public class VehicleGUIController implements Initializable {
            mileageCheck = true;
    
    //check customer id
-   
+   String idString = customerIDTextField.getText();
+   int id = 0;
+   try{
+    id = Integer.parseInt(idString);   
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+       return;   
+   }
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -697,7 +706,7 @@ public class VehicleGUIController implements Initializable {
      }
      //IF WARRANTY CONDITIONS ARE OK THEN ADDS CAR WITH WARRANTY INFORMATION
      if(warrantyNameCheck && warrantyAddressCheck && warrantyExpiryCheck){
-       vr.addCar(reg,1,"car",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+       vr.addCar(reg,id,"CAR",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
        vr.addWarranty(reg,warrantyName, warrantyAddress, warrantyExpiry);
      }
      else{
@@ -707,7 +716,7 @@ public class VehicleGUIController implements Initializable {
       }
       //IF WARRANTY NOT SELECTED ADDS CAR WITHOUT WARRANTY INFORMATION
       else{
-       vr.addCar(reg,1,"car",make,model,engine,fuel,colour,MOT,warranty,last,mileage);   
+       vr.addCar(reg,id,"CAR",make,model,engine,fuel,colour,MOT,warranty,last,mileage);   
       }
     }
  }
@@ -725,6 +734,17 @@ public class VehicleGUIController implements Initializable {
            warrantyAddressCheck,
            warrantyExpiryCheck,
            mileageCheck = true;
+   //CHECK CUSTOMER ID
+   String idString = customerIDTextField.getText();
+   int id = 0;
+   try{
+    id = Integer.parseInt(idString);   
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+       return;   
+   }
    //CHECK VEHICLE REGISTRATION
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -807,7 +827,7 @@ public class VehicleGUIController implements Initializable {
     }
      
      if(warrantyNameCheck && warrantyAddressCheck && warrantyExpiryCheck){
-       vr.addVan(reg,0,"van",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+       vr.addVan(reg,id,"VAN",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
        vr.addWarranty(reg,warrantyName, warrantyAddress, warrantyExpiry);
      }
      else{
@@ -817,7 +837,7 @@ public class VehicleGUIController implements Initializable {
       }
       //IF WARRANTY NOT TRUE ADD VAN WITHOUT WARRANTY INFORMATION
       else{
-      vr.addVan(reg,0,"van",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+      vr.addVan(reg,id,"VAN",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
     }
   }
  }
@@ -835,6 +855,17 @@ public class VehicleGUIController implements Initializable {
            warrantyAddressCheck,
            warrantyExpiryCheck,
            mileageCheck = true;
+   //CHECK CUSTOMER ID
+   String idString = customerIDTextField.getText();
+   int id = 0;
+   try{
+    id = Integer.parseInt(idString);   
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+       return;   
+   }
    //CHECK REG TEXT FIELD NOT EMPTY
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -917,7 +948,7 @@ public class VehicleGUIController implements Initializable {
     }
      
      if(warrantyNameCheck && warrantyAddressCheck && warrantyExpiryCheck){
-       vr.addTruck(reg,0,"truck",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+       vr.addTruck(reg,id,"TRUCK",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
        vr.addWarranty(reg,warrantyName, warrantyAddress, warrantyExpiry);
        }
      else{
@@ -927,7 +958,7 @@ public class VehicleGUIController implements Initializable {
      }
      //ELSE IF TRUCK DOESNT HAVE WARRANTY ADD IT 
      else{
-      vr.addTruck(reg,0,"truck",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+      vr.addTruck(reg,id,"TRUCK",make,model,engine,fuel,colour,MOT,warranty,last,mileage);
      }
     } 
   }
