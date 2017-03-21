@@ -43,8 +43,7 @@ public class SPCRegistry {
         return success;
     }
    
-    public boolean editSPC(String spcName, String spcAddress, String spcTel, String spcEmail,
-                           String oldName, String oldAddr, String oldTel, String oldEmail){
+    public boolean editSPC(String spcName, String spcAddress, String spcTel, String spcEmail, int SPCID){
         boolean success;
         DBInstance.connect();       
         String query = "UPDATE CENTRES \n" + 
@@ -53,10 +52,7 @@ public class SPCRegistry {
                        "ADDRESS = '" + spcAddress + "', " +
                        "TELEPHONE = '" + spcTel + "', " +
                        "EMAIL = '" + spcEmail + "'\n" + 
-                       "WHERE NAME = '" + oldName +  "'\n" +
-                       "AND ADDRESS = '" + oldAddr + "'\n" +
-                       "AND TELEPHONE = '" + oldTel + "'\n" +
-                       "AND EMAIL = '" + oldEmail + "';";
+                       "WHERE SPCID = '" + SPCID + "';";
         success = DBInstance.update(query);
         DBInstance.closeConnection();
         return success;

@@ -111,7 +111,7 @@
                               <TextField fx:id="editSPCAddrTF" alignment="CENTER" layoutX="37.0" layoutY="47.0" promptText="Address" />
                               <TextField fx:id="editSPCPhoneTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Telephone" />
                               <TextField fx:id="editSPCEmailTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="E-mail" />
-                              <Button fx:id="submitSPCChangesBTN" layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onAction="#submitSPCChanges" text="Submit Changes" />
+                              <Button fx:id="submitSPCChangesBTN" disable="true" layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onAction="#submitSPCChanges" text="Submit Changes" />
                               <Text fx:id="editSPCStatus" layoutX="35.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
                            </children>
                         </AnchorPane>
