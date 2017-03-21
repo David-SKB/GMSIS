@@ -16,6 +16,7 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import org.apache.commons.validator.*;
 //import javax.mail.internet.AddressException;
 //import javax.mail.internet.InternetAddress;
 /**
@@ -145,7 +146,7 @@ public class ErrorChecks
     public boolean isAlphanumeric(String word) 
     {
         //returns false if not alphanumberic
-        return word.matches("[a-zA-Z]+");
+        return word.matches("[a-zA-Z0-9]+");
     }
     
     /**
@@ -167,18 +168,8 @@ public class ErrorChecks
     public boolean isEmail(String email) 
     {
         //returns false if not email.
-        /*boolean result = true;
-        try 
-        {
-            InternetAddress emailAddr = new InternetAddress(email);
-            emailAddr.validate();
-        } 
-        catch (AddressException ex) 
-        {
-            result = false;
-        }
-        return result;*/
-        return true;
+        boolean valid = EmailValidator.getInstance().isValid(email);
+        return valid;
     }
     
     /**
