@@ -611,13 +611,24 @@ public class VehicleGUIController implements Initializable {
            warrantyNameCheck,
            warrantyAddressCheck,
            warrantyExpiryCheck,
+           customerIDExists,
            mileageCheck = true;
    
    //check customer id
    String idString = customerIDTextField.getText();
    int id = 0;
    try{
-    id = Integer.parseInt(idString);   
+    id = Integer.parseInt(idString);
+    if( customerIDExists = vr.checkCustomerID(id))
+    {
+     customerIDExists = true;   
+    }
+    else{
+     customerIDExists = false;
+     componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+      return;
+    }
    }
    catch(NumberFormatException e){
     componentLoader cl = new componentLoader();
@@ -689,7 +700,7 @@ public class VehicleGUIController implements Initializable {
     }
     //IF ALL TEST CASES ARE TRUE ADD VEHICLE  
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck){
+            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
       //CHECK IF WARRANTY IS SELECTED, IF SO CHECK WARRANTY INFO TEXT FIELDS
       if(warranty == true){
      //CHECK WARRANTY NAME
@@ -733,12 +744,19 @@ public class VehicleGUIController implements Initializable {
            warrantyNameCheck,
            warrantyAddressCheck,
            warrantyExpiryCheck,
+           customerIDExists,
            mileageCheck = true;
    //CHECK CUSTOMER ID
    String idString = customerIDTextField.getText();
    int id = 0;
    try{
-    id = Integer.parseInt(idString);   
+    id = Integer.parseInt(idString);
+     if(customerIDExists = vr.checkCustomerID(id)){
+       customerIDExists = true;  
+     }
+     else{
+       customerIDExists = false;   
+     }
    }
    catch(NumberFormatException e){
     componentLoader cl = new componentLoader();
@@ -811,7 +829,7 @@ public class VehicleGUIController implements Initializable {
     }
   
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck){
+            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
         if(warranty == true){
      //CHECK WARRANTY NAME FIELD NOT BLANK
      String warrantyName = warrantyNameTextField.getText();
@@ -854,12 +872,19 @@ public class VehicleGUIController implements Initializable {
            warrantyNameCheck,
            warrantyAddressCheck,
            warrantyExpiryCheck,
+           customerIDExists,
            mileageCheck = true;
    //CHECK CUSTOMER ID
    String idString = customerIDTextField.getText();
    int id = 0;
    try{
-    id = Integer.parseInt(idString);   
+    id = Integer.parseInt(idString);
+    if(vr.checkCustomerID(id)){
+      customerIDExists = true;  
+    }
+    else{
+      customerIDExists = false;   
+    }
    }
    catch(NumberFormatException e){
     componentLoader cl = new componentLoader();
@@ -932,7 +957,7 @@ public class VehicleGUIController implements Initializable {
     }
   
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck){
+            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
         if(warranty == true){
           //check name
      String warrantyName = warrantyNameTextField.getText();

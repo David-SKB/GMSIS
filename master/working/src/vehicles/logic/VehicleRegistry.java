@@ -28,6 +28,30 @@ public class VehicleRegistry {
     return curInstance;
   }
   
+  public boolean checkCustomerID(int id){
+   try{
+    boolean flag = false;
+    DBConnection c = DBConnection.getInstance();
+     c.connect();
+     String query = "SELECT * FROM CUSTOMER;";
+      ResultSet rs = c.query(query);
+       while( rs.next() ){
+        int idCheck = rs.getInt("CUSTOMERID");
+         if(id == idCheck){
+          return true;   
+         }
+      }
+       rs.close();
+       c.closeConnection();
+       return false;
+   }
+   catch(SQLException e){
+    System.err.println(e.getClass().getName() + ": " + e.getMessage() );
+     System.exit(0);   
+   }
+    return false;   
+  }
+  
   public boolean checkExists(String reg){
    try{
     DBConnection c = DBConnection.getInstance();
