@@ -8,6 +8,8 @@ package customers.gui;
 import customers.logic.Customer;
 import customers.logic.CustomerRegistry;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
@@ -16,6 +18,15 @@ import javafx.scene.control.TextField;
  */
 public class CustomerBillsController {
     
+    //@FXML
+    //private TableView<CustomerBill> futureBookings;
+    @FXML
+    private TableColumn futureBType,futureBDate,futureBReg,
+                        futureBBill;
+   // @FXML
+    //private TableView<CustomerBill> pastBookings;
+    @FXML
+    private TableColumn pastBType,pastBDate,pastBReg,pastBBill;
     @FXML
     private TextField firstNameTF, lastNameTF, addressTF,cTypeTF,          
                       pCodeTF, phoneTF, emailTF;   
