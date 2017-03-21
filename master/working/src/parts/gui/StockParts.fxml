@@ -42,7 +42,7 @@
         <Label layoutY="605.0" text="Select part from table to increase stock" />
       </children>
     </AnchorPane>
-    <AnchorPane fx:id="usedParts" layoutX="-1.0" layoutY="45.0" prefHeight="654.0" prefWidth="1036.0" visible="false">
+    <AnchorPane fx:id="usedParts" layoutX="-1.0" layoutY="45.0" prefHeight="636.0" prefWidth="1036.0" visible="false">
       <children>
         <TableView fx:id="stockTable1" layoutX="14.0" layoutY="14.0" prefHeight="611.0" prefWidth="633.0">
           <columns>
