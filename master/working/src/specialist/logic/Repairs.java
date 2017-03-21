@@ -275,7 +275,7 @@ public class Repairs
         return resultList;
     }*/
     
-    public ObservableList<OutstandingMain> getOutstanding(int SPCID) throws SQLException
+    public ObservableList<OutstandingMain> getOutstanding() throws SQLException
     {
         ObservableList<OutstandingMain> resultList = FXCollections.observableArrayList();
         

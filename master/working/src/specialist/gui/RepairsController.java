@@ -177,7 +177,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
     @FXML private Button SPCVehicleButton;
-    @FXML private Button SPCOutstandingButton;
     @FXML private Text T1SearchErrorText;
     @FXML private Button ViewPartsButton;
     
@@ -221,7 +220,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             if(outstandingT != null &&
                spcListTable != null){
                 //CALL METHODS THAT UPDATE COMPONENT
-                ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding(0);
+                ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
                 outstandingT.setItems(VehicleList);
                 
                 ObservableList<ListSPC> SPCList = repairs.getSPCList();
@@ -244,6 +243,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             {
                 AddError.setFill(Color.GREEN);
                 AddErrMsg("Vehicle Sent");
+                LoadOutstanding();
 
             }
         }
@@ -262,6 +262,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 added = repairs.removeStock(PartID);//removes one stock for the part sent
                 AddErrorPart.setFill(Color.GREEN);
                 AddErrMsgPart("Part Sent");
+                LoadOutstanding();
             }
         }
     }
@@ -283,6 +284,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             {
                 EditError.setFill(Color.GREEN);
                 EditErrMsg("Vehicle Updated");
+                LoadOutstanding();
             }
         }
     }
@@ -304,6 +306,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             {
                 EditErrorPart.setFill(Color.GREEN);
                 EditErrMsgPart("Part Updated");
+                LoadOutstanding();
             }
         }
     }
@@ -458,7 +461,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             double cost = Double.parseDouble(CostVehicle2.getText());
             if (EC.DecimalPlaces(cost) == false)
             {
-                CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
+                CostVehicle2.setStyle("-fx-border-color: #ff1e1e;");
                 valid = false;
             }
         }
@@ -793,7 +796,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     
     @FXML private void LoadOutstanding() throws SQLException
     {
-        T5RegID.setCellValueFactory(
+        /*T5RegID.setCellValueFactory(
                 new PropertyValueFactory<OutstandingMain, String>("T5REGNOX"));
         T5ExpDel.setCellValueFactory(
                 new PropertyValueFactory<OutstandingMain, String>("T5EXPDELX"));
@@ -804,17 +807,10 @@ public class RepairsController /*extends Application*/ implements Initializable
         T5Type.setCellValueFactory(
                 new PropertyValueFactory<OutstandingMain, String>("T5TYPEX"));
         T5SPCID.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5SPCNAMEX"));
+                new PropertyValueFactory<OutstandingMain, String>("T5SPCNAMEX"));*/
         
-        if (SPCListTable.getSelectionModel().getSelectedItem() != null)
-        {
-            ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding(SPCListTable.getSelectionModel().getSelectedItem().getT3IDX());
-            OutstandingTable.setItems(VehicleList);
-        }
-        else
-        {
-            //make error message saying no row selected
-        }
+        ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
+        OutstandingTable.setItems(VehicleList);
     }
     
     @FXML private void VehicleRowClick() 
@@ -878,7 +874,6 @@ public class RepairsController /*extends Application*/ implements Initializable
             System.out.println("Select something fool");
         }*/
         SPCVehicleButton.setDisable(false);
-        SPCOutstandingButton.setDisable(false);
     }
     
     @FXML private void HandleDelete() throws SQLException 

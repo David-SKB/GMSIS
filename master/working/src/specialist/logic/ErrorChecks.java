@@ -95,7 +95,10 @@ public class ErrorChecks
         }));
     }
     
-    public void SetNumberRestrictionPhone(TextField field)//Restrics input to numbers only (no decimals)
+    /**
+    * Restricts input to numbers only (no decimals)
+    */
+    public void SetNumberRestrictionPhone(TextField field)
     {
         UnaryOperator<Change> intFilter = change -> {
         String input = change.getText();
@@ -107,7 +110,10 @@ public class ErrorChecks
         field.setTextFormatter(new TextFormatter<String>(intFilter));
     }
     
-    public void SetWordSpaceRestriction(TextField field)//Restrics input to words and spaces
+    /**
+    * Restricts input to words and spaces
+    */
+    public void SetWordSpaceRestriction(TextField field)
     {
         UnaryOperator<Change> intFilter = change -> {
         String input = change.getText();
@@ -118,8 +124,10 @@ public class ErrorChecks
         };
         field.setTextFormatter(new TextFormatter<String>(intFilter));
     }
-    
-    public void SetAddressRestriction(TextField field)//Restrics input letters, spaces, numbers and commas only
+    /**
+    * Restricts input to letters, spaces, numbers and commas only
+    */
+    public void SetAddressRestriction(TextField field)
     {
         UnaryOperator<Change> intFilter = change -> {
         String input = change.getText();
@@ -132,8 +140,7 @@ public class ErrorChecks
     }
 
     /**
-    *
-    * returns false if passed String is not Alphanumberic (letters and numbers)
+    * returns false if passed String is not Alphanumeric (letters and numbers)
     */
     public boolean isAlphanumeric(String word) 
     {
@@ -142,7 +149,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * returns false if not 11 digits
     */
     public boolean isPhone(String word) 
@@ -156,7 +162,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * returns false if passed String is not a valid email, NOT WORKING ATM
     */
     public boolean isEmail(String email) 
@@ -177,7 +182,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * returns false if not max 2 decimal places (use for checking money validity)
     */
     public boolean DecimalPlaces(double num) 
@@ -195,7 +199,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * returns false if String isn't a plate number (in other words if it's length is > 7 and contains special characters like @#*)
     */
     public boolean isPlate(String word) 
@@ -211,7 +214,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * Displays a given message to a given JavaFX Text object for 2 seconds
     */
     public void TimedMsg(Text TextObject, String msg)
@@ -231,7 +233,6 @@ public class ErrorChecks
     }
     
     /**
-    *
     * Disables dates on a DatePicker object that are before given LocalDate Object 
     * (Can use LocalDate.now() for current day)
     * Note: StringToLdate changes a string to LocalDate
