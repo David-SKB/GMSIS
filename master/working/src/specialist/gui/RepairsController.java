@@ -199,17 +199,13 @@ public class RepairsController /*extends Application*/ implements Initializable
             }
         }
         if(mainPane != null){
-            OL = mainPane.getChildren();
-            TableView<SearchMain> mainTable = null;
+            OL = mainPane.getChildren();            
             TableView<OutstandingMain> outstandingT = null;
             ComboBox cBox = null;
             TableView<ListSPC> spcListTable = null;
 
             for(Node n : OL){       //Loop to find all the children that will be updated
                 if(n instanceof TableView &&
-                  (n.getId().equalsIgnoreCase("MainTable"))){
-                    mainTable = (TableView<SearchMain>)n;
-                }else if(n instanceof TableView &&
                         (n.getId().equalsIgnoreCase("OutstandingTable"))){
                     outstandingT = (TableView<OutstandingMain>)n;
                 }else if(n instanceof TitledPane &&
@@ -230,8 +226,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 }
             }
 
-            if(mainTable != null &&
-               outstandingT != null &&
+            if(outstandingT != null &&
                cBox != null &&
                spcListTable != null){
                 //CALL METHODS THAT UPDATE COMPONENT
