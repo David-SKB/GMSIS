@@ -189,7 +189,7 @@ public class RepairsController /*extends Application*/ implements Initializable
      * Inside your fxml I named fx:id of Pane "MainPane"
      * You need to add the methods that update the components
      *************************************/
-    public void updateAnchorPane(AnchorPane AP){
+    public void updateAnchorPane(AnchorPane AP) throws SQLException{
         ObservableList<Node> OL = AP.getChildren();
         Pane mainPane = null;
         for(Node n : OL){
@@ -201,7 +201,6 @@ public class RepairsController /*extends Application*/ implements Initializable
         if(mainPane != null){
             OL = mainPane.getChildren();            
             TableView<OutstandingMain> outstandingT = null;
-            ComboBox cBox = null;
             TableView<ListSPC> spcListTable = null;
 
             for(Node n : OL){       //Loop to find all the children that will be updated
@@ -213,30 +212,26 @@ public class RepairsController /*extends Application*/ implements Initializable
                         TitledPane temp = (TitledPane)n;
                         if(temp != null){
                             ObservableList<Node> tempOL = ((AnchorPane)temp.getContent()).getChildren();
-                                for(Node n2 : tempOL){
-                                    if(n2 instanceof ComboBox &&
-                                      (n2.getId().equalsIgnoreCase("SPCIDVehicle"))){
-                                        cBox = (ComboBox)n2;
-                                    }
-                                }
                         }
                 }else if(n instanceof TableView &&
                         (n.getId().equalsIgnoreCase("SPCListTable"))){
                     spcListTable = (TableView<ListSPC>)n;
                 }
             }
-
             if(outstandingT != null &&
-               cBox != null &&
                spcListTable != null){
                 //CALL METHODS THAT UPDATE COMPONENT
-                // I.E updateMainTable(); updateOutstandingTable(); updateComboBox();
+                ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding(0);
+                outstandingT.setItems(VehicleList);
+                
+                ObservableList<ListSPC> SPCList = repairs.getSPCList();
+                spcListTable.setItems(SPCList);
             }
         }
     }
     
     //
-    //todo: do refresh on tab click
+    //todo:
     //******************************************************
     @FXML private void SubmitVehicle() throws SQLException 
     {
@@ -1293,6 +1288,25 @@ public class RepairsController /*extends Application*/ implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
+        //Initialise Outstanding Table
+        T5RegID.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5REGNOX"));
+        T5ExpDel.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5EXPDELX"));
+        T5ExpRet.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5EXPRETX"));
+        T5Cost.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, Integer>("T5COSTX"));
+        T5Type.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5TYPEX"));
+        T5SPCID.setCellValueFactory(
+                new PropertyValueFactory<OutstandingMain, String>("T5SPCNAMEX"));
+        
+        //Initialise SPC Table
+        T3ID.setCellValueFactory(
+                new PropertyValueFactory<Repairs, Integer>("T3IDX"));
+        T3SPC.setCellValueFactory(
+                new PropertyValueFactory<Repairs, String>("T3SPCX"));
         try 
         {
             LoadComboListSPC();
