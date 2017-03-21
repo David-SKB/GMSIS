@@ -856,7 +856,7 @@ public class AdminController {
     
     private void submitSPConChange(String spcName, String spcAddress, String spcPhone, String spcEmail)
     {
-        if (spcTV.getSelectionModel().getSelectedItem() != null)//makes sure row is still selected
+        if (spcTV.getSelectionModel().getSelectedItem() != null)//ensures sure row is still selected
         {
             SPCID = spcTV.getSelectionModel().getSelectedItem().getIDX();
         }
