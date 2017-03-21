@@ -8,3 +8,4 @@ project.properties
 project.xml
 test/
 build.xml
+manifest.mf
