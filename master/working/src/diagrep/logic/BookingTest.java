@@ -15,6 +15,6 @@ public class BookingTest {
         BookingRegistry book = BookingRegistry.getInstance();
         if(book.addBooking("1","1",1,"1",1,1,1)){
             System.out.println("Success");
-        }
+        } //
     }
 }
