@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="748.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.AdminController">
+   <children>
+      <SplitPane fx:id="adminSplitPane" dividerPositions="0.5" orientation="VERTICAL" prefHeight="748.0" prefWidth="1168.0" style="-fx-background-color: #fff4e8;">
+        <items>
+          <AnchorPane fx:id="userAnchor" minHeight="0.0" minWidth="0.0" prefHeight="331.0" prefWidth="1092.0">
+               <children>
+                  <TableView fx:id="userTV" layoutX="290.0" layoutY="14.0" prefHeight="258.0" prefWidth="582.0">
+                    <columns>
+                        <TableColumn fx:id="idNumberTableC" prefWidth="76.0" text="ID Number" />
+                        <TableColumn fx:id="firstNameColumn" prefWidth="110.0" text="First Name" />
+                      <TableColumn fx:id="lastNameTableC" prefWidth="125.0" text="Last Name" />
+                        <TableColumn fx:id="hRateTableC" prefWidth="53.0" text="H.Rate" />
+                        <TableColumn fx:id="sysAdmTableC" prefWidth="75.0" text="SysAdmin" />
+                        <TableColumn fx:id="passTableC" prefWidth="141.0" text="Password" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="291.0" layoutY="284.0" mnemonicParsing="false" onAction="#getUsers" prefHeight="25.0" prefWidth="101.0" text="Get Users" />
+                  <Text fx:id="delUserStatus" layoutX="431.0" layoutY="302.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="300.21875" />
+                  <Button layoutX="772.0" layoutY="284.0" mnemonicParsing="false" onAction="#delUser" prefWidth="101.0" text="Delete User" />
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="43.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="Add User">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="addIDTF" alignment="CENTER" layoutX="36.0" layoutY="14.0" promptText="ID Number" />
+                              <TextField fx:id="addFNTF" alignment="CENTER" layoutX="36.0" layoutY="47.0" promptText="First Name" />
+                              <TextField fx:id="addLNTX" alignment="CENTER" layoutX="36.0" layoutY="80.0" promptText="Last Name" />
+                              <TextField fx:id="addPassTF" alignment="CENTER" layoutX="36.0" layoutY="113.0" promptText="Password" />
+                              <TextField fx:id="addHRateTF" alignment="CENTER" layoutX="36.0" layoutY="146.0" promptText="H.Rate" />
+                              <Button fx:id="submitUserBTN" layoutX="36.0" layoutY="214.0" mnemonicParsing="false" onAction="#submitUserDetails" text="Submit" />
+                              <Button layoutX="129.0" layoutY="214.0" mnemonicParsing="false" onAction="#clearUserDetails" prefHeight="25.0" prefWidth="54.0" text="Clear" />
+                              <Text fx:id="addUserStatus" layoutX="34.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                              <RadioButton layoutX="123.0" layoutY="186.0" mnemonicParsing="false" onAction="#hideRate" prefHeight="18.0" prefWidth="66.0" text="Admin">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="userRights" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton layoutX="36.0" layoutY="187.0" mnemonicParsing="false" onAction="#unhideRate" text="Mechanic" toggleGroup="$userRights" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="897.0" layoutY="14.0" prefHeight="298.0" prefWidth="223.0" text="Edit User">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="242.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="eFNTF" alignment="CENTER" layoutX="37.0" layoutY="47.0" promptText="First Name" />
+                              <TextField fx:id="eIDTF" alignment="CENTER" layoutX="37.0" layoutY="14.0" promptText="ID Number" />
+                              <TextField fx:id="eLNTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Last Name" />
+                              <TextField fx:id="ePassTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="Password" />
+                              <TextField fx:id="eHRateTF" alignment="CENTER" layoutX="37.0" layoutY="146.0" promptText="H.Rate" />
+                              <Button fx:id="submitUserChangesBTN" layoutX="60.0" layoutY="213.0" mnemonicParsing="false" onAction="#submitUserChanges" text="Submit Changes" />
+                              <Text fx:id="editUserStatus" layoutX="35.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                              <RadioButton fx:id="AdminRBE" layoutX="122.0" layoutY="184.0" mnemonicParsing="false" onAction="#hideRateE" prefHeight="18.0" prefWidth="66.0" text="Admin">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="userRightsE" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="MechanicRBE" layoutX="37.0" layoutY="184.0" mnemonicParsing="false" onAction="#unhideRateE" text="Mechanic" toggleGroup="$userRightsE" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane fx:id="spcAnchor" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView fx:id="spcTV" layoutX="291.0" layoutY="42.0" prefHeight="225.0" prefWidth="582.0">
+                    <columns>
+                      <TableColumn fx:id="spcNameTableC" prefWidth="106.0" text="Name" />
+                      <TableColumn fx:id="spcAddrTableC" prefWidth="253.0" text="Address" />
+                        <TableColumn fx:id="spcEmailTableC" prefWidth="139.0" text="Email" />
+                        <TableColumn fx:id="spcPhoneTableC" prefWidth="82.0" text="Telephone" />
+                    </columns>
+                  </TableView>
+                  <Button layoutX="291.0" layoutY="275.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />
+                  <Text fx:id="delSPCStatus" layoutX="464.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.0" />
+                  <Button layoutX="772.0" layoutY="276.0" mnemonicParsing="false" onAction="#deleteSPC" prefWidth="101.0" text="Delete SPC" />
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="43.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="Add Centre">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="224.0" prefWidth="221.0">
+                           <children>
+                              <TextField fx:id="addSPCNameTF" alignment="CENTER" layoutX="36.0" layoutY="14.0" promptText="Name" />
+                              <TextField fx:id="addSPCAddrTF" alignment="CENTER" layoutX="36.0" layoutY="47.0" promptText="Address" />
+                              <TextField fx:id="addSPCPhoneTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Telephone" />
+                              <TextField fx:id="addSPCEmailTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="E-mail" />
+                              <Button fx:id="submitSPCBTN" layoutX="36.0" layoutY="162.0" mnemonicParsing="false" onAction="#submitSPCDetails" text="Submit" />
+                              <Button layoutX="131.0" layoutY="162.0" mnemonicParsing="false" onAction="#clearSPCDetails" prefHeight="25.0" prefWidth="54.0" text="Clear" />
+                              <Text fx:id="addSPCStatus" layoutX="35.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+                  <TitledPane alignment="CENTER" animated="false" collapsible="false" layoutX="904.0" layoutY="42.0" prefHeight="258.0" prefWidth="223.0" text="Edit Centre">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="208.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="editSPCNameTF" alignment="CENTER" layoutX="37.0" layoutY="14.0" promptText="Name" />
+                              <TextField fx:id="editSPCAddrTF" alignment="CENTER" layoutX="37.0" layoutY="47.0" promptText="Address" />
+                              <TextField fx:id="editSPCPhoneTF" alignment="CENTER" layoutX="37.0" layoutY="80.0" promptText="Telephone" />
+                              <TextField fx:id="editSPCEmailTF" alignment="CENTER" layoutX="37.0" layoutY="113.0" promptText="E-mail" />
+                              <Button fx:id="submitSPCChangesBTN" layoutX="60.0" layoutY="158.0" mnemonicParsing="false" onAction="#submitSPCChanges" text="Submit Changes" />
+                              <Text fx:id="editSPCStatus" layoutX="35.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="152.21875" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </TitledPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
