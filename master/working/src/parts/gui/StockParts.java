@@ -18,6 +18,7 @@ public class StockParts extends Application {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();  
+        //test
     }
     
     public static void main(String[] args){
