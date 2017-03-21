@@ -47,8 +47,8 @@
                   <TableColumn fx:id="colMech" prefWidth="135.0" text="Mechanic">
                      <columns>
                         <TableColumn fx:id="colMechID" prefWidth="60.0" text="ID" />
-                        <TableColumn fx:id="colMechLastName" prefWidth="108.0" text="First Name" />
-                        <TableColumn fx:id="colCustlastName3" prefWidth="100.0" text="Last Name" />
+                        <TableColumn fx:id="colMechFirstName" prefWidth="108.0" text="First Name" />
+                        <TableColumn fx:id="colMechLastName" prefWidth="100.0" text="Last Name" />
                         <TableColumn fx:id="colMechRate" prefWidth="50.0" text="Hourly Rate" />
                      </columns>
                   </TableColumn>

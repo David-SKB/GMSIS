@@ -4,6 +4,7 @@ import common.Authentication;
 import common.Main;
 import customers.gui.CustomerController;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,7 +42,10 @@ public class InterfaceController implements Initializable{
     private Label welcomeUser;
 
      public void spcUpdate(){
+        try{
          this.RPC.updateAnchorPane(SPCAP);
+        } catch(SQLException e){           
+        }
      }
     
     public void showWelcome(String user){

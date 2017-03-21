@@ -13,7 +13,7 @@ public class BookingTest {
     
     public static void main(String[] args){
         BookingRegistry book = BookingRegistry.getInstance();
-        if(book.deleteBooking(1)){
+        if(book.addBooking("1","1",1,"1",1,1,1)){
             System.out.println("Success");
         }
     }

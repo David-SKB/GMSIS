@@ -53,19 +53,13 @@ public class DiagRepairScreenController implements Initializable {
     @FXML
     private TableColumn<DiagRepairBooking, Integer> colID;
     @FXML
-    private TableColumn<DiagRepairBooking, String> colType;
-    @FXML
     private TableColumn<DiagRepairBooking, String> colDate;
     @FXML
+    private TableColumn<DiagRepairBooking, String> colStartTime;
+    @FXML
     private TableColumn<DiagRepairBooking, String> colDuration;
-    //@FXML
-    //private TableColumn<DiagRepairBooking, String> colVeh;
     @FXML
-    private TableColumn<DiagRepairBooking, String> colVehReg;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colVehManufacturer;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colVehMileage;
+    private TableColumn<DiagRepairBooking, String> colType;
     //@FXML
     //private TableColumn<DiagRepairBooking, String> colCust;
     @FXML
@@ -75,11 +69,23 @@ public class DiagRepairScreenController implements Initializable {
     @FXML
     private TableColumn<DiagRepairBooking, String> colCustlastName;
     //@FXML
+    //private TableColumn<DiagRepairBooking, String> colVeh;
+    @FXML
+    private TableColumn<DiagRepairBooking, String> colVehReg;
+    @FXML
+    private TableColumn<DiagRepairBooking, String> colVehManufacturer;
+    @FXML
+    private TableColumn<DiagRepairBooking, String> colVehMileage;
+    //@FXML
     //private TableColumn<DiagRepairBooking, String> colMech;
     @FXML
     private TableColumn<DiagRepairBooking, String> colMechID;
     @FXML
-    private TableColumn<DiagRepairBooking, String> colMechDuration;
+    private TableColumn<DiagRepairBooking, String> colMechFirstName;
+    @FXML
+    private TableColumn<DiagRepairBooking, String> colMechLastName;
+    @FXML
+    private TableColumn<DiagRepairBooking, String> colMechRate;
 
     private ObservableList<DiagRepairBooking> dataList;
     private DBConnection conn;
@@ -90,8 +96,8 @@ public class DiagRepairScreenController implements Initializable {
         searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Manufacturer", new Separator(), "Customer Name"));
         searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
         colID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, Integer>("ID"));
-        colType.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("type"));
-        colType.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("starttime"));
+        colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("type"));
+        colStartTime.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("starttime"));
         colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("date"));
         colDuration.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("duration"));
 
@@ -104,7 +110,9 @@ public class DiagRepairScreenController implements Initializable {
         colCustlastName.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("custLastName"));
 
         colMechID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechID"));
-        colMechDuration.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechDuration"));
+        colMechFirstName.setCellValueFactory(new PropertyValueFactory<>("mechFirstName"));
+        colMechLastName.setCellValueFactory(new PropertyValueFactory<>("mechLastName"));
+        colMechRate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechRate"));
         displayTableData(null);
     }
 
