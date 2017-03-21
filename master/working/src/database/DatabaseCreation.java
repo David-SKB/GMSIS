@@ -142,6 +142,15 @@ public class DatabaseCreation
 "	FOREIGN KEY(VEHICLEREGISTRATION) references VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
 "	FOREIGN KEY(EMPLOYEEID) references USERS(ID)\n" +
 ");\n" + 
+"/* BILLS TABLE */\n" +
+"CREATE TABLE BILLS\n" +
+"(\n" +
+"BILLID                 INTEGER            PRIMARY KEY        NOT NULL,\n" +
+"DIAGREPCOST            DECIMAL(8,2)                          NOT NULL,\n" +
+"PARTSCOST              DECIMAL(8,2)                          NOT NULL,\n" +
+"SPCCOST                DECIMAL(8,2)                          NOT NULL,\n" +
+"FOREIGN KEY(BILLID) references BOOKINGS(ID)\n" +
+");\n" + 
 "/* ADMIN USER */\n" + 
 "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM)\n" +
 " VALUES(10000,'ADMIN','GMSIS','ADMIN',NULL,'TRUE');";

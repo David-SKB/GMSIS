@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -43,6 +44,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -51,6 +53,7 @@ import javafx.util.Callback;
 import static javafx.util.Duration.seconds;
 import specialist.logic.*;
 import org.controlsfx.control.textfield.TextFields;
+import static javafx.application.Application.launch;
 
 public class RepairsController /*extends Application*/ implements Initializable
 {
@@ -177,6 +180,65 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button SPCOutstandingButton;
     @FXML private Text T1SearchErrorText;
     @FXML private Button ViewPartsButton;
+    
+    
+    /***************************************
+     * UPDATE SPC ANCHOR PANE METHOD 
+     * Modify it as you wish. 
+     * I have imported: (1) import javafx.scene.Node; (2) import javafx.scene.layout.AnchorPane;
+     * Inside your fxml I named fx:id of Pane "MainPane"
+     * You need to add the methods that update the components
+     *************************************/
+    public void updateAnchorPane(AnchorPane AP){
+        ObservableList<Node> OL = AP.getChildren();
+        Pane mainPane = null;
+        for(Node n : OL){
+            if(n instanceof Pane &&
+              (n.getId().equalsIgnoreCase("MainPane"))){
+                mainPane = (Pane)n;
+            }
+        }
+        if(mainPane != null){
+            OL = mainPane.getChildren();
+            TableView<SearchMain> mainTable = null;
+            TableView<OutstandingMain> outstandingT = null;
+            ComboBox cBox = null;
+            TableView<ListSPC> spcListTable = null;
+
+            for(Node n : OL){       //Loop to find all the children that will be updated
+                if(n instanceof TableView &&
+                  (n.getId().equalsIgnoreCase("MainTable"))){
+                    mainTable = (TableView<SearchMain>)n;
+                }else if(n instanceof TableView &&
+                        (n.getId().equalsIgnoreCase("OutstandingTable"))){
+                    outstandingT = (TableView<OutstandingMain>)n;
+                }else if(n instanceof TitledPane &&
+                        (n.getId().equalsIgnoreCase("SendVehicle"))){
+                        TitledPane temp = (TitledPane)n;
+                        if(temp != null){
+                            ObservableList<Node> tempOL = ((AnchorPane)temp.getContent()).getChildren();
+                                for(Node n2 : tempOL){
+                                    if(n2 instanceof ComboBox &&
+                                      (n2.getId().equalsIgnoreCase("SPCIDVehicle"))){
+                                        cBox = (ComboBox)n2;
+                                    }
+                                }
+                        }
+                }else if(n instanceof TableView &&
+                        (n.getId().equalsIgnoreCase("SPCListTable"))){
+                    spcListTable = (TableView<ListSPC>)n;
+                }
+            }
+
+            if(mainTable != null &&
+               outstandingT != null &&
+               cBox != null &&
+               spcListTable != null){
+                //CALL METHODS THAT UPDATE COMPONENT
+                // I.E updateMainTable(); updateOutstandingTable(); updateComboBox();
+            }
+        }
+    }
     
     //
     //todo: do refresh on tab click

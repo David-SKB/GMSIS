@@ -13,6 +13,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import specialist.gui.RepairsController;
 
 /**
  *
@@ -29,13 +30,19 @@ public class InterfaceController implements Initializable{
     @FXML
     private AnchorPane customerAP;
     @FXML
+    private AnchorPane SPCAP;
+    @FXML
+    private RepairsController RPC = new RepairsController();
+    @FXML
     private AdminController adminController = new AdminController();
     @FXML
     private AnchorPane adminAP;
     @FXML
     private Label welcomeUser;
 
-    
+     public void spcUpdate(){
+         this.RPC.updateAnchorPane(SPCAP);
+     }
     
     public void showWelcome(String user){
         welcomeUser.setText("Welcome, " + user + "!");
