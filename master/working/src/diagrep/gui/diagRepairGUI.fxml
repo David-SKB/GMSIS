@@ -26,30 +26,30 @@
             <TableView fx:id="diagrepTable" prefHeight="504.0" prefWidth="1234.0">
               <columns>
                 <TableColumn fx:id="colID" prefWidth="48.999969482421875" text="ID" />
-                  <TableColumn fx:id="colType" prefWidth="96.0" text="Date" />
-                  <TableColumn fx:id="colType1" prefWidth="83.0" text="Start Time" />
-                <TableColumn fx:id="colDate" prefWidth="72.0" text="Duration" />
-                  <TableColumn fx:id="colDuration" prefWidth="94.0" text="Type" />
-                  <TableColumn fx:id="colVeh" prefWidth="487.0" text="Customer">
+                  <TableColumn fx:id="colDate" prefWidth="96.0" text="Date" />
+                  <TableColumn fx:id="colStartTime" prefWidth="83.0" text="Start Time" />
+                <TableColumn fx:id="colDuration" prefWidth="72.0" text="Duration" />
+                  <TableColumn fx:id="colType" prefWidth="94.0" text="Type" />
+                  <TableColumn fx:id="colCust" prefWidth="487.0" text="Customer">
                      <columns>
                         <TableColumn fx:id="colCustID" prefWidth="63.0" text="ID" />
                         <TableColumn fx:id="colCustfirstName" prefWidth="128.0" text="First Name" />
                         <TableColumn fx:id="colCustlastName" prefWidth="130.0" text="Last Name" />
                      </columns>
                   </TableColumn>
-                  <TableColumn fx:id="colCust" prefWidth="335.0" text="Vehicle ID">
+                  <TableColumn fx:id="colVeh" prefWidth="335.0" text="Vehicle ID">
                      <columns>
                         <TableColumn fx:id="colVehReg" prefWidth="100.0" text="Reg. No." />
                         <TableColumn fx:id="colVehManufacturer" prefWidth="84.0" text="Manufacturer" />
                         <TableColumn fx:id="colVehMileage" prefWidth="66.0" text="Mileage" />
                      </columns>
                   </TableColumn>
-                  <TableColumn prefWidth="135.0" text="Mechanic">
+                  <TableColumn fx:id="colMech" prefWidth="135.0" text="Mechanic">
                      <columns>
-                        <TableColumn fx:id="colCustlastName1" prefWidth="64.0" text="ID" />
-                        <TableColumn fx:id="colCustlastName2" prefWidth="116.0" text="First Name" />
-                        <TableColumn fx:id="colCustlastName3" prefWidth="270.0" text="Last Name" />
-                        <TableColumn fx:id="colCustlastName4" prefWidth="150.0" text="Hourly Rate" />
+                        <TableColumn fx:id="colMechID" prefWidth="60.0" text="ID" />
+                        <TableColumn fx:id="colMechLastName" prefWidth="108.0" text="First Name" />
+                        <TableColumn fx:id="colCustlastName3" prefWidth="100.0" text="Last Name" />
+                        <TableColumn fx:id="colMechRate" prefWidth="50.0" text="Hourly Rate" />
                      </columns>
                   </TableColumn>
               </columns>

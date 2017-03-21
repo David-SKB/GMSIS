@@ -3,7 +3,6 @@ package diagrep.gui;
 import common.DBConnection;
 import common.Main;
 import diagrep.gui.AddWindowController;
-import diagrep.gui.EditWindowController;
 import diagrep.logic.Booking;
 import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
@@ -92,6 +91,7 @@ public class DiagRepairScreenController implements Initializable {
         searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
         colID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, Integer>("ID"));
         colType.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("type"));
+        colType.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("starttime"));
         colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("date"));
         colDuration.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("duration"));
 

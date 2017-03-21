@@ -28,13 +28,7 @@
                   
                </content>
                <content>
-                  
-               </content>
-               <content>
-                  
-               </content>
-               <content>
-
+                  <fx:include source="../../diagrep/gui/diagRepairGUI.fxml" />
                </content>
             </Tab>
             <Tab text="Parts">
