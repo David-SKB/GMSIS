@@ -38,7 +38,6 @@ public class VehicleRegistry {
        while( rs.next() ){
         int idCheck = rs.getInt("ID");
          if(id == idCheck){
-                       System.out.println("true");
           return true;   
          }
       }
