@@ -83,7 +83,7 @@ public class StockPartsController implements Initializable {
             partCostTextArea, partStockLevelTextArea;
     
     @FXML 
-    private DatePicker deliveryDatePicker;
+    private DatePicker deliveryDatePicker, deliveryDatePickerQuantity;
     
     //used parts gui
     @FXML
@@ -170,6 +170,7 @@ public class StockPartsController implements Initializable {
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedPart.getName());  
         partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        
         loadAllParts();
     }
     
@@ -179,7 +180,7 @@ public class StockPartsController implements Initializable {
         int cost = Integer.parseInt(partCostTextArea.getText());
         String quantity = partStockLevelTextArea.getText();
         partR.addPart(name, description, cost);
-        
+        partR.addDelivery(partR.searchStockParts(name, "NAME").get(0).getID(),Integer.parseInt(quantity),  java.sql.Date.valueOf(deliveryDatePicker.getValue()));
         loadAllParts();
     }
     

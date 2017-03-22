@@ -127,6 +127,16 @@ public class PartRegistry {
         conn.closeConnection();
         return success;
     }
+    //Add delivery
+    public void addDelivery(int partID, int quantity, Date date){
+        conn = DBConnection.getInstance();
+        //delete from database
+        conn.connect();
+        String query = "INSERT INTO DELIVERIES VALUES (partID, quantity, date);";
+        conn.update(query);
+        conn.closeConnection();
+    }
+    
     //search for all parts used to repair a vehicle
     //can search by vehicle or customer
     public ArrayList<Part> searchStockParts(String id, String searchBy){

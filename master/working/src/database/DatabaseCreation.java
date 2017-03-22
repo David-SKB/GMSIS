@@ -95,6 +95,13 @@ public class DatabaseCreation
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE NO ACTION\n" +
 ");\n" +
+"CREATE TABLE DELIVERIES (\n" +
+"  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
+"  PARTID            INT                     NOT NULL,\n" +
+"  QUANTITY          INT                     NOT NULL,\n" +
+"  DELIVERYDATE      DATE                    NOT NULL,\n" +
+"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID)\n" +
+");\n" +
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
 "(\n" +
