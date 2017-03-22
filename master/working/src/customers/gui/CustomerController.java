@@ -553,7 +553,7 @@ public class CustomerController implements Initializable{
         if(c != null){
             Parent root;
             try{
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../CustomerBills.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./CustomerBills.fxml"));
                 root = (Parent)fxmlLoader.load();
                 CustomerBillsController CVC = fxmlLoader.<CustomerBillsController>getController();
                 int ID = CR.getCustomerID(c.getPhone(), c.getEmail());
