@@ -54,6 +54,8 @@ import static javafx.util.Duration.seconds;
 import specialist.logic.*;
 import org.controlsfx.control.textfield.TextFields;
 import static javafx.application.Application.launch;
+import javafx.scene.control.TableRow;
+import javafx.scene.input.MouseButton;
 
 public class RepairsController /*extends Application*/ implements Initializable
 {
@@ -115,7 +117,6 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private TableColumn T1ExpDel;
     @FXML private TableColumn T1ExpRet;
     @FXML private TableColumn T1Cost;
-    @FXML private TableColumn T1Type;
     @FXML private Text T1Header;
     
     //Parts Table Pane T2
@@ -175,12 +176,10 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Text AddErrorPart;
     @FXML private Text EditErrorPart;
     @FXML private Text SPCError;
+    @FXML private Text OutstandingError;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
-    @FXML private Button SPCVehicleButton;
-    @FXML private Text T1SearchErrorText;
     @FXML private Button ViewPartsButton;
-    
     
     /***************************************
      * UPDATE SPC ANCHOR PANE METHOD 
@@ -189,49 +188,79 @@ public class RepairsController /*extends Application*/ implements Initializable
      * Inside your fxml I named fx:id of Pane "MainPane"
      * You need to add the methods that update the components
      *************************************/
-    public void updateAnchorPane(AnchorPane AP) throws SQLException{
+    public void updateAnchorPane(AnchorPane AP) throws SQLException
+    {
         ObservableList<Node> OL = AP.getChildren();
         Pane mainPane = null;
-        for(Node n : OL){
-            if(n instanceof Pane &&
-              (n.getId().equalsIgnoreCase("MainPane"))){
+        for(Node n : OL)
+        {
+            if(n instanceof Pane && (n.getId().equalsIgnoreCase("MainPane")))
+            {
                 mainPane = (Pane)n;
             }
         }
-        if(mainPane != null){
+        if(mainPane != null)
+        {
             OL = mainPane.getChildren();            
             TableView<OutstandingMain> outstandingT = null;
             TableView<ListSPC> spcListTable = null;
-
-            for(Node n : OL){       //Loop to find all the children that will be updated
-                if(n instanceof TableView &&
-                        (n.getId().equalsIgnoreCase("OutstandingTable"))){
+            Text SPCErrorTemp = null;
+            Text OutstandingErrorTemp = null;
+            for(Node n : OL)//Loop to find all the children that will be updated
+            {       
+                if(n.getId() == null)
+                {
+                    //Avoid
+                }
+                else if(n instanceof TableView && (n.getId().equalsIgnoreCase("OutstandingTable")))
+                {
                     outstandingT = (TableView<OutstandingMain>)n;
-                }else if(n instanceof TitledPane &&
-                        (n.getId().equalsIgnoreCase("SendVehicle"))){
-                        TitledPane temp = (TitledPane)n;
-                        if(temp != null){
-                            ObservableList<Node> tempOL = ((AnchorPane)temp.getContent()).getChildren();
-                        }
-                }else if(n instanceof TableView &&
-                        (n.getId().equalsIgnoreCase("SPCListTable"))){
+                }
+                else if(n instanceof TableView && (n.getId().equalsIgnoreCase("SPCListTable")))
+                {
                     spcListTable = (TableView<ListSPC>)n;
                 }
+                else if(n instanceof Text && (n.getId().equalsIgnoreCase("SPCError")))
+                {
+                    SPCErrorTemp = (Text)n;
+                }
+                else if(n instanceof Text && (n.getId().equalsIgnoreCase("OutstandingError")))
+                {
+                    OutstandingErrorTemp = (Text)n;
+                }
             }
-            if(outstandingT != null &&
-               spcListTable != null){
+            if(outstandingT != null && spcListTable != null && SPCErrorTemp !=null & OutstandingErrorTemp !=null)
+            {
                 //CALL METHODS THAT UPDATE COMPONENT
                 ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
                 outstandingT.setItems(VehicleList);
-                
                 ObservableList<ListSPC> SPCList = repairs.getSPCList();
-                spcListTable.setItems(SPCList);
+                if (SPCList.isEmpty())
+                {
+                    spcListTable.setItems(null);
+                    SPCErrorTemp.setFill(Color.RED);
+                    SPCErrorTemp.setText("No Centres Found");
+                }
+                else
+                {
+                    
+                    SPCErrorTemp.setText("");
+                    spcListTable.setItems(SPCList);
+                }
+                
+                if (outstandingT.getItems().isEmpty())
+                {
+                    OutstandingErrorTemp.setText("No Repairs Found");
+                }
+                else
+                {
+                    OutstandingErrorTemp.setText("");
+                }
             }
         }
     }
-    
     //
-    //todo:
+    //todo: nada
     //******************************************************
     @FXML private void SubmitVehicle() throws SQLException 
     {
@@ -242,10 +271,8 @@ public class RepairsController /*extends Application*/ implements Initializable
             ClearAddVehicle();
             if (added)
             {
-                AddError.setFill(Color.GREEN);
-                AddErrMsg("Vehicle Sent");
+                EC.TimedMsgGREEN(AddError, "Vehicle Sent");
                 LoadOutstanding();
-
             }
         }
     }
@@ -260,9 +287,8 @@ public class RepairsController /*extends Application*/ implements Initializable
             ClearAddPart();
             if (added)
             {
-                added = repairs.removeStock(PartID);//removes one stock for the part sent
-                AddErrorPart.setFill(Color.GREEN);
-                AddErrMsgPart("Part Sent");
+                EC.TimedMsgGREEN(AddErrorPart, "Part Sent");
+                repairs.removeStock(PartID);//removes one stock for the part sent
                 LoadOutstanding();
             }
         }
@@ -272,7 +298,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         if (ValidateEditVehicle())
         {
-            //get repair id of row to edit
+            //get repair ID of row to edit
             int RepairID = MainTable.getSelectionModel().getSelectedItem().getT1IDX();
             boolean added  = repairs.editVehicle(RegNoVehicle2.getText(), repairs.getSPCID(SPCIDVehicle2.getValue().toString()), EC.toDate(ExpDelVehicle2), EC.toDate(ExpRetVehicle2), Double.parseDouble(CostVehicle2.getText()), RepairID);
             //refresh table
@@ -280,11 +306,9 @@ public class RepairsController /*extends Application*/ implements Initializable
             RepairSearchHandler();
             ClearEditVehicle();
             EditVehicle.setDisable(true);
-            EditError.setVisible(false);
             if (added)
             {
-                EditError.setFill(Color.GREEN);
-                EditErrMsg("Vehicle Updated");
+                EC.TimedMsgGREEN(EditError, "Vehicle Updated");
                 LoadOutstanding();
             }
         }
@@ -294,7 +318,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         if (ValidateEditPart())
         {
-            //get repair id of row to edit
+            //get repair ID of row to edit
             int RepairID = PartsTable.getSelectionModel().getSelectedItem().getT2IDX();
             boolean added  = repairs.editPart(RegNoPart2.getText(), repairs.getPartID(IDPart2.getValue().toString()), repairs.getSPCID(SPCIDPart2.getValue().toString()), EC.toDate(ExpDelPart2), EC.toDate(ExpRetPart2), RepairID);
             //refresh table
@@ -302,11 +326,9 @@ public class RepairsController /*extends Application*/ implements Initializable
             HandleViewParts();
             ClearEditPart();
             EditVehicle.setDisable(true);
-            EditError.setVisible(false);
             if (added)
             {
-                EditErrorPart.setFill(Color.GREEN);
-                EditErrMsgPart("Part Updated");
+                EC.TimedMsgGREEN(EditErrorPart, "Part Updated");
                 LoadOutstanding();
             }
         }
@@ -359,11 +381,10 @@ public class RepairsController /*extends Application*/ implements Initializable
             CostVehicle.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
         }
-        //***********************************
+        //********************************************************
         if (valid == false)
         {
-            AddError.setFill(Color.RED);
-            AddErrMsg("Invalid Input");
+            EC.TimedMsgRED(AddError, "Invalid Input");
             return false;
         }
         ClearAddVStyles();
@@ -406,11 +427,10 @@ public class RepairsController /*extends Application*/ implements Initializable
             valid = false;
             ExpRetPart.setStyle("-fx-border-color: #ff1e1e;");
         }
-        //***********************************
+        //****************************************************
         if (valid == false)
         {
-            AddErrorPart.setFill(Color.RED);
-            AddErrMsgPart("Invalid Input");
+            EC.TimedMsgRED(AddErrorPart, "Invalid Input");
             return false;
         }
         ClearAddPStyles();
@@ -471,15 +491,13 @@ public class RepairsController /*extends Application*/ implements Initializable
             CostVehicle2.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
         }
-        //***********************************
+        //**********************************************************
         if (valid == false)
         {
-            EditError.setFill(Color.RED);
-            EditErrMsg("Invalid Input");
+            EC.TimedMsgRED(EditError, "Invalid Input");
             return false;
         }
         ClearAddUVStyles();
-        EditError.setDisable(true);
         return true;
     }
     
@@ -519,11 +537,10 @@ public class RepairsController /*extends Application*/ implements Initializable
             valid = false;
             ExpRetPart2.setStyle("-fx-border-color: #ff1e1e;");
         }
-        //***********************************
+        //*****************************************************
         if (valid == false)
         {
-            EditErrorPart.setFill(Color.RED);
-            EditErrMsgPart("Invalid Input");
+            EC.TimedMsgRED(EditErrorPart, "Invalid Input");
             return false;
         }
         ClearAddUPStyles();
@@ -615,12 +632,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     }
     
     @FXML private void DisplaySPC() throws SQLException
-    {
-        T3ID.setCellValueFactory(
-                new PropertyValueFactory<Repairs, Integer>("T3IDX"));
-        T3SPC.setCellValueFactory(
-                new PropertyValueFactory<Repairs, String>("T3SPCX"));
-        
+    { 
         ObservableList<ListSPC> SPCList = repairs.getSPCList();
         if (SPCList.isEmpty())
         {
@@ -648,6 +660,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             }
         PartsTable.setVisible(false);
         T2Header.setVisible(false);
+        
         MainTable.setVisible(true);
         T1Header.setVisible(true);
         EditVehicle.setDisable(true);
@@ -680,16 +693,14 @@ public class RepairsController /*extends Application*/ implements Initializable
             
         if (EC.isPlate(RegSearch.getText()) == false)
         {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Invalid Plate");
+            EC.TimedMsgRED(T1SearchError, "Invalid Plate");
         }
         else
         {
             ObservableList<SearchMain> resultList = repairs.searchReg(RegSearch.getText());
             if(resultList.isEmpty())
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("No Results Found");
+                EC.TimedMsgRED(T1SearchError, "No Results Found");
             }
             MainTable.setItems(resultList);
         }
@@ -717,8 +728,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         if (EC.isAlphanumeric(FirstNameSearch.getText()) == false || EC.isAlphanumeric(LastNameSearch.getText()) == false)
         {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Invalid Name");
+            EC.TimedMsgRED(T1SearchError, "Invalid Name");
             
         }
         else
@@ -728,11 +738,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             if(resultList.isEmpty())
             {
                 T1SearchError.setFill(Color.RED);
-                RepairErrMsg("No Results Found");
-            }
-            else
-            {
-                //T1SearchError.setVisible(false);
+                EC.TimedMsgRED(T1SearchError, "No Results Found");
             }
             MainTable.setItems(resultList);
         }
@@ -761,15 +767,18 @@ public class RepairsController /*extends Application*/ implements Initializable
             
         ObservableList<SearchMain> resultList = repairs.searchSPC(SPCID);
         MainTable.setItems(resultList);
+        if (resultList.isEmpty())
+        {
+            EC.TimedMsgRED(T1SearchError, "No Results Found");
+        }
     }
     
-    @FXML private void getCustomerByReg(String RegNo) throws SQLException
+    @FXML private boolean getCustomerByReg(String RegNo) throws SQLException
     {
         Customer CustomerDetails = repairs.searchCustomerWithReg(RegNo);
         if (CustomerDetails == null)
         {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Customer Not Found");
+            return false;
         }
         else
         {
@@ -780,10 +789,11 @@ public class RepairsController /*extends Application*/ implements Initializable
             PhoneCustomer.setText((CustomerDetails.getPhone()));
             EmailCustomer.setText((CustomerDetails.getEmail()));
             CTypeCustomer.setText((CustomerDetails.getCustomerType()));
+            return true;
         }
     }
     
-    @FXML private void VehicleDetails(String regNo) throws SQLException
+    @FXML private boolean VehicleDetails(String regNo) throws SQLException
     {
         T4Reg.setCellValueFactory(
                 new PropertyValueFactory<SearchReg, Integer>("T4REGX"));
@@ -800,23 +810,15 @@ public class RepairsController /*extends Application*/ implements Initializable
         
         ObservableList<DisplayVehicle> vehicleInfo = repairs.getVehicle(regNo);
         VehicleTable.setItems(vehicleInfo);
+        if (vehicleInfo.isEmpty())
+        {
+            return false;
+        }
+        return true;
     }
     
     @FXML private void LoadOutstanding() throws SQLException
     {
-        /*T5RegID.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5REGNOX"));
-        T5ExpDel.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5EXPDELX"));
-        T5ExpRet.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5EXPRETX"));
-        T5Cost.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, Integer>("T5COSTX"));
-        T5Type.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5TYPEX"));
-        T5SPCID.setCellValueFactory(
-                new PropertyValueFactory<OutstandingMain, String>("T5SPCNAMEX"));*/
-        
         ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
         OutstandingTable.setItems(VehicleList);
     }
@@ -832,35 +834,37 @@ public class RepairsController /*extends Application*/ implements Initializable
             try 
             {
                 VehicleDetails(regNo);
+                VehicleTable.setVisible(true);
             } 
             catch (SQLException ex) 
             {
                 vehicle = false;
+                VehicleTable.setVisible(false);
             }
             try 
             {
                 getCustomerByReg(regNo);
+                CustomerPane.setVisible(true);
+                
             } 
             catch (SQLException ex) 
             {
                 customer = false;
+                CustomerPane.setVisible(false);
             }
 
             if (customer == false & vehicle == true)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Customer Not Found");
+                EC.TimedMsgRED(T1SearchError, "Customer Not Found");
             }
             else if (customer == true & vehicle == false)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Vehicle Not Found");
+                EC.TimedMsgRED(T1SearchError, "Vehicle Not Found");
             }
 
             else if (customer == false & vehicle == false)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Vehicle/Customer Not Found");
+                EC.TimedMsgRED(T1SearchError, "Vehicle/Customer Not Found");
             }
             RepairEditButton.setDisable(false);
             RepairDeleteButton.setDisable(false);
@@ -869,19 +873,15 @@ public class RepairsController /*extends Application*/ implements Initializable
     }
     
     @FXML private void SPCRowClick() 
-    {/*
-        int SPCID = SPCListTable.getSelectionModel().getSelectedItem().getT3IDX();
-        System.out.println(SPCID);
-        
-        try 
+    {
+        if (SPCListTable.getSelectionModel().getSelectedItem() !=null)
         {
-            SearchBySPC(SPCID);
-        } 
-        catch (SQLException ex) 
+            ListSPCVehicles();
+        }
+        else
         {
-            System.out.println("Select something fool");
-        }*/
-        SPCVehicleButton.setDisable(false);
+            EC.TimedMsgRED(SPCError, "Select a row to view vehicles");
+        }
     }
     
     @FXML private void HandleDelete() throws SQLException 
@@ -890,8 +890,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (MainTable.getSelectionModel().getSelectedItem() == null)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Please Select a Row");
+                EC.TimedMsgRED(T1SearchError, "Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
                 ViewPartsButton.setDisable(true);
@@ -913,8 +912,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 EditVehicle.setDisable(true);
                 if (success)
                 {
-                   T1SearchError.setFill(Color.GREEN);
-                    RepairErrMsg("Delete Successful");
+                    EC.TimedMsgGREEN(T1SearchError, "Delete Successful");
                     if (SearchedBySPC)
                     {
                         JustDeleted = true;
@@ -934,8 +932,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (PartsTable.getSelectionModel().getSelectedItem() == null)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Please Select a Row");
+                EC.TimedMsgRED(T1SearchError, "Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
                 ViewPartsButton.setDisable(true);
@@ -958,8 +955,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 EditPart.setDisable(true);
                 if (success)
                 {
-                   T1SearchError.setFill(Color.GREEN);
-                    RepairErrMsg("Delete Successful");
+                    EC.TimedMsgGREEN(T1SearchError, "Delete Successful");
                 }
             } else 
             {
@@ -974,8 +970,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (MainTable.getSelectionModel().getSelectedItem() == null)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Please Select a Row");
+                EC.TimedMsgRED(T1SearchError, "Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
                 ViewPartsButton.setDisable(true);
@@ -1002,8 +997,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         {
             if (PartsTable.getSelectionModel().getSelectedItem() == null)
             {
-                T1SearchError.setFill(Color.RED);
-                RepairErrMsg("Please Select a Row");
+                EC.TimedMsgRED(T1SearchError, "Please Select a Row");
                 RepairEditButton.setDisable(true);
                 RepairDeleteButton.setDisable(true);
                 return;
@@ -1040,7 +1034,6 @@ public class RepairsController /*extends Application*/ implements Initializable
             PartsTable.setVisible(true);
             T2Header.setVisible(true);
             //do stuff
-
             T2RegNo.setCellValueFactory(
                     new PropertyValueFactory<RepairParts, String>("T2REGNOX"));
             T2Name.setCellValueFactory(
@@ -1061,22 +1054,19 @@ public class RepairsController /*extends Application*/ implements Initializable
         }
         else
         {
-            T1SearchError.setFill(Color.RED);
             ViewPartsButton.setDisable(true);
             RepairEditButton.setDisable(true);
             RepairDeleteButton.setDisable(true);
-            RepairErrMsg("Please Select a Row"); 
+            EC.TimedMsgRED(T1SearchError, "Please Select a Row"); 
         }
         
     }
     
     @FXML private void HandleCustomer() throws SQLException 
     {
-        
         if (MainTable.getSelectionModel().getSelectedItem() == null)
         {
-            T1SearchError.setFill(Color.RED);
-            RepairErrMsg("Please Select a Row");
+            EC.TimedMsgRED(T1SearchError, "Please Select a Row");
             RepairEditButton.setDisable(true);
             RepairDeleteButton.setDisable(true);
             return;
@@ -1107,113 +1097,17 @@ public class RepairsController /*extends Application*/ implements Initializable
         } 
         catch (SQLException ex) 
         {
-            System.out.println("spc error saying to select a row");
+            EC.TimedMsgRED(SPCError, "Please Select a Row");
         }
         MainTable.setVisible(true);
+        T1Header.setVisible(true);
+        
         PartsTable.setVisible(false);
-        SPCVehicleButton.setDisable(true);
+        T2Header.setVisible(false);
+        
         RepairEditButton.setDisable(true);
         RepairDeleteButton.setDisable(true);
         ViewPartsButton.setDisable(true);
-    }
-    
-    @FXML private void TestFunction() throws SQLException
-    {
-        //
-    }
-    
-    /*public static void main (String args[]) throws Exception
-    {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage window) throws Exception 
-    {
-        Parent root = FXMLLoader.load( getClass().getResource("repairs.fxml") );
-        Scene scene = new Scene(root,1168,748);
-        window.setScene(scene);
-        window.show();
-    }*/
-    
-    @FXML private void RepairErrMsg(String msg)
-    {
-        T1SearchError.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
-                {
-                    T1SearchError.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
-    }
-    
-    @FXML private void AddErrMsg(String msg)
-    {
-        AddError.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
-                {
-                    AddError.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
-    }
-    
-    @FXML private void AddErrMsgPart(String msg)
-    {
-        AddErrorPart.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
-                {
-                    AddErrorPart.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
-    }
-    
-    @FXML private void EditErrMsg(String msg)
-    {
-        EditError.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
-                {
-                    EditError.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
-    }
-    
-    @FXML private void EditErrMsgPart(String msg)
-    {
-        EditErrorPart.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
-                {
-                    EditErrorPart.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
     }
     
     @FXML private void LoadComboListSPC() throws SQLException
@@ -1232,7 +1126,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         IDPart2.setItems(PartIDList);
     }
     
-    @FXML private void DPUpdateAV()
+    @FXML private void DPUpdateAV()//Date Picker Restriction for Add Vehicle
     {
         if (ExpDelVehicle.getValue() != null)
         {
@@ -1247,7 +1141,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         
     }
     
-    @FXML private void DPUpdateAP()
+    @FXML private void DPUpdateAP()//Date Picker Restriction for Add Part
     {
         if (ExpDelPart.getValue() != null)
         {
@@ -1261,7 +1155,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         }
     }
     
-    @FXML private void DPUpdateUV()
+    @FXML private void DPUpdateUV()//Date Picker Restriction for Update Vehicle
     {
         if (ExpDelVehicle2.getValue() != null)
         {
@@ -1274,7 +1168,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         }
     }
 
-    @FXML private void DPUpdateUP()
+    @FXML private void DPUpdateUP()//Date Picker Restriction for Update Part
     {
         if (ExpDelPart2.getValue() != null)
         {
@@ -1291,7 +1185,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) 
     {
-        //Initialise Outstanding Table
+        //Initialise Outstanding Repairs Table
         T5RegID.setCellValueFactory(
                 new PropertyValueFactory<OutstandingMain, String>("T5REGNOX"));
         T5ExpDel.setCellValueFactory(
@@ -1310,19 +1204,12 @@ public class RepairsController /*extends Application*/ implements Initializable
                 new PropertyValueFactory<Repairs, Integer>("T3IDX"));
         T3SPC.setCellValueFactory(
                 new PropertyValueFactory<Repairs, String>("T3SPCX"));
-        try 
-        {
-            LoadComboListSPC();
-            LoadComboListPart();
-            //DisplaySPC();//needs tab refresh fucntion first
-            ExpDelVehicle.setDayCellFactory(DCF);
-            ExpDelPart.setDayCellFactory(DCF);
-            ExpRetVehicle.setDayCellFactory(DCF);
-            ExpRetPart.setDayCellFactory(DCF);
-        } catch (SQLException ex) 
-        {
-            Logger.getLogger(RepairsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //Set DatePicker Restrictions
+        ExpDelVehicle.setDayCellFactory(DCF);
+        ExpDelPart.setDayCellFactory(DCF);
+        ExpRetVehicle.setDayCellFactory(DCF);
+        ExpRetPart.setDayCellFactory(DCF);
+        //Set Number Restriction
         EC.SetNumberRestriction(CostVehicle);
         EC.SetNumberRestriction(CostVehicle2);
         //Autocomplete stuff
@@ -1342,19 +1229,18 @@ public class RepairsController /*extends Application*/ implements Initializable
             TextFields.bindAutoCompletion(RegNoPart, VehicleList);
         }
     }
-    
+    //DatePicker Stuff
     private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
     {
         @Override
-        public void updateItem( LocalDate item , boolean empty )
+        public void updateItem(LocalDate item , boolean empty)
         {
-            super.updateItem( item , empty );
-            
+            super.updateItem(item ,empty);
             // disables all past dates + colours them red
             if (item.isBefore(LocalDate.now()))
             {
                 this.setDisable (true)                        ;
-                this.setStyle(" -fx-background-color: #FFD3D3; ") ;
+                this.setStyle("-fx-background-color: #FFD3D3;") ;
             }
         }
     };
@@ -1364,15 +1250,27 @@ public class RepairsController /*extends Application*/ implements Initializable
         @Override
         public void updateItem(LocalDate item , boolean empty)
         {
-            // Must call super
             super.updateItem(item, empty);
-            
             // disable all past dates + colours them red
             if (item.isBefore(Selection))
             {
                 this.setDisable (true)                        ;
-                this.setStyle(" -fx-background-color: #FFD3D3; ") ;
+                this.setStyle("-fx-background-color: #FFD3D3;") ;
             }
         } 
     };  
+    
+    /*public static void main (String args[]) throws Exception
+    {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage window) throws Exception 
+    {
+        Parent root = FXMLLoader.load(getClass().getResource("repairs.fxml"));
+        Scene scene = new Scene(root,1168,748);
+        window.setScene(scene);
+        window.show();
+    }*/
 }

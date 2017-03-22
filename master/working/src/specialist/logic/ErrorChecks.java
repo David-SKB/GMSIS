@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Timer;
 import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
@@ -210,19 +212,24 @@ public class ErrorChecks
     */
     public void TimedMsgRED(Text TextObject, String msg)
     {
-        TextObject.setFill(Color.RED);
-        TextObject.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
+        //If Message is active
+        if (TextObject.getText().equals(""))
+        {
+            TextObject.setFill(Color.GREEN);
+            TextObject.setText(msg);
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() 
                 {
-                    TextObject.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
+                    public void run() 
+                    {
+                        TextObject.setText("");
+                        timer.cancel();// Terminate the thread
+                    }
+                }, 2000
+                );
+        }
+        
     }
     
     /**
