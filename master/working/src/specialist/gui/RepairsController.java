@@ -174,6 +174,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Text EditError;
     @FXML private Text AddErrorPart;
     @FXML private Text EditErrorPart;
+    @FXML private Text SPCError;
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
     @FXML private Button SPCVehicleButton;
@@ -621,7 +622,14 @@ public class RepairsController /*extends Application*/ implements Initializable
                 new PropertyValueFactory<Repairs, String>("T3SPCX"));
         
         ObservableList<ListSPC> SPCList = repairs.getSPCList();
-        SPCListTable.setItems(SPCList);
+        if (SPCList.isEmpty())
+        {
+            EC.TimedMsgRED(SPCError, "No Centres Found");
+        }
+        else
+        {
+            SPCListTable.setItems(SPCList);
+        }
     }
     
     @FXML private void RepairSearchHandler() throws SQLException

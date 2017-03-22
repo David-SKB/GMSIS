@@ -26,6 +26,7 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import vehicles.logic.VehicleRegistry;
 
 public class EditWindowController implements Initializable {
 
@@ -43,6 +44,8 @@ public class EditWindowController implements Initializable {
     private TextField entryDuration;
     @FXML
     private ChoiceBox entryReg;
+    @FXML
+    private TextField entryMileage;
     @FXML
     private ChoiceBox entryCustomer;
     @FXML
@@ -76,6 +79,7 @@ public class EditWindowController implements Initializable {
         entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         entryTime.setText(line[1]);
         entryDuration.setText(entry.getBookingDuration());
+        entryMileage.setText(entry.getMilage());
         try {
             ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
             ResultSet rsV = conn.query("SELECT REGISTRATION FROM VEHICLE ORDER BY VehicleRegNo;");
@@ -108,12 +112,15 @@ public class EditWindowController implements Initializable {
     @FXML
     private void editEntry(ActionEvent event) {
         BookingRegistry BR = BookingRegistry.getInstance();
+        VehicleRegistry VR = VehicleRegistry.getInstance();
         String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
         String[] custData = lineC.split("[\\s,:]+");
         String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
         String[] mechData = lineM.split("[\\s,:]+");
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        BR.addBooking(date, entryTime.getText(), Integer.parseInt(entryDuration.getText()), (String) entryType.getSelectionModel().getSelectedItem(), Integer.parseInt(custData[0]), (int) entryReg.getSelectionModel().getSelectedItem(), Integer.parseInt(mechData[0]));
+        String ID = BR.findID(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(),custData[0], (String) entryReg.getSelectionModel().getSelectedItem(), mechData[0]);
+        BR.editBooking(ID, date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(),custData[0], (String) entryReg.getSelectionModel().getSelectedItem(), entryMileage.getText(), mechData[0]);
+        VR.changeMileage((String) entryReg.getSelectionModel().getSelectedItem());
         parentController.reset();
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();

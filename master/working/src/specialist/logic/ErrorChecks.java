@@ -14,6 +14,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.apache.commons.validator.*;
@@ -205,10 +206,31 @@ public class ErrorChecks
     }
     
     /**
-    * Displays a given message to a given JavaFX Text object for 2 seconds
+    * Displays a given message to a given JavaFX Text object for 2 seconds in RED
     */
-    public void TimedMsg(Text TextObject, String msg)
+    public void TimedMsgRED(Text TextObject, String msg)
     {
+        TextObject.setFill(Color.RED);
+        TextObject.setText(msg);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    TextObject.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
+    }
+    
+    /**
+    * Displays a given message to a given JavaFX Text object for 2 seconds in GREEN
+    */
+    public void TimedMsgGREEN(Text TextObject, String msg)
+    {
+        TextObject.setFill(Color.GREEN);
         TextObject.setText(msg);
         Timer timer = new Timer();
             timer.schedule( 

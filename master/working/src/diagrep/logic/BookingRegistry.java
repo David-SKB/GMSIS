@@ -25,7 +25,7 @@ public class BookingRegistry {
         return BRInstance;
     }
 
-    public boolean addBooking(String date, String start, int length, String type, int CID, int VID, int EID) {
+    public boolean addBooking(String date, String start, String length, String type, String CID, String VID, String EID) {
         //insert booking into database
         conn.connect();
         String query = "INSERT INTO BOOKINGS (BOOKDATE, STARTTIME, DURATION, TYPE, CUSTOMERID, VEHICLEREGISTRATION, EMPLOYEEID) "
@@ -42,7 +42,7 @@ public class BookingRegistry {
         return result;
     }
 
-    public boolean editBooking(int ID, String date, int start, int length, int type, int CID, int VID, int miles, int EID) {
+    public boolean editBooking(String ID, String date, String start, String length, String type, String CID, String VID, String miles, String EID) {
         //edit booking in database
         conn.connect();
         String query = "UPDATE BOOKINGS SET BOOKDATE = '"
@@ -59,7 +59,7 @@ public class BookingRegistry {
         return result;
     }
 
-    public boolean deleteBooking(int ID) {
+    public boolean deleteBooking(String ID) {
         //delete booking from database
         conn.connect();
         String query = "DELETE FROM BOOKINGS WHERE ID = " + ID;
@@ -68,7 +68,7 @@ public class BookingRegistry {
         return result;
     }
 
-    public Booking searchBookingID(int ID) {
+    public Booking searchBookingID(String ID) {
         conn.connect();
         try {
             String query = "SELECT * FROM BOOKINGS\n"
@@ -115,6 +115,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
@@ -141,12 +142,13 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
         }
     }
-    
+
     public ArrayList<DiagRepairBooking> searchBookingByDate(String date) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -165,6 +167,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
@@ -178,7 +181,7 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS WHERE CUSTOMERID = '" + CustID + "';";
             ResultSet result = conn.query(query);
-            while (result.next()){
+            while (result.next()) {
                 String ID = result.getString("ID");
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
@@ -190,6 +193,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
@@ -198,7 +202,7 @@ public class BookingRegistry {
 
     public ArrayList<DiagRepairBooking> searchBookingByCustName(String firstName, String surname) {
         try {
-            if(firstName == null || firstName.isEmpty() || surname == null || surname.isEmpty()){
+            if (firstName == null || firstName.isEmpty() || surname == null || surname.isEmpty()) {
                 return null;
             }
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -206,7 +210,7 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS WHERE CUSTID = (SELECT ID FROM CUSTOMER WHERE LIKE SURNAME = '%" + surname + "%' AND FIRSTNAME = '%" + firstName + "%';";
             ResultSet result = conn.query(query);
-            while(result.next()){
+            while (result.next()) {
                 String ID = result.getString("ID");
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
@@ -218,6 +222,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
@@ -231,7 +236,7 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS WHERE LIKE VEHICLEREGISTRATION = '%" + vechID + "%';";
             ResultSet result = conn.query(query);
-            while(result.next()){
+            while (result.next()) {
                 String ID = result.getString("ID");
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
@@ -242,6 +247,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
             return null;
@@ -255,7 +261,7 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS WHERE VECHID = (SELECT ID FROM VEHICLE WHERE LIKE MODEL = '%" + model + "%';";
             ResultSet result = conn.query(query);
-            while(result.next()){
+            while (result.next()) {
                 String ID = result.getString("ID");
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
@@ -267,8 +273,29 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
             }
+            conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public String findID(String date, String start, String length, String type, String CID, String VID, String EID) {
+        try {
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE BOOKDATE = '"
+                    + date + "', STARTTIME = "
+                    + start + "', DURATION = "
+                    + length + "', TYPE = "
+                    + type + "', CUSTOMERID = "
+                    + CID + "', VEHICLEREGISTRATION = "
+                    + VID + "', EMPLOYEEID = "
+                    + EID + "';";
+            ResultSet rs = conn.query(query);
+            String ID = rs.getString("ID");
+            return ID;
+        }catch (SQLException e) {
             return null;
         }
     }

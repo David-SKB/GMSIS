@@ -175,5 +175,6 @@
             <ToggleGroup fx:id="SendItemToggle" />
          </toggleGroup></RadioButton>
       <RadioButton layoutX="145.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part" toggleGroup="$SendItemToggle" />
+      <Text fx:id="SPCError" fill="RED" layoutX="504.0" layoutY="717.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
    </children>
 </Pane>

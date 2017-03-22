@@ -167,7 +167,7 @@ public class DiagRepairScreenController implements Initializable {
         for (DiagRepairBooking d : selectedBooking) {
             String bookingID = (d.getBookingID());
             int start = dataList.size();		//no. of entries before delete
-            BR.deleteBooking(Integer.parseInt(bookingID));
+            BR.deleteBooking(bookingID);
             dataList.clear();
             displayTableData(null);
             if (start <= dataList.size()) //if no. of entries did not decrease, delete failed
