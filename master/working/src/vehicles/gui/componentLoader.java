@@ -20,6 +20,7 @@ import javafx.stage.Stage;
  author Joshua Adam Scott
  */
 public class componentLoader{
+    
 
    public boolean showDialog(){
      boolean decision = false;

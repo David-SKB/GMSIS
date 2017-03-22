@@ -227,6 +227,7 @@ public class VehicleGUIController implements Initializable {
   
   
   public void vehicleDisplay(ActionEvent event){
+   displayCustomers();
    list.removeAll(list);
    ArrayList<Vehicle> all = new ArrayList<>();
    all = loadVehicles();
@@ -284,6 +285,7 @@ public class VehicleGUIController implements Initializable {
   
     public void loadDisplay(){
    //select customer
+   activeCustomers.removeAll(activeCustomers);
    displayCustomers();
    addTemplateCars();
    list.removeAll(list);
@@ -577,25 +579,7 @@ public class VehicleGUIController implements Initializable {
    
    //check customer id
    String idString = customerIDTextField.getText();
-   int id = 0;
-   try{
-    id = Integer.parseInt(idString);
-    if( customerIDExists = vr.checkCustomerID(id))
-    {
-     customerIDExists = true;   
-    }
-    else{
-     customerIDExists = false;
-     componentLoader cl = new componentLoader();
-      cl.showIDFailure();
-      return;
-    }
-   }
-   catch(NumberFormatException e){
-    componentLoader cl = new componentLoader();
-      cl.showIDFailure();
-       return;   
-   }
+   int id = Integer.parseInt(idString);
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -661,7 +645,7 @@ public class VehicleGUIController implements Initializable {
     }
     //IF ALL TEST CASES ARE TRUE ADD VEHICLE  
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
+            && MOTCheck && LastServiceCheck && mileageCheck){
       //CHECK IF WARRANTY IS SELECTED, IF SO CHECK WARRANTY INFO TEXT FIELDS
       if(warranty == true){
      //CHECK WARRANTY NAME
@@ -705,25 +689,10 @@ public class VehicleGUIController implements Initializable {
            warrantyNameCheck,
            warrantyAddressCheck,
            warrantyExpiryCheck,
-           customerIDExists,
            mileageCheck = true;
    //CHECK CUSTOMER ID
    String idString = customerIDTextField.getText();
-   int id = 0;
-   try{
-    id = Integer.parseInt(idString);
-     if(customerIDExists = vr.checkCustomerID(id)){
-       customerIDExists = true;  
-     }
-     else{
-       customerIDExists = false;   
-     }
-   }
-   catch(NumberFormatException e){
-    componentLoader cl = new componentLoader();
-      cl.showIDFailure();
-       return;   
-   }
+    int id = Integer.parseInt(idString);
    //CHECK VEHICLE REGISTRATION
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -790,7 +759,7 @@ public class VehicleGUIController implements Initializable {
     }
   
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
+            && MOTCheck && LastServiceCheck && mileageCheck){
         if(warranty == true){
      //CHECK WARRANTY NAME FIELD NOT BLANK
      String warrantyName = warrantyNameTextField.getText();
@@ -833,25 +802,10 @@ public class VehicleGUIController implements Initializable {
            warrantyNameCheck,
            warrantyAddressCheck,
            warrantyExpiryCheck,
-           customerIDExists,
            mileageCheck = true;
    //CHECK CUSTOMER ID
    String idString = customerIDTextField.getText();
-   int id = 0;
-   try{
-    id = Integer.parseInt(idString);
-    if(vr.checkCustomerID(id)){
-      customerIDExists = true;  
-    }
-    else{
-      customerIDExists = false;   
-    }
-   }
-   catch(NumberFormatException e){
-    componentLoader cl = new componentLoader();
-      cl.showIDFailure();
-       return;   
-   }
+   int id = Integer.parseInt(idString);
    //CHECK REG TEXT FIELD NOT EMPTY
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -918,7 +872,7 @@ public class VehicleGUIController implements Initializable {
     }
   
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
+            && MOTCheck && LastServiceCheck && mileageCheck){
         if(warranty == true){
           //check name
      String warrantyName = warrantyNameTextField.getText();
