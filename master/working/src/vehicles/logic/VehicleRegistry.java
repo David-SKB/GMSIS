@@ -36,7 +36,7 @@ public class VehicleRegistry {
      String query = "SELECT * FROM CUSTOMER;";
       ResultSet rs = c.query(query);
        while( rs.next() ){
-        int idCheck = rs.getInt("CUSTOMERID");
+        int idCheck = rs.getInt("ID");
          if(id == idCheck){
           return true;   
          }
