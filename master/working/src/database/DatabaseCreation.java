@@ -149,7 +149,7 @@ public class DatabaseCreation
 "DIAGREPCOST            DECIMAL(8,2)                          NOT NULL,\n" +
 "PARTSCOST              DECIMAL(8,2)                          NOT NULL,\n" +
 "SPCCOST                DECIMAL(8,2)                          NOT NULL,\n" +
-"FOREIGN KEY(BILLID) references BOOKINGS(ID)\n" +
+"FOREIGN KEY(BILLID) references BOOKINGS(ID) ON DELETE CASCADE\n" +
 ");\n" + 
 "/* ADMIN USER */\n" + 
 "INSERT INTO USERS (ID, PASSWORD, SURNAME, FIRSTNAME, HRATE, SYSADM)\n" +

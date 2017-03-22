@@ -219,7 +219,7 @@ public class DiagRepairScreenController implements Initializable {
         for (int i = 0; i < result.size(); i++) {
             dataList.add(result.get(i));
             diagrepTable.setItems(dataList);
-        }
+        } 
     }
 
     @FXML

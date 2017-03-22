@@ -67,6 +67,7 @@ public class CustomerBillsController implements Initializable{
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("init");
         futureBType.setCellValueFactory(
                 new PropertyValueFactory<CustomerBill, String>("bookingType"));
         futureBDate.setCellValueFactory(
@@ -113,12 +114,13 @@ public class CustomerBillsController implements Initializable{
     }
     
     public void setUser(int ID){
+        System.out.println("setuser");
         futureBObsList = FXCollections.observableArrayList();
         pastBObsList = FXCollections.observableArrayList();
         partObsList = FXCollections.observableArrayList();
         this.tempCust = CR.searchCustomerByID(String.valueOf(ID));
         setUserDetails();
-        loadBookings();
+        loadBookings(ID);
         futureBookings.setItems(futureBObsList);
         pastBookings.setItems(pastBObsList);
     }
@@ -133,17 +135,19 @@ public class CustomerBillsController implements Initializable{
         emailTF.setText(tempCust.getEmail());
     }
     
-    private void loadBookings(){
-         ArrayList<DiagRepairBooking> bList = BR.getListBookings();
+    private void loadBookings(int ID){
+         ArrayList<DiagRepairBooking> bList = BR.searchBookingByCustID(String.valueOf(ID));
          futureBObsList.removeAll(futureBObsList);
          pastBObsList.removeAll(pastBObsList);
          if(bList != null &&
            !bList.isEmpty()){
             for(DiagRepairBooking DRP : bList){
                    if (parseLocalDateTime(DRP.getBookingDate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                       System.out.println("in future");
                        futureBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
                    }else if(parseLocalDateTime(DRP.getBookingDate()).compareTo(NOW_LOCALDATETIME()) < 0){
                        pastBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
+                       System.out.println("in pas");
                    }
             }
         }
