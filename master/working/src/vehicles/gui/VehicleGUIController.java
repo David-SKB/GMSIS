@@ -545,57 +545,18 @@ public class VehicleGUIController implements Initializable {
     @FXML
   public void addCarButton(ActionEvent event){
      addCarDetails(event);
-     regTextField.clear();
-     modelTextField.clear();
-     makeTextField.clear();
-     engineTextField.clear();
-     fuelTextField.clear();
-     colourTextField.clear();
-     MOTTextField.clear();
-     lastTextField.clear();
-     mileageTextField.clear();
-     warrantyCheckBox.setSelected(false);
-     warrantyNameTextField.clear();
-     warrantyAddressTextField.clear();
-     warrantyExpiryTextField.clear();
      vehicleDisplay(event);
   }
   
     @FXML
   public void addVanButton(ActionEvent event){
      addVanDetails(event);
-     regTextField.clear();
-     modelTextField.clear();
-     makeTextField.clear();
-     engineTextField.clear();
-     fuelTextField.clear();
-     colourTextField.clear();
-     MOTTextField.clear();
-     lastTextField.clear();
-     mileageTextField.clear();
-     warrantyCheckBox.setSelected(false);
-     warrantyNameTextField.clear();
-     warrantyAddressTextField.clear();
-     warrantyExpiryTextField.clear();
      vehicleDisplay(event);
   }
   
     @FXML
   public void addTruckButton(ActionEvent event){
      addTruckDetails(event);
-     regTextField.clear();
-     modelTextField.clear();
-     makeTextField.clear();
-     engineTextField.clear();
-     fuelTextField.clear();
-     colourTextField.clear();
-     MOTTextField.clear();
-     lastTextField.clear();
-     mileageTextField.clear();
-     warrantyCheckBox.setSelected(false);
-     warrantyNameTextField.clear();
-     warrantyAddressTextField.clear();
-     warrantyExpiryTextField.clear();
      vehicleDisplay(event);
   }
    
