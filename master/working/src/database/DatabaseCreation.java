@@ -129,15 +129,15 @@ public class DatabaseCreation
 ");\n" +
 "/* BOOKINGS TABLE */\n" +
 "CREATE TABLE BOOKINGS (\n" +
-"	ID                   INTEGER    PRIMARY KEY      ,\n" +
+"	ID                   TEXT    PRIMARY KEY      ,\n" +
 "	BOOKDATE             VARCHAR(255)            NOT NULL,\n" +
 "       STARTTIME            VARCHAR(255)            NOT NULL,\n" +
-"	DURATION             INT                     NOT NULL,\n" +
+"	DURATION             TEXT                    NOT NULL,\n" +
 "	TYPE                 TEXT                    NOT NULL,\n" +
-"	CUSTOMERID           INT                     NOT NULL,\n" +
-"	VEHICLEREGISTRATION  INT                     NOT NULL,\n" +
-"	MILEAGE              INT,\n" +              
-"	EMPLOYEEID           INT                     NOT NULL,\n" +
+"	CUSTOMERID           TEXT                     NOT NULL,\n" +
+"	VEHICLEREGISTRATION  TEXT                     NOT NULL,\n" +
+"	MILEAGE              TEXT,\n" +              
+"	EMPLOYEEID           TEXT                     NOT NULL,\n" +
 "	FOREIGN KEY(CUSTOMERID) references CUSTOMER(ID) ON DELETE NO ACTION,\n" +
 "	FOREIGN KEY(VEHICLEREGISTRATION) references VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
 "	FOREIGN KEY(EMPLOYEEID) references USERS(ID)\n" +

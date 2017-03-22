@@ -110,7 +110,7 @@ public class AddWindowController implements Initializable
 		String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		if (parseLocalDateTime(date).compareTo(NOW_LOCALDATETIME()) > 0)
 		{
-			BR.addBooking(date, entryTime.getText(), Integer.parseInt(entryDuration.getText()),(String) entryType.getSelectionModel().getSelectedItem(), Integer.parseInt(custData[0]), (int) entryReg.getSelectionModel().getSelectedItem(), Integer.parseInt(mechData[0]));
+			BR.addBooking(date, entryTime.getText(), entryDuration.getText(),(String) entryType.getSelectionModel().getSelectedItem(), custData[0],(String) entryReg.getSelectionModel().getSelectedItem(), mechData[0]);
 			parentController.reset();
 			Stage stage = (Stage) confirmButton.getScene().getWindow();
 			stage.close();
