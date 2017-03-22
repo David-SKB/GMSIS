@@ -673,8 +673,7 @@ public class AdminController {
                 }
                 else
                 {
-                    delSPCStatus.setFill(Color.RED);
-                    EC.TimedMsg(delSPCStatus, "Could not delete SPC");
+                    EC.TimedMsgRED(delSPCStatus, "Could not delete SPC");
                     getSPCs();
                 }
             }
@@ -684,8 +683,7 @@ public class AdminController {
         }
         else
         {
-            delSPCStatus.setFill(Color.RED);
-            EC.TimedMsg(delSPCStatus, "Double click from the list and press delete");
+            EC.TimedMsgRED(delSPCStatus, "Double click from the list and press delete");
         }
     }
     
@@ -731,8 +729,7 @@ public class AdminController {
         }
         else
         {
-            addSPCStatus.setFill(Color.RED);
-            EC.TimedMsg(addSPCStatus, "Invalid Input");
+            EC.TimedMsgRED(addSPCStatus, "Invalid Input");
         }
     }
     
@@ -810,8 +807,7 @@ public class AdminController {
         }
         else
         {
-            editSPCStatus.setFill(Color.RED);
-            EC.TimedMsg(editSPCStatus, "Invalid Input");
+            EC.TimedMsgRED(editSPCStatus, "Invalid Input");
         }
     }
     
@@ -842,14 +838,12 @@ public class AdminController {
         boolean addSPC = SPCReg.addSPC(spcName, spcAddress, spcPhone, spcEmail);
         if(addSPC)
         {
-            addSPCStatus.setFill(Color.GREEN);
-            EC.TimedMsg(addSPCStatus, "Centre Added");
+            EC.TimedMsgGREEN(addSPCStatus, "Centre Added");
             clearSPCDetails();
         }
         else
         {
-            addSPCStatus.setFill(Color.RED);
-            EC.TimedMsg(addSPCStatus, "SPC already exists.");
+            EC.TimedMsgRED(addSPCStatus, "SPC already exists.");
             clearSPCDetails();
         }   
     }
@@ -863,14 +857,12 @@ public class AdminController {
         boolean editSPC = SPCReg.editSPC(spcName, spcAddress, spcPhone, spcEmail, SPCID);
         if(editSPC)
         {
-            editSPCStatus.setFill(Color.GREEN);
-            EC.TimedMsg(editSPCStatus, "Centre Updated");
+            EC.TimedMsgGREEN(editSPCStatus, "Centre Updated");
             clearSPCDetailsEdit();
         }
         else
         {
-            editSPCStatus.setFill(Color.RED);
-            EC.TimedMsg(editSPCStatus, "SPC already exists");
+            EC.TimedMsgRED(editSPCStatus, "SPC already exists");
             clearSPCDetailsEdit();
         }          
     }
