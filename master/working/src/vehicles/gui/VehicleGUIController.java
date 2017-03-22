@@ -577,7 +577,25 @@ public class VehicleGUIController implements Initializable {
    
    //check customer id
    String idString = customerIDTextField.getText();
-   int id = Integer.parseInt(idString);
+   int id = 0;
+   try{
+    id = Integer.parseInt(idString);
+    if( customerIDExists = vr.checkCustomerID(id))
+    {
+     customerIDExists = true;   
+    }
+    else{
+     customerIDExists = false;
+     componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+      return;
+    }
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+      cl.showIDFailure();
+       return;   
+   }
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -643,7 +661,7 @@ public class VehicleGUIController implements Initializable {
     }
     //IF ALL TEST CASES ARE TRUE ADD VEHICLE  
     if(regCheck && modelCheck && makeCheck && eSizeCheck && fuelCheck && colourCheck
-            && MOTCheck && LastServiceCheck && mileageCheck){
+            && MOTCheck && LastServiceCheck && mileageCheck && customerIDExists){
       //CHECK IF WARRANTY IS SELECTED, IF SO CHECK WARRANTY INFO TEXT FIELDS
       if(warranty == true){
      //CHECK WARRANTY NAME
