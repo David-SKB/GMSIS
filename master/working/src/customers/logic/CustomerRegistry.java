@@ -67,6 +67,7 @@ public class CustomerRegistry {
                         "WHERE PHONE = '" + oldP + "' \n" + 
                         "AND EMAIL = '" + oldEmail + "';";
         success = DBInstance.update(query);
+        DBInstance.closeConnection();
         return success;
     }
     
@@ -79,10 +80,11 @@ public class CustomerRegistry {
                        "AND SURNAME = '" + sName + "'\n" +
                        "AND FIRSTNAME = '" + fName  + "'; ";                                    
         success = DBInstance.update(query);
+        DBInstance.closeConnection();
         return success;
     }
     
-    public ArrayList<Customer> searchCustomerWithName(String cType, String argSName,String argFName){
+    public ArrayList<Customer> searchCustomerWithName(String data,String cType,String searchType){
         DBInstance.connect();
         String custType = "Individual";
         if(cType.equalsIgnoreCase("Business")){
@@ -91,10 +93,7 @@ public class CustomerRegistry {
         try{
             String query = "SELECT * FROM CUSTOMER\n" +
                            "WHERE CUSTOMERTYPE = '" + custType + "' " +
-                           "AND (SURNAME LIKE '%" + argSName + "%' " +
-                           "OR SURNAME LIKE '%" + argFName + "%' " + 
-                           "AND FIRSTNAME LIKE '%" + argFName + "%' " +
-                           "OR FIRSTNAME LIKE '%" + argSName  + "%'); ";
+                           "AND ( "  + searchType + " LIKE '%" + data +  "%'); ";
             ArrayList<Customer> searchedCustomers = new ArrayList<>();
             ResultSet rs = DBInstance.query(query);
             while(rs.next()){
@@ -213,6 +212,7 @@ public class CustomerRegistry {
                 String customerType = rs.getString("CUSTOMERTYPE");
                 activeCustomers.add(new Customer(sName,fName,address,postCode,phone,email,customerType));
             }
+            DBInstance.closeConnection();
             return activeCustomers;
         }catch(SQLException e){
             return null;

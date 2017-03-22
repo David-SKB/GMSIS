@@ -33,6 +33,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -78,19 +79,24 @@ public class CustomerController implements Initializable{
     private Text statusText, eStatusText, delStatus;                                    //FXML Text. Display progress/erros when adding/editing customers.
     private final ObservableList<Customer> obsListData = FXCollections.observableArrayList();  //FXML ObservableList. List that allows listeners to tack changes when occur.
     @FXML
-    private ChoiceBox<Customer> delCustomersCBox;
+    private ComboBox delCustomersCBox;
     @FXML
-    private ChoiceBox<Customer> showVehiclesCBox;
+    private ComboBox showVehiclesCBox;
     @FXML 
-    private ChoiceBox<Customer> showBillCBox;
+    private ComboBox showBillCBox;
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
+    @FXML
+    private ComboBox searchType;
+    @FXML
+    private ObservableList<String> cmBoxOptions;
     @FXML
     private Button submitButton,eSubmitChangesButton;
 
     public CustomerController() {
-        this.showBillCBox = new ChoiceBox<>();
-        this.showVehiclesCBox = new ChoiceBox<>();
-        this.delCustomersCBox = new ChoiceBox<>();
+        this.showBillCBox = new ComboBox();
+        this.showVehiclesCBox = new ComboBox();
+        this.delCustomersCBox = new ComboBox();
+        this.searchType = new ComboBox();
     }
     
     @Override
@@ -109,6 +115,8 @@ public class CustomerController implements Initializable{
                 new PropertyValueFactory<Customer, String>("email"));
         cTypeCol.setCellValueFactory(
                 new PropertyValueFactory<Customer, String>("customerType"));
+        cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Registration No.");
+        searchType.setItems(cmBoxOptions);
     }
     
     
@@ -116,24 +124,24 @@ public class CustomerController implements Initializable{
        loadData(obsListData);
        ObservableList<Node> OL =  AP.getChildren();
        TableView<Customer> tempTV = null;
-       ChoiceBox<Customer> tempCustBox = null;
-       ChoiceBox<Customer> tempVehiBox = null;
-       ChoiceBox<Customer> tempBillBox = null;
+       ComboBox tempCustBox = null;
+       ComboBox tempVehiBox = null;
+       ComboBox tempBillBox = null;
        TextField search = null;
        RadioButton individual = null;
        for(Node n : OL){
            if(n instanceof TableView &&
               (n.getId()).equalsIgnoreCase("customerDetails")){
                 tempTV = (TableView<Customer>)n;
-           }else if(n instanceof ChoiceBox &&
+           }else if(n instanceof ComboBox &&
                    (n.getId()).equalsIgnoreCase("delCustomersCBox")){
-               tempCustBox = (ChoiceBox<Customer>)n;
-           }else if(n instanceof ChoiceBox &&
+               tempCustBox = (ComboBox)n;
+           }else if(n instanceof ComboBox &&
                    (n.getId()).equalsIgnoreCase("showVehiclesCBox")){
-               tempVehiBox = (ChoiceBox<Customer>)n;
-           }else if(n instanceof ChoiceBox &&
+               tempVehiBox = (ComboBox)n;
+           }else if(n instanceof ComboBox &&
                    (n.getId()).equalsIgnoreCase("showBillCBox")){
-               tempBillBox = (ChoiceBox<Customer>)n;
+               tempBillBox = (ComboBox)n;
            }else if(n instanceof TextField &&
                     (n.getId()).equalsIgnoreCase("searchBar")){
                search = (TextField)n;
@@ -297,7 +305,7 @@ public class CustomerController implements Initializable{
     }
     
     public void deleteCustomer(ActionEvent evt){
-        Customer c = delCustomersCBox.getSelectionModel().getSelectedItem();
+        Customer c = (Customer)delCustomersCBox.getSelectionModel().getSelectedItem();
         if(c != null){
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Deleting Customer");
@@ -454,19 +462,30 @@ public class CustomerController implements Initializable{
     public void searchCustomerBar(ActionEvent evt){
         String inputData = searchBar.getText();
         String[] data = inputData.split("\\s+");
-        RadioButton toggleResult = (RadioButton) customerSearchType.getSelectedToggle();
-        if((data.length == 2 && (toggleResult.getText().equals("Search Individual") || toggleResult.getText().equals("Search Business")))       ||
-           (data.length == 1 && toggleResult.getText().equals("Registration No."))){
-            boolean found = false;            
-            if(!toggleResult.getText().equals("Registration No.")){
-                String userType = "Individual";
-                if(toggleResult.getText().equals("Search Business")){
+        RadioButton toggleResult = (RadioButton) customerSearchType.getSelectedToggle();    
+        if(data.length == 1 && !searchType.getSelectionModel().isEmpty()){
+            String typeOfSearch;
+            boolean found = false; 
+            String userType;
+            if(searchType.getValue().toString().equalsIgnoreCase("First Name")){
+                typeOfSearch = "FIRSTNAME";
+            }else if(searchType.getValue().toString().equalsIgnoreCase("Last Name")){
+                typeOfSearch = "SURNAME";
+            }else{
+                typeOfSearch = "REGISTRATION";
+            }
+            
+            if(typeOfSearch.equals("FIRSTNAME") || 
+               typeOfSearch.equals("SURNAME")){
+                if(toggleResult.getText().equals("Search Individual")){
+                    userType = "Individual";
+                    getActiveCustomers(new ActionEvent());                 
+                    found = loadSearchedData(obsListData,data[0],userType,typeOfSearch);
+                }else if(toggleResult.getText().equals("Search Business")){
                     userType = "Business";
+                    getActiveCustomers(new ActionEvent());                 
+                    found = loadSearchedData(obsListData,data[0],userType,typeOfSearch);
                 }
-                    getActiveCustomers(new ActionEvent());
-                    String sName = data[0].substring(0,1).toUpperCase() + data[0].substring(1);
-                    String fName = data[1].substring(0,1).toUpperCase() + data[1].substring(1);
-                    found = loadSearchedData(obsListData,userType,sName,fName);
             }else{
                 getActiveCustomers(new ActionEvent());
                 String registration = data[0];
@@ -492,7 +511,7 @@ public class CustomerController implements Initializable{
                 }, 
                 1500
                 );
-                }                
+            }                
         }else if(inputData.equals("")){
             getActiveCustomers(new ActionEvent());
         }else{
@@ -512,7 +531,7 @@ public class CustomerController implements Initializable{
     }
     
     public void showCustomerVehicles(ActionEvent evt){
-        Customer c = showVehiclesCBox.getSelectionModel().getSelectedItem();
+        Customer c = (Customer)showVehiclesCBox.getSelectionModel().getSelectedItem();
         if(c != null){
             Parent root;
             try{
@@ -549,7 +568,7 @@ public class CustomerController implements Initializable{
     }
     
     public void showCustomerBills(ActionEvent evt){
-        Customer c = showBillCBox.getSelectionModel().getSelectedItem();
+        Customer c = (Customer)showBillCBox.getSelectionModel().getSelectedItem();
         if(c != null){
             Parent root;
             try{
@@ -720,8 +739,8 @@ public class CustomerController implements Initializable{
         }
     }
     
-    private boolean loadSearchedData(ObservableList<Customer> dataList, String cType, String sName, String fName){
-        ArrayList<Customer> csAList = CR.searchCustomerWithName(cType,sName,fName);
+    private boolean loadSearchedData(ObservableList<Customer> dataList, String data, String cType, String searchType){
+        ArrayList<Customer> csAList = CR.searchCustomerWithName(data,cType,searchType);
         dataList.removeAll(dataList);
         if(csAList != null &&
            !csAList.isEmpty()){
