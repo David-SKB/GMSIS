@@ -59,7 +59,7 @@ cd SE9
 
 ### Download ZIP
  
- 1. Download the ZIP file:
+ 1. Download the ZIP file: <a href="https://github.research.its.qmul.ac.uk/ecs506u/SE9/archive/master.zip"> ZIP </a>
  2. Double-click to unZIP the file
  3. Navigate to SE9-master/master/release/built/GMSIS.jar
  4. Double-click the .jar file to initiate the application
