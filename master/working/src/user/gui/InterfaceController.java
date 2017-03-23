@@ -15,6 +15,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import specialist.gui.RepairsController;
+import vehicles.gui.VehicleGUIController;
 
 /**
  *
@@ -39,6 +40,10 @@ public class InterfaceController implements Initializable{
     @FXML
     private AnchorPane adminAP;
     @FXML
+    private VehicleGUIController vehicleController = new VehicleGUIController(); 
+    @FXML
+    private AnchorPane vehicleAP;
+    @FXML
     private Label welcomeUser;
 
      public void spcUpdate(){
@@ -62,6 +67,10 @@ public class InterfaceController implements Initializable{
     
     public void customerUpdate(){
         this.customerController.updateAchorPane(customerAP);
+    }
+    
+    public void vehicleUpdate(){
+        this.vehicleController.updateAnchorPane(vehicleAP);
     }
     
     public void logoutCustomer(ActionEvent evt){

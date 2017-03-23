@@ -27,6 +27,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -48,6 +49,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -141,6 +143,37 @@ public class VehicleGUIController implements Initializable {
    ListView<Template> templateList = new ListView<Template>();
    @FXML
    ObservableList<Template> carsTemplate = FXCollections.observableArrayList();
+   private CustomerRegistry cr = CustomerRegistry.getInstance();
+   
+   
+   
+   public void updateAnchorPane(AnchorPane AP){
+       ObservableList<Node> OL = AP.getChildren();
+       TableView<Vehicle> vehTV = null;
+       ChoiceBox cBox = null;
+       for(Node n : OL){
+           if(n instanceof TableView &&
+              (n.getId()).equalsIgnoreCase("vehDetails")){
+                vehTV = (TableView<Vehicle>)n;
+           }else if(n instanceof ChoiceBox &&
+                   (n.getId()).equalsIgnoreCase("customerSelectorChoiceBox")){
+                cBox = (ChoiceBox)n;
+           }
+       }
+       if(vehTV != null &&
+          cBox != null){
+            ArrayList<Customer> currentCustomers = cr.getActiveCustomers();
+            activeCustomers.removeAll(activeCustomers);
+            activeCustomers.addAll(currentCustomers);
+            cBox.setItems(activeCustomers);
+            cBox.getSelectionModel().selectFirst();
+            ArrayList<Vehicle> all = new ArrayList<>();
+            all = loadVehicles();
+            list.removeAll(list);
+            list.addAll(all);
+            vehTV.setItems(list);
+       }
+   }
     
    @FXML
    public void addTemplateCars(){
@@ -184,7 +217,6 @@ public class VehicleGUIController implements Initializable {
    
   @FXML 
   public void displayCustomers(){
-   CustomerRegistry cr = CustomerRegistry.getInstance();
     ArrayList<Customer> currentCustomers = cr.getActiveCustomers();
     activeCustomers.addAll(currentCustomers);
      customerSelectorChoiceBox.setItems(activeCustomers);
@@ -232,116 +264,22 @@ public class VehicleGUIController implements Initializable {
    ArrayList<Vehicle> all = new ArrayList<>();
    all = loadVehicles();
    list.addAll(all);
-   vehDetails.setEditable(true);
-   
-    regCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle, String>("registration"));
-     
-    makeCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("model"));
-
-    modelCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("make"));
-
-    engineCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,Integer>("engineSize"));
-     
-    fuelCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("fuelType"));
-    
-    colCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("colour"));
-    
-    MOTCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("MOTRenewal"));
-    
-    warrCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("warranty"));
-    
-    lastCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("lastService"));
-    
-    mileCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,Integer>("currentMile"));
-    
-    typeCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle, String>("type"));
     
     vehDetails.setItems(list);
-    
-    vehDetails.setRowFactory((TableView<Vehicle> tv) -> {
-            TableRow<Vehicle> row = new TableRow<>();
-            row.setOnMouseClicked(event2 -> {
-                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
-                                    && event2.getClickCount() == 2) {
-                     tempVehicle = row.getItem();
-                     loadDataChange(tempVehicle);                     
-                }
-            });
-            return row;
-        });
-      
+     
   }
   
     public void loadDisplay(){
    //select customer
-   activeCustomers.removeAll(activeCustomers);
-   displayCustomers();
-   addTemplateCars();
-   list.removeAll(list);
-   ArrayList<Vehicle> all = new ArrayList<>();
-   all = loadVehicles();
-   list.addAll(all);
-   vehDetails.setEditable(true);
-   
-    regCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle, String>("registration"));
-    
-    makeCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("model"));
-
-    modelCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("make"));
-
-    engineCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,Integer>("engineSize"));
-     
-    fuelCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("fuelType"));
-    
-    colCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("colour"));
-    
-    MOTCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("MOTRenewal"));
-    
-    warrCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("warranty"));
-    
-    lastCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,String>("lastService"));
-    
-    mileCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle,Integer>("currentMile"));
-    
-     typeCol.setCellValueFactory(
-       new PropertyValueFactory<Vehicle, String>("type"));
-    
+    activeCustomers.removeAll(activeCustomers);
+    displayCustomers();
+    addTemplateCars();
+    list.removeAll(list);
+    ArrayList<Vehicle> all = new ArrayList<>();
+    all = loadVehicles();
+    list.addAll(all);
     vehDetails.setItems(list);
-    
-    vehDetails.setRowFactory((TableView<Vehicle> tv) -> {
-            TableRow<Vehicle> row = new TableRow<>();
-            row.setOnMouseClicked(event2 -> {
-                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
-                                    && event2.getClickCount() == 2) {
-                     tempVehicle = row.getItem();
-                     loadDataChange(tempVehicle);                     
-                }
-            });
-            return row;
-        });
-    
-      
+   
   }
   
   
@@ -914,7 +852,55 @@ public class VehicleGUIController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-      loadDisplay();
+        vehDetails.setEditable(true);
+
+        regCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle, String>("registration"));
+
+        makeCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("model"));
+
+        modelCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("make"));
+
+        engineCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,Integer>("engineSize"));
+
+        fuelCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("fuelType"));
+
+        colCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("colour"));
+
+        MOTCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("MOTRenewal"));
+
+        warrCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("warranty"));
+
+        lastCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,String>("lastService"));
+
+        mileCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle,Integer>("currentMile"));
+
+        typeCol.setCellValueFactory(
+           new PropertyValueFactory<Vehicle, String>("type"));
+            
+        vehDetails.setRowFactory((TableView<Vehicle> tv) -> {
+            TableRow<Vehicle> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
+                                    && event2.getClickCount() == 2) {
+                     tempVehicle = row.getItem();
+                     loadDataChange(tempVehicle);                     
+                }
+            });
+            return row;
+        });
+    
+   
+        loadDisplay();
     }
     //CHECKS IF STRING IS IN THE FORM OF DD/MM/YYYY
     public static boolean isValidDate(String format, String value) {

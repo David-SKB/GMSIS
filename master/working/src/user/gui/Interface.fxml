@@ -39,12 +39,12 @@
                   <fx:include source="../../parts/gui/StockParts.fxml" />
                </content>
             </Tab>
-            <Tab fx:id="VehicleTab" text="Vehicle">
+            <Tab onSelectionChanged="#vehicleUpdate" text="Vehicle">
                <content>
                   
                </content>
                <content>
-                  <fx:include source="../../vehicles/gui/Vehicle.fxml" />
+                  <fx:include fx:id="vehicleAP" source="../../vehicles/gui/Vehicle.fxml" />
                </content>
             </Tab>
             <Tab onSelectionChanged="#spcUpdate" text="SPC">
