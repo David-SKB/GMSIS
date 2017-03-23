@@ -250,6 +250,10 @@ public class VehicleGUIController implements Initializable {
    String updateMile = updateMileTextField.getText();
     int mile = Integer.parseInt(updateMile);
    boolean updateWarranty = updateWarrCheckBox.isSelected();
+   //if has warranty and update to no warranty delete warranty record in db
+   if(currWarrCheckBox.isSelected() && !updateWarrCheckBox.isSelected()){
+     vr.deleteWarranty(updateReg);
+   }
    vr.updateDetails(oldReg,updateReg,0,updateMake,updateModel,engine,updateFuel,updateColour,updateMOT,updateWarranty,updateLast,mile);
    clearButton(event);
    vehicleDisplay(event);
