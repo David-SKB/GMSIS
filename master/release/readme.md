@@ -46,7 +46,7 @@ Garage Management Information System
 
 [:arrow_up:Back to top!](#contents)
 
-## Download
+## Download :arrow_down:
 
 ### Fork Project
 
@@ -59,25 +59,25 @@ cd SE9
 
 ### Download ZIP
  
- 1. Download the ZIP file: :arrow_right: <a href="https://github.research.its.qmul.ac.uk/ecs506u/SE9/archive/master.zip"> ZIP </a> :arrow_left:
+ 1. Download the ZIP file: :point_right: <a href="https://github.research.its.qmul.ac.uk/ecs506u/SE9/archive/master.zip"> ZIP </a> :point_left:
  2. Double-click to unZIP the file
  3. Navigate to SE9-master/master/release/built/GMSIS.jar
  4. Double-click the .jar file to initiate the application
 
-### Installation notes
+### Installation notes :information_source:
 
  1. Navigate to SE9/master/release/built/GMSIS.jar
  2. Double-click the .jar file to initiate the application
 
 [:arrow_up:Back to top!](#contents)
 
-## Links
+## Links 
 
 ## Credits
 
 [:arrow_up:Back to top!](#contents)
 
-## Team
+## Team 
 
 - **Customer Account Module:** Athanasios Gkanos, ec15252
 - **Vehicle Record Module:** Joshua Scott, ec15203
