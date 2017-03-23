@@ -42,7 +42,7 @@ public class AdminController {
     ErrorChecks EC = ErrorChecks.getInstance();
     SPCRegistry SPCReg = SPCRegistry.getInstance();
     @FXML
-    private TextField addIDTF, addFNTF, addLNTX, addPassTF, addHRateTF,
+    private TextField addIDTF, addFNTF, addLNTF, addPassTF, addHRateTF,
                       eFNTF, eIDTF, eLNTF, ePassTF, eHRateTF;
     @FXML
     private ToggleGroup userRights,userRightsE;
@@ -98,6 +98,20 @@ public class AdminController {
             });
             return row;
         });
+        //Input restrictions for add
+        EC.SetNumberRestrictionPhone(addIDTF);
+        EC.SetWordRestriction(addFNTF);
+        EC.SetWordRestriction(addLNTF);
+        EC.SetSpaceRestriction(addPassTF);//test
+        EC.SetNumberRestriction(addHRateTF);
+        
+        //Input restrictions for edit
+        EC.SetNumberRestrictionPhone(eIDTF);
+        EC.SetWordRestriction(eFNTF);
+        EC.SetWordRestriction(eLNTF);
+        EC.SetSpaceRestriction(ePassTF);//test
+        EC.SetNumberRestriction(eHRateTF);
+        
         /********************************
          * SPC
          ********************************/
@@ -153,495 +167,397 @@ public class AdminController {
          * USER METHODS *
          ********************************/
     
-    public void getUsers(ActionEvent evt){
+    public void getUsers()
+    {
         loadData(userData);       
         userTV.setItems(userData);
     }
     
-    public void delUser(ActionEvent evt){
-        if(tempUser != null){
+    public void delUser(ActionEvent evt)
+    {
+        if(tempUser != null)
+        {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Deleting User");
+            alert.setTitle("Deleting User: " + tempUser.getIDNumber());
             alert.setHeaderText("Are you sure you want to delete this user?");
-            alert.setContentText("User Details: " + tempUser.getIDNumber() + " " + tempUser.getFirstName() + 
-                    " " + tempUser.getSurname() + " " + tempUser.getPassword());
-
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == ButtonType.OK)
+            {
                 DB.connect();
             
                 int IDNo = tempUser.getIDNumber();
                 boolean qStatus = UR.deleteUser(IDNo);
             
                 DB.closeConnection();
-                if(qStatus){
-                    getUsers(new ActionEvent());
-                }else{
-                    delUserStatus.setText("Could not delete user.");
-                    delUserStatus.setFill(Color.RED);
-                    Timer timer = new Timer();
-                    timer.schedule( 
-                    new java.util.TimerTask() {
-                         public void run() {
-                             delUserStatus.setText("");
-                             timer.cancel();
-                        }
-                    }, 
-                    2000
-                    );
-                    }
-            }else{
-                getUsers(new ActionEvent());
-            }
-        }else{
-            delUserStatus.setText("Double click from the list and press delete.");
-            delUserStatus.setFill(Color.RED);
-           Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() {
-                public void run() {
-                    delUserStatus.setText("");
-                    timer.cancel();
+                if(qStatus)
+                {
+                    getUsers();
                 }
-            }, 
-            2000
-            );
-        }
-    }
-    
-    public void submitUserDetails(ActionEvent etv){
-        submitUserBTN.setDisable(true);
-        boolean IDValid,
-                fnValid,
-                lnValid,
-                passValid;
-        boolean hRateValid = true;
-        boolean userType = true;
-                
-        String tempID =  addIDTF.getText(); 
-        IDValid = validateID(tempID, addIDTF);
-
-        String tempFN = addFNTF.getText();
-        fnValid = validateTextField(tempFN,addFNTF, "First Name");
-        
-        String tempLN = addLNTX.getText();    
-        lnValid = validateTextField(tempLN,addLNTX, "Last Name");
-        
-        String tempPass = addPassTF.getText();
-        passValid = validateTextField(tempPass,addPassTF, "Password");
-      
-        String tempCType = validateUserType(userRights);
-        
-        String tempHRate = addHRateTF.getText();
-        if(tempCType == null){
-            hRateValid = validateRate(tempHRate, addHRateTF);
-        }else if(tempCType.equalsIgnoreCase("Mechanic")){
-            hRateValid = validateRate(tempHRate, addHRateTF);
-        } 
-
-        if(IDValid && fnValid && lnValid && passValid && hRateValid && userType){
-            if(tempCType.equals("Admin")){
-                adminSubmission(Integer.parseInt(tempID),tempFN,tempLN,tempPass);
-            }else{
-                userSubmission(Integer.parseInt(tempID),tempFN,tempLN,tempPass,Double.parseDouble(tempHRate));
+                else
+                {
+                    EC.TimedMsgRED(delUserStatus, "Could not delete user");
+                }
             }
-            getUsers(new ActionEvent());
-        }else{
-            Timer timer = new Timer();
-                timer.schedule( 
-                new java.util.TimerTask() {
-                    public void run() {
-                        submitUserBTN.setDisable(false);
-                        timer.cancel();                    
-                    }
-                }, 
-                2000
-                );
-        }
-    }
-    
-    
-    public void submitUserChanges(ActionEvent evt){
-        submitUserChangesBTN.setDisable(true);
-        boolean IDValid,
-                fnValid,
-                lnValid,
-                passValid;
-        boolean hRateValid = true;
-        boolean userType = true;
-         
-
-        String tempID =  eIDTF.getText(); 
-        IDValid = validateID(tempID, eIDTF);
-
-        String tempFN = eFNTF.getText();
-        fnValid = validateTextField(tempFN,eFNTF, "First Name");
-        
-        String tempLN = eLNTF.getText();    
-        lnValid = validateTextField(tempLN,eLNTF, "Last Name");
-          
-        String tempPass = ePassTF.getText();
-        passValid = validateTextField(tempPass,ePassTF, "Password");
-
-        String tempCType = validateUserTypeOnEdit(userRightsE);
-        String tempHRate = eHRateTF.getText();
-        if(tempCType == null){
-            hRateValid = validateRate(tempHRate, eHRateTF);
-        }else if(tempCType.equalsIgnoreCase("Mechanic")){
-            hRateValid = validateRate(tempHRate, eHRateTF);
-        } 
-
-        if(IDValid && fnValid && lnValid && passValid && hRateValid && userType){
-            if(tempCType.equalsIgnoreCase("Admin")){
-                adminSubmissionOnEdit(Integer.parseInt(tempID),tempFN,tempLN,tempPass);
-            }else{
-                userSubmissionOnEdit(Integer.parseInt(tempID),tempFN,tempLN,tempPass,Double.parseDouble(tempHRate));
+            else
+            {
+                getUsers();
             }
-            getUsers(new ActionEvent());
-        }else{
-            Timer timer = new Timer();
-                timer.schedule( 
-                new java.util.TimerTask() {
-                    public void run() {
-                        submitUserChangesBTN.setDisable(false);
-                        timer.cancel();                    
-                    }
-                }, 
-                2000
-                );
+        }
+        else
+        {
+            EC.TimedMsgRED(delUserStatus, "Double click from the list and press delete.");
         }
     }
     
-    private void loadOnEdit(){
+    public void submitUserDetails()
+    {
+        ClearAddUserStyles();
+        boolean IDValid = true;
+        boolean valid = true;
+        String CType = validateUserType(userRights);
+        //VALIDATION
+        if (addIDTF.getText().equals("") || !validateID(addIDTF.getText()))
+        {
+            addIDTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+            IDValid = false;
+        }
+        if (addFNTF.getText().equals(""))
+        {
+            addFNTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (addLNTF.getText().equals(""))
+        {
+            addLNTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (addPassTF.getText().equals(""))
+        {
+            addPassTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (CType.equals("Mechanic"))
+        {
+            if (addHRateTF.getText().equals("") || !EC.DecimalPlaces(Double.parseDouble(addHRateTF.getText())))
+            {
+                addHRateTF.setStyle("-fx-border-color: #ff1e1e;");
+                valid = false;
+            }
+        }
+        //END VALIDATION
+        if(valid)
+        {
+            if(CType.equals("Admin"))
+            {
+                adminSubmission(Integer.parseInt(addIDTF.getText()), addFNTF.getText(), addLNTF.getText(), addPassTF.getText());
+            }
+            else
+            {
+                userSubmission(Integer.parseInt(addIDTF.getText()), addFNTF.getText(), addLNTF.getText(), addPassTF.getText(), Double.parseDouble(addHRateTF.getText()));
+            }
+            getUsers();
+        }
+        else if (!IDValid)
+        {
+            EC.TimedMsgRED(addUserStatus, "ID must be 5 digits");
+        }
+        else
+        {
+            EC.TimedMsgRED(addUserStatus, "Invalid Input");
+        }
+    }
+    
+    
+    public void submitUserChanges(ActionEvent evt)
+    {
+        ClearEditUserStyles();
+        boolean IDValid = true;
+        boolean valid = true;
+        String CType = validateUserTypeOnEdit(userRightsE);
+        //VALIDATION
+        if (eIDTF.getText().equals("") || !validateID(eIDTF.getText()))
+        {
+            eIDTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+            IDValid = false;
+        }
+        if (eFNTF.getText().equals(""))
+        {
+            eFNTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (eLNTF.getText().equals(""))
+        {
+            eLNTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (ePassTF.getText().equals(""))
+        {
+            ePassTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+        }
+        if (CType.equals("Mechanic"))
+        {
+            if (eHRateTF.getText().equals("") || !EC.DecimalPlaces(Double.parseDouble(eHRateTF.getText())))
+            {
+                eHRateTF.setStyle("-fx-border-color: #ff1e1e;");
+                valid = false;
+            }
+        }
+        //END VALIDATION
+
+        if(valid)
+        {
+            if(CType.equalsIgnoreCase("Admin"))
+            {
+                adminSubmissionOnEdit(Integer.parseInt(eIDTF.getText()), eFNTF.getText(), eLNTF.getText(), ePassTF.getText());
+                submitUserChangesBTN.setDisable(true);
+            }
+            else
+            {
+                userSubmissionOnEdit(Integer.parseInt(eIDTF.getText()), eFNTF.getText(), eLNTF.getText(), ePassTF.getText(),Double.parseDouble(eHRateTF.getText()));
+                submitUserChangesBTN.setDisable(true);
+            }
+            getUsers();
+        }
+        else if (!IDValid)
+        {
+            EC.TimedMsgRED(editUserStatus, "ID must be 5 digits");
+        }
+        else
+        {
+            EC.TimedMsgRED(editUserStatus, "Invalid Input");
+        }
+    }
+    
+    private void ClearAddUserStyles()
+    {
+        addIDTF.setStyle(null);
+        addFNTF.setStyle(null);
+        addLNTF.setStyle(null);
+        addPassTF.setStyle(null);
+        addHRateTF.setStyle(null);
+    }
+    
+    private void ClearEditUserStyles()
+    {
+        eIDTF.setStyle(null);
+        eFNTF.setStyle(null);
+        eLNTF.setStyle(null);
+        ePassTF.setStyle(null);
+        eHRateTF.setStyle(null);
+    }
+    
+    private void loadOnEdit()
+    {
         eIDTF.setText(String.valueOf(tempUser.getIDNumber()));
         eFNTF.setText(tempUser.getFirstName());
         eLNTF.setText(tempUser.getSurname());
         ePassTF.setText(tempUser.getPassword());
         boolean isAdmin = tempUser.getSysAdmin();
-        if(isAdmin){
+        if(isAdmin)
+        {
             AdminRBE.setSelected(true);
-            hideERate();    
-        }else{
+            hideERate();
+        }
+        else
+        {
             MechanicRBE.setSelected(true);
             eHRateTF.setText(String.valueOf(((Mechanic)tempUser).getHRate()));
             unhideERate();
         }
+        submitUserChangesBTN.setDisable(false); 
     }
     
-    private void loadData(ObservableList<Employee> dataList){
+    private void loadData(ObservableList<Employee> dataList)
+    {
         ArrayList<Employee> urAList = UR.getActiveUsers();
         dataList.removeAll(dataList);
-        if(urAList != null &&
-           !urAList.isEmpty()){
-            for(Employee ur : urAList){
+        if(urAList != null && !urAList.isEmpty())
+        {
+            for(Employee ur : urAList)
+            {
                dataList.add(ur);
             }
         }
     }
     
-    private void adminSubmission(int ID, String firstName, String lastName, String password){
-            boolean addAdmin = UR.addAdmin(ID,password,lastName,firstName);
-            if(addAdmin){
-                addUserStatus.setText("Successful");
-                addUserStatus.setFill(Color.GREEN);
-                clearUserDetails(new ActionEvent());
-            }else{
-                addUserStatus.setText("Admin already exists.");
-                addUserStatus.setFill(Color.RED);
-                clearUserDetails(new ActionEvent());
-            }   
+    private void adminSubmission(int ID, String firstName, String lastName, String password)
+    {
+        boolean addAdmin = UR.addAdmin(ID,password,lastName,firstName);
+        if(addAdmin)
+        {
+            EC.TimedMsgGREEN(addUserStatus, "Successful");
+            clearUserDetails();
+        }
+        else
+        {
+            EC.TimedMsgRED(addUserStatus, "Admin already exists.");
+            clearUserDetails();
+        }   
     }
     
-    private void userSubmission(int ID, String firstName, String lastName, String password, double hRate){
+    private void userSubmission(int ID, String firstName, String lastName, String password, double hRate)
+    {
             boolean addUser = UR.addUser(ID, password, lastName, firstName, hRate);
-            if(addUser){
-                addUserStatus.setText("Successful");
-                addUserStatus.setFill(Color.GREEN);
-                clearUserDetails(new ActionEvent());
-            }else{
-                addUserStatus.setText("Users already exists.");
-                addUserStatus.setFill(Color.RED);
-                clearUserDetails(new ActionEvent());
+            if(addUser)
+            {
+                EC.TimedMsgGREEN(addUserStatus, "Successful");
+                clearUserDetails();
+            }
+            else
+            {
+                EC.TimedMsgRED(addUserStatus, "Users already exists.");
+                clearUserDetails();
             }   
     }
     
-    public void clearUserDetails(ActionEvent evt){
+    public void clearUserDetails()
+    {
         addIDTF.clear();
         addFNTF.clear();
-        addLNTX.clear();
+        addLNTF.clear();
         addPassTF.clear();
         addHRateTF.clear();
         addHRateTF.setVisible(true);
-        try{
-            RadioButton toggleResult = (RadioButton) userRights.getSelectedToggle();
-            toggleResult.setSelected(false);
-        }catch(Exception e){}
-        Timer timer = new Timer();
-                timer.schedule(
-            new java.util.TimerTask() {
-                public void run() {
-                    addUserStatus.setText("");
-                    submitUserBTN.setDisable(false);
-                    timer.cancel();
-                }
-            }, 
-            1500
-        );
+        ClearAddUserStyles();
     }
     
-    private boolean validateID(String ID, TextField tf){
-        if(!checkNumeric(ID)){
-            tf.setStyle("-fx-text-inner-color: red;");
-            tf.setText("Invalid ID");
-            Timer timer = new Timer();
-                timer.schedule(
-                new java.util.TimerTask() {
-                      public void run() {
-                         setColor(tf);
-                         timer.cancel();
-                      }
-                 }, 
-                1500
-            );
+    private boolean validateID(String ID)
+    {
+        if(!checkNumeric(ID))
+        {
             return false;
-        }else if(ID.length() > 5){
-            tf.setStyle("-fx-text-inner-color: red;");
-            tf.setText("MAX 5 Digits");
-            Timer timer = new Timer();
-                timer.schedule(
-                new java.util.TimerTask() {
-                      public void run() {
-                         setColor(tf);
-                         timer.cancel();
-                      }
-                 }, 
-                1500
-            );
+        }
+        else if(ID.length() > 5)
+        {
             return false;
         }
         return true;
     }
     
-    private boolean checkNumeric(String checkData){
-        try{
+    private boolean checkNumeric(String checkData)
+    {
+        try
+        {
             long result = Long.parseLong(checkData); 
             return true;
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             return false;
         }
     }
     
-    private void setColor(TextField tf){
-        tf.setStyle("-fx-text-inner-color: black;");
-        tf.clear();
-    }
-    
-    private boolean validateTextField(String cData, TextField tf, String fieldName){
-        if(cData.equals("") ||
-           !isAlphanumeric(cData)){
-            tf.setStyle("-fx-text-inner-color: red;");
-            tf.setText("Invalid " + fieldName);
-            Timer timer = new Timer();
-                timer.schedule( 
-                new java.util.TimerTask() {
-                      public void run() {
-                         setColor(tf);
-                         timer.cancel();
-                         
-                      }
-                 }, 
-                1500
-            );
-            return false;
-        }
-        return true;
-    }
-    
-    //Error Checks (DAVID REPAIRS)
-    public boolean isAlphanumeric(String word) 
+    private String validateUserType(ToggleGroup tGroup)
     {
-        //returns false if not alphanumberic
-        return word.matches("[a-zA-Z]+");
-    }
-    
-    private boolean validatePhone(String phone, TextField tf){
-        if(!checkNumeric(phone)){
-            tf.setStyle("-fx-text-inner-color: red;");
-            tf.setText("Invalid Number");
-            Timer timer = new Timer();
-            timer.schedule(  
-                new java.util.TimerTask() {
-                      public void run() {
-                         setColor(tf);
-                         timer.cancel();
-                      }
-                 }, 
-                1500
-            );
-            return false;
-        }
-        return true;
-    }
-    
-    private boolean validateRate(String rate, TextField tf){
-        if(!checkRate(rate)){
-            tf.setStyle("-fx-text-inner-color: red;");
-            tf.setText("Invalid Rate");
-            Timer timer = new Timer();
-                timer.schedule(
-                new java.util.TimerTask() {
-                      public void run() {
-                         setColor(tf);
-                         timer.cancel();
-                      }
-                 }, 
-                1500
-            );
-            return false;
-        }
-        return true;
-    }
-    
-    public boolean checkRate(String r){
-        try{
-            double rate = Double.parseDouble(r);
-            return true;
-        }catch(Exception e){
-            return false;
-        }
-    }
-    
-    private String validateUserType(ToggleGroup tGroup){
-        try{
+        try
+        {
             RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
-            if(toggleResult.getText().equals("Admin")){
+            if(toggleResult.getText().equals("Admin"))
+            {
                 return "Admin";
-            }else{
+            }
+            else
+            {
                 return "Mechanic";
             }        
-        }catch(NullPointerException e){
-                noToggleSelected();
-                return null;
         }
-    }
-    
-    private String validateUserTypeOnEdit(ToggleGroup tGroup){
-        try{
-            RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
-            if(toggleResult.getText().equals("Admin")){
-                return "Admin";
-            }else{
-                return "Mechanic";
-            }        
-        }catch(NullPointerException e){
-            editUserStatus.setFill(Color.RED);
-            editUserStatus.setText("Select user rigths");
-            Timer timer = new Timer();
-                timer.schedule(  
-                    new java.util.TimerTask() {
-                          public void run() {
-                             editUserStatus.setText("");
-                             timer.cancel();
-                          }
-                    }, 
-                    1500 
-                );
+        catch(NullPointerException e)
+        {
             return null;
         }
     }
     
-    private void noToggleSelected(){
-        Text status;
-        status = addUserStatus;
-        status.setFill(Color.RED);
-        status.setText("Select user rigths");
-        Timer timer = new Timer();
-            timer.schedule(  
-                new java.util.TimerTask() {
-                      public void run() {
-                         status.setText("");
-                         timer.cancel();
-                      }
-                 }, 
-                1500 
-            );
+    private String validateUserTypeOnEdit(ToggleGroup tGroup)
+    {
+        try
+        {
+            RadioButton toggleResult = (RadioButton) tGroup.getSelectedToggle();
+            if(toggleResult.getText().equals("Admin"))
+            {
+                return "Admin";
+            }else
+            {
+                return "Mechanic";
+            }        
+        }
+        catch(NullPointerException e)
+        {
+            return null;
+        }
     }
     
-    private void hideERate(){
-        eHRateTF.setVisible(false);
+    @FXML private void hideRate()
+    {
+        addHRateTF.setVisible(false);
     }
     
-    private void unhideERate(){
-        eHRateTF.setVisible(true);
-    }
-    
-    public void hideRateE(ActionEvent evt){
-        eHRateTF.setVisible(false);
-    }
-    
-    public void unhideRateE(ActionEvent evt){
-        eHRateTF.setVisible(true);
-    }
-    
-    public void hideRate(ActionEvent evt){
-            addHRateTF.setVisible(false);
-    }
-    
-    public void unhideRate(ActionEvent evt){
+    @FXML private void unhideRate()
+    {
         addHRateTF.setVisible(true);
     }
+    
+    @FXML private void hideERate()
+    {
+        eHRateTF.setVisible(false);
+    }
+    
+    @FXML private void unhideERate()
+    {
+        eHRateTF.setVisible(true);
+    }
 
-    private void adminSubmissionOnEdit(int ID, String firstName, String lastName, String pass) {
+    private void adminSubmissionOnEdit(int ID, String firstName, String lastName, String pass) 
+    {
         boolean editAdmin = UR.editAdmin(ID,pass,lastName,firstName,true,tempUser.getIDNumber());
-        if(editAdmin){
-            editUserStatus.setText("Successful");
-            editUserStatus.setFill(Color.GREEN);
-            clearUserDetailsOnEdit(new ActionEvent());
-        }else{
-            editUserStatus.setText("Admin already exists.");
-            editUserStatus.setFill(Color.RED);
-            clearUserDetailsOnEdit(new ActionEvent());
+        if(editAdmin)
+        {
+            EC.TimedMsgGREEN(editUserStatus, "Successful");
+            clearUserDetailsOnEdit();
+        }else
+        {
+            
+            EC.TimedMsgRED(editUserStatus, "Admin already exists.");
+            clearUserDetailsOnEdit();
         } 
     }
 
-    private void userSubmissionOnEdit(int ID, String firstName, String lastName, String pass, double hRate) {
+    private void userSubmissionOnEdit(int ID, String firstName, String lastName, String pass, double hRate)
+    {
         boolean editUser = UR.editUser(ID, pass, lastName, firstName, hRate,false,tempUser.getIDNumber());
-        if(editUser){
-            editUserStatus.setText("Successful");
-            editUserStatus.setFill(Color.GREEN);
-            clearUserDetailsOnEdit(new ActionEvent());
-        }else{
-            editUserStatus.setText("Users already exists.");
-            editUserStatus.setFill(Color.RED);
-            clearUserDetailsOnEdit(new ActionEvent());
+        if(editUser)
+        {
+            EC.TimedMsgGREEN(editUserStatus, "Successful");
+            clearUserDetailsOnEdit();
+        }
+        else
+        {
+            EC.TimedMsgRED(editUserStatus, "Users already exists.");
+            clearUserDetailsOnEdit();
         }      
     }
     
-    private void clearUserDetailsOnEdit(ActionEvent evt){
+    private void clearUserDetailsOnEdit()
+    {
         eFNTF.clear();
         eIDTF.clear();
         eLNTF.clear();
         ePassTF.clear();
         eHRateTF.clear();
         eHRateTF.setVisible(true);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() {
-                public void run() {
-                    editUserStatus.setText("");
-                    submitUserChangesBTN.setDisable(false);
-                    timer.cancel();
-                }
-            }, 
-            1500
-        );
     }
     
-    private boolean validateUserOnEdit(String userType){
-        try{
+    private boolean validateUserOnEdit(String userType)
+    {
+        try
+        {
             boolean isAdmin = Boolean.parseBoolean(userType);
             return true;
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             return false;
         }
     }

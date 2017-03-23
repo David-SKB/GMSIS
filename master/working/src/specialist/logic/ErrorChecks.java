@@ -128,6 +128,37 @@ public class ErrorChecks
         };
         field.setTextFormatter(new TextFormatter<String>(intFilter));
     }
+    
+    /**
+    * Restricts input to letters only (no spaces)
+    */
+    public void SetWordRestriction(TextField field)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[a-zA-Z]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    /**
+    * Restricts inputting spaces (testing)
+    */
+    public void SetSpaceRestriction(TextField field)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches(" ")) { 
+            System.out.println(":(");
+            return null;
+        }
+        return change;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    
     /**
     * Restricts input to letters, spaces, numbers and commas only
     */

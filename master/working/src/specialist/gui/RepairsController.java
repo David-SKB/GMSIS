@@ -821,6 +821,14 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
         OutstandingTable.setItems(VehicleList);
+        if (VehicleList.isEmpty())
+        {
+            OutstandingError.setText("No Repairs Found");
+        }
+        else
+        {
+            OutstandingError.setText("");
+        }
     }
     
     @FXML private void VehicleRowClick() 
@@ -917,6 +925,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                     {
                         JustDeleted = true;
                         ListSPCVehicles();
+                        LoadOutstanding();
                     }
                     else
                     {
@@ -956,6 +965,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 if (success)
                 {
                     EC.TimedMsgGREEN(T1SearchError, "Delete Successful");
+                    LoadOutstanding();
                 }
             } else 
             {
@@ -1212,6 +1222,8 @@ public class RepairsController /*extends Application*/ implements Initializable
         //Set Number Restriction
         EC.SetNumberRestriction(CostVehicle);
         EC.SetNumberRestriction(CostVehicle2);
+        EC.SetWordRestriction(FirstNameSearch);
+        EC.SetWordRestriction(LastNameSearch);
         //Autocomplete stuff
         ArrayList<String> VehicleList;
         try 
