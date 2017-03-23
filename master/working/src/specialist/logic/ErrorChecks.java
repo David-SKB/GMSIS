@@ -215,7 +215,7 @@ public class ErrorChecks
         //If Message is active
         if (TextObject.getText().equals(""))
         {
-            TextObject.setFill(Color.GREEN);
+            TextObject.setFill(Color.RED);
             TextObject.setText(msg);
             Timer timer = new Timer();
                 timer.schedule( 
@@ -237,19 +237,23 @@ public class ErrorChecks
     */
     public void TimedMsgGREEN(Text TextObject, String msg)
     {
-        TextObject.setFill(Color.GREEN);
-        TextObject.setText(msg);
-        Timer timer = new Timer();
-            timer.schedule( 
-            new java.util.TimerTask() 
-            {
-                public void run() 
+        //If Message is active
+        if (TextObject.getText().equals(""))
+        {
+            TextObject.setFill(Color.GREEN);
+            TextObject.setText(msg);
+            Timer timer = new Timer();
+                timer.schedule( 
+                new java.util.TimerTask() 
                 {
-                    TextObject.setText("");
-                    timer.cancel();// Terminate the thread
-                }
-            }, 2000
-            );
+                    public void run() 
+                    {
+                        TextObject.setText("");
+                        timer.cancel();// Terminate the thread
+                    }
+                }, 2000
+                );
+        }
     }
     
     /**
