@@ -34,8 +34,6 @@ Garage Management Information System
   </a>
 </div>
 
-## ER Model
-
 ### ER Diagram
 
 <div align="center">
@@ -97,11 +95,3 @@ cd SE9
 - **Specialist Repairs:** David Okeke, ec15212
 
 [:arrow_up:Back to top!](#contents)
-
-<div align="center">
-  <br>
-    <br>
-      <small><small><small> For educational purpose only. </small></small></small>
-    <br>
-  <br>
-</div>
