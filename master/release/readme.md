@@ -73,6 +73,17 @@ cd SE9
 
 ## Links 
 
+### Documentation
+
+- **SQLite Documentation:** https://www.sqlite.org/docs.html
+- **JavaFX Documentation:** http://docs.oracle.com/javase/8/javase-clienttechnologies.htm
+- **Build with Scene Builder:** http://gluonhq.com/products/scene-builder/
+
+### APIs & Libaries
+
+- **SQLite/JDBC:** https://bitbucket.org/xerial/sqlite-jdbc/downloads/
+- 
+
 ## Credits
 
 [:arrow_up:Back to top!](#contents)
@@ -90,7 +101,7 @@ cd SE9
 <div align="center">
   <br>
     <br>
-      IMG
+      <small><small><small> For educational purpose only. </small></small></small>
     <br>
   <br>
 </div>
