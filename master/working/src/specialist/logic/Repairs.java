@@ -18,6 +18,15 @@ public class Repairs
         
     }
     
+    public static Repairs getInstance()
+    {
+        if(RInstance == null)
+        {
+            RInstance = new Repairs();
+        }
+        return RInstance;
+    }
+    
     public boolean addVehicle(String RegNo, int SPCID, Date ExpDel, Date ExpRet, double Cost)
     {
         boolean success;
@@ -320,9 +329,11 @@ public class Repairs
     }
     
     //taken and modified from customer search with name
-    public Customer searchCustomerWithReg(String RegNo){
+    public Customer searchCustomerWithReg(String RegNo)
+    {
         DBC.connect();
-        try{
+        try
+        {
             String query = "SELECT SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE  FROM CUSTOMER, VEHICLE WHERE REGISTRATION = '"+ RegNo + "' AND VEHICLE.CUSTOMERID = ID;";
             Customer searchedCustomers = null;
             ResultSet rs = DBC.query(query);
@@ -339,7 +350,8 @@ public class Repairs
             }
             DBC.closeConnection();
             return searchedCustomers;
-        }catch(SQLException e)
+        }
+        catch(SQLException e)
         {
             return null;
         }
@@ -367,12 +379,4 @@ public class Repairs
         return success;
     }
 
-    public static Repairs getInstance()
-    {
-        if(RInstance == null)
-        {
-            RInstance = new Repairs();
-        }
-        return RInstance;
-    }
 }

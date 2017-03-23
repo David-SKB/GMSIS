@@ -11,7 +11,6 @@ public class OutstandingMain
     private final SimpleStringProperty T5EXPDELX;
     private final SimpleStringProperty T5EXPRETX;
     private final SimpleDoubleProperty T5COSTX;
-    private final SimpleStringProperty T5TYPEX;
     private final SimpleStringProperty T5SPCNAMEX;
     
     public OutstandingMain(String t1reg, String t5expdel, String t5expret, double t5cost, String t5type, String t5spcid)
@@ -20,7 +19,6 @@ public class OutstandingMain
         this.T5EXPDELX = new SimpleStringProperty(t5expdel);
         this.T5EXPRETX = new SimpleStringProperty(t5expret);
         this.T5COSTX = new SimpleDoubleProperty(t5cost);
-        this.T5TYPEX = new SimpleStringProperty(t5type);
         this.T5SPCNAMEX = new SimpleStringProperty(t5spcid);
     }
     
@@ -42,11 +40,6 @@ public class OutstandingMain
     public double getT5COSTX()
     {
         return T5COSTX.get();
-    }
-    
-    public String getT5TYPEX()
-    {
-        return T5TYPEX.get();
     }
     
     public String getT5SPCNAMEX()
