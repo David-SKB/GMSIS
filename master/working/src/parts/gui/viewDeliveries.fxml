@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="632.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.ViewDeliveriesController">
+   <children>
+      <TableView fx:id="deliveryTable" layoutX="137.0" layoutY="54.0" prefHeight="367.0" prefWidth="370.0">
+        <columns>
+          <TableColumn fx:id="deliveryPartNameCol" prefWidth="137.66665649414062" text="Part Name" />
+          <TableColumn fx:id="deliveryQuantityCol" prefWidth="91.33334350585938" text="Quantity" />
+            <TableColumn fx:id="deliveryDateCol" prefWidth="140.0" text="Delivery Date" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

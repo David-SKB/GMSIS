@@ -9,6 +9,7 @@ package parts.logic;
  *
  * @author JR
  */
+import java.math.BigDecimal;
 import java.util.Date;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,22 +19,22 @@ public class Part {
     private final SimpleStringProperty description;
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty cost;
-    private final SimpleStringProperty stocklevel;
+    private final SimpleIntegerProperty stocklevel;
     
-    public Part(int i, String n, String d, String c, String s){
+    public Part(int i, String n, String d, BigDecimal c, int s){
         id = new SimpleIntegerProperty(i);
         name = new SimpleStringProperty(n);
         description = new SimpleStringProperty(d);
-        cost = new SimpleStringProperty(c);
-        stocklevel = new SimpleStringProperty(s);
+        cost = new SimpleStringProperty(c.toString());
+        stocklevel = new SimpleIntegerProperty(s);
     }
     
-    public Part(String n, String d, String c, String s){
+    public Part(String n, String d, BigDecimal c, int s){
         id = new SimpleIntegerProperty(0);
         name = new SimpleStringProperty(n);
         description = new SimpleStringProperty(d);
-        cost = new SimpleStringProperty(c);
-        stocklevel = new SimpleStringProperty(s);
+        cost = new SimpleStringProperty(c.toString());
+        stocklevel = new SimpleIntegerProperty(s);
     }
     //test
     public int getID(){
@@ -48,7 +49,7 @@ public class Part {
     public String getCost(){
         return cost.get();
     }
-    public String getStocklevel(){
+    public int getStocklevel(){
         return stocklevel.get();
     }
 }

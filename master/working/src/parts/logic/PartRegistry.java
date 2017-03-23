@@ -10,10 +10,12 @@ package parts.logic;
  * @author JR
  */
 import common.DBConnection;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import parts.gui.Delivery;
 
 public class PartRegistry {
     private static PartRegistry instance = null;
@@ -37,16 +39,12 @@ public class PartRegistry {
         ArrayList<Part> partlist = new ArrayList<Part>();
         while (rs.next())
         {
-            System.out.println("registry test");
+            int id = rs.getInt("ID");
             String name = rs.getString("NAME");
-            System.out.println(name);
             String description = rs.getString("DESCRIPTION");
-            System.out.println(description);
-            int cost = rs.getInt("COST");
-            System.out.println(cost);
+            BigDecimal cost = new BigDecimal(rs.getString("COST"));
             int stock = rs.getInt("STOCK");
-            System.out.println(stock);
-            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
+            partlist.add(new Part(name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;
@@ -68,9 +66,9 @@ public class PartRegistry {
         {
             String name = rs.getString("NAME");
             String description = rs.getString("DESCRIPTION");
-            int cost = rs.getInt("COST");
+            BigDecimal cost = new BigDecimal(rs.getString("COST"));
             int stock = rs.getInt("STOCK");
-            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
+            partlist.add(new Part(name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;
@@ -79,7 +77,7 @@ public class PartRegistry {
         }
     }
     //add part to stock
-    public void addPart(String n, String d, int c){
+    public void addPart(String n, String d, BigDecimal c){
         conn = DBConnection.getInstance();
         //insert into database
         conn.connect();
@@ -137,6 +135,34 @@ public class PartRegistry {
         conn.closeConnection();
     }
     
+    //get all deliveries
+    public ArrayList<Delivery> getDeliveries(){
+        conn = DBConnection.getInstance();
+        //delete from database
+        try{
+            conn.connect();
+            String query = "SELECT STOCKPARTS.NAME, DELIVERIES.QUANTITY, DELIVERIES.DATE \n" +
+"                 FROM STOCKPARTS INNER JOIN DELIVERIES\n" +
+"                 ON PARTS.ID = DELIEVEIRS.PARTID;";
+            ResultSet rs = conn.query(query);
+            ArrayList<Delivery> deliverylist = new ArrayList<Delivery>();
+            while (rs.next())
+            {
+                System.out.println("registry test");
+                String name = rs.getString(1);
+                int quantity = rs.getInt(2);
+                Date date = new Date(rs.getString(3));
+                int stock = rs.getInt("STOCK");
+                deliverylist.add(new Delivery(name,quantity,date));
+            }
+            conn.closeConnection();
+            return deliverylist;
+        }catch(SQLException e){
+            System.out.println("IN exception");
+            return null;
+        }
+    }
+    
     //search for all parts used to repair a vehicle
     //can search by vehicle or customer
     public ArrayList<Part> searchStockParts(String id, String searchBy){
@@ -155,11 +181,11 @@ public class PartRegistry {
             System.out.println(name);
             String description = rs.getString("DESCRIPTION");
             System.out.println(description);
-            int cost = rs.getInt("COST");
+            BigDecimal cost = new BigDecimal(rs.getString("COST"));
             System.out.println(cost);
             int stock = rs.getInt("STOCK");
             System.out.println(stock);
-            partlist.add(new Part(name,description,String.valueOf(cost),String.valueOf(stock)));
+            partlist.add(new Part(name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;

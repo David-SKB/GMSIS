@@ -13,6 +13,8 @@ import customers.logic.CustomerRegistry;
 import diagrep.logic.Booking;
 import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
+import java.io.IOException;
+import java.math.BigDecimal;
 import parts.logic.Part;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
@@ -40,83 +43,86 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
 //
+
 /**
  * FXML Controller class
  *
  * @author jr308
  */
 public class StockPartsController implements Initializable {
-    
+
     private PartRegistry partR = PartRegistry.getInstance();
     private BookingRegistry bookingR = BookingRegistry.getInstance();
     private CustomerRegistry customerR = CustomerRegistry.getInstance();
     private VehicleRegistry vehicleR = VehicleRegistry.getInstance();
-    
+
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     //Stock Parts
     @FXML
     private AnchorPane stockParts;
-    
+
     @FXML
     private AnchorPane usedParts;
-    
-    @FXML 
+
+    @FXML
     private AnchorPane repairs;
-   
+
     private Part selectedPart;
-    
+
     //stock parts gui
     @FXML
     private TableView<Part> stockTable;
     @FXML
-    private TableColumn nameCol, descriptionCol, costCol,                          //FXML TableColumn. Columns form the TableView element.
-                        stockCol;
+    private TableColumn nameCol, descriptionCol, costCol, //FXML TableColumn. Columns form the TableView element.
+            stockCol;
     @FXML
     private TextField quantityTextField, searchTextField;
     @FXML
     private TextArea partNameTextArea, partDescriptionTextArea,
             partCostTextArea, partStockLevelTextArea;
-    
-    @FXML 
+
+    @FXML
     private DatePicker deliveryDatePicker, deliveryDatePickerQuantity;
-    
+
     //used parts gui
     @FXML
     private TableView<Part> usedTable;
     @FXML
-    private TableColumn nameCol1, descriptionCol1, costCol1,                          //FXML TableColumn. Columns form the TableView element.
-                        vehicleCol1, customerCol1, firstNamecol1,
-                        lastNameCol1, repairIDCol1;
+    private TableColumn nameCol1, descriptionCol1, costCol1, //FXML TableColumn. Columns form the TableView element.
+            vehicleCol1, customerCol1, firstNamecol1,
+            lastNameCol1, repairIDCol1;
     @FXML
     private TextArea usedPartNameTextArea, usedPartDescriptionTextArea,
             usedPartCostTextArea, usedPartStockLevelTextArea,
-            dateInstalledTextArea, warrantyEndsTextArea, 
+            dateInstalledTextArea, warrantyEndsTextArea,
             vehicleRegistrationTextArea, customerNameTextArea,
             repairIDTextArea;
-    
+
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
     @FXML
     private TableView<RepairWrapper> repairsTable;
     @FXML
-    private TableColumn repairIDCol, rVehicleRegistrationCol,                          //FXML TableColumn. Columns form the TableView element.
-                        rCustomerCol1, rFirstNameCol,
-                        rLastNameCol, rDateCol;
+    private TableColumn repairIDCol, rVehicleRegistrationCol, //FXML TableColumn. Columns form the TableView element.
+            rCustomerCol1, rFirstNameCol,
+            rLastNameCol, rDateCol;
     @FXML
     private TableView<Part> rStockTable;
     @FXML
-    private TableColumn rNameCol, rDescriptionCol, rCostCol,                          //FXML TableColumn. Columns form the TableView element.
-                        rStockCol;
+    private TableColumn rNameCol, rDescriptionCol, rCostCol, //FXML TableColumn. Columns form the TableView element.
+            rStockCol;
     //deliveries
-    
 
-   @Override
-   public void initialize(URL url, ResourceBundle rb) {
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
         System.out.println("test");
         //partR.addPart("axis", "circular", 100);
         System.out.println("test2");
@@ -126,12 +132,12 @@ public class StockPartsController implements Initializable {
         setupRowListeners();
         loadAllParts();
         loadStockParts();
-    }   
-    
+    }
+
     //STOCK METHODS
     //loads oList into stock table
-    public void loadStockParts(){//ActionEvent event){
-        
+    public void loadStockParts() {//ActionEvent event){
+
         //System.out.println("test3");
         //loadAllParts();
         stockTable.setEditable(true);
@@ -146,66 +152,62 @@ public class StockPartsController implements Initializable {
         stockTable.setItems(oPartList);
         //System.out.println("test3");
     }
-    
-    public void loadAllParts(){//ActionEvent event){
+
+    public void loadAllParts() {//ActionEvent event){
         System.out.println("test4");
         oPartList.clear();
         ArrayList<Part> partlist = partR.getStockParts();
         System.out.println(partlist == null);
         System.out.println(partlist == null);
-        if(partlist != null)
-        {
+        if (partlist != null) {
             System.out.println("inside if");
-            for(int i = 0; i < partlist.size(); i++)
-            {
+            for (int i = 0; i < partlist.size(); i++) {
                 System.out.println("inside for");
                 oPartList.add(partlist.get(i));
             }
         }
         //loadStockParts();
     }
-    
-    public void updateStockLevel(ActionEvent event){
+
+    public void updateStockLevel(ActionEvent event) {
         System.out.println("in update stock level");
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
-        System.out.println(selectedPart.getName());  
+        System.out.println(selectedPart.getName());
         partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
-        
+
         loadAllParts();
     }
-    
-   public void addStockPart(ActionEvent event){
+
+    public void addStockPart(ActionEvent event) {
         String name = partNameTextArea.getText();
         String description = partDescriptionTextArea.getText();
-        int cost = Integer.parseInt(partCostTextArea.getText());
+        BigDecimal cost = new BigDecimal((partCostTextArea.getText()));
         String quantity = partStockLevelTextArea.getText();
         partR.addPart(name, description, cost);
-        partR.addDelivery(partR.searchStockParts(name, "NAME").get(0).getID(),Integer.parseInt(quantity),  java.sql.Date.valueOf(deliveryDatePicker.getValue()));
+        partR.addDelivery(partR.searchStockParts(name, "NAME").get(0).getID(), Integer.parseInt(quantity), java.sql.Date.valueOf(deliveryDatePicker.getValue()));
         loadAllParts();
     }
-    
-    public void searchParts(ActionEvent event){
+
+    public void searchParts(ActionEvent event) {
         oPartList.clear();
-        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(),"NAME");
+        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(), "NAME");
         System.out.println(partlist == null);
-        if(partlist != null)
-        {
+        if (partlist != null) {
             System.out.println("inside if");
-            for(int i = 0; i < partlist.size(); i++)
-            {
+            for (int i = 0; i < partlist.size(); i++) {
                 System.out.println("inside for");
                 oPartList.add(partlist.get(i));
             }
         }
         loadStockParts();
     }
-    
+
     private void setupRowListeners() {
-        stockTable.setRowFactory( table ->{
+        stockTable.setRowFactory(table -> {
             TableRow<Part> row = new TableRow<>();
 
             row.setOnMouseClicked(e -> {
-                if (e.getClickCount() == 2 && (!row.isEmpty()) ) {
+                if (e.getClickCount() == 2 && (!row.isEmpty())) {
                     selectedPart = stockTable.getSelectionModel().getSelectedItem();
                     loadPartIntoFields();
                 }
@@ -213,18 +215,17 @@ public class StockPartsController implements Initializable {
             return row;
         });
     }
-    
-    public void loadPartIntoFields()
-    {
+
+    public void loadPartIntoFields() {
         partNameTextArea.setText(selectedPart.getName());
         partDescriptionTextArea.setText(selectedPart.getDescription());
         partCostTextArea.setText(selectedPart.getCost());
-        partStockLevelTextArea.setText(selectedPart.getStocklevel());
+        partStockLevelTextArea.setText(String.valueOf(selectedPart.getStocklevel()));
     }
-    
+
     //USED PARTS METHODS
-    public void loadUsedParts(){//ActionEvent event){
-        
+    public void loadUsedParts() {//ActionEvent event){
+
         System.out.println("test3");
         loadAllParts();
         stockTable.setEditable(true);
@@ -237,13 +238,12 @@ public class StockPartsController implements Initializable {
         stockCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("stocklevel"));
         stockTable.setItems(oPartList);
-        
+
     }
-    
+
     //REPAIRS METHODS
-    
     //load data into stock table
-    public void loadRStockParts(){//ActionEvent event){
+    public void loadRStockParts() {//ActionEvent event){
         rStockTable.setEditable(true);
         rNameCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("name"));
@@ -255,10 +255,10 @@ public class StockPartsController implements Initializable {
                 new PropertyValueFactory<Part, String>("stocklevel"));
         rStockTable.setItems(oPartList);
     }
-    
+
     //load data into repairs table
-    public void loadRepairsTable(){//ActionEvent event){
-        
+    public void loadRepairsTable() {//ActionEvent event){
+
         repairsTable.setEditable(true);
         repairIDCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("repairID"));
@@ -271,58 +271,79 @@ public class StockPartsController implements Initializable {
         rDateCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("date"));
         repairsTable.setItems(oRepairList);
-        
+
     }
+
     //loads relevant data in RepairWrapper
-    public void loadAllRepairs(){//ActionEvent event){
-        
+    public void loadAllRepairs() {//ActionEvent event){
+
         System.out.println("test4");
         oRepairList.clear();
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
         ArrayList<DiagRepairBooking> bookings = bookingR.getListDiagRepairBookings();
-        for(int i = 0; i < bookings.size(); i++)
-        {
+        for (int i = 0; i < bookings.size(); i++) {
             Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVechID());
             Customer customer = customerR.searchCustomerByID(bookings.get(i).getCustID());
             repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
         }
-        if(repairList != null)
-        {
+        if (repairList != null) {
             System.out.println("inside if");
-            for(int i = 0; i < repairList.size(); i++)
-            {
+            for (int i = 0; i < repairList.size(); i++) {
                 System.out.println("inside for");
                 oRepairList.add(repairList.get(i));
             }
         }
-        
+
     }
-    
-    public void addPartToRepair(ActionEvent event){
-        
+
+    public void addPartToRepair(ActionEvent event) {
+
         Part selectedPart = rStockTable.getSelectionModel().getSelectedItem();
         RepairWrapper selectedRepair = repairsTable.getSelectionModel().getSelectedItem();
-        partR.usePart(selectedRepair.getRepairID(),selectedRepair.getVehicleRegistration(),selectedRepair.getCustomerID(),selectedPart.getName(), new Date(2017, 01, 01), new Date(2018, 01, 01), selectedPart.getCost());
-        if(Integer.parseInt(selectedPart.getStocklevel()) < 2)
+        partR.usePart(selectedRepair.getRepairID(), selectedRepair.getVehicleRegistration(), selectedRepair.getCustomerID(), selectedPart.getName(), new Date(2017, 01, 01), new Date(2018, 01, 01), selectedPart.getCost());
+        if (selectedPart.getStocklevel() < 2) {
             partR.deletePart(selectedPart.getName());
-        else
+        } else {
             partR.updateStock(selectedPart.getName(), -1);
+        }
     }
+
+    //view Deliveries
+    
+    public void viewDeliveries(ActionEvent event){
+        try {
+                FXMLLoader loader = new FXMLLoader();
+                Pane root = loader.load(getClass().getResource("viewDeliveries.fxml"));//.openStream()); 
+                //ViewDeliveriesController controller = (ViewDeliveriesController)loader.getController();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(root.getScene().getWindow());
+                stage.setScene(scene);
+                stage.showAndWait();
+            } catch(IOException ex) {
+                System.err.println("Error: "+ex);
+            }
+    }
+
+
     
     //CHANGING ANCHOR METHODS
-    public void viewUsedPartsAnchor(ActionEvent event){
+    public void viewUsedPartsAnchor(ActionEvent event) {
         repairs.setVisible(false);
         stockParts.setVisible(false);
         usedParts.setVisible(true);
     }
-    public void viewStockPartsAnchor(ActionEvent event){
+
+    public void viewStockPartsAnchor(ActionEvent event) {
         repairs.setVisible(false);
         usedParts.setVisible(false);
         stockParts.setVisible(true);
         loadAllParts();
         loadStockParts();
     }
-    public void viewRepairsAnchor(ActionEvent event){
+
+    public void viewRepairsAnchor(ActionEvent event) {
         stockParts.setVisible(false);
         usedParts.setVisible(false);
         repairs.setVisible(true);
@@ -331,7 +352,7 @@ public class StockPartsController implements Initializable {
         loadAllRepairs();
         loadRepairsTable();
     }
-    
+
 }
 //AnchorPane pane = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
 //rootPane.getChildren().setAll(pane);
