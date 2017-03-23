@@ -297,6 +297,9 @@ public class VehicleGUIController implements Initializable {
    currLastTextField.setText(lastTextField.getText());
    currMileTextField.setText(mileageTextField.getText());
    currWarrCheckBox.setSelected(warrantyCheckBox.isSelected());
+   currWarrantyNameTextField.setText(warrantyNameTextField.getText());
+   currWarrantyAddressTextField.setText(warrantyAddressTextField.getText());
+   currWarrantyExpiryTextField.setText(warrantyExpiryTextField.getText());
    //set current values in updated section
    updateRegTextField.setText(regTextField.getText());
    updateMakeTextField.setText(makeTextField.getText());
@@ -308,6 +311,9 @@ public class VehicleGUIController implements Initializable {
    updateLastTextField.setText(lastTextField.getText());
    updateMileTextField.setText(mileageTextField.getText());
    updateWarrCheckBox.setSelected(warrantyCheckBox.isSelected());
+   updateWarrantyNameTextField.setText(warrantyNameTextField.getText());
+   updateWarrantyAddressTextField.setText(warrantyAddressTextField.getText());
+   updateWarrantyExpiryTextField.setText(warrantyExpiryTextField.getText());
   }
   
  
