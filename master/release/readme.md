@@ -1,12 +1,9 @@
 <h1 align="center">
-Team 9
+Garage Management Information System
 </h1>
 
-
-
-
 <div align="center">
-Garage Management Information System
+Team 9 
   <br>
 </div>
 
@@ -80,7 +77,6 @@ cd SE9
 ### APIs & Libaries
 
 - **SQLite/JDBC:** https://bitbucket.org/xerial/sqlite-jdbc/downloads/
-- ASD
 
 ## Credits
 
