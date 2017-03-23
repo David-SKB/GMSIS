@@ -58,6 +58,7 @@ import javax.swing.JOptionPane;
 import vehicles.logic.Template;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
+import vehicles.logic.Warranty;
 
 
 /**
@@ -323,11 +324,11 @@ public class VehicleGUIController implements Initializable {
    mileageTextField.setText(String.valueOf(temp.getCurrentMile()));
    if(temp.getWarranty()){
     warrantyCheckBox.setSelected(true);
-    ArrayList<String> details = new ArrayList();
+    ArrayList<Warranty> details = new ArrayList();
      details = vr.getWarranty(temp.getRegistration());
-      warrantyNameTextField.setText(details.get(0));
-      warrantyAddressTextField.setText(details.get(0));
-      warrantyExpiryTextField.setText(details.get(0));
+      warrantyNameTextField.setText(details.get(0).getName());
+      warrantyAddressTextField.setText(details.get(0).getAddress());
+      warrantyExpiryTextField.setText(details.get(0).getExpiry());
    }
    else{
     warrantyCheckBox.setSelected(false);  

@@ -74,31 +74,30 @@ public class VehicleRegistry {
    } 
    return false;
  }
- public ArrayList<String> getWarranty(String reg){
-  ArrayList<String> warrantyDetails = new ArrayList();
+ public ArrayList<Warranty> getWarranty(String reg){
   try{
+   ArrayList<Warranty> warranty = new ArrayList();
    DBConnection c = DBConnection.getInstance();
     c.connect();
     //sql statement
-    String sql = "SELECT * FROM WARRANTY WHERE REGISTRATION = " + reg + ";";
+    String sql = "SELECT * FROM WARRANTY WHERE REGISTRATION = '" + reg + "';";
     ResultSet rs = c.query(sql);
      if( rs.next() ){
       String name = rs.getString("NAME");
       String address = rs.getString("ADDRESS");
-      String expiry = rs.getString("EXPIRY");
-      warrantyDetails.add(name);
-      warrantyDetails.add(address);
-      warrantyDetails.add(expiry);
+      String expiry = rs.getString("EXPIRYDATE");
+      Warranty warr = new Warranty(name,address,expiry);
+      warranty.add(warr);
      }
      rs.close();
      c.closeConnection();
-     return warrantyDetails;
+     return warranty;
   }
   catch(SQLException e){
    System.err.println(e.getClass().getName() + ": " + e.getMessage() );
     System.exit(0);    
   }
-  return warrantyDetails;
+  return null;
  }
  
  public boolean checkWarranty(String reg){
