@@ -675,21 +675,21 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private void SearchByReg() throws SQLException
     {
         T1ID.setCellValueFactory(
-                new PropertyValueFactory<SearchName, Integer>("T1IDX"));
+                new PropertyValueFactory<SearchMain, Integer>("T1IDX"));
         T1Fname.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1FNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1FNAMEX"));
         T1Lname.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1LNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1LNAMEX"));
         T1Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1REGX"));
+                new PropertyValueFactory<SearchMain, String>("T1REGX"));
         T1SPC.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1SPCX"));
+                new PropertyValueFactory<SearchMain, String>("T1SPCX"));
         T1ExpDel.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1EXPDELX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPDELX"));
         T1ExpRet.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1EXPRETX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPRETX"));
         T1Cost.setCellValueFactory(
-                new PropertyValueFactory<SearchName, Double>("T1COSTX"));
+                new PropertyValueFactory<SearchMain, Double>("T1COSTX"));
             
         if (EC.isPlate(RegSearch.getText()) == false)
         {
@@ -709,21 +709,21 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private void SearchByName() throws SQLException
     {
         T1ID.setCellValueFactory(
-                new PropertyValueFactory<SearchName, Integer>("T1IDX"));
+                new PropertyValueFactory<SearchMain, Integer>("T1IDX"));
         T1Fname.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1FNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1FNAMEX"));
         T1Lname.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1LNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1LNAMEX"));
         T1Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1REGX"));
+                new PropertyValueFactory<SearchMain, String>("T1REGX"));
         T1SPC.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1SPCX"));
+                new PropertyValueFactory<SearchMain, String>("T1SPCX"));
         T1ExpDel.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1EXPDELX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPDELX"));
         T1ExpRet.setCellValueFactory(
-                new PropertyValueFactory<SearchName, String>("T1EXPRETX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPRETX"));
         T1Cost.setCellValueFactory(
-                new PropertyValueFactory<SearchName, Double>("T1COSTX"));
+                new PropertyValueFactory<SearchMain, Double>("T1COSTX"));
             
         
         if (EC.isAlphanumeric(FirstNameSearch.getText()) == false || EC.isAlphanumeric(LastNameSearch.getText()) == false)
@@ -749,21 +749,21 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private void SearchBySPC(int SPCID) throws SQLException
     {
         T1ID.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Integer>("T1IDX"));
+                new PropertyValueFactory<SearchMain, Integer>("T1IDX"));
         T1Fname.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1FNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1FNAMEX"));
         T1Lname.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1LNAMEX"));
+                new PropertyValueFactory<SearchMain, String>("T1LNAMEX"));
         T1Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1REGX"));
+                new PropertyValueFactory<SearchMain, String>("T1REGX"));
         T1SPC.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1SPCX"));
+                new PropertyValueFactory<SearchMain, String>("T1SPCX"));
         T1ExpDel.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPDELX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPDELX"));
         T1ExpRet.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T1EXPRETX"));
+                new PropertyValueFactory<SearchMain, String>("T1EXPRETX"));
         T1Cost.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Double>("T1COSTX"));
+                new PropertyValueFactory<SearchMain, Double>("T1COSTX"));
             
         ObservableList<SearchMain> resultList = repairs.searchSPC(SPCID);
         MainTable.setItems(resultList);
@@ -796,17 +796,17 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private boolean VehicleDetails(String regNo) throws SQLException
     {
         T4Reg.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Integer>("T4REGX"));
+                new PropertyValueFactory<DisplayVehicle, Integer>("T4REGX"));
         T4Make.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T4MAKEX"));
+                new PropertyValueFactory<DisplayVehicle, String>("T4MAKEX"));
         T4Model.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T4MODELX"));
+                new PropertyValueFactory<DisplayVehicle, String>("T4MODELX"));
         T4Fuel.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T4FUELX"));
+                new PropertyValueFactory<DisplayVehicle, String>("T4FUELX"));
         T4Mileage.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, String>("T4MILEAGEX"));
+                new PropertyValueFactory<DisplayVehicle, String>("T4MILEAGEX"));
         T4Color.setCellValueFactory(
-                new PropertyValueFactory<SearchReg, Double>("T4COLORX"));
+                new PropertyValueFactory<DisplayVehicle, Double>("T4COLORX"));
         
         ObservableList<DisplayVehicle> vehicleInfo = repairs.getVehicle(regNo);
         VehicleTable.setItems(vehicleInfo);
