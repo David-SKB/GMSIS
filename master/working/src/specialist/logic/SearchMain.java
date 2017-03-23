@@ -7,15 +7,19 @@ import javafx.beans.property.SimpleStringProperty;
 public class SearchMain 
 {
     private final SimpleIntegerProperty T1IDX;
+    private final SimpleStringProperty T1FNAMEX;
+    private final SimpleStringProperty T1LNAMEX;
     private final SimpleStringProperty T1REGX;
     private final SimpleStringProperty T1SPCX;
     private final SimpleStringProperty T1EXPDELX;
     private final SimpleStringProperty T1EXPRETX;
     private final SimpleDoubleProperty T1COSTX;
     
-    public SearchMain(int t1id, String t1Reg, String t1spc, String t1expdel, String t1expret, double t1cost)
+    public SearchMain(int t1id, String t1fname, String t1lname, String t1Reg, String t1spc, String t1expdel, String t1expret, double t1cost)
     {
         this.T1IDX = new SimpleIntegerProperty(t1id);
+        this.T1FNAMEX = new SimpleStringProperty(t1fname);
+        this.T1LNAMEX = new SimpleStringProperty(t1lname);
         this.T1REGX = new SimpleStringProperty(t1Reg);
         this.T1SPCX = new SimpleStringProperty(t1spc);
         this.T1EXPDELX = new SimpleStringProperty(t1expdel);
@@ -26,6 +30,16 @@ public class SearchMain
     public int getT1IDX()
     {
         return T1IDX.get();
+    }
+    
+    public String getT1FNAMEX()
+    {
+        return T1FNAMEX.get();
+    }
+    
+    public String getT1LNAMEX()
+    {
+        return T1LNAMEX.get();
     }
     
     public String getT1REGX()
