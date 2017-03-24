@@ -71,6 +71,7 @@ public class AdminController {
     private Employee tempUser;
     private SPC tempSPC;
     private int SPCID = 0;
+    public static String ID;
     public void initialize() {
         /**********************************
          * ADMIN
@@ -138,8 +139,22 @@ public class AdminController {
          EC.SetNumberRestrictionPhone(addSPCPhoneTF);
          EC.SetAddressRestriction(addSPCAddrTF);
          EC.SetWordSpaceRestriction(addSPCNameTF);
+         
+         EC.SetNumberRestrictionPhone(editSPCPhoneTF);
+         EC.SetAddressRestriction(editSPCAddrTF);
+         EC.SetWordSpaceRestriction(editSPCNameTF);
     }
     
+    public void setUserID(String UID)
+    {
+        ID = UID;
+    }
+    
+    public String getUserID()
+    {
+        return ID;
+    }
+     
     public void updateAnchorPane(AnchorPane AP){
          loadData(userData);loadDataSPC(spcData);
         ObservableList<Node> OL = AP.getChildren();
@@ -149,6 +164,7 @@ public class AdminController {
         updateUserAP(userAP);
         AnchorPane spcAP = (AnchorPane)OL2.get(1);
         updateSPCAP(spcAP);
+        System.out.println("UserID " + ID);
     }
     
     private void updateUserAP(AnchorPane AP){
@@ -173,34 +189,43 @@ public class AdminController {
         userTV.setItems(userData);
     }
     
-    public void delUser(ActionEvent evt)
+    public void delUser()
     {
         if(tempUser != null)
         {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Deleting User: " + tempUser.getIDNumber());
-            alert.setHeaderText("Are you sure you want to delete this user?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK)
+            String ID2 = Integer.toString(tempUser.getIDNumber());
+            System.out.println(ID + " " + tempUser.getIDNumber());
+            if (ID.equals(ID2))
             {
-                DB.connect();
-            
-                int IDNo = tempUser.getIDNumber();
-                boolean qStatus = UR.deleteUser(IDNo);
-            
-                DB.closeConnection();
-                if(qStatus)
-                {
-                    getUsers();
-                }
-                else
-                {
-                    EC.TimedMsgRED(delUserStatus, "Could not delete user");
-                }
+                EC.TimedMsgRED(delUserStatus, "Cannot Delete Current User");
             }
             else
             {
-                getUsers();
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Deleting User: " + tempUser.getIDNumber());
+                alert.setHeaderText("Are you sure you want to delete this user?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK)
+                {
+                    DB.connect();
+
+                    int IDNo = tempUser.getIDNumber();
+                    boolean qStatus = UR.deleteUser(IDNo);
+
+                    DB.closeConnection();
+                    if(qStatus)
+                    {
+                        getUsers();
+                    }
+                    else
+                    {
+                        EC.TimedMsgRED(delUserStatus, "Could not delete user");
+                    }
+                }
+                else
+                {
+                    getUsers();
+                }
             }
         }
         else
@@ -393,7 +418,7 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(addUserStatus, "Admin already exists.");
+            EC.TimedMsgRED(addUserStatus, "User already exists.");
             clearUserDetails();
         }   
     }
@@ -408,7 +433,7 @@ public class AdminController {
             }
             else
             {
-                EC.TimedMsgRED(addUserStatus, "Users already exists.");
+                EC.TimedMsgRED(addUserStatus, "User already exists.");
                 clearUserDetails();
             }   
     }
@@ -420,7 +445,14 @@ public class AdminController {
         addLNTF.clear();
         addPassTF.clear();
         addHRateTF.clear();
-        addHRateTF.setVisible(true);
+        if (validateUserType(userRights).equals("Admin"))
+        {
+            addHRateTF.setVisible(false);
+        }
+        else
+        {
+            addHRateTF.setVisible(true);
+        }
         ClearAddUserStyles();
     }
     
@@ -430,7 +462,7 @@ public class AdminController {
         {
             return false;
         }
-        else if(ID.length() > 5)
+        else if(ID.length() != 5)
         {
             return false;
         }
@@ -519,7 +551,7 @@ public class AdminController {
         }else
         {
             
-            EC.TimedMsgRED(editUserStatus, "Admin already exists.");
+            EC.TimedMsgRED(editUserStatus, "User already exists.");
             clearUserDetailsOnEdit();
         } 
     }
@@ -534,7 +566,7 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(editUserStatus, "Users already exists.");
+            EC.TimedMsgRED(editUserStatus, "User already exists.");
             clearUserDetailsOnEdit();
         }      
     }
@@ -546,7 +578,14 @@ public class AdminController {
         eLNTF.clear();
         ePassTF.clear();
         eHRateTF.clear();
-        eHRateTF.setVisible(true);
+        if (validateUserType(userRightsE).equals("Admin"))
+        {
+            eHRateTF.setVisible(false);
+        }
+        else
+        {
+            eHRateTF.setVisible(true);
+        }
     }
     
     private boolean validateUserOnEdit(String userType)

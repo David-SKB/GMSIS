@@ -45,7 +45,7 @@ public class InterfaceController implements Initializable{
     private AnchorPane vehicleAP;
     @FXML
     private Label welcomeUser;
-
+    private String UserID;
      public void spcUpdate(){
         try{
          this.RPC.updateAnchorPane(SPCAP);
@@ -57,12 +57,21 @@ public class InterfaceController implements Initializable{
         welcomeUser.setText("Welcome, " + user + "!");
     }
     
+    public void setUserID(String ID){
+        //UserID = ID;
+        adminController.setUserID(ID);
+    }
+    
+    public String getUserID(){
+        return UserID;
+    }
+    
     public void tabSwitch(){
         this.InterfaceTabPane.getTabs().remove(adminTab);
     }
     
     public void adminUpdate(){
-        this.adminController.updateAnchorPane(adminAP);
+        this.adminController.updateAnchorPane(adminAP); 
     }
     
     public void customerUpdate(){
@@ -82,5 +91,6 @@ public class InterfaceController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.InterfaceTabPane.getSelectionModel().select(0);
+        adminController.setUserID(UserID);
     }
 }
