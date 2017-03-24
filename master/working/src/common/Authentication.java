@@ -37,7 +37,7 @@ public class Authentication
     
     private static String tempName;
     private static String tempLastName;
-    
+    private static String UserID;
     public void start(Stage primaryStage) 
     {
         primaryStage.setResizable(false); 
@@ -105,6 +105,7 @@ public class Authentication
                 if ((userTextField.getText() != null && !userTextField.getText().isEmpty()) && (pwBox.getText() != null && !pwBox.getText().isEmpty())) 
                 {                
                     String username = userTextField.getText();
+                    UserID = username;
                     String password = pwBox.getText();
                     if (checkUsernamePassword(username, password))
                     {
@@ -123,6 +124,7 @@ public class Authentication
                                 primaryStage.close();
                                 InterfaceController IC = fxmlLoader.<InterfaceController>getController();
                                 IC.showWelcome(tempName + " " + tempLastName);
+                                IC.setUserID(UserID);
                                 stage.show();   
                             } catch (IOException ex) {
                                 Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
