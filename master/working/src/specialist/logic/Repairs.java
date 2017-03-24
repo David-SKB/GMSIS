@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 public class Repairs
@@ -317,6 +319,31 @@ public class Repairs
         boolean success = DBC.update(SQL);
         DBC.closeConnection();
         return success;
+    }
+    
+    public boolean findVehicle(String regNo)
+    {
+        DBC.connect();
+        String SQL = "SELECT COUNT(REGISTRATION) FROM VEHICLE WHERE REGISTRATION =  '" + regNo + "';";
+        System.out.println(SQL);
+        int count = 0;
+        ResultSet rs = DBC.query(SQL);
+        System.out.println(rs.toString());
+        try {
+            if(rs.next())
+            {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) 
+        {
+            //db error
+        }
+        DBC.closeConnection();
+        if (count == 0)
+        {
+            return false;
+        }
+        return true;
     }
     
     public boolean deletePartRepair(int RepairID)

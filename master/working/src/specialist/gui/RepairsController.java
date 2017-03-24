@@ -338,15 +338,21 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddVStyles();
         boolean valid = true;
+        boolean vehiclefound = true;
         if (RegNoVehicle.getText() == null)
         {
             valid = false;
             RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
-            System.out.println("hi");
         }
         else if (EC.isPlate(RegNoVehicle.getText()) == false)
         {
             valid = false;
+            RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else if (repairs.findVehicle(EC.toUpperPlate(RegNoVehicle.getText())) == false)
+        {
+            valid = false;
+            vehiclefound = false;
             RegNoVehicle.setStyle("-fx-border-color: #ff1e1e;");
         }
         if (SPCIDVehicle.getValue() == null)
@@ -384,7 +390,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         //********************************************************
         if (valid == false)
         {
-            EC.TimedMsgRED(AddError, "Invalid Input");
+            if (vehiclefound == true)
+            {
+                EC.TimedMsgRED(AddError, "Invalid Input");
+                return false;
+            }
+            EC.TimedMsgRED(AddError, "Vehicle Not Found");
             return false;
         }
         ClearAddVStyles();
@@ -395,6 +406,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddPStyles();
         boolean valid = true;
+        boolean vehiclefound = true;
         if (RegNoPart.getText() == null)
         {
             valid = false;
@@ -403,6 +415,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         else if(EC.isPlate(RegNoPart.getText()) == false )
         {
             valid = false;
+            RegNoPart.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else if (repairs.findVehicle(EC.toUpperPlate(RegNoPart.getText())) == false)
+        {
+            valid = false;
+            vehiclefound = false;
             RegNoPart.setStyle("-fx-border-color: #ff1e1e;");
         }
         if (IDPart.getValue() == null)
@@ -430,7 +448,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         //****************************************************
         if (valid == false)
         {
-            EC.TimedMsgRED(AddErrorPart, "Invalid Input");
+            if (vehiclefound == true)
+            {
+                EC.TimedMsgRED(AddErrorPart, "Invalid Input");
+                return false;
+            }
+            EC.TimedMsgRED(AddErrorPart, "Vehicle Not Found");
             return false;
         }
         ClearAddPStyles();
@@ -441,6 +464,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddUVStyles();
         boolean valid = true;
+        boolean vehiclefound = true;
         if (RegNoVehicle2.getText() == null)
         {
             valid = false;
@@ -451,9 +475,15 @@ public class RepairsController /*extends Application*/ implements Initializable
             valid = false;
             RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
         }
+        else if (repairs.findVehicle(EC.toUpperPlate(RegNoVehicle2.getText())) == false)
+        {
+            valid = false;
+            vehiclefound = false;
+            RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
+        }
         else
         {
-            if (RegNoVehicle2.getText().length() != 7)
+            if (RegNoVehicle2.getText().length() > 7)
             {
                 valid = false;
                 RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
@@ -494,7 +524,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         //**********************************************************
         if (valid == false)
         {
-            EC.TimedMsgRED(EditError, "Invalid Input");
+            if (vehiclefound == true)
+            {
+                EC.TimedMsgRED(EditError, "Invalid Input");
+                return false;
+            }
+            EC.TimedMsgRED(EditError, "Vehicle Not Found");
             return false;
         }
         ClearAddUVStyles();
@@ -505,6 +540,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         ClearAddUPStyles();
         boolean valid = true;
+        boolean vehiclefound = false;
         if (RegNoPart2.getText() == null)
         {
             valid = false;
@@ -513,6 +549,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         else if (EC.isPlate(RegNoPart2.getText()) == false)
         {
             valid = false;
+            RegNoPart2.setStyle("-fx-border-color: #ff1e1e;");
+        }
+        else if (repairs.findVehicle(EC.toUpperPlate(RegNoPart2.getText())) == false)
+        {
+            valid = false;
+            vehiclefound = false;
             RegNoPart2.setStyle("-fx-border-color: #ff1e1e;");
         }
         if (IDPart2.getValue() == null)
@@ -540,7 +582,12 @@ public class RepairsController /*extends Application*/ implements Initializable
         //*****************************************************
         if (valid == false)
         {
-            EC.TimedMsgRED(EditErrorPart, "Invalid Input");
+            if (vehiclefound == true)
+            {
+                EC.TimedMsgRED(EditErrorPart, "Invalid Input");
+                return false;
+            }
+            EC.TimedMsgRED(EditErrorPart, "Vehicle Not Found");
             return false;
         }
         ClearAddUPStyles();
@@ -1241,7 +1288,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             TextFields.bindAutoCompletion(RegNoVehicle, VehicleList).setMaxWidth(size); 
             TextFields.bindAutoCompletion(RegNoVehicle2, VehicleList).setMaxWidth(size);
             TextFields.bindAutoCompletion(RegNoPart, VehicleList).setMaxWidth(size);
-        }
+        };
     }
     //DatePicker Stuff
     private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()

@@ -115,6 +115,21 @@ public class ErrorChecks
     }
     
     /**
+    * NOTDONE
+    */
+    public void SetMoneyRestriction(TextField field)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[0-9]*.[0-9]{1,2}")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    
+    /**
     * Restricts input to words and spaces
     */
     public void SetWordSpaceRestriction(TextField field)
@@ -236,6 +251,31 @@ public class ErrorChecks
             }
         }
         return false;
+    }
+    
+    public String toUpperPlate(String reg) 
+    {
+        String newReg = "";
+        int size = reg.length();
+        
+        for (int i = 0; i < size; i++)
+        {
+            String x = String.valueOf(reg.charAt(i));//current character
+            if (x.matches("[0-9]"))
+            {
+                newReg = newReg + x;
+            }
+            else if(x.matches(" "))
+            {
+                newReg = newReg + " ";
+            }
+            else
+            {
+                newReg = newReg + x.toUpperCase();
+            }
+        }
+        System.out.println(newReg);
+        return newReg;
     }
     
     /**
