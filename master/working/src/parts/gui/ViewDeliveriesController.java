@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import parts.logic.Part;
+import parts.logic.PartRegistry;
 
 /**
  *
@@ -25,10 +26,11 @@ import parts.logic.Part;
 
 
 public class ViewDeliveriesController implements Initializable {
+    PartRegistry partR = PartRegistry.getInstance();
     @FXML
-    private TableView<Delivery> deliveriesTable;
+    private TableView<Delivery> deliveryTable;
     @FXML
-    private TableColumn deliveriesPartNameCol, deliveriesQuantityCol, deliveriesDateCol;
+    private TableColumn deliveryPartNameCol, deliveryQuantityCol, deliveryDateCol;
     private final ObservableList<Delivery> oDeliveryList = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,12 +40,12 @@ public class ViewDeliveriesController implements Initializable {
     public void loadDeliveriesList(){
         System.out.println("test4");
         oDeliveryList.clear();
-        ArrayList<Delivery> deliveryList = new ArrayList<Delivery>();
+        ArrayList<Delivery> deliveryList = partR.getDeliveries();
 
         if (deliveryList != null) {
             System.out.println("inside if");
             for (int i = 0; i < deliveryList.size(); i++) {
-                System.out.println("inside for");
+                System.out.println(deliveryList.get(i).getPart());
                 oDeliveryList.add(deliveryList.get(i));
             }
         }
@@ -51,13 +53,13 @@ public class ViewDeliveriesController implements Initializable {
     }
     
     public void loadDeliveriesTable(){
-        deliveriesTable.setEditable(true);
-        deliveriesPartNameCol.setCellValueFactory(
+        deliveryTable.setEditable(true);
+        deliveryPartNameCol.setCellValueFactory(
                 new PropertyValueFactory<Delivery, String>("part"));
-        deliveriesQuantityCol.setCellValueFactory(
+        deliveryQuantityCol.setCellValueFactory(
                 new PropertyValueFactory<Delivery, Integer>("quantity"));
-        deliveriesDateCol.setCellValueFactory(
+        deliveryDateCol.setCellValueFactory(
                 new PropertyValueFactory<Delivery, String>("date"));
-        deliveriesTable.setItems(oDeliveryList);
+        deliveryTable.setItems(oDeliveryList);
     }
 }

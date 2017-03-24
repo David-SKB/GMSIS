@@ -37,7 +37,7 @@ public class Part {
         stocklevel = new SimpleIntegerProperty(s);
     }
     //test
-    public int getID(){
+    public int getId(){
         return id.get();
     }
     public String getName(){

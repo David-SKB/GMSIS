@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.EditPartController">
+   <children>
+      <TextArea fx:id="partCostTextArea" layoutX="117.0" layoutY="278.0" prefHeight="25.0" prefWidth="200.0" />
+      <TextArea fx:id="partStockLevelTextArea" layoutX="117.0" layoutY="321.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="332.0" text="Quantity" />
+      <Label layoutX="39.0" layoutY="288.0" prefHeight="15.0" prefWidth="52.0" text="Cost" />
+      <Label layoutX="29.0" layoutY="118.0" text="Description" />
+      <TextArea fx:id="partNameTextArea" layoutX="117.0" layoutY="88.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="29.0" layoutY="93.0" text="Part Name" />
+      <TextArea fx:id="partDescriptionTextArea" layoutX="117.0" layoutY="118.0" prefHeight="150.0" prefWidth="200.0" />
+      <Button fx:id="editButton" layoutX="34.0" layoutY="385.0" mnemonicParsing="false" onAction="#editPart" text="Edit Part" />
+   </children>
+</AnchorPane>

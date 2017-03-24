@@ -81,7 +81,7 @@ public class StockPartsController implements Initializable {
     @FXML
     private TableView<Part> stockTable;
     @FXML
-    private TableColumn nameCol, descriptionCol, costCol, //FXML TableColumn. Columns form the TableView element.
+    private TableColumn stockIDCol, nameCol, descriptionCol, costCol, //FXML TableColumn. Columns form the TableView element.
             stockCol;
     @FXML
     private TextField quantityTextField, searchTextField;
@@ -141,6 +141,8 @@ public class StockPartsController implements Initializable {
         //System.out.println("test3");
         //loadAllParts();
         stockTable.setEditable(true);
+        stockIDCol.setCellValueFactory(
+                new PropertyValueFactory<Part, Integer>("id"));
         nameCol.setCellValueFactory(
                 new PropertyValueFactory<Part, String>("name"));
         descriptionCol.setCellValueFactory(
@@ -184,7 +186,14 @@ public class StockPartsController implements Initializable {
         BigDecimal cost = new BigDecimal((partCostTextArea.getText()));
         String quantity = partStockLevelTextArea.getText();
         partR.addPart(name, description, cost);
-        partR.addDelivery(partR.searchStockParts(name, "NAME").get(0).getID(), Integer.parseInt(quantity), java.sql.Date.valueOf(deliveryDatePicker.getValue()));
+        loadAllParts();
+        int id = oPartList.get(oPartList.size()-1).getId();
+        partR.addDelivery(id, Integer.parseInt(quantity), java.sql.Date.valueOf(deliveryDatePicker.getValue()));
+    }
+    
+    public void deleteStockPart(ActionEvent event) {
+        
+        partR.deletePart(selectedPart.getId());
         loadAllParts();
     }
 
@@ -302,7 +311,7 @@ public class StockPartsController implements Initializable {
         RepairWrapper selectedRepair = repairsTable.getSelectionModel().getSelectedItem();
         partR.usePart(selectedRepair.getRepairID(), selectedRepair.getVehicleRegistration(), selectedRepair.getCustomerID(), selectedPart.getName(), new Date(2017, 01, 01), new Date(2018, 01, 01), selectedPart.getCost());
         if (selectedPart.getStocklevel() < 2) {
-            partR.deletePart(selectedPart.getName());
+            partR.deletePart(selectedPart.getId());
         } else {
             partR.updateStock(selectedPart.getName(), -1);
         }
@@ -326,6 +335,25 @@ public class StockPartsController implements Initializable {
             }
     }
 
+    //view Edit Part
+    public void viewEditPart(ActionEvent event){
+        try {
+                FXMLLoader loader = new FXMLLoader();
+                Pane root = loader.load(getClass().getResource("EditPart.fxml").openStream()); 
+                EditPartController controller = (EditPartController)loader.getController();
+                controller.loadPart(selectedPart);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(root.getScene().getWindow());
+                stage.setScene(scene);
+                stage.showAndWait();
+                loadAllParts();
+                loadStockParts();
+            } catch(IOException ex) {
+                System.err.println("Error: "+ex);
+            }
+    }
 
     
     //CHANGING ANCHOR METHODS

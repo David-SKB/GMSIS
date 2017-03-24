@@ -44,7 +44,7 @@ public class PartRegistry {
             String description = rs.getString("DESCRIPTION");
             BigDecimal cost = new BigDecimal(rs.getString("COST"));
             int stock = rs.getInt("STOCK");
-            partlist.add(new Part(name,description,cost,stock));
+            partlist.add(new Part(id,name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;
@@ -96,11 +96,22 @@ public class PartRegistry {
         conn.closeConnection();
     }
     //delete part from stock
-    public void deletePart(String part){
+    public void deletePart(int id){
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "DELETE FROM STOCKPARTS WHERE NAME = " + part + ";";
+        String query = "DELETE FROM STOCKPARTS WHERE ID = " + id + ";";
+        conn.update(query);
+        conn.closeConnection();
+    }
+    //edit part in stock
+    public void editStockPart(int id, String name, String description, BigDecimal cost, int stocklevel){
+        conn = DBConnection.getInstance();
+        //delete from database
+        conn.connect();
+        String query = "UPDATE STOCKPARTS SET NAME = '" + name + "', DESCRIPTION = '" + description 
+                +"', COST = '" + cost + "', STOCK = " + stocklevel + " WHERE ID = " + id + ";";
+        System.out.println("edit part test" + id);
         conn.update(query);
         conn.closeConnection();
     }
@@ -130,7 +141,8 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "INSERT INTO DELIVERIES VALUES (partID, quantity, date);";
+        String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES (partID, quantity, date);";
+        System.out.println("in addDelievery " + partID);
         conn.update(query);
         conn.closeConnection();
     }
@@ -141,18 +153,19 @@ public class PartRegistry {
         //delete from database
         try{
             conn.connect();
-            String query = "SELECT STOCKPARTS.NAME, DELIVERIES.QUANTITY, DELIVERIES.DATE \n" +
+            String query = "SELECT STOCKPARTS.NAME, DELIVERIES.QUANTITY, DELIVERIES.DELIVERYDATE \n" +
 "                 FROM STOCKPARTS INNER JOIN DELIVERIES\n" +
-"                 ON PARTS.ID = DELIEVEIRS.PARTID;";
+"                 ON STOCKPARTS.ID = DELIVERIES.PARTID;";
+            
             ResultSet rs = conn.query(query);
+            System.out.println("getDeliveries test");
             ArrayList<Delivery> deliverylist = new ArrayList<Delivery>();
             while (rs.next())
             {
-                System.out.println("registry test");
+                System.out.println("getDeliveries test2");
                 String name = rs.getString(1);
                 int quantity = rs.getInt(2);
                 Date date = new Date(rs.getString(3));
-                int stock = rs.getInt("STOCK");
                 deliverylist.add(new Delivery(name,quantity,date));
             }
             conn.closeConnection();
