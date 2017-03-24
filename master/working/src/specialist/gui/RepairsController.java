@@ -930,6 +930,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                     else
                     {
                         RepairSearchHandler();
+                        LoadOutstanding();
                     }
                 }
             } else 
