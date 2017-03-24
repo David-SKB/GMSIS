@@ -462,7 +462,7 @@ public class AdminController {
         {
             return false;
         }
-        else if(ID.length() > 5)
+        else if(ID.length() != 5)
         {
             return false;
         }
