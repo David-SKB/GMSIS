@@ -1237,9 +1237,10 @@ public class RepairsController /*extends Application*/ implements Initializable
         }
         if (VehicleList !=null)
         {
-            TextFields.bindAutoCompletion(RegNoVehicle, VehicleList);
-            TextFields.bindAutoCompletion(RegNoVehicle2, VehicleList);
-            TextFields.bindAutoCompletion(RegNoPart, VehicleList);
+            double size = 175.0;
+            TextFields.bindAutoCompletion(RegNoVehicle, VehicleList).setMaxWidth(size); 
+            TextFields.bindAutoCompletion(RegNoVehicle2, VehicleList).setMaxWidth(size);
+            TextFields.bindAutoCompletion(RegNoPart, VehicleList).setMaxWidth(size);
         }
     }
     //DatePicker Stuff
