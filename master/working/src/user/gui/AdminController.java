@@ -418,7 +418,7 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(addUserStatus, "Admin already exists.");
+            EC.TimedMsgRED(addUserStatus, "User already exists.");
             clearUserDetails();
         }   
     }
@@ -433,7 +433,7 @@ public class AdminController {
             }
             else
             {
-                EC.TimedMsgRED(addUserStatus, "Users already exists.");
+                EC.TimedMsgRED(addUserStatus, "User already exists.");
                 clearUserDetails();
             }   
     }
@@ -445,7 +445,14 @@ public class AdminController {
         addLNTF.clear();
         addPassTF.clear();
         addHRateTF.clear();
-        addHRateTF.setVisible(true);
+        if (validateUserType(userRights).equals("Admin"))
+        {
+            addHRateTF.setVisible(false);
+        }
+        else
+        {
+            addHRateTF.setVisible(true);
+        }
         ClearAddUserStyles();
     }
     
@@ -544,7 +551,7 @@ public class AdminController {
         }else
         {
             
-            EC.TimedMsgRED(editUserStatus, "Admin already exists.");
+            EC.TimedMsgRED(editUserStatus, "User already exists.");
             clearUserDetailsOnEdit();
         } 
     }
@@ -559,7 +566,7 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(editUserStatus, "Users already exists.");
+            EC.TimedMsgRED(editUserStatus, "User already exists.");
             clearUserDetailsOnEdit();
         }      
     }
@@ -571,7 +578,14 @@ public class AdminController {
         eLNTF.clear();
         ePassTF.clear();
         eHRateTF.clear();
-        eHRateTF.setVisible(true);
+        if (validateUserType(userRightsE).equals("Admin"))
+        {
+            eHRateTF.setVisible(false);
+        }
+        else
+        {
+            eHRateTF.setVisible(true);
+        }
     }
     
     private boolean validateUserOnEdit(String userType)
