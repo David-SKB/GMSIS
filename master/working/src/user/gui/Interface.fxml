@@ -11,7 +11,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="873.0" prefWidth="1097.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
+<AnchorPane fx:id="mainAnchor" prefHeight="873.0" prefWidth="1097.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="user.gui.InterfaceController">
    <children>
       <TabPane fx:id="InterfaceTabPane" layoutY="141.0" prefHeight="779.0" prefWidth="1165.0" stylesheets="@tabPane.css" tabClosingPolicy="UNAVAILABLE" tabMinWidth="100.0">
         <tabs>
@@ -70,7 +70,7 @@
             <Image url="@GMSISBANNER.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="1016.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutCustomer" opacity="0.76" prefHeight="27.0" prefWidth="143.0" text="Logout" />
+      <Button layoutX="1016.0" layoutY="14.0" mnemonicParsing="false" onAction="#logoutCustomer" prefHeight="27.0" prefWidth="143.0" text="Logout" />
       <Label fx:id="welcomeUser" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="929.0">
          <font>
             <Font name="System Bold" size="19.0" />

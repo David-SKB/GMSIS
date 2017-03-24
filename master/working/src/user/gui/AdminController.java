@@ -143,7 +143,7 @@ public class AdminController {
          EC.SetAddressRestriction(editSPCAddrTF);
          EC.SetWordSpaceRestriction(editSPCNameTF);
     }
-    
+     
     public void updateAnchorPane(AnchorPane AP){
          loadData(userData);loadDataSPC(spcData);
         ObservableList<Node> OL = AP.getChildren();
