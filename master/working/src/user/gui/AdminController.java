@@ -138,6 +138,10 @@ public class AdminController {
          EC.SetNumberRestrictionPhone(addSPCPhoneTF);
          EC.SetAddressRestriction(addSPCAddrTF);
          EC.SetWordSpaceRestriction(addSPCNameTF);
+         
+         EC.SetNumberRestrictionPhone(editSPCPhoneTF);
+         EC.SetAddressRestriction(editSPCAddrTF);
+         EC.SetWordSpaceRestriction(editSPCNameTF);
     }
     
     public void updateAnchorPane(AnchorPane AP){
