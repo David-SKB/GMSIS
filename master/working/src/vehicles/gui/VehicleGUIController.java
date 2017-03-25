@@ -178,26 +178,26 @@ public class VehicleGUIController implements Initializable {
     
    @FXML
    public void addTemplateCars(){
-   Template car1 = new Template("Ford","Model",1.6,"PETROL");
-   Template car2 = new Template("VW","Model",1.6,"PETROL");
-   Template car3 = new Template("BMW","Model",1.6,"PETROL");
-   Template car4 = new Template("Mercedes","Model",1.6,"PETROL");
-   Template car5 = new Template("Mazda","Model",1.6,"PETROL");
-   Template car6 = new Template("Audi","Model",1.6,"PETROL");
-   Template car7 = new Template("Car1","Model",1.6,"PETROL");
-   Template car8 = new Template("Car1","Model",1.6,"PETROL");
-   Template car9 = new Template("Car1","Model",1.6,"PETROL");
-   Template car10 = new Template("Car1","Model",1.6,"PETROL");
-   Template car11 = new Template("Car1","Model",1.6,"PETROL");
-   Template car12 = new Template("Car1","Model",1.6,"PETROL");
-   Template car13 = new Template("Car1","Model",1.6,"PETROL");
-   Template car14 = new Template("Car1","Model",1.6,"PETROL");
-   Template car15 = new Template("Car1","Model",1.6,"PETROL");
-   Template car16 = new Template("Car1","Model",1.6,"PETROL");
-   Template car17 = new Template("Car1","Model",1.6,"PETROL");
-   Template car18 = new Template("Car1","Model",1.6,"PETROL");
-   Template car19 = new Template("Car1","Model",1.6,"PETROL");
-   Template car20 = new Template("Car1","Model",1.6,"PETROL");
+   Template car1 = new Template("Ford","Focus",1.2,"Petrol");
+   Template car2 = new Template("VW","Golf",1.8,"Diesel");
+   Template car3 = new Template("Honda","Civic",1.6,"Petrol");
+   Template car4 = new Template("BMW","X3",1.8,"Diesel");
+   Template car5 = new Template("Land rover","Discovery",2.0,"Petrol");
+   Template car6 = new Template("Audi","A3",1.6,"Diesel");
+   Template car7 = new Template("Audi","A4",2.0,"Petrol");
+   Template car8 = new Template("BMW","5 series",3.0,"Petrol");
+   Template car9 = new Template("BMW","1 series",2.0,"Diesel");
+   Template car10 = new Template("Mercedes-Benz","A-class",2.0,"Petrol");
+   Template car11 = new Template("Mercedes-Benz","E-class",3.0,"Diesel");
+   Template car12 = new Template("VW","Tiguan",2.0,"Diesel");
+   Template car13 = new Template("Ford","Transit",1.8,"Petrol");
+   Template car14 = new Template("VW","Transporter",2.0,"Petrol");
+   Template car15 = new Template("Citroen","Berlingo",1.6,"Petrol");
+   Template car16 = new Template("Mitsubishi","L200",2.5,"Petrol");
+   Template car17 = new Template("Toyota","Hilux",2.0,"Diesel");
+   Template car18 = new Template("Fiat","500",1.2,"Diesel");
+   Template car19 = new Template("VW","Polo",1.4,"Diesel");
+   Template car20 = new Template("Ford","Fiesta",1.2,"Petrol");
    carsTemplate.addAll(car1,car2,car3,car4,car5,car6,car7,car8,car9,car10,
     car11,car12,car13,car14,car15,car16,car17,car18,car19,car20);
    //set template cars into the list
