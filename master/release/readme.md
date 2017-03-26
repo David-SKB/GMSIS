@@ -77,6 +77,8 @@ cd SE9
 ### APIs & Libaries
 
 - **SQLite/JDBC:** https://bitbucket.org/xerial/sqlite-jdbc/downloads/
+- **Apache Commons Validator:** https://commons.apache.org/proper/commons-validator/index.html
+- **ControlsFX:** http://fxexperience.com/controlsfx/
 
 ## Credits
 
