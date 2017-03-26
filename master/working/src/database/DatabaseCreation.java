@@ -78,7 +78,7 @@ public class DatabaseCreation
 "  ID                INTEGER     PRIMARY KEY  AUTOINCREMENT,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
-"  COST              INT w                 NOT NULL,\n" +
+"  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE USEDPARTS (\n" +
@@ -99,7 +99,7 @@ public class DatabaseCreation
 "  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
 "  QUANTITY          INT                     NOT NULL,\n" +
-"  DELIVERYDATE      DATE                    NOT NULL,\n" +
+"  DELIVERYDATE      TEXT                    NOT NULL,\n" +
 "  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID)\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLES */\n" +

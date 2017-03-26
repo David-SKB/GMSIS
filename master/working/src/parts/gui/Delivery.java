@@ -19,10 +19,10 @@ public class Delivery {
     private SimpleIntegerProperty quantity;
     private SimpleStringProperty date;
     
-    public Delivery(String p, int q, Date d){
+    public Delivery(String p, int q, String d){
         part = new SimpleStringProperty(p);
         quantity = new SimpleIntegerProperty(q);
-        date = new SimpleStringProperty(d.toString());
+        date = new SimpleStringProperty(d);
     }
     
     public String getPart(){

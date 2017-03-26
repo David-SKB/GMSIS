@@ -168,7 +168,7 @@ public class StockPartsController implements Initializable {
                 oPartList.add(partlist.get(i));
             }
         }
-        //loadStockParts();
+        loadStockParts();
     }
 
     public void updateStockLevel(ActionEvent event) {
@@ -176,8 +176,8 @@ public class StockPartsController implements Initializable {
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedPart.getName());
         partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
-
         loadAllParts();
+        partR.addDelivery(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()), java.sql.Date.valueOf(deliveryDatePickerQuantity.getValue()));
     }
 
     public void addStockPart(ActionEvent event) {
@@ -185,14 +185,14 @@ public class StockPartsController implements Initializable {
         String description = partDescriptionTextArea.getText();
         BigDecimal cost = new BigDecimal((partCostTextArea.getText()));
         String quantity = partStockLevelTextArea.getText();
-        partR.addPart(name, description, cost);
+        partR.addPart(name, description, cost, Integer.parseInt(quantity));
         loadAllParts();
         int id = oPartList.get(oPartList.size()-1).getId();
         partR.addDelivery(id, Integer.parseInt(quantity), java.sql.Date.valueOf(deliveryDatePicker.getValue()));
     }
     
     public void deleteStockPart(ActionEvent event) {
-        
+        Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         partR.deletePart(selectedPart.getId());
         loadAllParts();
     }
@@ -338,6 +338,7 @@ public class StockPartsController implements Initializable {
     //view Edit Part
     public void viewEditPart(ActionEvent event){
         try {
+                Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
                 FXMLLoader loader = new FXMLLoader();
                 Pane root = loader.load(getClass().getResource("EditPart.fxml").openStream()); 
                 EditPartController controller = (EditPartController)loader.getController();

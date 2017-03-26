@@ -77,12 +77,12 @@ public class PartRegistry {
         }
     }
     //add part to stock
-    public void addPart(String n, String d, BigDecimal c){
+    public void addPart(String n, String d, BigDecimal c, int stock){
         conn = DBConnection.getInstance();
         //insert into database
         conn.connect();
         String query = "INSERT INTO STOCKPARTS (NAME, DESCRIPTION, COST, STOCK)" +
-                       "VALUES('" + n + "','" + d + "','" + c + "'," + 1 + ");";
+                       "VALUES('" + n + "','" + d + "','" + c + "', " + stock + ");";
         conn.update(query);
         conn.closeConnection();
     }
@@ -96,13 +96,16 @@ public class PartRegistry {
         conn.closeConnection();
     }
     //delete part from stock
-    public void deletePart(int id){
+    public boolean deletePart(int id){
+        boolean success;
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "DELETE FROM STOCKPARTS WHERE ID = " + id + ";";
-        conn.update(query);
+        String query = "DELETE FROM STOCKPARTS WHERE ID = " + id + " ;";
+        success = conn.update(query);
+        System.out.println("in delete " + id);
         conn.closeConnection();
+        return success;
     }
     //edit part in stock
     public void editStockPart(int id, String name, String description, BigDecimal cost, int stocklevel){
@@ -137,14 +140,16 @@ public class PartRegistry {
         return success;
     }
     //Add delivery
-    public void addDelivery(int partID, int quantity, Date date){
+    public boolean addDelivery(int partID, int quantity, Date date){
+        boolean success;
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES (partID, quantity, date);";
+        String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES ( " + partID +", "  + quantity + ", " + date.toString() + ");";
         System.out.println("in addDelievery " + partID);
-        conn.update(query);
+        success = conn.update(query);
         conn.closeConnection();
+        return success;
     }
     
     //get all deliveries
@@ -165,7 +170,7 @@ public class PartRegistry {
                 System.out.println("getDeliveries test2");
                 String name = rs.getString(1);
                 int quantity = rs.getInt(2);
-                Date date = new Date(rs.getString(3));
+                String date = rs.getString(3);
                 deliverylist.add(new Delivery(name,quantity,date));
             }
             conn.closeConnection();
