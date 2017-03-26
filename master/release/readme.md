@@ -3,7 +3,7 @@ Garage Management Information System
 </h1>
 
 <div align="center">
-Team 9 
+Team 9
   <br>
 </div>
 
@@ -21,9 +21,9 @@ Team 9
 
 ## Designing
 
-## Structure 
+## Structure
 
-### Class Diagram 
+### Class Diagram
 
 <div align="center">
   <a href="#">
@@ -53,20 +53,20 @@ cd SE9
 ```
 
 ### Download ZIP
- 
+
  1. Download the ZIP file: :point_right: <a href="https://github.research.its.qmul.ac.uk/ecs506u/SE9/archive/master.zip"> ZIP </a> :point_left:
  2. Double-click to unZIP the file
- 3. Navigate to SE9-master/master/release/built/GMSIS.jar
+ 3. Navigate to SE9-master/master/release/GMSIS/GMSIS.jar
  4. Double-click the .jar file to initiate the application
 
 ### Installation notes :information_source:
 
- 1. Navigate to SE9/master/release/built/GMSIS.jar
+ 1. Navigate to SE9/master/release/GMSIS/GMSIS.jar
  2. Double-click the .jar file to initiate the application
 
 [:arrow_up:Back to top!](#contents)
 
-## Links 
+## Links
 
 ### Documentation
 
@@ -82,7 +82,7 @@ cd SE9
 
 [:arrow_up:Back to top!](#contents)
 
-## Team 
+## Team
 
 - **Customer Account Module:** Athanasios Gkanos, ec15252
 - **Vehicle Record Module:** Joshua Scott, ec15203
