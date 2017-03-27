@@ -242,7 +242,14 @@ public class VehicleGUIController implements Initializable {
    String updateMake = updateMakeTextField.getText();
    String updateModel = updateModelTextField.getText();
    String updateEngine = updateEngineTextField.getText();
-    int engine = Integer.parseInt(updateEngine);
+    double engine = 0;
+    try{
+     engine = Double.parseDouble(updateEngine);
+    }
+    catch(NumberFormatException e){
+     componentLoader cl = new componentLoader();
+      cl.showEngineFailure();
+    }
    String updateFuel = updateFuelTextField.getText();
    String updateColour = updateColourTextField.getText();
    String updateMOT = updateMOTTextField.getText();
@@ -528,7 +535,14 @@ public class VehicleGUIController implements Initializable {
    
    //check customer id
    String idString = customerIDTextField.getText();
-   int id = Integer.parseInt(idString);
+    int id = 0;
+   try{
+    id = Integer.parseInt(idString);
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+     cl.showIDFailure();
+   }
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
