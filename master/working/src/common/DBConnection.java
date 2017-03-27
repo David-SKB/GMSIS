@@ -58,6 +58,7 @@ public class DBConnection {
             stmt.executeUpdate(sql);           
             return true;
         } catch ( Exception e ) {
+            System.out.println(e);
             return false;
         }
     }   

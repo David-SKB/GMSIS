@@ -86,11 +86,11 @@ public class PartRegistry {
         conn.update(query);
         conn.closeConnection();
     }
-    public void updateStock(String n, int quantity){
+    public void updateStock(int id, int quantity){
         conn = DBConnection.getInstance();
         //insert into database
         conn.connect();
-        String query = "UPDATE STOCKPARTS SET STOCK = STOCK + " + quantity + "  WHERE NAME = '" + n + "';";
+        String query = "UPDATE STOCKPARTS SET STOCK = STOCK + " + quantity + "  WHERE ID = " + id + ";";
         conn.update(query);
         
         conn.closeConnection();
@@ -101,8 +101,10 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "DELETE FROM STOCKPARTS WHERE ID = " + id + " ;";
+        String query = "DELETE FROM STOCKPARTS WHERE ID = " +  1 + ";";
+        System.out.println(query);
         success = conn.update(query);
+        System.out.println(success);
         System.out.println("in delete " + id);
         conn.closeConnection();
         return success;

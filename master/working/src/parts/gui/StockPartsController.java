@@ -175,7 +175,7 @@ public class StockPartsController implements Initializable {
         System.out.println("in update stock level");
         Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
         System.out.println(selectedPart.getName());
-        partR.updateStock(selectedPart.getName(), Integer.parseInt(quantityTextField.getText()));
+        partR.updateStock(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()));
         loadAllParts();
         partR.addDelivery(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()), java.sql.Date.valueOf(deliveryDatePickerQuantity.getValue()));
     }
@@ -192,8 +192,9 @@ public class StockPartsController implements Initializable {
     }
     
     public void deleteStockPart(ActionEvent event) {
-        Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
-        partR.deletePart(selectedPart.getId());
+        selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        boolean success;
+        success = partR.deletePart(selectedPart.getId());
         loadAllParts();
     }
 
@@ -313,7 +314,7 @@ public class StockPartsController implements Initializable {
         if (selectedPart.getStocklevel() < 2) {
             partR.deletePart(selectedPart.getId());
         } else {
-            partR.updateStock(selectedPart.getName(), -1);
+            partR.updateStock(selectedPart.getId(), -1);
         }
     }
 

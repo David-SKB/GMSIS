@@ -75,32 +75,32 @@ public class DatabaseCreation
 ");\n" +
 "/* PARTS TABLE */\n" +
 "CREATE TABLE STOCKPARTS (\n" +
-"  ID                INTEGER     PRIMARY KEY  AUTOINCREMENT,\n" +
+"  ID                INTEGER     PRIMARY KEY  ,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
 "  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE USEDPARTS (\n" +
-"  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
+"  ID                INTEGER   PRIMARY KEY  ,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
 "  VEHICLEID         INT                     NOT NULL,\n" +
 "  CUSTOMERID        INT                     NOT NULL,\n" +
-"  PARTNAME          INT                     NOT NULL,\n" +
+"  PARTID            INTEGER                 NOT NULL,\n" +
 "  WARRANTYEND       DATE                    NOT NULL,\n" +
 "  WARRANTYSTART     DATE                    NOT NULL,\n" +
 "  COST		     INT		     NOT NULL,\n" +
-"  FOREIGN KEY (ID)  REFERENCES STOCKPARTS(ID),\n" +
+"  FOREIGN KEY(PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE,\n" +
 "  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
 "  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
 "  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE NO ACTION\n" +
 ");\n" +
 "CREATE TABLE DELIVERIES (\n" +
-"  ID                INTEGER   PRIMARY KEY  AUTOINCREMENT,\n" +
+"  ID                INTEGER   PRIMARY KEY  ,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
 "  QUANTITY          INT                     NOT NULL,\n" +
 "  DELIVERYDATE      TEXT                    NOT NULL,\n" +
-"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID)\n" +
+"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
