@@ -69,6 +69,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     int PreviousSPC = -1;
     boolean SearchedBySPC = false;
     boolean JustDeleted = false;
+    boolean PartsBySPC = false;
     //Send Vehicle Pane
     @FXML private TitledPane SendVehicle;
     @FXML private TextField RegNoVehicle;
@@ -180,6 +181,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button RepairEditButton;
     @FXML private Button RepairDeleteButton;
     @FXML private Button ViewPartsButton;
+    @FXML private Button ViewPartsSPCButton;
     
     /***************************************
      * UPDATE SPC ANCHOR PANE METHOD 
@@ -206,6 +208,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             TableView<ListSPC> spcListTable = null;
             Text SPCErrorTemp = null;
             Text OutstandingErrorTemp = null;
+            Button ViewPartsSPCButtonTemp = null;
             for(Node n : OL)//Loop to find all the children that will be updated
             {       
                 if(n.getId() == null)
@@ -228,6 +231,10 @@ public class RepairsController /*extends Application*/ implements Initializable
                 {
                     OutstandingErrorTemp = (Text)n;
                 }
+                else if(n instanceof Button && (n.getId().equalsIgnoreCase("ViewPartsSPCButton")))
+                {
+                    ViewPartsSPCButtonTemp = (Button)n;
+                }
             }
             if(outstandingT != null && spcListTable != null && SPCErrorTemp !=null & OutstandingErrorTemp !=null)
             {
@@ -240,12 +247,14 @@ public class RepairsController /*extends Application*/ implements Initializable
                     spcListTable.setItems(null);
                     SPCErrorTemp.setFill(Color.RED);
                     SPCErrorTemp.setText("No Centres Found");
+                    ViewPartsSPCButtonTemp.setVisible(false);
                 }
                 else
                 {
                     
                     SPCErrorTemp.setText("");
                     spcListTable.setItems(SPCList);
+                    ViewPartsSPCButtonTemp.setVisible(true);
                 }
                 
                 if (outstandingT.getItems().isEmpty())
@@ -266,13 +275,24 @@ public class RepairsController /*extends Application*/ implements Initializable
     {
         if (ValidateSubmitVehicle())
         {
-            boolean added  = repairs.addVehicle(RegNoVehicle.getText(), repairs.getSPCID(SPCIDVehicle.getValue().toString()), EC.toDate(ExpDelVehicle), EC.toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
-            //System.out.println("added: " + added);
-            ClearAddVehicle();
-            if (added)
+            if (repairs.VehicleScheduled(RegNoVehicle.getText()))
             {
-                EC.TimedMsgGREEN(AddError, "Vehicle Sent");
-                LoadOutstanding();
+                EC.TimedMsgRED(AddError, "Vehicle Already Scheduled");
+            }
+            else if (repairs.VehicleSent(RegNoVehicle.getText()))
+            {
+                EC.TimedMsgRED(AddError, "Vehicle Currently in Repair");
+            }
+            else
+            {
+                boolean added  = repairs.addVehicle(RegNoVehicle.getText(), repairs.getSPCID(SPCIDVehicle.getValue().toString()), EC.toDate(ExpDelVehicle), EC.toDate(ExpRetVehicle), Double.parseDouble(CostVehicle.getText()));
+                //System.out.println("added: " + added);
+                ClearAddVehicle();
+                if (added)
+                {
+                    EC.TimedMsgGREEN(AddError, "Vehicle Sent");
+                    LoadOutstanding();
+                }
             }
         }
     }
@@ -323,9 +343,16 @@ public class RepairsController /*extends Application*/ implements Initializable
             boolean added  = repairs.editPart(RegNoPart2.getText(), repairs.getPartID(IDPart2.getValue().toString()), repairs.getSPCID(SPCIDPart2.getValue().toString()), EC.toDate(ExpDelPart2), EC.toDate(ExpRetPart2), RepairID);
             //refresh table
             //System.out.println("Updated: " + added);
-            HandleViewParts();
+            if (PartsBySPC)
+            {
+                ViewPartsSPC();
+            }
+            else
+            {
+                HandleViewParts();
+            }
             ClearEditPart();
-            EditVehicle.setDisable(true);
+            EditPart.setDisable(true);
             if (added)
             {
                 EC.TimedMsgGREEN(EditErrorPart, "Part Updated");
@@ -747,7 +774,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             ObservableList<SearchMain> resultList = repairs.searchReg(RegSearch.getText());
             if(resultList.isEmpty())
             {
-                EC.TimedMsgRED(T1SearchError, "No Results Found");
+                EC.TimedMsgRED(T1SearchError, "No Vehicles Found");
             }
             MainTable.setItems(resultList);
         }
@@ -785,7 +812,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             if(resultList.isEmpty())
             {
                 T1SearchError.setFill(Color.RED);
-                EC.TimedMsgRED(T1SearchError, "No Results Found");
+                EC.TimedMsgRED(T1SearchError, "No Vehicles Found");
             }
             MainTable.setItems(resultList);
         }
@@ -816,7 +843,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         MainTable.setItems(resultList);
         if (resultList.isEmpty())
         {
-            EC.TimedMsgRED(T1SearchError, "No Results Found");
+            EC.TimedMsgRED(T1SearchError, "No Vehicles Found");
         }
     }
     
@@ -927,15 +954,95 @@ public class RepairsController /*extends Application*/ implements Initializable
         }
     }
     
+    @FXML private void PartRowClick() 
+    {
+        boolean vehicle  = true;
+        boolean customer = true;
+        String regNo = "";
+        if (PartsTable.getSelectionModel().getSelectedItem() != null)
+        {
+            regNo = PartsTable.getSelectionModel().getSelectedItem().getT2REGNOX();
+            try 
+            {
+                VehicleDetails(regNo);
+                VehicleTable.setVisible(true);
+            } 
+            catch (SQLException ex) 
+            {
+                vehicle = false;
+                VehicleTable.setVisible(false);
+            }
+            try 
+            {
+                getCustomerByReg(regNo);
+                CustomerPane.setVisible(true);
+                
+            } 
+            catch (SQLException ex) 
+            {
+                customer = false;
+                CustomerPane.setVisible(false);
+            }
+
+            if (customer == false & vehicle == true)
+            {
+                EC.TimedMsgRED(T1SearchError, "Customer Not Found");
+            }
+            else if (customer == true & vehicle == false)
+            {
+                EC.TimedMsgRED(T1SearchError, "Vehicle Not Found");
+            }
+
+            else if (customer == false & vehicle == false)
+            {
+                EC.TimedMsgRED(T1SearchError, "Vehicle/Customer Not Found");
+            }
+            RepairEditButton.setDisable(false);
+            RepairDeleteButton.setDisable(false);
+        }
+    }
+    
     @FXML private void SPCRowClick() 
     {
         if (SPCListTable.getSelectionModel().getSelectedItem() !=null)
         {
             ListSPCVehicles();
+            //set disable to false
+            ViewPartsSPCButton.setDisable(false);
         }
         else
         {
             EC.TimedMsgRED(SPCError, "Select a row to view vehicles");
+        }
+    }
+    
+    @FXML private void ViewPartsSPC() throws SQLException 
+    {
+        //Show Parts Table
+        T1Header.setVisible(false);
+        T2Header.setVisible(true);
+        //do stuff
+        T2RegNo.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, String>("T2REGNOX"));
+        T2Name.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, String>("T2NAMEX"));
+        T2SPC.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, String>("T2SPCX"));
+        T2ExpDel.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, String>("T2EXPDELX"));
+        T2ExpRet.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, String>("T2EXPRETX"));
+        T2Cost.setCellValueFactory(
+                new PropertyValueFactory<RepairParts, Double>("T2COSTX"));
+        
+        if (SPCListTable.getSelectionModel().getSelectedItem() !=null)
+        {
+            ObservableList<RepairParts> PartList = repairs.getPartRepairsSPC(SPCListTable.getSelectionModel().getSelectedItem().getT3IDX());
+            PartsTable.setItems(PartList);
+            MainTable.setVisible(false);
+            PartsTable.setVisible(true);
+            ViewPartsButton.setDisable(true);
+            PartsBySPC = true;
         }
     }
     
@@ -955,7 +1062,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Delete Vehicle Repair ID: " + RepairID);
             alert.setHeaderText("");
-            alert.setContentText("Are you sure you wish to proceed?");
+            alert.setContentText("Are you sure you wish to delete?");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK)
@@ -999,7 +1106,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Delete Part Repair ID: " + RepairID);
             alert.setHeaderText("");
-            alert.setContentText("Are you sure you wish to proceed?");
+            alert.setContentText("Are you sure you wish to delete?");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK)
@@ -1109,6 +1216,7 @@ public class RepairsController /*extends Application*/ implements Initializable
             ObservableList<RepairParts> PartList = repairs.getPartRepairs(RegNo);
             PartsTable.setItems(PartList);
             SearchedBySPC = false;
+            PartsBySPC = false;
         }
         else
         {

@@ -157,7 +157,7 @@
          </children>
       </Pane>
       <Separator layoutX="16.0" layoutY="310.0" prefHeight="4.0" prefWidth="462.0" />
-      <TableView fx:id="PartsTable" layoutX="552.0" layoutY="29.0" prefHeight="275.0" prefWidth="544.0" visible="false">
+      <TableView fx:id="PartsTable" layoutX="552.0" layoutY="29.0" onMouseClicked="#PartRowClick" prefHeight="275.0" prefWidth="544.0" visible="false">
         <columns>
             <TableColumn fx:id="T2RegNo" text="Registration" />
           <TableColumn fx:id="T2Name" prefWidth="105.0" text="Name" />
@@ -176,6 +176,7 @@
       <RadioButton layoutX="145.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part" toggleGroup="$SendItemToggle" />
       <Text fx:id="SPCError" fill="RED" layoutX="503.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
       <Text fx:id="OutstandingError" fill="RED" layoutX="165.0" layoutY="616.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
-      <Separator layoutX="16.0" layoutY="621.0" prefHeight="4.0" prefWidth="668.0" />
+      <Separator layoutX="16.0" layoutY="633.0" prefHeight="4.0" prefWidth="668.0" />
+      <Button fx:id="ViewPartsSPCButton" disable="true" layoutX="536.0" layoutY="607.0" mnemonicParsing="false" onAction="#ViewPartsSPC" prefHeight="25.0" prefWidth="99.0" text="View Parts" />
    </children>
 </Pane>

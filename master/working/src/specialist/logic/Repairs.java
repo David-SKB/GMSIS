@@ -100,6 +100,60 @@ public class Repairs
         return success;
     }
     
+    public boolean VehicleScheduled(String RegNo)
+    {
+        DBC.connect();    
+        String SQL = "SELECT COUNT(ID) FROM REPAIRVEHICLE WHERE REGNO = '" + RegNo + "' AND DELIVERYDATE >= Datetime('"+ LocalDate.now().toString() + "');"; //AND RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "')   ";
+        System.out.println(SQL);
+        int count = 0;
+        ResultSet rs = DBC.query(SQL);
+        //System.out.println(rs.toString());
+        try 
+        {
+            if(rs.next())
+            {
+                count = rs.getInt(1);
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            //db error
+        }
+        DBC.closeConnection();
+        if (count == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean VehicleSent(String RegNo)
+    {
+        DBC.connect();    
+        String SQL = "SELECT COUNT(ID) FROM REPAIRVEHICLE WHERE REGNO = '" + RegNo + "' AND RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "');";
+        System.out.println(SQL);
+        int count = 0;
+        ResultSet rs = DBC.query(SQL);
+        //System.out.println(rs.toString());
+        try 
+        {
+            if(rs.next())
+            {
+                count = rs.getInt(1);
+            }
+        } 
+        catch (SQLException ex) 
+        {
+            //db error
+        }
+        DBC.closeConnection();
+        if (count == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+    
     public ObservableList<ListSPC> getSPCList() throws SQLException
     {
         ObservableList<ListSPC> SPCList = FXCollections.observableArrayList();
@@ -251,6 +305,23 @@ public class Repairs
         ObservableList<RepairParts> resultList = FXCollections.observableArrayList();
         DBC.connect(); 
         String SQL = "SELECT REPAIRPARTS.ID, REGNO, STOCKPARTS.NAME, CENTRES.NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS, CENTRES, STOCKPARTS WHERE REGNO = '" + RegNo + "' AND REPAIRPARTS.SPCID = CENTRES.SPCID AND PARTID = STOCKPARTS.ID;";
+        //System.out.println(SQL);
+        ResultSet rs = DBC.query(SQL);
+        while(rs.next())
+            {
+                resultList.add(new RepairParts(rs.getInt("ID"), rs.getString("REGNO"), rs.getString("NAME"), rs.getString(4), rs.getString("DELIVERYDATE"), rs.getString("RETURNDATE") , rs.getDouble("COST")));
+            }
+
+        DBC.closeConnection();
+        return resultList;
+    }
+    
+    public ObservableList<RepairParts> getPartRepairsSPC(int SPCID) throws SQLException
+    {
+        ObservableList<RepairParts> resultList = FXCollections.observableArrayList();
+        DBC.connect(); 
+        String SQL = "SELECT REPAIRPARTS.ID, REGNO, STOCKPARTS.NAME, CENTRES.NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS, CENTRES, STOCKPARTS WHERE REPAIRPARTS.SPCID = '" + SPCID + "' AND REPAIRPARTS.SPCID = CENTRES.SPCID AND PARTID = STOCKPARTS.ID;";
+        System.out.println(SQL);
         ResultSet rs = DBC.query(SQL);
         while(rs.next())
             {
