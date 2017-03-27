@@ -25,13 +25,19 @@ public class Main extends Application{
     public static void main(String[] args){
         Application.launch(args);
     }
-
+    
     @Override
-    public void start(Stage stage) throws Exception {
+    public void init() {
         File f = new File("src/database/gmsisdb.db");
         if(!f.exists() && !f.isDirectory()) { 
             DatabaseCreation.createDB();
         }
+    }
+    
+
+    @Override
+    public void start(Stage stage) throws Exception {
+
         Authentication authenticate = new Authentication();
         authenticate.start(new Stage());
         this.stage = stage;

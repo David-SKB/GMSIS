@@ -64,18 +64,10 @@ public class DiagRepairScreenController implements Initializable {
     //private TableColumn<DiagRepairBooking, String> colCust;
     @FXML
     private TableColumn<DiagRepairBooking, String> colCustID;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colCustfirstName;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colCustlastName;
     //@FXML
     //private TableColumn<DiagRepairBooking, String> colVeh;
     @FXML
     private TableColumn<DiagRepairBooking, String> colVehReg;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colVehManufacturer;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colVehMileage;
     //@FXML
     //private TableColumn<DiagRepairBooking, String> colMech;
     @FXML
@@ -102,17 +94,11 @@ public class DiagRepairScreenController implements Initializable {
         colDuration.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("duration"));
 
         colVehReg.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("vehReg"));
-        colVehManufacturer.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("vehManufacturer"));
-        colVehMileage.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("vehMileage"));
 
         colCustID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("custID"));
-        colCustfirstName.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("custFirstName"));
-        colCustlastName.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("custLastName"));
 
         colMechID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechID"));
-        colMechFirstName.setCellValueFactory(new PropertyValueFactory<>("mechFirstName"));
-        colMechLastName.setCellValueFactory(new PropertyValueFactory<>("mechLastName"));
-        colMechRate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechRate"));
+
         displayTableData(null);
     }
 

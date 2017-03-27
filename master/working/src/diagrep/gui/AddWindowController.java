@@ -6,6 +6,8 @@
 package diagrep.gui;
 
 import common.DBConnection;
+import customers.logic.Customer;
+import customers.logic.CustomerRegistry;
 import diagrep.logic.BookingRegistry;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -27,6 +30,10 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
+import user.logic.Mechanic;
+import user.logic.UserRegistry;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
 
 public class AddWindowController implements Initializable
@@ -52,6 +59,10 @@ public class AddWindowController implements Initializable
 	
 	private DiagRepairScreenController parentController;
 	private DBConnection conn;
+        private CustomerRegistry CR = CustomerRegistry.getInstance();
+        private VehicleRegistry VR = VehicleRegistry.getInstance();
+        private UserRegistry UR = UserRegistry.getInstance();
+        private BookingRegistry BR = BookingRegistry.getInstance();
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb)
@@ -61,48 +72,43 @@ public class AddWindowController implements Initializable
 		entryType.getSelectionModel().selectFirst();	//set the options to search from in dropdown list	
 		entryDate.setValue(NOW_LOCALDATE());
 		entryTime.setText("09:00");
-		entryDuration.setText("01:00");
-		
-		try	//TODO: Integrate DB Vehicle table
-		{
+		entryDuration.setText("1 Hour");
+			
 			ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
-			ResultSet rsV = conn.query("SELECT REGISTRATION FROM VEHICLE ORDER BY VehicleRegNo;");
-			while (rsV.next())
-			{
-				vehicleList.add(rsV.getString("REGISTRATION"));
-			}
+			ArrayList<Vehicle> rsV = new ArrayList<Vehicle>();
+                        rsV = VR.getAllVehicles();
+                        for (int i = 0; i<rsV.size(); i++){
+                            vehicleList.add(rsV.get(i).getRegistration());
+                        }
 			entryReg.setItems(vehicleList);
 			entryReg.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 			
 			ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
-			ResultSet rsC = conn.query("SELECT ID, SURNAME, FIRSTNAME FROM CUSTOMER ORDER BY SURNAME;");
-			while (rsC.next())
-			{
-				customerList.add(rsC.getString("ID")+": "+rsC.getString("FIRSTNAME")+" "+rsC.getString("SURNAME"));
-			}
+			ArrayList<Customer> rsC = new ArrayList<Customer>();
+                        rsC = CR.getActiveCustomers();
+                        for (int i = 0; i<rsC.size(); i++){
+                            customerList.add(rsC.get(i).getFirstname());
+                            customerList.add(rsC.get(i).getFirstname());
+                        }
 			entryCustomer.setItems(customerList);
 			entryCustomer.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 			
 			ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
-			ResultSet rsM = conn.query("SELECT * FROM USER WHERE NOT SYSADM = 'FALSE' ORDER BY SURNAME;");
-			while (rsM.next())
-			{
-				mechanicList.add(rsM.getString("ID")+": "+rsM.getString("FIRSTNAME")+" "+rsM.getString("SURNAME"));
-			}
+			ArrayList<Mechanic> rsU = new ArrayList<Mechanic>();
+                        rsU = UR.getMechanic();
+                        for (int i = 0; i<rsU.size(); i++){
+                            mechanicList.add(rsU.get(i).getFirstName());
+                            mechanicList.add(rsU.get(i).getSurname());
+                        }
 			entryMechanic.setItems(mechanicList);
 			entryMechanic.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
-		}
-		catch (SQLException se)
-		{
-			se.printStackTrace();
-		}
 		
 	}
 	
 	@FXML
 	public void addEntry()
 	{
-                BookingRegistry BR = BookingRegistry.getInstance(); 
+                 
 		String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
 		String[] custData = lineC.split("[\\s,:]+");
 		String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
@@ -140,7 +146,7 @@ public class AddWindowController implements Initializable
 	
 	public LocalDateTime parseLocalDateTime(String str)
 	{
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return LocalDateTime.parse(str, formatter);
 	}
 	
