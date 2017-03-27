@@ -117,15 +117,18 @@ public class EditWindowController implements Initializable {
 
     @FXML
     private void editEntry(ActionEvent event) {
-        BookingRegistry BR = BookingRegistry.getInstance();
-        VehicleRegistry VR = VehicleRegistry.getInstance();
-        String lineC = (String) entryCustomer.getSelectionModel().getSelectedItem();
-        String[] custData = lineC.split("[\\s,:]+");
-        String lineM = (String) entryMechanic.getSelectionModel().getSelectedItem();
-        String[] mechData = lineM.split("[\\s,:]+");
+        Vehicle v = (Vehicle) entryReg.getValue();
+        String reg = v.getRegistration();
+        Customer c = (Customer) entryCustomer.getValue();
+        String phone = c.getPhone();
+        String email = c.getEmail();
+        int id = CR.getCustomerID(phone, email);
+        String custID = Integer.toString(id);
+        Mechanic m = (Mechanic) entryMechanic.getValue();
+        String mechID = Integer.toString(m.getIDNumber());
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        String ID = BR.findID(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custData[0], (String) entryReg.getSelectionModel().getSelectedItem(), mechData[0]);
-        BR.editBooking(ID, date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custData[0], (String) entryReg.getSelectionModel().getSelectedItem(), entryMileage.getText(), mechData[0]);
+        String ID = BR.findID(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, mechID);
+        BR.editBooking(ID, date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, entryMileage.getText(), mechID);
         VR.changeMileage((String) entryReg.getSelectionModel().getSelectedItem());
         parentController.reset();
         Stage stage = (Stage) confirmButton.getScene().getWindow();
