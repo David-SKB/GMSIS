@@ -535,7 +535,14 @@ public class VehicleGUIController implements Initializable {
    
    //check customer id
    String idString = customerIDTextField.getText();
-   int id = Integer.parseInt(idString);
+    int id = 0;
+   try{
+    id = Integer.parseInt(idString);
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+     cl.showIDFailure();
+   }
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
