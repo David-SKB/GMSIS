@@ -58,9 +58,9 @@ public class DatabaseCreation
 " ENGINESIZE   INT   NOT NULL,\n" +
 " FUELTYPE     TEXT  NOT NULL,\n" +
 " COLOUR       TEXT  NOT NULL,\n" +
-" MOTDATE      DATE  NOT NULL, \n" +
-" WARRANTY     INT   NOT NULL,\n" +
-" LASTSERVICE  DATE  NOT NULL,\n" +
+" MOTDATE      TEXT  NOT NULL, \n" +
+" WARRANTY     INT  NOT NULL,\n" +
+" LASTSERVICE  TEXT  NOT NULL,\n" +
 " MILEAGE      INT   NOT NULL,\n" +
 " FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE CASCADE\n" +
 ");\n" +
@@ -70,7 +70,7 @@ public class DatabaseCreation
 " REGISTRATION      INT     NOT NULL,\n" +
 " NAME              TEXT    NOT NULL,\n" +
 " ADDRESS           TEXT    NOT NULL,\n" +
-" EXPIRYDATE        DATE    NOT NULL,\n" +
+" EXPIRYDATE        TEXT    NOT NULL,\n" +
 " FOREIGN KEY(REGISTRATION) REFERENCES VEHICLE(REGISTRATION) ON DELETE CASCADE\n" +
 ");\n" +
 "/* PARTS TABLE */\n" +

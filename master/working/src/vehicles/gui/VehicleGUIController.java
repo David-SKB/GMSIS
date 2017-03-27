@@ -242,7 +242,14 @@ public class VehicleGUIController implements Initializable {
    String updateMake = updateMakeTextField.getText();
    String updateModel = updateModelTextField.getText();
    String updateEngine = updateEngineTextField.getText();
-    int engine = Integer.parseInt(updateEngine);
+    double engine = 0;
+    try{
+     engine = Double.parseDouble(updateEngine);
+    }
+    catch(NumberFormatException e){
+     componentLoader cl = new componentLoader();
+      cl.showEngineFailure();
+    }
    String updateFuel = updateFuelTextField.getText();
    String updateColour = updateColourTextField.getText();
    String updateMOT = updateMOTTextField.getText();

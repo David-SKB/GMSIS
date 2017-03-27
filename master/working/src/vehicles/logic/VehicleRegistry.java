@@ -123,7 +123,7 @@ public class VehicleRegistry {
    return false;
   }
  
-  public void updateDetails(String oldReg,String newReg,int custID,String make,String model,int engine,String fuel,String colour,String MOT,boolean warranty,String last,int mile){
+  public void updateDetails(String oldReg,String newReg,int custID,String make,String model,double engine,String fuel,String colour,String MOT,boolean warranty,String last,int mile){
    try{
     DBConnection c = DBConnection.getInstance();
      c.connect();
