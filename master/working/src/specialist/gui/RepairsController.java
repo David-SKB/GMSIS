@@ -1043,6 +1043,10 @@ public class RepairsController /*extends Application*/ implements Initializable
             PartsTable.setVisible(true);
             ViewPartsButton.setDisable(true);
             PartsBySPC = true;
+            if (PartList.isEmpty())
+            {
+                EC.TimedMsgRED(T1SearchError, "No Parts Found");
+            }
         }
     }
     
@@ -1217,6 +1221,10 @@ public class RepairsController /*extends Application*/ implements Initializable
             PartsTable.setItems(PartList);
             SearchedBySPC = false;
             PartsBySPC = false;
+            if (PartList.isEmpty())
+            {
+                EC.TimedMsgRED(T1SearchError, "No Parts Found");
+            }
         }
         else
         {
