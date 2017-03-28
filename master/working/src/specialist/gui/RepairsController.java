@@ -182,6 +182,8 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private Button RepairDeleteButton;
     @FXML private Button ViewPartsButton;
     @FXML private Button ViewPartsSPCButton;
+    @FXML private Button ToggleOutstandingButton;
+    @FXML private Text OutstandingTitle;
     
     /***************************************
      * UPDATE SPC ANCHOR PANE METHOD 
@@ -209,6 +211,9 @@ public class RepairsController /*extends Application*/ implements Initializable
             Text SPCErrorTemp = null;
             Text OutstandingErrorTemp = null;
             Button ViewPartsSPCButtonTemp = null;
+            Text OutstandingTitleTemp = null;
+            Button ToggleOutstandingButtonTemp = null;
+            
             for(Node n : OL)//Loop to find all the children that will be updated
             {       
                 if(n.getId() == null)
@@ -235,6 +240,14 @@ public class RepairsController /*extends Application*/ implements Initializable
                 {
                     ViewPartsSPCButtonTemp = (Button)n;
                 }
+                else if(n instanceof Text && (n.getId().equalsIgnoreCase("OutstandingTitle")))
+                {
+                    OutstandingTitleTemp = (Text)n;
+                }
+                else if(n instanceof Button && (n.getId().equalsIgnoreCase("ToggleOutstandingButton")))
+                {
+                    ToggleOutstandingButtonTemp = (Button)n;
+                }
             }
             if(outstandingT != null && spcListTable != null && SPCErrorTemp !=null & OutstandingErrorTemp !=null)
             {
@@ -257,6 +270,8 @@ public class RepairsController /*extends Application*/ implements Initializable
                     ViewPartsSPCButtonTemp.setVisible(true);
                 }
                 
+                OutstandingTitleTemp.setText("Outstanding Repairs");
+                ToggleOutstandingButtonTemp.setText("Show Returned");
                 if (outstandingT.getItems().isEmpty())
                 {
                     OutstandingErrorTemp.setText("No Repairs Found");
@@ -663,6 +678,26 @@ public class RepairsController /*extends Application*/ implements Initializable
         SendPart.setVisible(true);
     }
     
+    @FXML private void ToggleOutstanding() throws SQLException
+    {
+        String visible = ToggleOutstandingButton.getText();
+        if (visible.equals("Show Outstanding"))
+        {
+            //Display Returned Items
+            ToggleOutstandingButton.setText("Show Returned");
+            OutstandingTitle.setText("Outstanding Repairs");
+            LoadOutstanding();
+        }
+        else
+        {
+            //Display Outstanding Items
+            ToggleOutstandingButton.setText("Show Outstanding");
+            OutstandingTitle.setText("Returned Repairs");
+            LoadReturned();
+        }
+        
+    }
+    
     private void ClearAddVehicle()
     {
         RegNoVehicle.setText(null);
@@ -894,6 +929,20 @@ public class RepairsController /*extends Application*/ implements Initializable
     @FXML private void LoadOutstanding() throws SQLException
     {
         ObservableList<OutstandingMain> VehicleList = repairs.getOutstanding();
+        OutstandingTable.setItems(VehicleList);
+        if (VehicleList.isEmpty())
+        {
+            OutstandingError.setText("No Repairs Found");
+        }
+        else
+        {
+            OutstandingError.setText("");
+        }
+    }
+    
+    @FXML private void LoadReturned() throws SQLException
+    {
+        ObservableList<OutstandingMain> VehicleList = repairs.getReturned();
         OutstandingTable.setItems(VehicleList);
         if (VehicleList.isEmpty())
         {

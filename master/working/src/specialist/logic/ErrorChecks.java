@@ -281,50 +281,67 @@ public class ErrorChecks
     /**
     * Displays a given message to a given JavaFX Text object for 2 seconds in RED
     */
-    public void TimedMsgRED(Text TextObject, String msg)
+    public synchronized void TimedMsgRED(Text TextObject, String msg)
     {
         //If Message is active
-        if (TextObject.getText().equals(""))
+        if (!TextObject.getText().equals(""))
         {
-            TextObject.setFill(Color.RED);
-            TextObject.setText(msg);
-            Timer timer = new Timer();
-                timer.schedule( 
-                new java.util.TimerTask() 
-                {
-                    public void run() 
-                    {
-                        TextObject.setText("");
-                        timer.cancel();// Terminate the thread
-                    }
-                }, 2000
-                );
+            try 
+            {
+                wait(2000);
+            } 
+            catch (InterruptedException ex) 
+            {
+                System.out.println("something went wrong g");
+            }
         }
-        
+        //do stuff
+        TextObject.setFill(Color.RED);
+        TextObject.setText(msg);
+        Timer timer = new Timer();
+        timer.schedule( 
+        new java.util.TimerTask() 
+        {
+            public void run() 
+            {
+                TextObject.setText("");
+                timer.cancel();// Terminate the thread
+            }
+        }, 2000
+        );
     }
     
     /**
     * Displays a given message to a given JavaFX Text object for 2 seconds in GREEN
     */
-    public void TimedMsgGREEN(Text TextObject, String msg)
+    public synchronized void TimedMsgGREEN(Text TextObject, String msg)
     {
         //If Message is active
-        if (TextObject.getText().equals(""))
+        if (!TextObject.getText().equals(""))
         {
-            TextObject.setFill(Color.GREEN);
-            TextObject.setText(msg);
-            Timer timer = new Timer();
-                timer.schedule( 
-                new java.util.TimerTask() 
-                {
-                    public void run() 
-                    {
-                        TextObject.setText("");
-                        timer.cancel();// Terminate the thread
-                    }
-                }, 2000
-                );
+            try 
+            {
+                wait(2000);
+            } 
+            catch (InterruptedException ex) 
+            {
+                System.out.println("something went wrong g");
+            }
         }
+        //do stuff
+        TextObject.setFill(Color.GREEN);
+        TextObject.setText(msg);
+        Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() 
+            {
+                public void run() 
+                {
+                    TextObject.setText("");
+                    timer.cancel();// Terminate the thread
+                }
+            }, 2000
+            );
     }
     
     /**

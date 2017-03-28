@@ -115,7 +115,7 @@
       <TableView fx:id="SPCListTable" layoutX="488.0" layoutY="335.0" onMouseClicked="#SPCRowClick" prefHeight="265.0" prefWidth="195.0">
         <columns>
           <TableColumn fx:id="T3ID" prefWidth="25.0" resizable="false" text="ID" />
-          <TableColumn fx:id="T3SPC" prefWidth="176.0" resizable="false" text="Name" />
+          <TableColumn fx:id="T3SPC" prefWidth="168.0" resizable="false" text="Name" />
         </columns>
       </TableView>
       <TableView fx:id="VehicleTable" layoutX="704.0" layoutY="455.0" prefHeight="50.0" prefWidth="450.0" visible="false">
@@ -135,7 +135,7 @@
       <Text fx:id="T1Header" layoutX="783.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Repairs" />
       <Text layoutX="551.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repair Centres" />
       <Text fx:id="T1SearchError" fill="RED" layoutX="951.0" layoutY="423.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="202.99999141693115" />
-      <Text layoutX="189.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Outstanding Repairs" />
+      <Text fx:id="OutstandingTitle" layoutX="189.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Outstanding Repairs" />
       <Text layoutX="893.0" layoutY="526.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Details" />
       <Separator layoutX="704.0" layoutY="530.0" prefHeight="4.0" prefWidth="450.0" />
       <Pane fx:id="CustomerPane" layoutX="704.0" layoutY="539.0" prefHeight="191.0" prefWidth="450.0" visible="false">
@@ -174,9 +174,10 @@
             <ToggleGroup fx:id="SendItemToggle" />
          </toggleGroup></RadioButton>
       <RadioButton layoutX="145.0" layoutY="62.0" mnemonicParsing="false" onAction="#ToggleSendPart" text="Send Part" toggleGroup="$SendItemToggle" />
-      <Text fx:id="SPCError" fill="RED" layoutX="503.0" layoutY="617.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
-      <Text fx:id="OutstandingError" fill="RED" layoutX="165.0" layoutY="616.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
-      <Separator layoutX="16.0" layoutY="633.0" prefHeight="4.0" prefWidth="668.0" />
-      <Button fx:id="ViewPartsSPCButton" disable="true" layoutX="536.0" layoutY="607.0" mnemonicParsing="false" onAction="#ViewPartsSPC" prefHeight="25.0" prefWidth="99.0" text="View Parts" />
+      <Text fx:id="SPCError" fill="RED" layoutX="499.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
+      <Text fx:id="OutstandingError" fill="RED" layoutX="175.0" layoutY="614.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="173.13671875" />
+      <Separator layoutX="16.0" layoutY="646.0" prefHeight="4.0" prefWidth="668.0" />
+      <Button fx:id="ViewPartsSPCButton" disable="true" layoutX="536.0" layoutY="620.0" mnemonicParsing="false" onAction="#ViewPartsSPC" prefHeight="25.0" prefWidth="99.0" text="View Parts" />
+      <Button fx:id="ToggleOutstandingButton" layoutX="202.0" layoutY="620.0" mnemonicParsing="false" onAction="#ToggleOutstanding" prefHeight="25.0" prefWidth="119.0" text="Show Returned" />
    </children>
 </Pane>
