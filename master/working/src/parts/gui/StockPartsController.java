@@ -10,7 +10,6 @@ import parts.logic.PartRegistry;
 import common.DBConnection;
 import customers.logic.Customer;
 import customers.logic.CustomerRegistry;
-import diagrep.logic.Booking;
 import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
 import java.io.IOException;

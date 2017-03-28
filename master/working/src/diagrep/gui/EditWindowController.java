@@ -60,10 +60,10 @@ public class EditWindowController implements Initializable {
     private DiagRepairScreenController parentController;
     private DiagRepairBooking entry;
     private DBConnection conn;
-    private CustomerRegistry CR = CustomerRegistry.getInstance();
-    private VehicleRegistry VR = VehicleRegistry.getInstance();
-    private UserRegistry UR = UserRegistry.getInstance();
-    private BookingRegistry BR = BookingRegistry.getInstance();
+    private final CustomerRegistry CR = CustomerRegistry.getInstance();
+    private final VehicleRegistry VR = VehicleRegistry.getInstance();
+    private final UserRegistry UR = UserRegistry.getInstance();
+    private  final BookingRegistry BR = BookingRegistry.getInstance();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

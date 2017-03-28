@@ -69,7 +69,7 @@ public class BookingRegistry {
                 + CID + "', VEHICLEREGISTRATION = '"
                 + VID + "', MILEAGE = '"
                 + miles + "', EMPLOYEEID = '"
-                + EID + "' WHERE ID = '" + ID + "';";
+                + EID + "' WHERE ID = " + ID + ";";
         boolean result = conn.update(query);
         if(result){
             result = editBill(ID ,length, EID);
@@ -104,7 +104,7 @@ public class BookingRegistry {
             ResultSet result = conn.query(query);
             DiagRepairBooking resultBooking;
             if (result != null) {
-                String BID = result.getString("ID");
+                String BID = Integer.toString(result.getInt("ID"));
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
@@ -134,7 +134,7 @@ public class BookingRegistry {
             ResultSet result = conn.query(query);
             while (result.next()) {
                   
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
           
                 String date = result.getString("BOOKDATE");
            
@@ -214,7 +214,7 @@ public class BookingRegistry {
             String query = "SELECT * FROM BOOKINGS WHERE DATE = '" + date + "';";
             ResultSet result = conn.query(query);
             while (result.next()) {
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
@@ -239,7 +239,7 @@ public class BookingRegistry {
             String query = "SELECT * FROM BOOKINGS WHERE CUSTOMERID = '" + CustID + "';";
             ResultSet result = conn.query(query);
             while (result.next()) {
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
@@ -268,7 +268,7 @@ public class BookingRegistry {
             String query = "SELECT * FROM BOOKINGS WHERE CUSTID = (SELECT ID FROM CUSTOMER WHERE LIKE SURNAME = '%" + surname + "%' AND FIRSTNAME = '%" + firstName + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
@@ -294,7 +294,7 @@ public class BookingRegistry {
             String query = "SELECT * FROM BOOKINGS WHERE LIKE VEHICLEREGISTRATION = '%" + vechID + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
@@ -319,7 +319,7 @@ public class BookingRegistry {
             String query = "SELECT * FROM BOOKINGS WHERE VECHID = (SELECT ID FROM VEHICLE WHERE LIKE MODEL = '%" + model + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
-                String ID = result.getString("ID");
+                String ID = Integer.toString(result.getInt("ID"));
                 String date = result.getString("DATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
@@ -350,7 +350,7 @@ public class BookingRegistry {
                     + VID + "', EMPLOYEEID = "
                     + EID + "';";
             ResultSet rs = conn.query(query);
-            String ID = rs.getString("ID");
+            String ID = Integer.toString(rs.getInt("ID"));
             return ID;
         }catch (SQLException e) {
             return null;

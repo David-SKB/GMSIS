@@ -3,7 +3,6 @@ package diagrep.gui;
 import common.DBConnection;
 import common.Main;
 import diagrep.gui.AddWindowController;
-import diagrep.logic.Booking;
 import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
 import java.awt.Frame;
