@@ -126,8 +126,7 @@ public class EditWindowController implements Initializable {
         Mechanic m = (Mechanic) entryMechanic.getValue();
         String mechID = Integer.toString(m.getIDNumber());
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        String ID = BR.findID(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, mechID);
-        BR.editBooking(ID, date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, entryMileage.getText(), mechID);
+        BR.editBooking(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, entryMileage.getText(), mechID);
         VR.changeMileage((String) entryReg.getSelectionModel().getSelectedItem());
         parentController.reset();
         Stage stage = (Stage) confirmButton.getScene().getWindow();

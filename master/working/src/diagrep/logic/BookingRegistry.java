@@ -57,9 +57,10 @@ public class BookingRegistry {
         return result;
     }
 
-    public boolean editBooking(String ID, String date, String start, String length, String type, String CID, String VID, String miles, String EID) {
+    public boolean editBooking(String date, String start, String length, String type, String CID, String VID, String miles, String EID) {
         //edit booking in database
         conn.connect();
+        String ID = this.findID(date, start, length, type, CID, VID, EID);
         String query = "UPDATE BOOKINGS SET BOOKDATE = '"
                 + date + "', STARTTIME = '"
                 + start + "', DURATION = '"
@@ -71,13 +72,13 @@ public class BookingRegistry {
                 + EID + "' WHERE ID = '" + ID + "';";
         boolean result = conn.update(query);
         if(result){
-            result = editBill(length, EID);
+            result = editBill(ID ,length, EID);
         }
         conn.closeConnection();
         return result;
     }
     
-    public boolean editBill(String length, String EID){
+    public boolean editBill(String ID, String length, String EID){
         UserRegistry UR = UserRegistry.getInstance();
         Mechanic mech = (Mechanic) UR.searchUserByID(EID);
         double cost = mech.getHRate() * Integer.parseInt(length);
