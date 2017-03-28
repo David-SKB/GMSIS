@@ -43,18 +43,18 @@ public class CustomerBillsController implements Initializable{
     @FXML
     private TableView<CustomerBill> futureBookings;
     @FXML
-    private TableColumn futureBType,futureBDate,futureBReg,
+    private TableColumn futureBType,futureBDate,futureBReg, futureBCost,
                         futureBBill;
     @FXML
     private TableView<CustomerBill> pastBookings;
     @FXML
-    private TableColumn pastBType,pastBDate,pastBReg,pastBBill;
+    private TableColumn pastBType,pastBDate,pastBReg,pastBCost,pastBBill;
     @FXML
     private TextField firstNameTF, lastNameTF, addressTF,cTypeTF,          
                       pCodeTF, phoneTF, emailTF;   
     @FXML
     private ListView<Part> partsList;
-    
+    DBConnection db = DBConnection.getInstance();
     CustomerRegistry CR = CustomerRegistry.getInstance();
     BookingRegistry BR = BookingRegistry.getInstance();
     VehicleRegistry VR = VehicleRegistry.getInstance();
@@ -63,7 +63,8 @@ public class CustomerBillsController implements Initializable{
     private ObservableList<CustomerBill> pastBObsList;
     private ObservableList<Part> partObsList;
     Customer tempCust;
-    CustomerBill tempCustBill;
+    CustomerBill tempCustBillF;
+    CustomerBill tempCustBillP;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,6 +74,8 @@ public class CustomerBillsController implements Initializable{
                 new PropertyValueFactory<CustomerBill, String>("bookingDate"));
         futureBReg.setCellValueFactory(
                 new PropertyValueFactory<CustomerBill, String>("VehID"));
+        futureBCost.setCellValueFactory(
+                new PropertyValueFactory<CustomerBill, Float>("cost"));
         futureBBill.setCellValueFactory(
                 new PropertyValueFactory<CustomerBill, Float>("bill"));
         
@@ -81,8 +84,8 @@ public class CustomerBillsController implements Initializable{
             row.setOnMouseClicked(event2 -> {
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
-                    tempCustBill= row.getItem();
-                    loadParts(tempCustBill.getBookingID());
+                    tempCustBillF = row.getItem();
+                    loadParts(tempCustBillF.getBookingID());
                     partsList.setItems(partObsList);
                 }
             });
@@ -95,6 +98,8 @@ public class CustomerBillsController implements Initializable{
                 new PropertyValueFactory<CustomerBill, String>("bookingDate"));
         pastBReg.setCellValueFactory(
                 new PropertyValueFactory<CustomerBill, String>("VehID"));
+        pastBCost.setCellValueFactory(
+                new PropertyValueFactory<CustomerBill, String>("cost"));
         pastBBill.setCellValueFactory(
                 new PropertyValueFactory<CustomerBill, String>("bill"));
         
@@ -103,8 +108,8 @@ public class CustomerBillsController implements Initializable{
             row.setOnMouseClicked(event2 -> {
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
-                    tempCustBill= row.getItem();
-                    loadParts(tempCustBill.getBookingID());
+                    tempCustBillP = row.getItem();
+                    loadParts(tempCustBillP.getBookingID());
                     partsList.setItems(partObsList);
                 }
             });
@@ -140,10 +145,16 @@ public class CustomerBillsController implements Initializable{
          if(bList != null &&
            !bList.isEmpty()){
             for(DiagRepairBooking DRP : bList){
+                String billStatus = "Unsettled";
+                float amount = 0;
                    if (parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
-                       futureBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
+                       amount = queryBill(DRP);
+                       billStatus = checkWarranty(DRP);
+                       futureBObsList.add(new CustomerBill(DRP,amount,billStatus));
                    }else if(parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0){
-                       pastBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
+                       amount = queryBill(DRP);
+                       billStatus = checkWarranty(DRP);
+                       pastBObsList.add(new CustomerBill(DRP,amount,billStatus));
                    }
             }
         }
@@ -159,20 +170,27 @@ public class CustomerBillsController implements Initializable{
             ResultSet rs = DB.query(query);
             if(rs.isBeforeFirst()){
                 account = rs.getFloat("DIAGREPCOST") + rs.getFloat("PARTSCOST") + rs.getFloat("SPCCOST");
-            }else{
-                return 0;
-            }
-            DB.closeConnection();
-            boolean warranty = VR.checkWarranty(DRP.getVehreg());
-            if(warranty){
-                return 0;
-            }else{
+                DB.closeConnection();
                 return account;
+            }else{
+                return 0;
             }
         }catch(SQLException e){
             return 0;
         }
     }
+    
+    private String checkWarranty(DiagRepairBooking DRP){
+        boolean warranty = VR.checkWarranty(DRP.getVehreg());
+            if(warranty){
+                changeBillSettlement(DRP,1);
+                return "Settled";
+            }else{
+                changeBillSettlement(DRP,0);
+                return "Unsettled";
+            }
+    }   
+         
     
     private void loadParts(String bookingID){
         ArrayList<Part> pList = PR.getUsedParts(bookingID);
@@ -192,5 +210,53 @@ public class CustomerBillsController implements Initializable{
     private LocalDateTime parseLocalDateTime(String str) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         return LocalDateTime.parse(str, formatter);
+    }
+    
+    private void changeBillSettlement(DiagRepairBooking DRP, int status){
+        db.connect();
+            String bID = DRP.getId();
+            String query = "UPDATE BILLS \n" + 
+                           "SET " +
+                           "STATUS = " + status + "\n" +
+                            "WHERE PHONE = '" + bID + "';";
+        db.closeConnection();    
+    }
+    
+    @FXML
+    private void changeBillSettlementF(){
+        db.connect();
+        if(tempCustBillF != null){
+            String bID = tempCustBillF.getBookingID();
+            String status = tempCustBillF.getBill();
+            int iStat = 1;
+            if(status.equals("Settled")){
+                iStat = 0;
+            }
+            String query = "UPDATE BILLS \n" + 
+                           "SET " +
+                           "STATUS = " + iStat + "\n" +
+                            "WHERE PHONE = '" + bID + "';";
+            
+        }
+        db.closeConnection();
+    }
+    
+    @FXML
+    private void changeBillSettlementP(){
+        db.connect();
+        if(tempCustBillP != null){
+            String bID = tempCustBillP.getBookingID();
+            String status = tempCustBillP.getBill();
+            int iStat = 1;
+            if(status.equals("Settled")){
+                iStat = 0;
+            }
+            String query = "UPDATE BILLS \n" + 
+                           "SET " +
+                           "STATUS = " + iStat + "\n" +
+                            "WHERE PHONE = '" + bID + "';";
+            
+        }
+        db.closeConnection();
     }
 }

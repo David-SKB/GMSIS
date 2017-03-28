@@ -11,24 +11,26 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class CustomerBill {
     
-    private DiagRepairBooking DRP;
-    private SimpleFloatProperty bill;
+    private final DiagRepairBooking DRP;
+    private final SimpleFloatProperty cost;
     private final SimpleStringProperty bookingID;
     private final SimpleStringProperty bookingDate;
     private final SimpleStringProperty VehID;
     private final SimpleStringProperty bookingType;
+    private final SimpleStringProperty bill;
     
-    public CustomerBill(DiagRepairBooking DRP, float bill){
+    public CustomerBill(DiagRepairBooking DRP, float cost, String bill){
         this.DRP = DRP;
         this.bookingID = new SimpleStringProperty(DRP.getId());
         this.bookingDate = new SimpleStringProperty(DRP.getBookdate());
         this.VehID = new SimpleStringProperty(DRP.getVehreg());
         this.bookingType = new SimpleStringProperty(DRP.getType());
-        this.bill = new SimpleFloatProperty(bill);
+        this.cost = new SimpleFloatProperty(cost);
+        this.bill = new SimpleStringProperty(bill);
     }
     
-    public float getBill(){
-        return bill.get();
+    public float getCost(){
+        return cost.get();
     }
     
     public String getBookingID(){
@@ -45,6 +47,10 @@ public class CustomerBill {
     
     public String getBookingType(){
         return bookingType.get();
+    }
+    
+    public String getBill(){
+        return bill.get();
     }
     
 }
