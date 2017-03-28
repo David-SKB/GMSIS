@@ -79,6 +79,7 @@ cd SE9
 - **SQLite/JDBC:** https://bitbucket.org/xerial/sqlite-jdbc/downloads/
 - **Apache Commons Validator:** https://commons.apache.org/proper/commons-validator/index.html
 - **ControlsFX:** http://fxexperience.com/controlsfx/
+- **Various Libraries from:** http://jfxtras.org/
 
 ## Credits
 
