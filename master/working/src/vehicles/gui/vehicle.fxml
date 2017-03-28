@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="684.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleGUIController">
+<AnchorPane id="AnchorPane" fx:id="bookingDetailsButton" prefHeight="684.0" prefWidth="986.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleGUIController">
  <children>
       <Button fx:id="carButton" layoutX="103.0" layoutY="70.0" mnemonicParsing="false" onAction="#addCarButton" prefHeight="26.0" prefWidth="76.0" text="Add car" />
       <Button fx:id="vanButton" layoutX="103.0" layoutY="100.0" mnemonicParsing="false" onAction="#addVanButton" prefHeight="26.0" prefWidth="76.0" text="Add van" />
@@ -42,7 +42,7 @@
       <Separator layoutX="495.0" layoutY="444.0" orientation="VERTICAL" prefHeight="134.0" prefWidth="7.0" />
       <CheckBox fx:id="warrantyCheckBox" layoutX="354.0" layoutY="118.0" mnemonicParsing="false" text="Warranty?" />
       <Button fx:id="clearButton" layoutX="524.0" layoutY="99.0" mnemonicParsing="false" onAction="#clearButton" prefHeight="26.0" prefWidth="56.0" text="Clear" />
-      <TableView fx:id="vehDetails" layoutX="17.0" layoutY="193.0" prefHeight="254.0" prefWidth="919.0">
+      <TableView fx:id="vehDetails" layoutX="17.0" layoutY="193.0" prefHeight="254.0" prefWidth="826.0">
         <columns>
           <TableColumn id="regCol" fx:id="regCol" prefWidth="75.0" text="REG" />
           <TableColumn fx:id="makeCol" prefWidth="75.0" text="MAKE" />
@@ -51,8 +51,8 @@
           <TableColumn fx:id="fuelCol" prefWidth="75.0" text="FUEL" />
           <TableColumn fx:id="colCol" prefWidth="75.0" text="COLOUR" />
           <TableColumn fx:id="MOTCol" prefWidth="75.0" text="MOT" />
-          <TableColumn fx:id="warrCol" prefWidth="75.0" text="WARRANTY" />
-            <TableColumn fx:id="lastCol" prefWidth="75.0" text="LAST" />
+          <TableColumn fx:id="warrCol" prefWidth="84.0" text="WARRANTY" />
+            <TableColumn fx:id="lastCol" prefWidth="66.0" text="LAST" />
             <TableColumn fx:id="mileCol" prefWidth="75.0" text="Mile" />
             <TableColumn fx:id="typeCol" prefWidth="75.0" text="TYPE" />
         </columns>
@@ -131,5 +131,6 @@
       <TextField fx:id="customerIDTextField" layoutX="62.0" layoutY="105.0" prefHeight="26.0" prefWidth="27.0" />
       <Button fx:id="selectCustomerButton" layoutX="27.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectCustomerButton" text="Select" />
       <Label layoutX="54.0" layoutY="15.0" text="Active Customers" />
+      <Button fx:id="detailsButton" layoutX="845.0" layoutY="160.0" mnemonicParsing="false" onAction="#detailsButton" text="Booking details" />
    </children>   
 </AnchorPane>

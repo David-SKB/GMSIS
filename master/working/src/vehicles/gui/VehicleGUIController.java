@@ -7,8 +7,10 @@ package vehicles.gui;
  */
 
 import common.DBConnection;
+import common.Main;
 import customers.logic.Customer;
 import customers.logic.CustomerRegistry;
+import diagrep.logic.BookingRegistry;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -70,6 +72,8 @@ public class VehicleGUIController implements Initializable {
 
     DBConnection db = DBConnection.getInstance();
     VehicleRegistry vr = VehicleRegistry.getInstance();
+    BookingRegistry br = BookingRegistry.getInstance();
+    CustomerRegistry cr = CustomerRegistry.getInstance();
     
    @FXML
    private TextField regTextField,
@@ -120,7 +124,8 @@ public class VehicleGUIController implements Initializable {
                   editButton,
                   clearButton,
                   updateButton,
-                  selectCustomerButton;
+                  selectCustomerButton,
+                  detailsButton;
    @FXML
    private CheckBox warrantyCheckBox,
                     currWarrCheckBox,
@@ -135,7 +140,7 @@ public class VehicleGUIController implements Initializable {
    private TableView<Vehicle> vehDetails;
    @FXML
    private TableColumn regCol,idCol,makeCol,modelCol,engineCol,fuelCol,colCol,MOTCol,lastCol,
-                       mileCol,warrCol,typeCol;
+                       mileCol,warrCol,typeCol,nextBookCol;
    @FXML
    private Vehicle tempVehicle;
    @FXML
@@ -144,10 +149,38 @@ public class VehicleGUIController implements Initializable {
    ListView<Template> templateList = new ListView<Template>();
    @FXML
    ObservableList<Template> carsTemplate = FXCollections.observableArrayList();
-   private CustomerRegistry cr = CustomerRegistry.getInstance();
    
+  
    
-   
+   @FXML
+   public void detailsButton(ActionEvent event){
+    String reg = regTextField.getText();
+      Parent root;
+      if(reg.equals("")){
+       componentLoader cl = new componentLoader();
+        cl.showRegFailure();
+      }
+      try{
+       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./vehicleCustomers.fxml")); 
+       root = (Parent)fxmlLoader.load();
+       VehicleCustomersController vcc = fxmlLoader.getController();
+       vcc.setCustomer(reg);
+       //controller
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Customer details");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
+                stage.show();
+      }
+      catch(Exception e){
+       componentLoader cl = new componentLoader();
+        cl.showRegFailure();
+      }
+     }
+     
    public void updateAnchorPane(AnchorPane AP){
        ObservableList<Node> OL = AP.getChildren();
        TableView<Vehicle> vehTV = null;
@@ -911,6 +944,7 @@ public class VehicleGUIController implements Initializable {
 
         typeCol.setCellValueFactory(
            new PropertyValueFactory<Vehicle, String>("type"));
+        
             
         vehDetails.setRowFactory((TableView<Vehicle> tv) -> {
             TableRow<Vehicle> row = new TableRow<>();

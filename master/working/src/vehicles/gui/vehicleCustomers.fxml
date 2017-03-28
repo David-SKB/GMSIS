@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleCustomersController">
+   <children>
+      <TableView fx:id="custDetails" layoutX="37.0" layoutY="113.0" prefHeight="200.0" prefWidth="526.0">
+        <columns>
+          <TableColumn id="firstNameCol" fx:id="firstNameCol" prefWidth="75.0" text="First Name" />
+          <TableColumn id="lastNameCol" fx:id="lastNameCol" prefWidth="75.0" text="Last name" />
+            <TableColumn id="addressCol" fx:id="addressCol" prefWidth="75.0" text="Address" />
+            <TableColumn id="postcodeCol" fx:id="postCodeCol" prefWidth="75.0" text="Postcode" />
+            <TableColumn id="phoneCol" fx:id="phoneCol" prefWidth="75.0" text="Phone" />
+            <TableColumn id="emailCol" fx:id="emailCol" prefWidth="75.0" text="Email" />
+            <TableColumn id="typeCol" fx:id="cTypeCol" prefWidth="75.0" text="Type" />
+        </columns>
+      </TableView>
+      <TextField fx:id="nextBookingTextField" layoutX="219.0" layoutY="343.0" />
+      <Label layoutX="242.0" layoutY="320.0" text="Next Booking Date:" />
+      <Label fx:id="detailsLabel" layoutX="192.0" layoutY="62.0" text="Customer Details for: " />
+      <TextField fx:id="regTextField" layoutX="340.0" layoutY="57.0" prefHeight="26.0" prefWidth="88.0" />
+   </children>
+</Pane>

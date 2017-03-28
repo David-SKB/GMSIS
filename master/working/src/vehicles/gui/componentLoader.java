@@ -40,6 +40,13 @@ public class componentLoader{
     return decision;
    }
    
+   public void showRegFailure(){
+    Alert alert = new Alert(AlertType.ERROR);
+     alert.setTitle("No registration");
+     alert.setHeaderText("You must select a registration by double clicking a record in the table");
+     alert.showAndWait();   
+   }
+   
    public void showWarrantyFailure(){
      Alert alert = new Alert(AlertType.ERROR);
      alert.setTitle("Warranty fields left blank");
