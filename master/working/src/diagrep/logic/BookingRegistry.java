@@ -12,6 +12,9 @@ import common.DBConnection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import user.logic.Employee;
+import user.logic.Mechanic;
+import user.logic.UserRegistry;
 
 public class BookingRegistry {
 
@@ -38,7 +41,19 @@ public class BookingRegistry {
                 + VID + "', '"
                 + EID + "');";
         boolean result = conn.update(query);
+        if(result){
+            result = addBill(length, EID);
+        }
         conn.closeConnection();
+        return result;
+    }
+    
+    public boolean addBill(String length, String EID){
+        UserRegistry UR = UserRegistry.getInstance();
+        Mechanic mech = (Mechanic) UR.searchUserByID(EID);
+        double cost = mech.getHRate() * Integer.parseInt(length);
+        String query = "INSERT INTO BILLS (DIAGREPCOST, STATUS) VALUES ("+cost+", 0);";
+        boolean result = conn.update(query);
         return result;
     }
 
@@ -55,7 +70,19 @@ public class BookingRegistry {
                 + miles + "', EMPLOYEEID = '"
                 + EID + "' WHERE ID = '" + ID + "';";
         boolean result = conn.update(query);
+        if(result){
+            result = editBill(length, EID);
+        }
         conn.closeConnection();
+        return result;
+    }
+    
+    public boolean editBill(String length, String EID){
+        UserRegistry UR = UserRegistry.getInstance();
+        Mechanic mech = (Mechanic) UR.searchUserByID(EID);
+        double cost = mech.getHRate() * Integer.parseInt(length);
+        String query = "UPDATE BILLS SET DIAGREPCOST = "+cost+", STATUS = 0 WHERE BILLID = "+ID+";";
+        boolean result = conn.update(query);
         return result;
     }
 

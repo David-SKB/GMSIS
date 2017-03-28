@@ -20,6 +20,12 @@ public class Mechanic extends Employee{
         this.hRate = new SimpleDoubleProperty(rate);
     }
     
+    @Override
+    public String toString(){
+        String rString = this.getFirstName()+ " " + this.getSurname() + " " + this.getHRate();
+        return rString;
+    }
+    
     public double getHRate(){
         return hRate.get();
     }

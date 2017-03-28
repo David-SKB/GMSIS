@@ -40,6 +40,13 @@ public class Vehicle{
     this.lastService = new SimpleStringProperty(lastSer);
     this.currentMile = new SimpleIntegerProperty(mile);
   }
+  
+    @Override
+    public String toString(){
+        String rString = this.getRegistration() + " " + this.getMake()+ " " + this.getModel() + " " + this.getType();
+        return rString;
+    }
+  
   //reg getters and setters
   public String getRegistration(){
     return registration.get();

@@ -127,21 +127,23 @@ public class UserRegistry {
             return null;
         }
     }
-    
-        public ArrayList<Mechanic> getMechanic() {
+
+    public ArrayList<Mechanic> getMechanic() {
         try {
             ArrayList<Mechanic> activeUsers = new ArrayList<Mechanic>();
             DBInstance.connect();
             String query = "SELECT * FROM USERS WHERE SYSADM = 'FALSE';";
             ResultSet rs = DBInstance.query(query);
             while (rs.next()) {
-                int ID = rs.getInt("ID");
-                String pass = rs.getString("PASSWORD");
-                String sName = rs.getString("SURNAME");
-                String fName = rs.getString("FIRSTNAME");
-                String sysAdm = rs.getString("SYSADM");
-                double rate = rs.getDouble("HRATE");
-                activeUsers.add(new Mechanic(ID, pass, sName, fName, rate, false));
+                Boolean sysAdm = rs.getBoolean("SYSADM");
+                if (!sysAdm) {
+                    int ID = rs.getInt("ID");
+                    String pass = rs.getString("PASSWORD");
+                    String sName = rs.getString("SURNAME");
+                    String fName = rs.getString("FIRSTNAME");
+                    double rate = rs.getDouble("HRATE");
+                    activeUsers.add(new Mechanic(ID, pass, sName, fName, rate, false));
+                }
             }
             return activeUsers;
         } catch (SQLException e) {
@@ -152,10 +154,10 @@ public class UserRegistry {
     public Employee searchUserByID(String ID) {
         try {
             DBInstance.connect();
-            String query = "SELECT * FROM USERS WHERE ID = "+ID+";";
+            String query = "SELECT * FROM USERS WHERE ID = " + ID + ";";
             ResultSet rs = DBInstance.query(query);
             Employee result;
-            if (rs!=null) {
+            if (rs != null) {
                 String pass = rs.getString("PASSWORD");
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
@@ -172,6 +174,6 @@ public class UserRegistry {
         } catch (SQLException e) {
             return null;
         }
-        
+
     }
 }

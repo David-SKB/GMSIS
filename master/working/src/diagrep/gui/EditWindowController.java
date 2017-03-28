@@ -79,9 +79,8 @@ public class EditWindowController implements Initializable {
         } else {
             entryType.getSelectionModel().selectLast();
         }
-        String[] line = entry.getBookdate().split("\\s+");
-        entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        entryTime.setText(line[1]);
+        entryDate.setValue(LocalDate.parse(entry.getBookdate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        entryTime.setText(entry.getStarttime());
         entryDuration.setText(entry.getDuration());
         entryMileage.setText(entry.getMileage());
         ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox

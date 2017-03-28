@@ -70,7 +70,7 @@ public class AddWindowController implements Initializable {
         entryType.getSelectionModel().selectFirst();	//set the options to search from in dropdown list	
         entryDate.setValue(NOW_LOCALDATE());
         entryTime.setText("09:00");
-        entryDuration.setText("1 Hour");
+        entryDuration.setText("1");
 
         ObservableList<Vehicle> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
         ArrayList<Vehicle> currentVehicle = VR.getAllVehicles();
