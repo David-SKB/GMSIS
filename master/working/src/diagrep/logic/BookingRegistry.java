@@ -155,7 +155,7 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
   
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
-           
+                System.out.println("in getbookings list while");
             }
             conn.closeConnection();
             return BookingList;
@@ -172,22 +172,37 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS;";// WHERE TYPE = DIAGREP;";
             ResultSet result = conn.query(query);
+            System.out.println("in getbookings list");
             while (result.next()) {
                 String ID = result.getString("ID");
-                String date = result.getString("DATE");
+          
+                String date = result.getString("BOOKDATE");
+           
                 String start = result.getString("STARTTIME");
+             
                 String length = result.getString("DURATION");
+                
                 String type = result.getString("TYPE");
+               
                 String cusID = result.getString("CUSTOMERID");
+      
                 String vechID = result.getString("VEHICLEREGISTRATION");
+         
                 String mileage = result.getString("MILEAGE");
+                if(mileage==null){
+                    mileage = "N/A";
+                }
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
+                System.out.println("in getbookings list while");
             }
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
-            return null;
+            //return null;
+            ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
+            BookingList.add(new DiagRepairBooking("dfsf", "dfsf", "dfsf", "dfsf", "dfsf", "dfsf", "dfsf", "dfsf", "dfsf"));
+             return BookingList;
         }
     }
 

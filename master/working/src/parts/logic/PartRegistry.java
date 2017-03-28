@@ -121,19 +121,19 @@ public class PartRegistry {
         conn.closeConnection();
     }
     //take part from stock to use in repair (delete from stock parts then add to used parts)
-    public boolean usePart(String bId, String vId, String cId, String partName, Date wEnd, Date wStart, String cost){
+    public boolean usePart(String bId, String vId, String cId, int partID, String wEnd, String wStart, BigDecimal cost){
         boolean success;
         //deletePart(partName);
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
         String query = "INSERT INTO USEDPARTS (BOOKINGID, VEHICLEID, " +
-                " CUSTOMERID, PARTNAME, WARRANTYEND, WARRANTYSTART, COST)" +
+                " CUSTOMERID, PARTID, WARRANTYEND, WARRANTYSTART, COST)" +
                            "VALUES ( '" + 
                             bId + "', '" +
                             vId + "', '" +
-                            cId + "', '" +
-                            partName + "', '" +
+                            cId + "', " +
+                            partID + ", '" +
                             wEnd + "', '" + 
                             wStart + "', '" + 
                             cost + "' );";

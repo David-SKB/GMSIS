@@ -26,6 +26,7 @@ public class DBConnection {
             stmt = c.createStatement();
             String sql = "PRAGMA foreign_keys = ON";
             stmt.executeUpdate(sql);
+            System.out.println( "connrcted");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
@@ -34,6 +35,7 @@ public class DBConnection {
         try{
             stmt.close();
             c.close();
+            System.out.println( "connrction closed");
         }
         catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );

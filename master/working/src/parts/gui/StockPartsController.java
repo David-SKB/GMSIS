@@ -109,7 +109,7 @@ public class StockPartsController implements Initializable {
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
     @FXML
-    private TableView<RepairWrapper> repairsTable;
+    private TableView<RepairWrapper> repairTable;
     @FXML
     private TableColumn repairIDCol, rVehicleRegistrationCol, //FXML TableColumn. Columns form the TableView element.
             rCustomerCol1, rFirstNameCol,
@@ -269,18 +269,18 @@ public class StockPartsController implements Initializable {
     //load data into repairs table
     public void loadRepairsTable() {//ActionEvent event){
 
-        repairsTable.setEditable(true);
+        repairTable.setEditable(true);
         repairIDCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("repairID"));
+                new PropertyValueFactory<RepairWrapper, String>("repairID"));
         rVehicleRegistrationCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("vehicleRegistration"));
+                new PropertyValueFactory<RepairWrapper, String>("vehicleRegistration"));
         rFirstNameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("firstName"));
+                new PropertyValueFactory<RepairWrapper, String>("firstName"));
         rLastNameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("lastName"));
+                new PropertyValueFactory<RepairWrapper, String>("lastName"));
         rDateCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("date"));
-        repairsTable.setItems(oRepairList);
+                new PropertyValueFactory<RepairWrapper, String>("date"));
+        repairTable.setItems(oRepairList);
 
     }
 
@@ -290,7 +290,7 @@ public class StockPartsController implements Initializable {
         System.out.println("test4");
         oRepairList.clear();
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
-        ArrayList<DiagRepairBooking> bookings = bookingR.getListDiagRepairBookings();
+        ArrayList<DiagRepairBooking> bookings = bookingR.getListBookings();
         for (int i = 0; i < bookings.size(); i++) {
             Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVehreg());
             Customer customer = customerR.searchCustomerByID(bookings.get(i).getCust());
@@ -309,13 +309,13 @@ public class StockPartsController implements Initializable {
     public void addPartToRepair(ActionEvent event) {
 
         Part selectedPart = rStockTable.getSelectionModel().getSelectedItem();
-        RepairWrapper selectedRepair = repairsTable.getSelectionModel().getSelectedItem();
-        partR.usePart(selectedRepair.getRepairID(), selectedRepair.getVehicleRegistration(), selectedRepair.getCustomerID(), selectedPart.getName(), new Date(2017, 01, 01), new Date(2018, 01, 01), selectedPart.getCost());
-        if (selectedPart.getStocklevel() < 2) {
+        RepairWrapper selectedRepair = repairTable.getSelectionModel().getSelectedItem();
+        partR.usePart(selectedRepair.getRepairID(), selectedRepair.getVehicleRegistration(), selectedRepair.getCustomerID(), selectedPart.getId(), new Date(2017, 01, 01).toString(), new Date(2018, 01, 01).toString(), new BigDecimal(selectedPart.getCost()));
+        /*if (selectedPart.getStocklevel() < 2) {
             partR.deletePart(selectedPart.getId());
         } else {
             partR.updateStock(selectedPart.getId(), -1);
-        }
+        }*/
     }
 
     //view Deliveries

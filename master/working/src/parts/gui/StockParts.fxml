@@ -9,9 +9,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
   <children>
-    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0">
+    <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0" visible="false">
       <children>
         <AnchorPane layoutX="633.0" layoutY="28.0" prefHeight="383.0" prefWidth="360.0">
           <children>
@@ -94,7 +94,7 @@
     <Button fx:id="viewUsedPartsButton" layoutX="760.0" layoutY="15.0" mnemonicParsing="false" onAction="#viewUsedPartsAnchor" prefHeight="25.0" prefWidth="171.0" text="View Used Parts" />
     <Button fx:id="searchButton" layoutX="529.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchParts" prefHeight="25.0" prefWidth="70.99990000000253" text="Search" />
     <TextField fx:id="searchTextField" layoutX="14.0" layoutY="13.0" prefHeight="25.0" prefWidth="507.0" />
-    <AnchorPane id="usedParts1" fx:id="repairs" layoutY="43.0" prefHeight="636.0" prefWidth="1036.0" visible="false">
+    <AnchorPane id="usedParts1" fx:id="repairs" layoutY="43.0" prefHeight="636.0" prefWidth="1036.0">
       <children>
         <TableView fx:id="repairTable" layoutX="14.0" layoutY="14.0" prefHeight="611.0" prefWidth="586.0">
           <columns>
@@ -110,7 +110,7 @@
         </TableView>
         <AnchorPane layoutX="607.0" layoutY="393.0" prefHeight="238.0" prefWidth="405.0">
           <children>
-            <Button fx:id="addRepairButton" layoutX="14.0" layoutY="199.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="382.0" text="Add Part to Repair" />
+            <Button fx:id="addRepairButton" layoutX="14.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPartToRepair" prefHeight="25.0" prefWidth="382.0" text="Add Part to Repair" />
                   <DatePicker layoutX="109.0" layoutY="160.0" />
                   <Label layoutX="14.0" layoutY="164.0" text="Installation Date" />
           </children>
