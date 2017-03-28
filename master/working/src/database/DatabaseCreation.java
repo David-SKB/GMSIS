@@ -136,7 +136,7 @@ public class DatabaseCreation
 ");\n" +
 "/* BOOKINGS TABLE */\n" +
 "CREATE TABLE BOOKINGS (\n" +
-"	ID                   TEXT    PRIMARY KEY      ,\n" +
+"	ID                   INTEGER    PRIMARY KEY      ,\n" +
 "	BOOKDATE             VARCHAR(255)            NOT NULL,\n" +
 "       STARTTIME            VARCHAR(255)            NOT NULL,\n" +
 "	DURATION             TEXT                    NOT NULL,\n" +
