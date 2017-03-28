@@ -11,8 +11,8 @@ Team 9
 
 - [Project Description](#projec-description)
 - [Designing](#designing)
-  - [Class Model](#class-model)
-  - [ER Model](#er-model)
+  - [Class Model](#class-diagram)
+  - [ER Model](#er-diagram)
 - [Download](#download)
 - [Credits](#credits)
 - [Team](#team)
