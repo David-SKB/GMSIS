@@ -73,17 +73,17 @@ public class EditWindowController implements Initializable {
     public void reinit() {
         conn = DBConnection.getInstance();
         entryType.setItems(FXCollections.observableArrayList("Diagnosis", new Separator(), "Repair"));
-        entryType.getSelectionModel().select(entry.getBookingType());
-        if (entry.getBookingType().equals("Repair")) {
+        entryType.getSelectionModel().select(entry.getType());
+        if (entry.getType().equals("Repair")) {
             entryType.getSelectionModel().selectFirst();
         } else {
             entryType.getSelectionModel().selectLast();
         }
-        String[] line = entry.getBookingDate().split("\\s+");
+        String[] line = entry.getBookdate().split("\\s+");
         entryDate.setValue(LocalDate.parse(line[0], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         entryTime.setText(line[1]);
-        entryDuration.setText(entry.getBookingDuration());
-        entryMileage.setText(entry.getMilage());
+        entryDuration.setText(entry.getDuration());
+        entryMileage.setText(entry.getMileage());
         ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
         ArrayList<Vehicle> rsV = new ArrayList<Vehicle>();
         rsV = VR.getAllVehicles();
@@ -91,7 +91,7 @@ public class EditWindowController implements Initializable {
             vehicleList.add(rsV.get(i).getRegistration());
         }
         entryReg.setItems(vehicleList);
-        entryReg.getSelectionModel().select(entry.getVechID());	//set the options to search from in dropdown list
+        entryReg.getSelectionModel().select(entry.getVehreg());	//set the options to search from in dropdown list
 
         ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
         ArrayList<Customer> rsC = new ArrayList<Customer>();
@@ -101,7 +101,7 @@ public class EditWindowController implements Initializable {
             customerList.add(rsC.get(i).getFirstname());
         }
         entryCustomer.setItems(customerList);
-        entryCustomer.getSelectionModel().select(entry.getCustID());	//set the options to search from in dropdown list
+        entryCustomer.getSelectionModel().select(entry.getCust());	//set the options to search from in dropdown list
 
         ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
         ArrayList<Mechanic> rsU = new ArrayList<Mechanic>();
@@ -111,7 +111,7 @@ public class EditWindowController implements Initializable {
             mechanicList.add(rsU.get(i).getSurname());
         }
         entryMechanic.setItems(mechanicList);
-        entryMechanic.getSelectionModel().select(entry.getEmpID());	//set the options to search from in dropdown list
+        entryMechanic.getSelectionModel().select(entry.getEmp());	//set the options to search from in dropdown list
 
     }
 

@@ -1,7 +1,6 @@
 
 package customers.logic;
 
-import diagrep.logic.Booking;
 import diagrep.logic.DiagRepairBooking;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,10 +20,10 @@ public class CustomerBill {
     
     public CustomerBill(DiagRepairBooking DRP, float bill){
         this.DRP = DRP;
-        this.bookingID = new SimpleStringProperty(((Booking)DRP).getBookingID());
-        this.bookingDate = new SimpleStringProperty(((Booking)DRP).getBookingDate());
-        this.VehID = new SimpleStringProperty(DRP.getVechID());
-        this.bookingType = new SimpleStringProperty(((Booking)DRP).getBookingType());
+        this.bookingID = new SimpleStringProperty(DRP.getId());
+        this.bookingDate = new SimpleStringProperty(DRP.getBookdate());
+        this.VehID = new SimpleStringProperty(DRP.getVehreg());
+        this.bookingType = new SimpleStringProperty(DRP.getType());
         this.bill = new SimpleFloatProperty(bill);
     }
     

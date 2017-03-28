@@ -68,13 +68,13 @@ public class BookingRegistry {
         return result;
     }
 
-    public Booking searchBookingID(String ID) {
+    public DiagRepairBooking searchBookingID(String ID) {
         conn.connect();
         try {
             String query = "SELECT * FROM BOOKINGS\n"
                     + "WHERE ID = '" + ID + "'; ";
             ResultSet result = conn.query(query);
-            Booking resultBooking;
+            DiagRepairBooking resultBooking;
             if (result != null) {
                 String BID = result.getString("ID");
                 String date = result.getString("DATE");
@@ -98,22 +98,36 @@ public class BookingRegistry {
 
     public ArrayList<DiagRepairBooking> getListBookings() {
         try {
+            
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
             String query = "SELECT * FROM BOOKINGS;";
             ResultSet result = conn.query(query);
             while (result.next()) {
+                  
                 String ID = result.getString("ID");
-                String date = result.getString("DATE");
+          
+                String date = result.getString("BOOKDATE");
+           
                 String start = result.getString("STARTTIME");
+             
                 String length = result.getString("DURATION");
+                
                 String type = result.getString("TYPE");
+               
                 String cusID = result.getString("CUSTOMERID");
+      
                 String vechID = result.getString("VEHICLEREGISTRATION");
+         
                 String mileage = result.getString("MILEAGE");
+                if(mileage==null){
+                    mileage = "N/A";
+                }
                 String empID = result.getString("EMPLOYEEID");
+  
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
+           
             }
             conn.closeConnection();
             return BookingList;

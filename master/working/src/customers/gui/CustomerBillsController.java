@@ -140,9 +140,9 @@ public class CustomerBillsController implements Initializable{
          if(bList != null &&
            !bList.isEmpty()){
             for(DiagRepairBooking DRP : bList){
-                   if (parseLocalDateTime(DRP.getBookingDate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                   if (parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
                        futureBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
-                   }else if(parseLocalDateTime(DRP.getBookingDate()).compareTo(NOW_LOCALDATETIME()) < 0){
+                   }else if(parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0){
                        pastBObsList.add(new CustomerBill(DRP,queryBill(DRP)));
                    }
             }
@@ -155,7 +155,7 @@ public class CustomerBillsController implements Initializable{
         try{
             float account = 0;
             String query = "SELECT * FROM BILLS\n" +
-                            "WHERE BILLID = '" + ((Booking)DRP).getBookingID() + "'; "; 
+                            "WHERE BILLID = '" + (DRP).getId()+ "'; "; 
             ResultSet rs = DB.query(query);
             if(rs.isBeforeFirst()){
                 account = rs.getFloat("DIAGREPCOST") + rs.getFloat("PARTSCOST") + rs.getFloat("SPCCOST");
@@ -163,7 +163,7 @@ public class CustomerBillsController implements Initializable{
                 return 0;
             }
             DB.closeConnection();
-            boolean warranty = VR.checkWarranty(DRP.getVechID());
+            boolean warranty = VR.checkWarranty(DRP.getVehreg());
             if(warranty){
                 return 0;
             }else{

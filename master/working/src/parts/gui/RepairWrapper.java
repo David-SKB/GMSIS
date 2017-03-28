@@ -27,7 +27,7 @@ public class RepairWrapper {
     
     public String getRepairID()
     {
-        return booking.getBookingID();
+        return booking.getId();
     }
     
     public String getVehicleRegistration()
@@ -37,7 +37,7 @@ public class RepairWrapper {
     
      public String getCustomerID()
     {
-        return booking.getCustID();
+        return booking.getCust();
     }
     
     public String getCustomerFirstName()
@@ -52,7 +52,7 @@ public class RepairWrapper {
     
     public String getDate()
     {
-        return booking.getBookingDate();
+        return booking.getBookdate();
     }
     
     

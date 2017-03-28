@@ -60,24 +60,14 @@ public class DiagRepairScreenController implements Initializable {
     private TableColumn<DiagRepairBooking, String> colDuration;
     @FXML
     private TableColumn<DiagRepairBooking, String> colType;
-    //@FXML
-    //private TableColumn<DiagRepairBooking, String> colCust;
     @FXML
     private TableColumn<DiagRepairBooking, String> colCustID;
-    //@FXML
-    //private TableColumn<DiagRepairBooking, String> colVeh;
     @FXML
     private TableColumn<DiagRepairBooking, String> colVehReg;
-    //@FXML
-    //private TableColumn<DiagRepairBooking, String> colMech;
     @FXML
     private TableColumn<DiagRepairBooking, String> colMechID;
     @FXML
-    private TableColumn<DiagRepairBooking, String> colMechFirstName;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colMechLastName;
-    @FXML
-    private TableColumn<DiagRepairBooking, String> colMechRate;
+    private TableColumn<DiagRepairBooking, String> colMileage;
 
     private ObservableList<DiagRepairBooking> dataList;
     private DBConnection conn;
@@ -87,17 +77,15 @@ public class DiagRepairScreenController implements Initializable {
         conn = DBConnection.getInstance();
         searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Manufacturer", new Separator(), "Customer Name"));
         searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
-        colID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, Integer>("ID"));
-        colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("type"));
+        colID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, Integer>("id"));
+        colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("bookdate"));
         colStartTime.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("starttime"));
-        colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("date"));
         colDuration.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("duration"));
-
-        colVehReg.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("vehReg"));
-
-        colCustID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("custID"));
-
-        colMechID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mechID"));
+        colType.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("type"));
+        colCustID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("cust"));
+        colVehReg.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("vehreg"));
+        colMileage.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("mileage"));
+        colMechID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("emp"));
 
         displayTableData(null);
     }
@@ -151,7 +139,7 @@ public class DiagRepairScreenController implements Initializable {
             return false;
         }
         for (DiagRepairBooking d : selectedBooking) {
-            String bookingID = (d.getBookingID());
+            String bookingID = (d.getId());
             int start = dataList.size();		//no. of entries before delete
             BR.deleteBooking(bookingID);
             dataList.clear();
@@ -201,7 +189,7 @@ public class DiagRepairScreenController implements Initializable {
         if (result == null) //display all data normally instead
         {
             result = BR.getListBookings();
-        }
+        }        
         for (int i = 0; i < result.size(); i++) {
             dataList.add(result.get(i));
             diagrepTable.setItems(dataList);
@@ -219,7 +207,7 @@ public class DiagRepairScreenController implements Initializable {
         } else if (choice == 0) {
             ArrayList<DiagRepairBooking> result = BR.getListBookings();
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookingDate()).compareTo(NOW_LOCALDATETIME()) < 0) {
+                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -238,7 +226,7 @@ public class DiagRepairScreenController implements Initializable {
             }
             ArrayList<DiagRepairBooking> result = BR.searchBookingByVechID(input);
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookingDate()).compareTo(NOW_LOCALDATETIME()) < 0) {
+                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -256,7 +244,7 @@ public class DiagRepairScreenController implements Initializable {
         } else if (choice == 0) {
             ArrayList<DiagRepairBooking> result = BR.getListBookings();
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookingDate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -275,7 +263,7 @@ public class DiagRepairScreenController implements Initializable {
             }
             ArrayList<DiagRepairBooking> result = BR.searchBookingByVechID(input);
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookingDate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
                     dataList.add(result.get(i));
                 }
             }

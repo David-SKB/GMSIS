@@ -292,8 +292,8 @@ public class StockPartsController implements Initializable {
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
         ArrayList<DiagRepairBooking> bookings = bookingR.getListDiagRepairBookings();
         for (int i = 0; i < bookings.size(); i++) {
-            Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVechID());
-            Customer customer = customerR.searchCustomerByID(bookings.get(i).getCustID());
+            Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVehreg());
+            Customer customer = customerR.searchCustomerByID(bookings.get(i).getCust());
             repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
         }
         if (repairList != null) {
