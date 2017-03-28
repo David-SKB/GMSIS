@@ -58,6 +58,7 @@ public class componentLoader{
     Alert alert = new Alert(AlertType.INFORMATION);
     alert.setTitle("Update successfull");
     alert.setContentText("Update successfull,close window and press refresh to see changes!");
+    alert.showAndWait();
    }
    
    

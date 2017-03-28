@@ -114,16 +114,8 @@ private TextField currRegTextField,
      vr.deleteWarranty(updateReg);
    }
    vr.updateDetails(oldReg,updateReg,0,updateMake,updateModel,engine,updateFuel,updateColour,updateMOT,updateWarranty,updateLast,mile);
-   try{
-       Parent root;
-       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./vehicle.fxml")); 
-       root = (Parent)fxmlLoader.load();
-       VehicleGUIController vgc = fxmlLoader.getController();
-       vgc.vehicleDisplay(event);
-   }
-   catch(Exception e){
-       
-   }
+    componentLoader cl = new componentLoader();
+     cl.showUpdateSuccess();
  }
     
  public void set(Vehicle v){
