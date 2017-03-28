@@ -47,6 +47,20 @@ public class componentLoader{
      alert.showAndWait();   
    }
    
+    public void showVehicleFailure(){
+    Alert alert = new Alert(AlertType.ERROR);
+     alert.setTitle("No Vehicle Selected");
+     alert.setHeaderText("You must select a vehicle record by double clicking it");
+     alert.showAndWait();   
+   }
+    
+   public void showUpdateSuccess(){
+    Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setTitle("Update successfull");
+    alert.setContentText("Update successfull,close window and press refresh to see changes!");
+   }
+   
+   
    public void showWarrantyFailure(){
      Alert alert = new Alert(AlertType.ERROR);
      alert.setTitle("Warranty fields left blank");

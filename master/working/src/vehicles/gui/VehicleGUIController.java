@@ -326,11 +326,55 @@ public class VehicleGUIController implements Initializable {
     vehDetails.setItems(list);
    
   }
+    
+  public Vehicle getVehicle(){
+   String reg = regTextField.getText();
+   String idText = customerIDTextField.getText();
+    int id = Integer.parseInt(idText);
+   String make = makeTextField.getText();
+   String model = modelTextField.getText();
+   String engineText = engineTextField.getText();
+    double engine = Double.parseDouble(engineText);
+   String fuel = fuelTextField.getText();
+   String colour = colourTextField.getText();
+   String MOT = MOTTextField.getText();
+   String last = lastTextField.getText();
+   String mileText = mileageTextField.getText();
+    int mileage = Integer.parseInt(mileText);
+   boolean warranty = false;
+   if(warrantyCheckBox.isSelected()){
+    warranty = true;    
+   }
+   String type = tempVehicle.getType();
+   Vehicle v = new Vehicle(reg,id,type,make,model,engine,fuel,colour,MOT,warranty,last,mileage);
+   return v;
+  }
   
   
   @FXML
   public void editButton(ActionEvent event)throws Exception{
+      Parent root;
+      Vehicle v = getVehicle();
+       try{
+       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./EditTab.fxml")); 
+       root = (Parent)fxmlLoader.load();
+       EditTabController etc = fxmlLoader.getController();
+       etc.set(tempVehicle);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Customer details");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
+                stage.show();
+      }
+      catch(Exception e){
+       componentLoader cl = new componentLoader();
+        cl.showVehicleFailure();
+      }
    //set current values in old section
+   /**
    currRegTextField.setText(regTextField.getText());
    currMakeTextField.setText(makeTextField.getText());
    currModelTextField.setText(modelTextField.getText());
@@ -358,12 +402,14 @@ public class VehicleGUIController implements Initializable {
    updateWarrantyNameTextField.setText(warrantyNameTextField.getText());
    updateWarrantyAddressTextField.setText(warrantyAddressTextField.getText());
    updateWarrantyExpiryTextField.setText(warrantyExpiryTextField.getText());
+   **/
   }
   
  
   
   public void loadDataChange(Vehicle temp){
    regTextField.setText(temp.getRegistration());
+   customerIDTextField.setText(String.valueOf(temp.getId()));
    modelTextField.setText(temp.getModel());
    makeTextField.setText(temp.getMake());
    engineTextField.setText(String.valueOf(temp.getEngineSize()));
@@ -483,32 +529,10 @@ public class VehicleGUIController implements Initializable {
      lastTextField.clear();
      mileageTextField.clear();
      warrantyCheckBox.setSelected(false);
-     //edit current text fields
-     currRegTextField.clear();
-     currMakeTextField.clear();
-     currModelTextField.clear();
-     currEngineTextField.clear();
-     currFuelTextField.clear();
-     currColourTextField.clear();
-     currMOTTextField.clear();
-     currLastTextField.clear();
-     currMileTextField.clear();
-     currWarrCheckBox.setSelected(false);
-     //edit old text fields
-     updateRegTextField.clear();
-     updateMakeTextField.clear();
-     updateModelTextField.clear();
-     updateEngineTextField.clear();
-     updateFuelTextField.clear();
-     updateColourTextField.clear();
-     updateMOTTextField.clear();
-     updateLastTextField.clear();
-     updateMileTextField.clear();
-     updateWarrCheckBox.setSelected(false);
-     //warranty things
      warrantyNameTextField.clear();
      warrantyAddressTextField.clear();
      warrantyExpiryTextField.clear();
+     customerIDTextField.clear();
  }
     
 
@@ -688,7 +712,14 @@ public class VehicleGUIController implements Initializable {
            mileageCheck = true;
    //CHECK CUSTOMER ID
    String idString = customerIDTextField.getText();
-    int id = Integer.parseInt(idString);
+    int id = 0;
+   try{
+    id = Integer.parseInt(idString);
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+     cl.showIDFailure();
+   }
    //CHECK VEHICLE REGISTRATION
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
@@ -800,8 +831,15 @@ public class VehicleGUIController implements Initializable {
            warrantyExpiryCheck,
            mileageCheck = true;
    //CHECK CUSTOMER ID
-   String idString = customerIDTextField.getText();
-   int id = Integer.parseInt(idString);
+     String idString = customerIDTextField.getText();
+    int id = 0;
+   try{
+    id = Integer.parseInt(idString);
+   }
+   catch(NumberFormatException e){
+    componentLoader cl = new componentLoader();
+     cl.showIDFailure();
+   }
    //CHECK REG TEXT FIELD NOT EMPTY
    String reg = regTextField.getText();
     regCheck = checkTextField(reg);
