@@ -4,8 +4,10 @@ Documents
 
 <div align="center">
 This section contains the following software documentation:
-<p> - 1. Specifications & List of ambiguities </p>
-<p> - 2. Designs: Class & ER-diagram </p>
-<p> - 3. Test Cases </p>
-  <br>
+- 1. Specifications & List of ambiguities
+<br>
+- 2. Designs: Class & ER-diagram 
+<br>
+- 3. Test Cases
+<br>
 </div>
