@@ -29,7 +29,7 @@ public class DatabaseCreation
 "  ID              INTEGER(5)     PRIMARY KEY  NOT NULL,\n" +
 "  PASSWORD        TEXT                        NOT NULL,\n" + 
 "  SURNAME         TEXT                        NOT NULL,\n" +
-"  FIRSTNAME       TEXT                        NOT NULL,\n" + 
+"  w       TEXT                        NOT NULL,\n" + 
 "  HRATE           DECIMAL(3,2),\n" +               
 "  SYSADM          BOOL                        NOT NULL\n" +
 ");\n" +
@@ -78,22 +78,18 @@ public class DatabaseCreation
 "  ID                INTEGER     PRIMARY KEY  ,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
-"  COST              INT                  NOT NULL,\n" +
+"  COST              DECIMAL(6,2)                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE USEDPARTS (\n" +
 "  ID                INTEGER   PRIMARY KEY  ,\n" +
-"  BOOKINGID         INT                     NOT NULL,\n" +
-"  VEHICLEID         INT                     NOT NULL,\n" +
-"  CUSTOMERID        INT                     NOT NULL,\n" +
+"  BOOKINGID         TEXT                    NOT NULL,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
-"  WARRANTYEND       DATE                    NOT NULL,\n" +
-"  WARRANTYSTART     DATE                    NOT NULL,\n" +
-"  COST		     INT		     NOT NULL,\n" +
+"  WARRANTYEND       TEXT                    NOT NULL,\n" +
+"  WARRANTYSTART     TEXT                    NOT NULL,\n" +
+"  COST		     DECIMAL(6,2)            NOT NULL,\n" +
 "  FOREIGN KEY(PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE,\n" +
-"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID),\n" +
-"  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
-"  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE NO ACTION\n" +
+"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID)\n" +
 ");\n" +
 "CREATE TABLE DELIVERIES (\n" +
 "  ID                INTEGER   PRIMARY KEY  ,\n" +
@@ -141,7 +137,7 @@ public class DatabaseCreation
 "       STARTTIME            VARCHAR(255)            NOT NULL,\n" +
 "	DURATION             TEXT                    NOT NULL,\n" +
 "	TYPE                 TEXT                    NOT NULL,\n" +
-"	CUSTOMERID           TEXT                     NOT NULL,\n" +
+"	CUSTOMERID           INTEGER                     NOT NULL,\n" +
 "	VEHICLEREGISTRATION  TEXT                     NOT NULL,\n" +
 "	MILEAGE              TEXT,\n" +              
 "	EMPLOYEEID           TEXT                     NOT NULL,\n" +

@@ -47,6 +47,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import parts.logic.UsedPart;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
 //
@@ -92,11 +93,12 @@ public class StockPartsController implements Initializable {
     private DatePicker deliveryDatePicker, deliveryDatePickerQuantity;
 
     //used parts gui
+    private final ObservableList<UsedPart> oUsedPartList = FXCollections.observableArrayList();
     @FXML
-    private TableView<Part> usedTable;
+    private TableView<UsedPart> usedPartsTable;
     @FXML
     private TableColumn nameCol1, descriptionCol1, costCol1, //FXML TableColumn. Columns form the TableView element.
-            vehicleCol1, customerCol1, firstNamecol1,
+            vehicleCol1, customerCol1, firstNameCol1,
             lastNameCol1, repairIDCol1;
     @FXML
     private TextArea usedPartNameTextArea, usedPartDescriptionTextArea,
@@ -233,20 +235,38 @@ public class StockPartsController implements Initializable {
     }
 
     //USED PARTS METHODS
-    public void loadUsedParts() {//ActionEvent event){
+    public void loadUsedPartsTable() {//ActionEvent event){
 
         System.out.println("test3");
-        loadAllParts();
-        stockTable.setEditable(true);
-        nameCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("name"));
-        descriptionCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("description"));
-        costCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("cost"));
-        stockCol.setCellValueFactory(
-                new PropertyValueFactory<Part, String>("stocklevel"));
-        stockTable.setItems(oPartList);
+        usedPartsTable.setEditable(true);
+        nameCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("name"));
+        descriptionCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("description"));
+        costCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("cost"));
+        vehicleCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("VehicleRegistration"));
+        firstNameCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("CustomerFirstName"));
+        lastNameCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("CustomerSurname"));
+        repairIDCol1.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("RepairID"));
+        usedPartsTable.setItems(oUsedPartList);
+
+    }
+    
+    public void loadUsedParts() {//ActionEvent event){
+
+        oUsedPartList.clear();
+        ArrayList<UsedPart> usedPartList = partR.getAllUsedParts();
+        
+        if (usedPartList != null) {
+            for (int i = 0; i < usedPartList.size(); i++) {
+                oUsedPartList.add(usedPartList.get(i));
+            }
+        }
 
     }
 
@@ -274,9 +294,9 @@ public class StockPartsController implements Initializable {
         rVehicleRegistrationCol.setCellValueFactory(
                 new PropertyValueFactory<RepairWrapper, String>("vehicleRegistration"));
         rFirstNameCol.setCellValueFactory(
-                new PropertyValueFactory<RepairWrapper, String>("firstName"));
+                new PropertyValueFactory<RepairWrapper, String>("CustomerFirstName"));
         rLastNameCol.setCellValueFactory(
-                new PropertyValueFactory<RepairWrapper, String>("lastName"));
+                new PropertyValueFactory<RepairWrapper, String>("CustomerSurname"));
         rDateCol.setCellValueFactory(
                 new PropertyValueFactory<RepairWrapper, String>("date"));
         repairTable.setItems(oRepairList);
@@ -298,7 +318,7 @@ public class StockPartsController implements Initializable {
         if (repairList != null) {
             System.out.println("inside if");
             for (int i = 0; i < repairList.size(); i++) {
-                System.out.println("inside for");
+                System.out.println("repair cust id" + repairList.get(i).getCustomerID());
                 oRepairList.add(repairList.get(i));
             }
         }
@@ -307,14 +327,16 @@ public class StockPartsController implements Initializable {
 
     public void addPartToRepair(ActionEvent event) {
 
-        Part selectedPart = rStockTable.getSelectionModel().getSelectedItem();
+        selectedPart = rStockTable.getSelectionModel().getSelectedItem();
         RepairWrapper selectedRepair = repairTable.getSelectionModel().getSelectedItem();
-        partR.usePart(selectedRepair.getRepairID(), selectedRepair.getVehicleRegistration(), selectedRepair.getCustomerID(), selectedPart.getId(), new Date(2017, 01, 01).toString(), new Date(2018, 01, 01).toString(), new BigDecimal(selectedPart.getCost()));
-        /*if (selectedPart.getStocklevel() < 2) {
-            partR.deletePart(selectedPart.getId());
-        } else {
+        String repairID = selectedRepair.getRepairID();
+        int partId = selectedPart.getId();
+        BigDecimal cost =  new BigDecimal(selectedPart.getCost());
+        
+        boolean success = partR.usePart(repairID, partId, new Date(2017, 01, 01).toString(), new Date(2018, 01, 01).toString(), cost);
+        if (selectedPart.getStocklevel() > 1) {
             partR.updateStock(selectedPart.getId(), -1);
-        }*/
+        }
     }
 
     //view Deliveries
@@ -362,6 +384,8 @@ public class StockPartsController implements Initializable {
         repairs.setVisible(false);
         stockParts.setVisible(false);
         usedParts.setVisible(true);
+        loadUsedParts();
+        loadUsedPartsTable();
     }
 
     public void viewStockPartsAnchor(ActionEvent event) {

@@ -10,12 +10,18 @@ package parts.logic;
  * @author JR
  */
 import common.DBConnection;
+import customers.logic.Customer;
+import customers.logic.CustomerRegistry;
+import diagrep.logic.BookingRegistry;
+import diagrep.logic.DiagRepairBooking;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import parts.gui.Delivery;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
 public class PartRegistry {
     private static PartRegistry instance = null;
@@ -54,21 +60,54 @@ public class PartRegistry {
         }
     }
      //returns all parts relevant to a given booking
-     public ArrayList<Part> getUsedParts(String id){
+     public ArrayList<UsedPart> getAllUsedParts(){
+        VehicleRegistry vR = VehicleRegistry.getInstance();
+        BookingRegistry bR = BookingRegistry.getInstance();
+        CustomerRegistry cR = CustomerRegistry.getInstance();
         conn = DBConnection.getInstance();
         //insert into database
         try{
         conn.connect();
-        String query = "SELECT * FROM USEDPARTS WHERE BOOKINGID = " + id + ";";
+        String query = "SELECT * FROM USEDPARTS;";
         ResultSet rs = conn.query(query);
-        ArrayList<Part> partlist = new ArrayList<Part>();
+        ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
         while (rs.next())
         {
-            String name = rs.getString("NAME");
-            String description = rs.getString("DESCRIPTION");
-            BigDecimal cost = new BigDecimal(rs.getString("COST"));
-            int stock = rs.getInt("STOCK");
-            partlist.add(new Part(name,description,cost,stock));
+            int partId = rs.getInt("PARTID");
+            String bookingId = rs.getString("BOOKINGID");
+            DiagRepairBooking booking = bR.searchBookingID(bookingId);
+            ArrayList<Vehicle> veh = vR.searchReg(booking.getVehreg());//.get(0);
+            Customer cust = cR.searchCustomerByID(booking.getCust());
+            Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
+            //partlist.add(new UsedPart(p, booking, cust, veh));
+        }
+        conn.closeConnection();
+        return partlist;
+        }catch(SQLException e){
+            return null;
+        }
+    }
+     
+    public ArrayList<UsedPart> getUsedPartByBooking(String id){
+        VehicleRegistry vR = VehicleRegistry.getInstance();
+        BookingRegistry bR = BookingRegistry.getInstance();
+        CustomerRegistry cR = CustomerRegistry.getInstance();
+        conn = DBConnection.getInstance();
+        //insert into database
+        try{
+        conn.connect();
+        String query = "SELECT * FROM USEDPARTS WHERE BOOKINGID = '" + id + "';";
+        ResultSet rs = conn.query(query);
+        ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
+        while (rs.next())
+        {
+            int partId = rs.getInt("PARTID");
+            String bookingId = rs.getString("BOOKINGID");
+            DiagRepairBooking booking = null;
+            Vehicle veh = vR.searchReg(booking.getVehreg()).get(0);
+            Customer cust = cR.searchCustomerByID(booking.getCust());
+            Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
+            partlist.add(new UsedPart(p, booking, cust, veh));
         }
         conn.closeConnection();
         return partlist;
@@ -121,18 +160,15 @@ public class PartRegistry {
         conn.closeConnection();
     }
     //take part from stock to use in repair (delete from stock parts then add to used parts)
-    public boolean usePart(String bId, String vId, String cId, int partID, String wEnd, String wStart, BigDecimal cost){
+    public boolean usePart(String bId, int partID, String wEnd, String wStart, BigDecimal cost){
         boolean success;
         //deletePart(partName);
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "INSERT INTO USEDPARTS (BOOKINGID, VEHICLEID, " +
-                " CUSTOMERID, PARTID, WARRANTYEND, WARRANTYSTART, COST)" +
+        String query = "INSERT INTO USEDPARTS (BOOKINGID, PARTID, WARRANTYEND, WARRANTYSTART, COST)" +
                            "VALUES ( '" + 
-                            bId + "', '" +
-                            vId + "', '" +
-                            cId + "', " +
+                            bId + "', " +
                             partID + ", '" +
                             wEnd + "', '" + 
                             wStart + "', '" + 
