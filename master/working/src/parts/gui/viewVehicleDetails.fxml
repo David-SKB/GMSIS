@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.viewVehicleController">
+   <children>
+      <TextArea fx:id="vReg" layoutX="120.0" layoutY="35.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vMake" layoutX="120.0" layoutY="90.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vModel" layoutX="120.0" layoutY="146.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vEngine" layoutX="120.0" layoutY="200.0" prefHeight="37.0" prefWidth="200.0" />
+      <TextArea fx:id="vFuel" layoutX="120.0" layoutY="254.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vColour" layoutX="120.0" layoutY="312.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vMOT" layoutX="120.0" layoutY="370.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vWarranty" layoutX="120.0" layoutY="429.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vLast" layoutX="120.0" layoutY="484.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vMile" layoutX="120.0" layoutY="538.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="vType" layoutX="120.0" layoutY="592.0" prefHeight="19.0" prefWidth="200.0" />
+      <Label layoutX="8.0" layoutY="45.0" text="Vehicle Registration" />
+      <Label layoutX="47.0" layoutY="101.0" text="Make" />
+      <Label layoutX="43.0" layoutY="157.0" text="Model" />
+      <Label layoutX="47.0" layoutY="211.0" text="Engine" />
+      <Label layoutX="43.0" layoutY="265.0" text="Fuel" />
+      <Label layoutX="47.0" layoutY="322.0" text="Colour" />
+      <Label layoutX="47.0" layoutY="381.0" text="MOT" />
+      <Label layoutX="43.0" layoutY="440.0" text="Warranty" />
+      <Label layoutX="43.0" layoutY="495.0" text="Last" />
+      <Label layoutX="47.0" layoutY="549.0" text="Mile" />
+      <Label layoutX="47.0" layoutY="603.0" text="TYPE" />
+   </children>
+</AnchorPane>

@@ -109,6 +109,7 @@ public class StockPartsController implements Initializable {
 
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
+    private RepairWrapper selectedRepair;
     @FXML
     private TableView<RepairWrapper> repairTable;
     @FXML
@@ -269,6 +270,19 @@ public class StockPartsController implements Initializable {
         }
 
     }
+    
+    public void loadUsedPartsRepair(int id) {//ActionEvent event){
+
+        oUsedPartList.clear();
+        ArrayList<UsedPart> usedPartList = partR.getUsedPartsByRepair(id);
+        
+        if (usedPartList != null) {
+            for (int i = 0; i < usedPartList.size(); i++) {
+                oUsedPartList.add(usedPartList.get(i));
+            }
+        }
+
+    }
 
     //REPAIRS METHODS
     //load data into stock table
@@ -328,7 +342,7 @@ public class StockPartsController implements Initializable {
     public void addPartToRepair(ActionEvent event) {
 
         selectedPart = rStockTable.getSelectionModel().getSelectedItem();
-        RepairWrapper selectedRepair = repairTable.getSelectionModel().getSelectedItem();
+        selectedRepair = repairTable.getSelectionModel().getSelectedItem();
         String repairID = selectedRepair.getRepairID();
         int partId = selectedPart.getId();
         BigDecimal cost =  new BigDecimal(selectedPart.getCost());
@@ -404,6 +418,15 @@ public class StockPartsController implements Initializable {
         loadRStockParts();
         loadAllRepairs();
         loadRepairsTable();
+    }
+    
+    public void viewUsedPartsAnchorForRepair(ActionEvent event) {
+        selectedRepair = repairTable.getSelectionModel().getSelectedItem();
+        repairs.setVisible(false);
+        stockParts.setVisible(false);
+        usedParts.setVisible(true);
+        loadUsedPartsRepair(Integer.parseInt(selectedRepair.getRepairID()));
+        loadUsedPartsTable();
     }
 
 }
