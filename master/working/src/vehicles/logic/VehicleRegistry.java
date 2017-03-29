@@ -123,6 +123,24 @@ public class VehicleRegistry {
    return false;
   }
  
+  public void updateWarranty(String reg,String name,String address,String expiry){
+    try{
+     DBConnection c = DBConnection.getInstance();
+      c.connect();
+      String query = "UPDATE WARRANTY " +
+                     "SET NAME = '" + name + "'," +
+                     "ADDRESS = '" + address + "'," +
+                     "EXPIRYDATE = '" + expiry + "' " +
+                     "WHERE REGISTRATION = '" + reg + "';";
+      c.query(query);
+      c.closeConnection();
+    } 
+    catch(Exception e){
+     System.err.println(e.getClass().getName() + ": " + e.getMessage() );
+      System.exit(0);    
+    }
+  }
+ 
   public void updateDetails(String oldReg,String newReg,int custID,String make,String model,double engine,String fuel,String colour,String MOT,boolean warranty,String last,int mile){
    try{
     DBConnection c = DBConnection.getInstance();
@@ -530,6 +548,123 @@ public class VehicleRegistry {
      System.exit(0);
       return null;
    }
+  }
+  
+  public ArrayList<Vehicle> searchCar(){
+   try{
+    ArrayList<Vehicle> result = new ArrayList();
+    DBConnection c = DBConnection.getInstance();
+    c.connect();
+     String sql = "SELECT * FROM VEHICLE WHERE TYPE = 'CAR';";
+     ResultSet rs = c.query(sql);
+     while( rs.next() ){
+        String reg = rs.getString("REGISTRATION");
+        int cID = rs.getInt("CUSTOMERID");
+        String type =rs.getString("TYPE");
+        String make = rs.getString("MAKE");
+        String model = rs.getString("MODEL");
+        int engine = rs.getInt("ENGINESIZE");
+        String fuel = rs.getString("FUELTYPE");
+        String colour = rs.getString("COLOUR");
+        String MOT = rs.getString("MOTDATE");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
+        String last = rs.getString("LASTSERVICE");
+        int mile = rs.getInt("MILEAGE");
+        Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOT,warranty,last,mile);
+        result.add(v);  
+       }
+      return result;
+     }
+   catch(SQLException e){
+     System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
+     System.exit(0);
+     return null;     
+   }   
+  }
+  
+    public ArrayList<Vehicle> searchVan(){
+   try{
+    ArrayList<Vehicle> result = new ArrayList();
+    DBConnection c = DBConnection.getInstance();
+    c.connect();
+     String sql = "SELECT * FROM VEHICLE WHERE TYPE = 'VAN';";
+     ResultSet rs = c.query(sql);
+     while( rs.next() ){
+        String reg = rs.getString("REGISTRATION");
+        int cID = rs.getInt("CUSTOMERID");
+        String type =rs.getString("TYPE");
+        String make = rs.getString("MAKE");
+        String model = rs.getString("MODEL");
+        int engine = rs.getInt("ENGINESIZE");
+        String fuel = rs.getString("FUELTYPE");
+        String colour = rs.getString("COLOUR");
+        String MOT = rs.getString("MOTDATE");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
+        String last = rs.getString("LASTSERVICE");
+        int mile = rs.getInt("MILEAGE");
+        Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOT,warranty,last,mile);
+        result.add(v);  
+       }
+      return result;
+     }
+   catch(SQLException e){
+     System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
+     System.exit(0);
+     return null;     
+   }  
+  }
+    
+      public ArrayList<Vehicle> searchTruck(){
+   try{
+    ArrayList<Vehicle> result = new ArrayList();
+    DBConnection c = DBConnection.getInstance();
+    c.connect();
+     String sql = "SELECT * FROM VEHICLE WHERE TYPE = 'TRUCK';";
+     ResultSet rs = c.query(sql);
+     while( rs.next() ){
+        String reg = rs.getString("REGISTRATION");
+        int cID = rs.getInt("CUSTOMERID");
+        String type =rs.getString("TYPE");
+        String make = rs.getString("MAKE");
+        String model = rs.getString("MODEL");
+        int engine = rs.getInt("ENGINESIZE");
+        String fuel = rs.getString("FUELTYPE");
+        String colour = rs.getString("COLOUR");
+        String MOT = rs.getString("MOTDATE");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
+        String last = rs.getString("LASTSERVICE");
+        int mile = rs.getInt("MILEAGE");
+        Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOT,warranty,last,mile);
+        result.add(v);  
+       }
+      return result;
+     }
+   catch(SQLException e){
+     System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
+     System.exit(0);
+     return null;     
+   }   
   }
   
   public ArrayList<Vehicle> searchManu(String manufacturer){

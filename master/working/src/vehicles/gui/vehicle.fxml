@@ -76,5 +76,8 @@
       <Button fx:id="selectCustomerButton" layoutX="27.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectCustomerButton" text="Select" />
       <Label layoutX="54.0" layoutY="15.0" text="Active Customers" />
       <Button fx:id="detailsButton" layoutX="845.0" layoutY="160.0" mnemonicParsing="false" onAction="#detailsButton" text="Booking details" />
+      <Button fx:id="searchCarButton" layoutX="854.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchCarButton" text="Search Cars" />
+      <Button fx:id="searchVanButton" layoutX="855.0" layoutY="237.0" mnemonicParsing="false" onAction="#searchVanButton" text="Search Vans" />
+      <Button fx:id="searchTruckButton" layoutX="850.0" layoutY="274.0" mnemonicParsing="false" onAction="#searchTruckButton" text="Search Trucks" />
    </children>   
 </AnchorPane>
