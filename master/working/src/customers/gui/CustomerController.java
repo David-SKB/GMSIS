@@ -5,11 +5,11 @@
 
 package customers.gui;
 
-import common.Authentication;
 import customers.logic.CustomerRegistry;
 import common.DBConnection;
 import common.Main;
 import customers.logic.Customer;
+import diagrep.gui.AddWindowController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,10 +32,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -84,6 +82,8 @@ public class CustomerController implements Initializable{
     private ComboBox showVehiclesCBox;
     @FXML 
     private ComboBox showBillCBox;
+    @FXML
+    private ComboBox initBookingCBox;
     private Customer tempCustomer;                                                      //Temporary Customer object used when editing its data from the list.
     @FXML
     private ComboBox searchType;
@@ -97,6 +97,7 @@ public class CustomerController implements Initializable{
         this.showVehiclesCBox = new ComboBox();
         this.delCustomersCBox = new ComboBox();
         this.searchType = new ComboBox();
+        this.initBookingCBox = new ComboBox();
     }
     
     @Override
@@ -127,6 +128,7 @@ public class CustomerController implements Initializable{
        ComboBox tempCustBox = null;
        ComboBox tempVehiBox = null;
        ComboBox tempBillBox = null;
+       ComboBox tempInitBookingBox = null;
        TextField search = null;
        RadioButton individual = null;
        for(Node n : OL){
@@ -148,12 +150,16 @@ public class CustomerController implements Initializable{
            }else if(n instanceof Toggle &&
                    (n.getId()).equalsIgnoreCase("searchIndiRB")){
                individual = (RadioButton)n;
+           }else if(n instanceof ComboBox &&
+                   (n.getId()).equalsIgnoreCase("initBookingCBox")){
+               tempInitBookingBox = (ComboBox)n;
            }
        }
        tempTV.setItems(obsListData);
        tempCustBox.setItems(obsListData);
        tempVehiBox.setItems(obsListData);
        tempBillBox.setItems(obsListData);
+       tempInitBookingBox.setItems(obsListData);
        search.setText("");
        individual.setSelected(true);
     }
@@ -171,7 +177,7 @@ public class CustomerController implements Initializable{
         delCustomersCBox.setItems(obsListData);
         showVehiclesCBox.setItems(obsListData);
         showBillCBox.setItems(obsListData);
-        
+        initBookingCBox.setItems(obsListData);
         
         customerDetails.setRowFactory((TableView<Customer> tv) -> {
             TableRow<Customer> row = new TableRow<>();
@@ -590,6 +596,42 @@ public class CustomerController implements Initializable{
             }catch(IOException e){}
         }else{
             delStatus.setText("Please select a Customer to view Bills.");
+            delStatus.setFill(Color.RED);
+            Timer timer = new Timer();
+            timer.schedule( 
+            new java.util.TimerTask() {
+                public void run() {
+                    delStatus.setText("");
+                    timer.cancel();
+                }
+            }, 
+            2000
+            );
+        }
+    }
+    
+    @FXML
+    public void initiateBooking(){
+        Customer c = (Customer)initBookingCBox.getSelectionModel().getSelectedItem();
+        if(c != null){
+            try{
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/diagrep/gui/addWindow.fxml"));
+                Parent root = (Parent) fxmlLoader.load();
+                AddWindowController controllerA = fxmlLoader.<AddWindowController>getController();
+                controllerA.initiateBooking(c);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Add New Diagnosis/Repair Booking");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
+                stage.show();
+            }catch(IOException  e){
+
+            }
+        }else{
+            delStatus.setText("Please select a Customer to initiate a booking.");
             delStatus.setFill(Color.RED);
             Timer timer = new Timer();
             timer.schedule( 

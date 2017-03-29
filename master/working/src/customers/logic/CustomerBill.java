@@ -53,5 +53,9 @@ public class CustomerBill {
         return bill.get();
     }
     
+    public void setBill(String status){
+        bill.set(status);
+    }
+    
 }
     
