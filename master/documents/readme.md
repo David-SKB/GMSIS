@@ -4,6 +4,7 @@ Documents
 
 <div align="center">
 This section contains the following software documentation:
+<br>
 - 1. Specifications & List of ambiguities
 <br>
 - 2. Designs: Class & ER-diagram 
