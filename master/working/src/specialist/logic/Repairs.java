@@ -102,7 +102,7 @@ public class Repairs
     
     public boolean VehicleScheduled(String RegNo)
     {
-        DBC.connect();    
+        DBC.connect();
         String SQL = "SELECT COUNT(ID) FROM REPAIRVEHICLE WHERE REGNO = '" + RegNo + "' AND DELIVERYDATE >= Datetime('"+ LocalDate.now().toString() + "');"; //AND RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "')   ";
         System.out.println(SQL);
         int count = 0;

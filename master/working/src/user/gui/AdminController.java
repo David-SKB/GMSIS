@@ -240,6 +240,7 @@ public class AdminController {
     {
         ClearAddUserStyles();
         boolean IDValid = true;
+        boolean IDStart = true;
         boolean valid = true;
         String CType = validateUserType(userRights);
         //VALIDATION
@@ -248,6 +249,11 @@ public class AdminController {
             addIDTF.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
             IDValid = false;
+        }
+        if(addIDTF.getText().startsWith("0"))
+        {
+            valid = false;
+            IDStart = false;
         }
         if (addFNTF.getText().equals(""))
         {
@@ -288,6 +294,10 @@ public class AdminController {
         else if (!IDValid)
         {
             EC.TimedMsgRED(addUserStatus, "ID must be 5 digits");
+        }
+        else if (!IDStart)
+        {
+            EC.TimedMsgRED(addUserStatus, "ID cannot begin with 0");
         }
         else
         {

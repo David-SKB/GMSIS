@@ -288,7 +288,7 @@ public class ErrorChecks
         {
             try 
             {
-                wait(2000);
+                wait(500);
             } 
             catch (InterruptedException ex) 
             {
@@ -321,7 +321,7 @@ public class ErrorChecks
         {
             try 
             {
-                wait(2000);
+                wait(500);
             } 
             catch (InterruptedException ex) 
             {

@@ -116,6 +116,9 @@ private TextField currRegTextField,
    if(currWarrantyCheckBox.isSelected() && !updateWarrantyCheckBox.isSelected()){
      vr.deleteWarranty(updateReg);
    }
+   if(!currWarrantyCheckBox.isSelected() && updateWarrantyCheckBox.isSelected()){
+    vr.addWarranty(oldReg, warrantyName, warrantyAddress, expiry);
+   }
    vr.updateDetails(oldReg,updateReg,0,updateMake,updateModel,engine,updateFuel,updateColour,updateMOT,updateWarranty,updateLast,mile);
    vr.updateWarranty(oldReg,warrantyName,warrantyAddress,expiry);
     componentLoader cl = new componentLoader();
