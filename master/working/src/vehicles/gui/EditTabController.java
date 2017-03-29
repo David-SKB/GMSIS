@@ -109,11 +109,15 @@ private TextField currRegTextField,
    String updateMile = updateMileageTextField.getText();
     int mile = Integer.parseInt(updateMile);
    boolean updateWarranty = updateWarrantyCheckBox.isSelected();
+   String warrantyName = updateWarrantyNameTextField.getText();
+   String warrantyAddress = updateWarrantyAddressTextField.getText();
+   String expiry = updateWarrantyExpiryTextField.getText();
    //if has warranty and update to no warranty delete warranty record in db
    if(currWarrantyCheckBox.isSelected() && !updateWarrantyCheckBox.isSelected()){
      vr.deleteWarranty(updateReg);
    }
    vr.updateDetails(oldReg,updateReg,0,updateMake,updateModel,engine,updateFuel,updateColour,updateMOT,updateWarranty,updateLast,mile);
+   vr.updateWarranty(oldReg,warrantyName,warrantyAddress,expiry);
     componentLoader cl = new componentLoader();
      cl.showUpdateSuccess();
  }

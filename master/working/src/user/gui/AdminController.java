@@ -1,6 +1,7 @@
 package user.gui;
 
 import common.DBConnection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Timer;
@@ -40,6 +41,7 @@ public class AdminController {
     DBConnection DB = DBConnection.getInstance();
     UserRegistry UR = UserRegistry.getInstance();
     ErrorChecks EC = ErrorChecks.getInstance();
+    Repairs repairs = Repairs.getInstance();
     SPCRegistry SPCReg = SPCRegistry.getInstance();
     @FXML
     private TextField addIDTF, addFNTF, addLNTF, addPassTF, addHRateTF,
@@ -642,17 +644,25 @@ public class AdminController {
         }
     }
     
-    public void submitSPCDetails(ActionEvent evt)
+    public void submitSPCDetails(ActionEvent evt) throws SQLException
     {
         clearSPCStyles();//Clear any previous styles on the fields
-        boolean telValid, emailValid, valid;
+        boolean telValid, emailValid, valid, exists;
         valid = true;
+        exists = false;
         
         //VALIDATION
         if (addSPCNameTF.getText().equals(""))
         {
             addSPCNameTF.setStyle("-fx-border-color: #ff1e1e;");
             valid = false;
+        }
+        
+        if (repairs.getSPCID(addSPCNameTF.getText()) != 0)
+        {
+            addSPCNameTF.setStyle("-fx-border-color: #ff1e1e;");
+            valid = false;
+            exists = true;
         }
         
         if (addSPCAddrTF.getText().equals(""))
@@ -684,7 +694,14 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(addSPCStatus, "Invalid Input");
+            if (exists)
+            {
+                EC.TimedMsgRED(addSPCStatus, "Centre Already Exists");
+            }
+            else
+            {
+                EC.TimedMsgRED(addSPCStatus, "Invalid Input");
+            }
         }
     }
     

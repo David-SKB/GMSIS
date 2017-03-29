@@ -125,7 +125,10 @@ public class VehicleGUIController implements Initializable {
                   clearButton,
                   updateButton,
                   selectCustomerButton,
-                  detailsButton;
+                  detailsButton,
+                  searchCarButton,
+                  searchVanButton,
+                  searchTruckButton;
    @FXML
    private CheckBox warrantyCheckBox,
                     currWarrCheckBox,
@@ -150,7 +153,32 @@ public class VehicleGUIController implements Initializable {
    @FXML
    ObservableList<Template> carsTemplate = FXCollections.observableArrayList();
    
-  
+     // list.clear();
+     //list.addAll(both);
+     //vehDetails.setItems(list);
+   @FXML
+   public void searchCarButton(ActionEvent event){
+    ArrayList<Vehicle> cars = vr.searchCar();
+    list.clear();
+    list.addAll(cars);
+    vehDetails.setItems(list);
+   }
+   
+   @FXML
+   public void searchVanButton(ActionEvent event){
+    ArrayList<Vehicle> vans = vr.searchVan();
+    list.clear();
+    list.addAll(vans);
+    vehDetails.setItems(list);  
+   }
+   
+   @FXML
+   public void searchTruckButton(ActionEvent event){
+    ArrayList<Vehicle> trucks = vr.searchTruck();
+    list.clear();
+    list.addAll(trucks);
+    vehDetails.setItems(list);   
+   }
    
    @FXML
    public void detailsButton(ActionEvent event){
@@ -364,12 +392,12 @@ public class VehicleGUIController implements Initializable {
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.centerOnScreen();
-                stage.setTitle("Customer details");
+                stage.setTitle("Edit tab");
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(Main.stage);
                 stage.show();
       }
-      catch(Exception e){
+      catch(IOException e){
        componentLoader cl = new componentLoader();
         cl.showVehicleFailure();
       }
