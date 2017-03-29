@@ -454,6 +454,7 @@ public class VehicleRegistry {
         else{
          warranty = true;   
         }
+        System.out.println("veh reg test");
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
