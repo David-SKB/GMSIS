@@ -75,11 +75,13 @@ public class PartRegistry {
         {
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
+             System.out.println("booking reg test " + bookingId);
             DiagRepairBooking booking = bR.searchBookingID(bookingId);
-            ArrayList<Vehicle> veh = vR.searchReg(booking.getVehreg());//.get(0);
+            System.out.println("booking reg test " + booking.getVehreg());
+            Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            //partlist.add(new UsedPart(p, booking, cust, veh));
+            partlist.add(new UsedPart(p, booking, cust, veh));
         }
         conn.closeConnection();
         return partlist;

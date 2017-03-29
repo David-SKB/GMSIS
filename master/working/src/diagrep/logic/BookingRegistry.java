@@ -99,13 +99,13 @@ public class BookingRegistry {
     public DiagRepairBooking searchBookingID(String ID) {
         conn.connect();
         try {
-            String query = "SELECT * FROM BOOKINGS\n"
-                    + "WHERE ID = '" + ID + "'; ";
+            String query = "SELECT * FROM BOOKINGS "
+                    + "WHERE ID = " + ID + ";";
             ResultSet result = conn.query(query);
             DiagRepairBooking resultBooking;
             if (result != null) {
                 String BID = Integer.toString(result.getInt("ID"));
-                String date = result.getString("DATE");
+                String date = result.getString("BOOKDATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
@@ -114,12 +114,15 @@ public class BookingRegistry {
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
                 resultBooking = new DiagRepairBooking(BID, date, start, length, type, cusID, vechID, mileage, empID);
+                System.out.println("in searchBookingID " + vechID);
             } else {
+                System.out.println("in searchBookingID null" );
                 resultBooking = null;
             }
             conn.closeConnection();
             return resultBooking;
         } catch (SQLException e) {
+            System.out.println("in searchBookingID error: " + e );
             return null;
         }
     }
