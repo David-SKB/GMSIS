@@ -214,9 +214,10 @@ public class Repairs
     {
         DBC.connect();
         String SQL = "SELECT SPCID FROM CENTRES WHERE NAME = '" + Name + "';";
+        System.out.println(SQL);
         ResultSet rs = DBC.query(SQL);
         int ID = 0;
-        if(rs !=null)
+        if(rs.next())
         {
             ID = rs.getInt("SPCID");
         }
@@ -230,7 +231,7 @@ public class Repairs
         String SQL = "SELECT ID FROM STOCKPARTS WHERE NAME = '" + Name + "';";
         ResultSet rs = DBC.query(SQL);
         int ID = 0;
-        if(rs !=null)
+        if(rs.next())
         {
             ID = rs.getInt("ID");
         }
@@ -246,7 +247,7 @@ public class Repairs
         String SQL = "SELECT REGISTRATION, MAKE, MODEL, FUELTYPE, MILEAGE, COLOUR FROM VEHICLE WHERE REGISTRATION = '" + regNo + "';";
         //System.out.println(SQL);
         ResultSet rs = DBC.query(SQL);
-        if(rs != null)
+        if(rs.next())
         {
             vehicleInfo.add(new DisplayVehicle( rs.getString("REGISTRATION"), rs.getString("MAKE"), rs.getString("MODEL"), rs.getString("FUELTYPE"), rs.getInt("MILEAGE") , rs.getString("COLOUR") ));
         }
@@ -464,7 +465,7 @@ public class Repairs
             String query = "SELECT SURNAME, FIRSTNAME, ADDRESS, POSTCODE, PHONE, EMAIL, CUSTOMERTYPE  FROM CUSTOMER, VEHICLE WHERE REGISTRATION = '"+ RegNo + "' AND VEHICLE.CUSTOMERID = ID;";
             Customer searchedCustomers = null;
             ResultSet rs = DBC.query(query);
-            if(rs !=null)
+            if(rs.next())
             {
                 String sName = rs.getString("SURNAME");
                 String fName = rs.getString("FIRSTNAME");
