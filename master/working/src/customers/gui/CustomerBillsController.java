@@ -31,6 +31,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import parts.logic.Part;
 import parts.logic.PartRegistry;
+import parts.logic.UsedPart;
 import vehicles.logic.VehicleRegistry;
 
 /**
@@ -52,7 +53,7 @@ public class CustomerBillsController implements Initializable{
     private TextField firstNameTF, lastNameTF, addressTF,cTypeTF,          
                       pCodeTF, phoneTF, emailTF;   
     @FXML
-    private ListView<Part> partsList;
+    private ListView<UsedPart> partsList;
     DBConnection db = DBConnection.getInstance();
     CustomerRegistry CR = CustomerRegistry.getInstance();
     BookingRegistry BR = BookingRegistry.getInstance();
@@ -60,7 +61,7 @@ public class CustomerBillsController implements Initializable{
     PartRegistry PR = PartRegistry.getInstance();
     private ObservableList<CustomerBill> futureBObsList;
     private ObservableList<CustomerBill> pastBObsList;
-    private ObservableList<Part> partObsList;
+    private ObservableList<UsedPart> partObsList;
     Customer tempCust;
     CustomerBill tempCustBillF;
     CustomerBill tempCustBillP;
@@ -192,11 +193,11 @@ public class CustomerBillsController implements Initializable{
          
     
     private void loadParts(String bookingID){
-        ArrayList<Part> pList = PR.getUsedParts(bookingID);
+        ArrayList<UsedPart> pList = PR.getUsedPartByBooking(bookingID);
         partObsList.removeAll(partObsList);
         if(pList != null &&
            !pList.isEmpty()){
-            for(Part p : pList){
+            for(UsedPart p : pList){
                 partObsList.add(p);
             }
         }

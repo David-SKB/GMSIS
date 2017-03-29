@@ -17,10 +17,23 @@ public class DBConnection {
     public static DBConnection getInstance(){
         if(instance == null){
             instance = new DBConnection();
+            instance.init(); 
         }
+ 
         return instance;
     }
     public void connect(){
+        /*try{
+            c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
+            stmt = c.createStatement();
+            String sql = "PRAGMA foreign_keys = ON";
+            stmt.executeUpdate(sql);
+            System.out.println( "connrcted");
+        }catch ( Exception e ) {
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+        }  */
+    }
+     public void init(){
         try{
             c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
             stmt = c.createStatement();
@@ -31,15 +44,16 @@ public class DBConnection {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
     }
+    
     public void closeConnection(){
-        try{
+       /* try{
             stmt.close();
             c.close();
             System.out.println( "connrction closed");
         }
         catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-        }
+        }*/
     }
     public ResultSet query(String query){
         
