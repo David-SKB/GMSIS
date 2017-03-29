@@ -147,35 +147,38 @@ public class CustomerBillsController implements Initializable{
             for(DiagRepairBooking DRP : bList){
                 String billStatus = "Unsettled";
                 float amount = 0;
-                   if (parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                   if (parseLocalDateTime(DRP.getBookdate() + " " + DRP.getStarttime()).compareTo(NOW_LOCALDATETIME()) >= 0) {
                        amount = queryBill(DRP);
                        billStatus = checkWarranty(DRP);
                        futureBObsList.add(new CustomerBill(DRP,amount,billStatus));
-                   }else if(parseLocalDateTime(DRP.getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0){
+                   }else if(parseLocalDateTime(DRP.getBookdate() + " " + DRP.getStarttime()).compareTo(NOW_LOCALDATETIME()) < 0){
                        amount = queryBill(DRP);
                        billStatus = checkWarranty(DRP);
                        pastBObsList.add(new CustomerBill(DRP,amount,billStatus));
                    }
             }
         }
+        futureBookings.setItems(futureBObsList);
+        pastBookings.setItems(pastBObsList);
     }
     
     private float queryBill(DiagRepairBooking DRP){
-        DBConnection DB = DBConnection.getInstance();
-        DB.connect();
+        db.connect();
         try{
             float account = 0;
             String query = "SELECT * FROM BILLS\n" +
-                            "WHERE BILLID = '" + (DRP).getId()+ "'; "; 
-            ResultSet rs = DB.query(query);
+                            "WHERE BILLID = " + (DRP).getId()+ "; "; 
+            ResultSet rs = db.query(query);
             if(rs.isBeforeFirst()){
                 account = rs.getFloat("DIAGREPCOST") + rs.getFloat("PARTSCOST") + rs.getFloat("SPCCOST");
-                DB.closeConnection();
+                db.closeConnection();
                 return account;
             }else{
+                db.closeConnection();
                 return 0;
             }
         }catch(SQLException e){
+            db.closeConnection();
             return 0;
         }
     }
@@ -186,14 +189,17 @@ public class CustomerBillsController implements Initializable{
                 changeBillSettlement(DRP,1);
                 return "Settled";
             }else{
-                changeBillSettlement(DRP,0);
-                return "Unsettled";
+                if(getBillStatus(Integer.parseInt(DRP.getId())) != 1){
+                    changeBillSettlement(DRP,0);
+                    return "Unsettled";
+                }
+                return "Settled";
             }
     }   
          
     
     private void loadParts(String bookingID){
-        ArrayList<UsedPart> pList = PR.getUsedPartByBooking(bookingID);
+        ArrayList<UsedPart> pList = PR. getUsedPartByBooking(bookingID);
         partObsList.removeAll(partObsList);
         if(pList != null &&
            !pList.isEmpty()){
@@ -213,50 +219,47 @@ public class CustomerBillsController implements Initializable{
     }
     
     private void changeBillSettlement(DiagRepairBooking DRP, int status){
-        db.connect();
             String bID = DRP.getId();
             String query = "UPDATE BILLS \n" + 
                            "SET " +
                            "STATUS = " + status + "\n" +
-                            "WHERE PHONE = '" + bID + "';";
-        db.closeConnection();    
+                            "WHERE BILLID = " + Integer.parseInt(bID)+ ";";
     }
     
     @FXML
     private void changeBillSettlementF(){
-        db.connect();
+        int fStatus = 0;
         if(tempCustBillF != null){
-            String bID = tempCustBillF.getBookingID();
-            String status = tempCustBillF.getBill();
-            int iStat = 1;
-            if(status.equals("Settled")){
-                iStat = 0;
+            if(tempCustBillF.getBill().equalsIgnoreCase("Settled")){
+                tempCustBillF.setBill("Unsettled");
+                fStatus = 0;
+            }else{
+                tempCustBillF.setBill("Settled");
+                fStatus = 1;
             }
+        }
+        db.connect();
+            String bID = tempCustBillF.getBookingID();
             String query = "UPDATE BILLS \n" + 
                            "SET " +
-                           "STATUS = " + iStat + "\n" +
-                            "WHERE PHONE = '" + bID + "';";
-            
-        }
-        db.closeConnection();
+                           "STATUS = " + fStatus + "" +
+                           "WHERE BILLID = " + Integer.parseInt(bID) + ";";
+        db.closeConnection();   
+        loadBookings(Integer.parseInt(bID));
     }
     
-    @FXML
-    private void changeBillSettlementP(){
+    private int getBillStatus(int id){
         db.connect();
-        if(tempCustBillP != null){
-            String bID = tempCustBillP.getBookingID();
-            String status = tempCustBillP.getBill();
-            int iStat = 1;
-            if(status.equals("Settled")){
-                iStat = 0;
-            }
-            String query = "UPDATE BILLS \n" + 
-                           "SET " +
-                           "STATUS = " + iStat + "\n" +
-                            "WHERE PHONE = '" + bID + "';";
-            
+        String query = "SELECT STATUS FROM BILLS\n" +
+                        "WHERE BILLID = " + id + "; "; 
+        try{
+            ResultSet rs = db.query(query);
+            int status = rs.getInt("STATUS");
+            db.closeConnection();  
+            return status;
+        }catch(SQLException e){
+            db.closeConnection();  
+            return 0;
         }
-        db.closeConnection();
     }
 }

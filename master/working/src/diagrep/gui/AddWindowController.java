@@ -136,5 +136,25 @@ public class AddWindowController implements Initializable {
     public void setParentController(DiagRepairScreenController parentController) {
         this.parentController = parentController;
     }
+    
+    public void initiateBooking(Customer argCust){
+        ObservableList<Vehicle> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
+        ArrayList<Vehicle> currentVehicle = 
+            VR.searchCustomerVehicles(CR.getCustomerID(argCust.getPhone(), argCust.getEmail()));
+        vehicleList.addAll(currentVehicle);
+        entryReg.setItems(vehicleList);
+        entryReg.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
+
+        ObservableList<Customer> customerList = FXCollections.observableArrayList();	//customer choicebox
+        customerList.addAll(argCust);
+        entryCustomer.setItems(customerList);
+        entryCustomer.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
+
+        ObservableList<Mechanic> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
+        ArrayList<Mechanic> currentMechs = UR.getMechanic();
+        mechanicList.addAll(currentMechs);
+        entryMechanic.setItems(mechanicList);
+        entryMechanic.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
+    }
 
 }

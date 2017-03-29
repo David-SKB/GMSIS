@@ -5,16 +5,25 @@
 
 package customers.gui;
 
+import common.Main;
 import customers.logic.Customer;
 import customers.logic.CustomerRegistry;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import vehicles.gui.EditTabController;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
 
@@ -34,6 +43,7 @@ public class CustomerVehiclesController {
     VehicleRegistry VR = VehicleRegistry.getInstance();
     private Customer tempCust;
     private int custID;
+    private Vehicle tempVeh;
 
     
     public void setUser(int ID){
@@ -72,7 +82,41 @@ public class CustomerVehiclesController {
                 new PropertyValueFactory<Vehicle, String>("lastService"));
         mileageTC.setCellValueFactory(
                 new PropertyValueFactory<Vehicle, String>("currentMile"));
-        vehTV.setItems(obsListData);  
+        vehTV.setItems(obsListData);
+        
+        vehTV.setRowFactory((TableView<Vehicle> tv) -> {
+            TableRow<Vehicle> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
+                                    && event2.getClickCount() == 2) {
+                    tempVeh = row.getItem();
+                    if(tempVeh != null){
+                        loadVehicleRecord(tempVeh);
+                    }
+                }
+            });
+            return row;
+        });
+    }
+    
+    private void loadVehicleRecord(Vehicle v){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/vehicles/gui/EditTab.fxml")); 
+            Parent root = (Parent)fxmlLoader.load();
+            EditTabController etc = fxmlLoader.getController();
+            etc.set(v);
+                     Scene scene = new Scene(root);
+                     Stage stage = new Stage();
+                     stage.setScene(scene);
+                     stage.centerOnScreen();
+                     stage.setTitle("Vehicle Record");
+                     stage.initModality(Modality.WINDOW_MODAL);
+                     stage.initOwner(Main.stage);
+                     stage.show();
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
   

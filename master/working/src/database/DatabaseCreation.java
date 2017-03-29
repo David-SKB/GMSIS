@@ -29,7 +29,7 @@ public class DatabaseCreation
 "  ID              INTEGER(5)     PRIMARY KEY  NOT NULL,\n" +
 "  PASSWORD        TEXT                        NOT NULL,\n" + 
 "  SURNAME         TEXT                        NOT NULL,\n" +
-"  w       TEXT                        NOT NULL,\n" + 
+"  FIRSTNAME       TEXT                        NOT NULL,\n" + 
 "  HRATE           DECIMAL(3,2),\n" +               
 "  SYSADM          BOOL                        NOT NULL\n" +
 ");\n" +
@@ -78,25 +78,29 @@ public class DatabaseCreation
 "  ID                INTEGER     PRIMARY KEY  ,\n" +
 "  NAME              TEXT                 NOT NULL,\n" +
 "  DESCRIPTION       TEXT                 NOT NULL,\n" +
-"  COST              DECIMAL(6,2)                  NOT NULL,\n" +
+"  COST              INT                  NOT NULL,\n" +
 "  STOCK             INT                  NOT NULL\n" +
 ");\n" +
 "CREATE TABLE USEDPARTS (\n" +
 "  ID                INTEGER   PRIMARY KEY  ,\n" +
-"  BOOKINGID         TEXT                    NOT NULL,\n" +
+"  BOOKINGID         INT                     NOT NULL,\n" +
+"  VEHICLEID         INT                     NOT NULL,\n" +
+"  CUSTOMERID        INT                     NOT NULL,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
-"  WARRANTYEND       TEXT                    NOT NULL,\n" +
-"  WARRANTYSTART     TEXT                    NOT NULL,\n" +
-"  COST		     DECIMAL(6,2)            NOT NULL,\n" +
-"  FOREIGN KEY(PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE,\n" +
-"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID)\n" +
+"  WARRANTYEND       DATE                    NOT NULL,\n" +
+"  WARRANTYSTART     DATE                    NOT NULL,\n" +
+"  COST		     INT		     NOT NULL,\n" +
+"  FOREIGN KEY(PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE NO ACTION,\n" +
+"  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID) ON DELETE CASCADE,\n" +
+"  FOREIGN KEY(VEHICLEID) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
+"  FOREIGN KEY(CUSTOMERID) REFERENCES CUSTOMER(ID) ON DELETE CASCADE\n" +
 ");\n" +
 "CREATE TABLE DELIVERIES (\n" +
 "  ID                INTEGER   PRIMARY KEY  ,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
 "  QUANTITY          INT                     NOT NULL,\n" +
 "  DELIVERYDATE      TEXT                    NOT NULL,\n" +
-"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE\n" +
+"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE NO ACTION\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
@@ -107,7 +111,7 @@ public class DatabaseCreation
 "SPCID                  INT                     NOT NULL,\n" +              
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
-"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
+"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE CASCADE\n" +
 "FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +    
               
 ");\n" +
@@ -119,7 +123,7 @@ public class DatabaseCreation
 "DELIVERYDATE           TEXT                    NOT NULL,\n" +
 "RETURNDATE             TEXT                    NOT NULL,\n" +
 "COST                   REAL                    NOT NULL,\n" +
-"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
+"FOREIGN KEY(REGNO) REFERENCES VEHICLE(REGISTRATION) ON DELETE CASCADE,\n" +
 "FOREIGN KEY(SPCID) REFERENCES CENTRES(SPCID) ON DELETE NO ACTION\n" +
 ");\n" +
 "CREATE TABLE CENTRES\n" +
@@ -132,17 +136,17 @@ public class DatabaseCreation
 ");\n" +
 "/* BOOKINGS TABLE */\n" +
 "CREATE TABLE BOOKINGS (\n" +
-"	ID                   INTEGER    PRIMARY KEY      ,\n" +
-"	BOOKDATE             VARCHAR(255)            NOT NULL,\n" +
-"       STARTTIME            VARCHAR(255)            NOT NULL,\n" +
-"	DURATION             TEXT                    NOT NULL,\n" +
-"	TYPE                 TEXT                    NOT NULL,\n" +
-"	CUSTOMERID           INTEGER                     NOT NULL,\n" +
+"	ID                   INTEGER    PRIMARY KEY   NOT NULL,\n" +
+"	BOOKDATE             VARCHAR(255)             NOT NULL,\n" +
+"       STARTTIME            VARCHAR(255)             NOT NULL,\n" +
+"	DURATION             TEXT                     NOT NULL,\n" +
+"	TYPE                 TEXT                     NOT NULL,\n" +
+"	CUSTOMERID           INTEGER                  NOT NULL,\n" +
 "	VEHICLEREGISTRATION  TEXT                     NOT NULL,\n" +
 "	MILEAGE              TEXT,\n" +              
 "	EMPLOYEEID           TEXT                     NOT NULL,\n" +
-"	FOREIGN KEY(CUSTOMERID) references CUSTOMER(ID) ON DELETE NO ACTION,\n" +
-"	FOREIGN KEY(VEHICLEREGISTRATION) references VEHICLE(REGISTRATION) ON DELETE NO ACTION,\n" +
+"	FOREIGN KEY(CUSTOMERID) references CUSTOMER(ID) ON DELETE CASCADE,\n" +
+"	FOREIGN KEY(VEHICLEREGISTRATION) references VEHICLE(REGISTRATION) ON DELETE CASCADE,\n" +
 "	FOREIGN KEY(EMPLOYEEID) references USERS(ID)\n" +
 ");\n" + 
 "/* BILLS TABLE */\n" +

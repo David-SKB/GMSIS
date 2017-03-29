@@ -36,26 +36,28 @@ public class BookingRegistry {
                 + date + "', '"
                 + start + "', '"
                 + length + "', '"
-                + type + "', '"
-                + CID + "', '"
+                + type + "', "
+                + Integer.parseInt(CID) + ", '"
                 + VID + "', '"
                 + EID + "');";
         boolean result = conn.update(query);
         if(result){
-            result = addBill(length, EID);
+            int ID = Integer.parseInt(findID(date, start, length, type, CID, VID, EID));
+            result = addBill(ID,length, EID);
         }
         conn.closeConnection();
         return result;
     }
     
-    public boolean addBill(String length, String EID){
+    public boolean addBill(int ID,String length, String EID){
         UserRegistry UR = UserRegistry.getInstance();
         Mechanic mech = (Mechanic) UR.searchUserByID(EID);
         double cost = mech.getHRate() * Integer.parseInt(length);
-        String query = "INSERT INTO BILLS (DIAGREPCOST, STATUS) VALUES ("+cost+", 0);";
+        String query = "INSERT INTO BILLS VALUES ("+ID+", " +cost+", 0, 0, 0);";
         boolean result = conn.update(query);
         return result;
     }
+
 
     public boolean editBooking(String date, String start, String length, String type, String CID, String VID, String miles, String EID) {
         //edit booking in database
@@ -87,14 +89,15 @@ public class BookingRegistry {
         return result;
     }
 
-    public boolean deleteBooking(String ID) {
+  public boolean deleteBooking(String ID) {
         //delete booking from database
         conn.connect();
-        String query = "DELETE FROM BOOKINGS WHERE ID = " + ID;
+        String query = "DELETE FROM BOOKINGS WHERE ID = " + Integer.parseInt(ID) + ";";
         boolean result = conn.update(query);
         conn.closeConnection();
         return result;
     }
+
 
     public DiagRepairBooking searchBookingID(String ID) {
         conn.connect();
@@ -237,17 +240,16 @@ public class BookingRegistry {
     public ArrayList<DiagRepairBooking> searchBookingByCustID(String CustID) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
-            conn = DBConnection.getInstance();
             conn.connect();
-            String query = "SELECT * FROM BOOKINGS WHERE CUSTOMERID = '" + CustID + "';";
+            String query = "SELECT * FROM BOOKINGS WHERE CUSTOMERID = " + Integer.parseInt(CustID) + ";";
             ResultSet result = conn.query(query);
             while (result.next()) {
                 String ID = Integer.toString(result.getInt("ID"));
-                String date = result.getString("DATE");
+                String date = result.getString("BOOKDATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
-                String cusID = result.getString("CUSTOMERID");
+                String cusID = String.valueOf(result.getInt("CUSTOMERID"));
                 String vechID = result.getString("VEHICLEREGISTRATION");
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
@@ -256,6 +258,7 @@ public class BookingRegistry {
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
@@ -342,18 +345,18 @@ public class BookingRegistry {
 
     public String findID(String date, String start, String length, String type, String CID, String VID, String EID) {
         try {
-            conn = DBConnection.getInstance();
             conn.connect();
             String query = "SELECT * FROM BOOKINGS WHERE BOOKDATE = '"
-                    + date + "', STARTTIME = "
-                    + start + "', DURATION = "
-                    + length + "', TYPE = "
-                    + type + "', CUSTOMERID = "
-                    + CID + "', VEHICLEREGISTRATION = "
-                    + VID + "', EMPLOYEEID = "
+                    + date + "' AND STARTTIME = '"
+                    + start + "' AND DURATION = '"
+                    + length + "' AND TYPE = '"
+                    + type + "' AND CUSTOMERID = "
+                    + CID + " AND VEHICLEREGISTRATION = '"
+                    + VID + "'AND EMPLOYEEID = '"
                     + EID + "';";
             ResultSet rs = conn.query(query);
             String ID = Integer.toString(rs.getInt("ID"));
+            conn.closeConnection();
             return ID;
         }catch (SQLException e) {
             return null;
