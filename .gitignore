@@ -9,3 +9,4 @@ project.xml
 test/
 build.xml
 manifest.mf
+nbbuild.xml
