@@ -132,7 +132,7 @@ public class UserRegistry {
         try {
             ArrayList<Mechanic> activeUsers = new ArrayList<Mechanic>();
             DBInstance.connect();
-            String query = "SELECT * FROM USERS WHERE SYSADM = 'FALSE';";
+            String query = "SELECT * FROM USERS WHERE SYSADM = 'false';";
             ResultSet rs = DBInstance.query(query);
             while (rs.next()) {
                 Boolean sysAdm = rs.getBoolean("SYSADM");
