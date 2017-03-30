@@ -275,7 +275,36 @@ public class BookingRegistry {
             ResultSet result = conn.query(query);
             while (result.next()) {
                 String ID = Integer.toString(result.getInt("ID"));
-                String date = result.getString("DATE");
+                String date = result.getString("BOOKDATE");
+                String start = result.getString("STARTTIME");
+                String length = result.getString("DURATION");
+                String type = result.getString("TYPE");
+                String cusID = result.getString("CUSTOMERID");
+                String vechID = result.getString("VEHICLEREGISTRATION");
+                String mileage = result.getString("MILEAGE");
+                String empID = result.getString("EMPLOYEEID");
+                BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
+            }
+            conn.closeConnection();
+            return BookingList;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+    
+    public ArrayList<DiagRepairBooking> searchBookingByCustFirstName(String firstName) {
+        try {
+            if (firstName == null || firstName.isEmpty()) {
+                return null;
+            }
+            ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
+            conn = DBConnection.getInstance();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS WHERE CUSTID = (SELECT ID FROM CUSTOMER WHERE FIRSTNAME LIKE '%" + firstName + "%');";
+            ResultSet result = conn.query(query);
+            while (result.next()) {
+                String ID = Integer.toString(result.getInt("ID"));
+                String date = result.getString("BOOKDATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
@@ -297,11 +326,11 @@ public class BookingRegistry {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
-            String query = "SELECT * FROM BOOKINGS WHERE LIKE VEHICLEREGISTRATION = '%" + vechID + "%';";
+            String query = "SELECT * FROM BOOKINGS WHERE VEHICLEREGISTRATION LIKE '%" + vechID + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
                 String ID = Integer.toString(result.getInt("ID"));
-                String date = result.getString("DATE");
+                String date = result.getString("BOOKDATE");
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
@@ -313,6 +342,7 @@ public class BookingRegistry {
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
+            System.out.println(e);
             return null;
         }
     }
@@ -335,10 +365,12 @@ public class BookingRegistry {
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
+                
             }
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
+            
             return null;
         }
     }

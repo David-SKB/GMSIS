@@ -30,6 +30,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
@@ -58,7 +59,8 @@ import vehicles.logic.VehicleRegistry;
  * @author jr308
  */
 public class StockPartsController implements Initializable {
-
+    private boolean loadAllUsed = true;
+    private String tableToSearch;
     private PartRegistry partR = PartRegistry.getInstance();
     private BookingRegistry bookingR = BookingRegistry.getInstance();
     private CustomerRegistry customerR = CustomerRegistry.getInstance();
@@ -66,6 +68,11 @@ public class StockPartsController implements Initializable {
 
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     //Stock Parts
+    
+    @FXML
+    private ObservableList<String> cmBoxOptions;
+    @FXML
+    private ComboBox searchBy = new ComboBox();
     @FXML
     private AnchorPane stockParts;
 
@@ -94,10 +101,11 @@ public class StockPartsController implements Initializable {
 
     //used parts gui
     private final ObservableList<UsedPart> oUsedPartList = FXCollections.observableArrayList();
+    private UsedPart selectedUsedPart;
     @FXML
     private TableView<UsedPart> usedPartsTable;
     @FXML
-    private TableColumn nameCol1, descriptionCol1, costCol1, //FXML TableColumn. Columns form the TableView element.
+    private TableColumn usedPartIdCol, nameCol1, descriptionCol1, costCol1, //FXML TableColumn. Columns form the TableView element.
             vehicleCol1, customerCol1, firstNameCol1,
             lastNameCol1, repairIDCol1;
     @FXML
@@ -109,6 +117,8 @@ public class StockPartsController implements Initializable {
 
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
+    
+
     private RepairWrapper selectedRepair;
     @FXML
     private TableView<RepairWrapper> repairTable;
@@ -121,6 +131,8 @@ public class StockPartsController implements Initializable {
     @FXML
     private TableColumn rNameCol, rDescriptionCol, rCostCol, //FXML TableColumn. Columns form the TableView element.
             rStockCol;
+    @FXML
+    private TextField repairStockSearchTextField;
     //deliveries
 
     @Override
@@ -200,20 +212,7 @@ public class StockPartsController implements Initializable {
         loadAllParts();
     }
 
-    public void searchParts(ActionEvent event) {
-        oPartList.clear();
-        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(), "NAME");
-        System.out.println(partlist == null);
-        if (partlist != null) {
-            System.out.println("inside if");
-            for (int i = 0; i < partlist.size(); i++) {
-                System.out.println("inside for");
-                oPartList.add(partlist.get(i));
-            }
-        }
-        loadStockParts();
-    }
-
+    
     private void setupRowListeners() {
         stockTable.setRowFactory(table -> {
             TableRow<Part> row = new TableRow<>();
@@ -240,6 +239,8 @@ public class StockPartsController implements Initializable {
 
         System.out.println("test3");
         usedPartsTable.setEditable(true);
+        usedPartIdCol.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("Id"));
         nameCol1.setCellValueFactory(
                 new PropertyValueFactory<UsedPart, String>("name"));
         descriptionCol1.setCellValueFactory(
@@ -282,6 +283,18 @@ public class StockPartsController implements Initializable {
             }
         }
 
+    }
+    
+    public void deleteUsedPart(ActionEvent event) {
+        selectedUsedPart = usedPartsTable.getSelectionModel().getSelectedItem();
+        boolean success;
+        success = partR.deleteUsedPart(Integer.parseInt(selectedUsedPart.getId()));
+        //if (loadAllUsed)
+            loadUsedParts();
+        //else
+            //loadUsedPartsRepair(int id);
+        loadUsedPartsTable();
+        
     }
 
     //REPAIRS METHODS
@@ -408,13 +421,110 @@ public class StockPartsController implements Initializable {
                 loadAllParts();
                 loadStockParts();
             } catch(IOException ex) {
+                System.err.println("Error: "+ ex);
+            }
+    }
+    
+    public void viewCustomerDetails(ActionEvent event){
+        try {
+                Customer cust = customerR.searchCustomerByID(usedPartsTable.getSelectionModel().getSelectedItem().getCustomerID());
+                FXMLLoader loader = new FXMLLoader();
+                Pane root = loader.load(getClass().getResource("viewCustomerDetails.fxml").openStream()); 
+                viewCustomerController controller = (viewCustomerController)loader.getController();
+                controller.loadCustomerData(cust);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(root.getScene().getWindow());
+                stage.setScene(scene);
+                stage.showAndWait();
+                loadAllParts();
+                loadStockParts();
+            } catch(IOException ex) {
                 System.err.println("Error: "+ex);
             }
     }
 
     
+    //SEARCH METHODS
+    public void search(ActionEvent event) {
+        if(tableToSearch == "STOCKPARTS")
+            searchParts();
+        else if (tableToSearch == "USEDPARTS")
+            searchUsedParts();
+        else
+            searchRepairs();
+    }
+    public void searchParts() {
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(), "NAME");
+        System.out.println(partlist == null);
+        if (partlist != null) {
+            System.out.println("inside if");
+            for (int i = 0; i < partlist.size(); i++) {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
+        loadStockParts();
+    }
+    
+    public void searchUsedParts() {
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(), "NAME");
+        System.out.println(partlist == null);
+        if (partlist != null) {
+            System.out.println("inside if");
+            for (int i = 0; i < partlist.size(); i++) {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
+        loadStockParts();
+    }
+    
+    public void searchRepairs() {
+        oRepairList.clear();
+        ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
+        ArrayList<DiagRepairBooking> bookings;
+        if(searchBy.getValue().toString().equalsIgnoreCase("Vehicle Registration"))
+                bookings = bookingR.searchBookingByVechID(searchTextField.getText());
+            else
+                 bookings = bookingR.searchBookingByVechID(searchTextField.getText());
+        for (int i = 0; i < bookings.size(); i++) {
+            Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVehreg());
+            Customer customer = customerR.searchCustomerByID(bookings.get(i).getCust());
+            repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
+        }
+        if (repairList != null) {
+            System.out.println("inside if");
+            for (int i = 0; i < repairList.size(); i++) {
+                System.out.println("repair cust id" + repairList.get(i).getCustomerID());
+                oRepairList.add(repairList.get(i));
+            }
+        }
+        loadRepairsTable();
+    }
+
+    public void searchrParts(ActionEvent Event) {
+        
+        oPartList.clear();
+        ArrayList<Part> partlist = partR.searchStockParts(repairStockSearchTextField.getText(), "NAME");
+        System.out.println(partlist == null);
+        if (partlist != null) {
+            System.out.println("inside if");
+            for (int i = 0; i < partlist.size(); i++) {
+                System.out.println("inside for");
+                oPartList.add(partlist.get(i));
+            }
+        }
+        loadRStockParts();
+    }
+    
     //CHANGING ANCHOR METHODS
     public void viewUsedPartsAnchor(ActionEvent event) {
+        tableToSearch = "USEDPARTS";
+        loadAllUsed = true;
         repairs.setVisible(false);
         stockParts.setVisible(false);
         usedParts.setVisible(true);
@@ -423,6 +533,7 @@ public class StockPartsController implements Initializable {
     }
 
     public void viewStockPartsAnchor(ActionEvent event) {
+        tableToSearch = "STOCKPARTS";
         repairs.setVisible(false);
         usedParts.setVisible(false);
         stockParts.setVisible(true);
@@ -431,6 +542,10 @@ public class StockPartsController implements Initializable {
     }
 
     public void viewRepairsAnchor(ActionEvent event) {
+        cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
+        searchBy.setItems(cmBoxOptions);
+        System.out.println("combobox");
+        tableToSearch = "BOOKINGS";
         stockParts.setVisible(false);
         usedParts.setVisible(false);
         repairs.setVisible(true);
@@ -441,6 +556,8 @@ public class StockPartsController implements Initializable {
     }
     
     public void viewUsedPartsAnchorForRepair(ActionEvent event) {
+        tableToSearch = "USEDPARTS";
+        loadAllUsed = false;
         selectedRepair = repairTable.getSelectionModel().getSelectedItem();
         repairs.setVisible(false);
         stockParts.setVisible(false);

@@ -8,6 +8,7 @@ package parts.logic;
 import customers.logic.Customer;
 import diagrep.logic.DiagRepairBooking;
 import java.math.BigDecimal;
+import javafx.beans.property.SimpleStringProperty;
 import vehicles.logic.Vehicle;
 
 /**
@@ -15,11 +16,13 @@ import vehicles.logic.Vehicle;
  * @author jr308
  */
 public class UsedPart {
+    private final SimpleStringProperty id;
     private Part part;
     private DiagRepairBooking booking;
     private Customer customer;
     private Vehicle vehicle;
-    public UsedPart(Part p, DiagRepairBooking bId, Customer cId, Vehicle vId) {
+    public UsedPart(int ID, Part p, DiagRepairBooking bId, Customer cId, Vehicle vId) {
+        id = new SimpleStringProperty(String.valueOf(ID));
         part = p;
         booking = bId;
         customer = cId;
@@ -31,6 +34,11 @@ public class UsedPart {
                          getDescription() + " " + 
                          getCost();
         return rString;
+    }
+    
+    public String getId()
+    {
+        return id.get();
     }
     
     public String getName()
