@@ -128,7 +128,8 @@ public class VehicleGUIController implements Initializable {
                   detailsButton,
                   searchCarButton,
                   searchVanButton,
-                  searchTruckButton;
+                  searchTruckButton,
+                  vehicleDetailsButton;
    @FXML
    private CheckBox warrantyCheckBox,
                     currWarrCheckBox,
@@ -152,10 +153,8 @@ public class VehicleGUIController implements Initializable {
    ListView<Template> templateList = new ListView<Template>();
    @FXML
    ObservableList<Template> carsTemplate = FXCollections.observableArrayList();
+
    
-     // list.clear();
-     //list.addAll(both);
-     //vehDetails.setItems(list);
    @FXML
    public void searchCarButton(ActionEvent event){
     ArrayList<Vehicle> cars = vr.searchCar();
@@ -181,6 +180,36 @@ public class VehicleGUIController implements Initializable {
    }
    
    @FXML
+   public void vehicleDetailsButton(ActionEvent event){
+     String reg = regTextField.getText();
+     Parent root;
+      if(reg.equals("")){
+         componentLoader cl = new componentLoader();
+        cl.showRegFailure();  
+      }
+      else{
+       try{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./VehicleDetails.fxml"));
+        root = (Parent)fxmlLoader.load();
+        VehicleDetailsController vdc = fxmlLoader.getController();
+         vdc.setDetails(reg);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setTitle("Vehicle details");
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(Main.stage);
+                stage.show();
+       }
+       catch(IOException e){
+       componentLoader cl = new componentLoader();
+        cl.showRegFailure();   
+       }
+      }
+   }
+   
+   @FXML
    public void detailsButton(ActionEvent event){
     String reg = regTextField.getText();
       Parent root;
@@ -188,6 +217,7 @@ public class VehicleGUIController implements Initializable {
        componentLoader cl = new componentLoader();
         cl.showRegFailure();
       }
+      else{
       try{
        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("./vehicleCustomers.fxml")); 
        root = (Parent)fxmlLoader.load();
@@ -203,9 +233,10 @@ public class VehicleGUIController implements Initializable {
                 stage.initOwner(Main.stage);
                 stage.show();
       }
-      catch(Exception e){
+      catch(IOException e){
        componentLoader cl = new componentLoader();
         cl.showRegFailure();
+      }
       }
      }
      
@@ -296,40 +327,6 @@ public class VehicleGUIController implements Initializable {
      customerIDTextField.setText(idString);
   }
   
-  @FXML
-  public void updateButton(ActionEvent event){
-   String oldReg = currRegTextField.getText();
-   String updateReg = updateRegTextField.getText();
-   String updateMake = updateMakeTextField.getText();
-   String updateModel = updateModelTextField.getText();
-   String updateEngine = updateEngineTextField.getText();
-    double engine = 0;
-    try{
-     engine = Double.parseDouble(updateEngine);
-    }
-    catch(NumberFormatException e){
-     componentLoader cl = new componentLoader();
-      cl.showEngineFailure();
-    }
-   String updateFuel = updateFuelTextField.getText();
-   String updateColour = updateColourTextField.getText();
-   String updateMOT = updateMOTTextField.getText();
-   String updateLast = updateLastTextField.getText();
-   String updateMile = updateMileTextField.getText();
-    int mile = Integer.parseInt(updateMile);
-   boolean updateWarranty = updateWarrCheckBox.isSelected();
-   //if has warranty and update to no warranty delete warranty record in db
-   if(currWarrCheckBox.isSelected() && !updateWarrCheckBox.isSelected()){
-     vr.deleteWarranty(updateReg);
-   }
-   vr.updateDetails(oldReg,updateReg,0,updateMake,updateModel,engine,updateFuel,updateColour,updateMOT,updateWarranty,updateLast,mile);
-   clearButton(event);
-   vehicleDisplay(event);
-  }
-  
-  //reg,id,make,model,engine,fuel,colour,mot,last,mile,warranty
-  //model,make,engine,fuelsize
-  
   
   public void vehicleDisplay(ActionEvent event){
    displayCustomers();
@@ -401,39 +398,7 @@ public class VehicleGUIController implements Initializable {
        componentLoader cl = new componentLoader();
         cl.showVehicleFailure();
       }
-   //set current values in old section
-   /**
-   currRegTextField.setText(regTextField.getText());
-   currMakeTextField.setText(makeTextField.getText());
-   currModelTextField.setText(modelTextField.getText());
-   currEngineTextField.setText(engineTextField.getText());
-   currFuelTextField.setText(fuelTextField.getText());
-   currColourTextField.setText(colourTextField.getText());
-   currMOTTextField.setText(MOTTextField.getText());
-   currLastTextField.setText(lastTextField.getText());
-   currMileTextField.setText(mileageTextField.getText());
-   currWarrCheckBox.setSelected(warrantyCheckBox.isSelected());
-   currWarrantyNameTextField.setText(warrantyNameTextField.getText());
-   currWarrantyAddressTextField.setText(warrantyAddressTextField.getText());
-   currWarrantyExpiryTextField.setText(warrantyExpiryTextField.getText());
-   //set current values in updated section
-   updateRegTextField.setText(regTextField.getText());
-   updateMakeTextField.setText(makeTextField.getText());
-   updateModelTextField.setText(modelTextField.getText());
-   updateEngineTextField.setText(engineTextField.getText());
-   updateFuelTextField.setText(fuelTextField.getText());
-   updateColourTextField.setText(colourTextField.getText());
-   updateMOTTextField.setText(MOTTextField.getText());
-   updateLastTextField.setText(lastTextField.getText());
-   updateMileTextField.setText(mileageTextField.getText());
-   updateWarrCheckBox.setSelected(warrantyCheckBox.isSelected());
-   updateWarrantyNameTextField.setText(warrantyNameTextField.getText());
-   updateWarrantyAddressTextField.setText(warrantyAddressTextField.getText());
-   updateWarrantyExpiryTextField.setText(warrantyExpiryTextField.getText());
-   **/
   }
-  
- 
   
   public void loadDataChange(Vehicle temp){
    regTextField.setText(temp.getRegistration());
@@ -705,6 +670,7 @@ public class VehicleGUIController implements Initializable {
     //CHECK EXPIRY DATE IS IN THE FORMAT OF DD/MM/YYYY
     String warrantyExpiry = warrantyExpiryTextField.getText();
      warrantyExpiryCheck = checkTextField(warrantyExpiry);
+     
      if(!isValidDate("dd/mm/yyyy",warrantyExpiry)){
        return;  
      }

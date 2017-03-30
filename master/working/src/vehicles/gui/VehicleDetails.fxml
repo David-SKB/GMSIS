@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="502.0" prefWidth="621.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleDetailsController">
+   <children>
+      <TableView fx:id="pastBookingsTable" layoutX="26.0" layoutY="39.0" prefHeight="200.0" prefWidth="317.0">
+        <columns>
+          <TableColumn fx:id="pastTypeCol" prefWidth="75.0" text="Type" />
+          <TableColumn fx:id="pastDateCol" prefWidth="75.0" text="Date" />
+            <TableColumn fx:id="pastRegCol" prefWidth="90.0" text="Registration" />
+            <TableColumn fx:id="pastCostCol" prefWidth="75.0" text="Cost" />
+        </columns>
+      </TableView>
+      <TableView fx:id="futureBookingsTable" layoutX="25.0" layoutY="259.0" prefHeight="200.0" prefWidth="317.0">
+        <columns>
+          <TableColumn fx:id="futureTypeCol" prefWidth="75.0" text="Type" />
+          <TableColumn fx:id="futureDateCol" prefWidth="75.0" text="Date" />
+            <TableColumn fx:id="futureRegCol" prefWidth="88.0" text="Registration" />
+            <TableColumn fx:id="futureCostCol" prefWidth="75.0" text="Cost" />
+        </columns>
+      </TableView>
+      <ListView fx:id="partsUsedList" layoutX="396.0" layoutY="176.0" prefHeight="150.0" prefWidth="208.0" />
+      <Label fx:id="pastBookingLabel" layoutX="124.0" layoutY="23.0" text="Past Booking Dates:" />
+      <Label fx:id="futureBookingLabel" layoutX="117.0" layoutY="243.0" text="Future Booking Dates:" />
+      <Label fx:id="partsUsedLabel" layoutX="466.0" layoutY="152.0" text="Parts used:" />
+   </children>
+</AnchorPane>

@@ -79,5 +79,6 @@
       <Button fx:id="searchCarButton" layoutX="854.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchCarButton" text="Search Cars" />
       <Button fx:id="searchVanButton" layoutX="855.0" layoutY="237.0" mnemonicParsing="false" onAction="#searchVanButton" text="Search Vans" />
       <Button fx:id="searchTruckButton" layoutX="850.0" layoutY="274.0" mnemonicParsing="false" onAction="#searchTruckButton" text="Search Trucks" />
+      <Button fx:id="vehicleDetailsButton" layoutX="850.0" layoutY="307.0" mnemonicParsing="false" onAction="#vehicleDetailsButton" text="Vehicle Details" />
    </children>   
 </AnchorPane>

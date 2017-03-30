@@ -29,6 +29,13 @@ public class UsedPart {
         vehicle = vId;
     }
     
+    public String toString(){
+        String rString = getName() + " " +
+                         getDescription() + " " + 
+                         getCost();
+        return rString;
+    }
+    
     public String getId()
     {
         return id.get();
