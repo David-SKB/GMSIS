@@ -111,7 +111,7 @@ public class CustomerVehiclesController {
                      stage.centerOnScreen();
                      stage.setTitle("Vehicle Record");
                      stage.initModality(Modality.WINDOW_MODAL);
-                     stage.initOwner(Main.stage);
+                     stage.initOwner(CustomerController.stage);
                      stage.show();
         }
         catch(Exception e){

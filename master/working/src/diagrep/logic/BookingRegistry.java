@@ -33,7 +33,7 @@ public class BookingRegistry {
         conn.connect();
         String query = "INSERT INTO BOOKINGS (BOOKDATE, STARTTIME, DURATION, TYPE, CUSTOMERID, VEHICLEREGISTRATION, EMPLOYEEID) "
                 + "VALUES( '"
-                + date + "', '"
+                + date + "', '" 
                 + start + "', '"
                 + length + "', '"
                 + type + "', "

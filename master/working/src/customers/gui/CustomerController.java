@@ -91,6 +91,7 @@ public class CustomerController implements Initializable{
     private ObservableList<String> cmBoxOptions;
     @FXML
     private Button submitButton,eSubmitChangesButton;
+    public static Stage stage;
 
     public CustomerController() {
         this.showBillCBox = new ComboBox();
@@ -549,7 +550,7 @@ public class CustomerController implements Initializable{
                     CVC.setUser(ID);
                 }
                 Scene scene = new Scene(root);
-                Stage stage = new Stage();
+                stage = new Stage();
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.setTitle("Customer's Vehicle");

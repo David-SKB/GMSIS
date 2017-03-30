@@ -109,8 +109,8 @@ public class CustomerBillsController implements Initializable{
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
                     tempCustBillP = row.getItem();
-                    loadParts(tempCustBillP.getBookingID());
-                    partsList.setItems(partObsList);
+                    //loadParts(tempCustBillP.getBookingID());
+                    //partsList.setItems(partObsList);
                 }
             });
             return row;
@@ -219,11 +219,14 @@ public class CustomerBillsController implements Initializable{
     }
     
     private void changeBillSettlement(DiagRepairBooking DRP, int status){
+        db.connect();
             String bID = DRP.getId();
             String query = "UPDATE BILLS \n" + 
                            "SET " +
                            "STATUS = " + status + "\n" +
                             "WHERE BILLID = " + Integer.parseInt(bID)+ ";";
+            db.update(query);
+        db.closeConnection();
     }
     
     @FXML
@@ -232,22 +235,27 @@ public class CustomerBillsController implements Initializable{
         if(tempCustBillF != null){
             if(tempCustBillF.getBill().equalsIgnoreCase("Settled")){
                 tempCustBillF.setBill("Unsettled");
-                fStatus = 0;
+                changeBillSettlement(tempCustBillF.getDRP(),0);
+                changeCustomerBill(tempCustBillF,"Unsettled");
             }else{
                 tempCustBillF.setBill("Settled");
-                fStatus = 1;
+                changeBillSettlement(tempCustBillF.getDRP(),1);
+                changeCustomerBill(tempCustBillF,"Settled");
             }
-        }
-        db.connect();
-            String bID = tempCustBillF.getBookingID();
-            String query = "UPDATE BILLS \n" + 
-                           "SET " +
-                           "STATUS = " + fStatus + "" +
-                           "WHERE BILLID = " + Integer.parseInt(bID) + ";";
-        db.closeConnection();   
-        loadBookings(Integer.parseInt(bID));
+        } 
+        tempCustBillF = null;
     }
     
+    private void changeCustomerBill(CustomerBill tempCB, String status){
+       for(CustomerBill cb : futureBObsList){
+           if(cb.getBookingID().equals(tempCB.getBookingID())){
+               cb.setBill(status);
+               System.out.println("changed");
+           }
+       }
+       loadBookings(Integer.parseInt(tempCB.getDRP().getCust()));
+    }
+   
     private int getBillStatus(int id){
         db.connect();
         String query = "SELECT STATUS FROM BILLS\n" +

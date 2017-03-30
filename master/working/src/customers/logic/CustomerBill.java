@@ -29,6 +29,10 @@ public class CustomerBill {
         this.bill = new SimpleStringProperty(bill);
     }
     
+    public DiagRepairBooking getDRP(){
+        return DRP;
+    }
+    
     public float getCost(){
         return cost.get();
     }
