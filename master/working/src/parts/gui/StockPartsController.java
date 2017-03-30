@@ -146,6 +146,9 @@ public class StockPartsController implements Initializable {
         setupRowListeners();
         loadAllParts();
         loadStockParts();
+        tableToSearch = "STOCKPARTS";
+        cmBoxOptions =  FXCollections.observableArrayList("Part Name");
+        searchBy.setItems(cmBoxOptions);
     }
 
     //STOCK METHODS
@@ -523,6 +526,8 @@ public class StockPartsController implements Initializable {
     
     //CHANGING ANCHOR METHODS
     public void viewUsedPartsAnchor(ActionEvent event) {
+        cmBoxOptions =  FXCollections.observableArrayList("Repair ID","Vehicle Registration");
+        searchBy.setItems(cmBoxOptions);
         tableToSearch = "USEDPARTS";
         loadAllUsed = true;
         repairs.setVisible(false);
@@ -533,6 +538,8 @@ public class StockPartsController implements Initializable {
     }
 
     public void viewStockPartsAnchor(ActionEvent event) {
+        cmBoxOptions =  FXCollections.observableArrayList("Part Name");
+        searchBy.setItems(cmBoxOptions);
         tableToSearch = "STOCKPARTS";
         repairs.setVisible(false);
         usedParts.setVisible(false);
@@ -544,7 +551,6 @@ public class StockPartsController implements Initializable {
     public void viewRepairsAnchor(ActionEvent event) {
         cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
-        System.out.println("combobox");
         tableToSearch = "BOOKINGS";
         stockParts.setVisible(false);
         usedParts.setVisible(false);
@@ -556,6 +562,8 @@ public class StockPartsController implements Initializable {
     }
     
     public void viewUsedPartsAnchorForRepair(ActionEvent event) {
+        cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
+        searchBy.setItems(cmBoxOptions);
         tableToSearch = "USEDPARTS";
         loadAllUsed = false;
         selectedRepair = repairTable.getSelectionModel().getSelectedItem();

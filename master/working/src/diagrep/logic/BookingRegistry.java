@@ -317,6 +317,7 @@ public class BookingRegistry {
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
+            System.out.println(e);
             return null;
         }
     }
