@@ -5,7 +5,7 @@
  */
 package user.logic;
 
-import common.DBConnection;
+import common.DBConnection; 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

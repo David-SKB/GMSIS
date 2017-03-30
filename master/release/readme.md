@@ -41,7 +41,7 @@ Team 9
 
 [:arrow_up:Back to top!](#contents)
 
-## Download :arrow_down:
+## Download 
 
 ### Fork Project
 
