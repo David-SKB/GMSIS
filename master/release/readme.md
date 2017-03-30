@@ -13,7 +13,7 @@ Team 9
 - [Designing](#designing)
   - [Class Model](#class-diagram)
   - [ER Model](#er-diagram)
-- [Download](#download)
+- [Download](#download :arrow_down:)
 - [Credits](#credits)
 - [Team](#team)
 
