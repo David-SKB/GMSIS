@@ -40,7 +40,7 @@ import vehicles.logic.VehicleRegistry;
  *
  * @author joshuascott
  */
-public class VehicleDetailsController{
+public class VehicleDetailsController implements Initializable{
 
  @FXML
  private Label pastBookingLabel,
@@ -72,6 +72,7 @@ public class VehicleDetailsController{
  BookingRegistry br = BookingRegistry.getInstance();
  VehicleRegistry vr = VehicleRegistry.getInstance();
  PartRegistry pr = PartRegistry.getInstance();
+ 
  @FXML
  private VehicleBill tempVehicleBill;
  
@@ -82,9 +83,11 @@ public class VehicleDetailsController{
  public void getParts(String bookID){
   parts.clear();
    ArrayList<UsedPart> partsUsed = new ArrayList();
-   pr.getUsedPartByBooking(bookID);
+   partsUsed = pr.getUsedPartsByRepair(Integer.parseInt(bookID));
+   if(partsUsed != null){
     parts.addAll(partsUsed);
-     partsUsedList.setItems(parts);
+    partsUsedList.setItems(parts);
+   }
  }
  
  public void getBookings(String reg){
@@ -107,14 +110,14 @@ public class VehicleDetailsController{
       }
      }
      pastBookingsTable.setItems(past);
-     futureBookingsTable.setItems(future);
-     
+     futureBookingsTable.setItems(future); 
     }
     else{
-      //display no bookings pop up  
+     componentLoader cl = new componentLoader();
+      cl.showNoResults();
     }
  }
-  
+  //author athanasios 
      private float getBillCost(DiagRepairBooking drb){
         db.connect();
         try{
@@ -136,9 +139,18 @@ public class VehicleDetailsController{
         }
     }
  
- 
- public void setTable(){
-           //past bookings table
+     //author athanasios
+    private LocalDateTime NOW_LOCALDATETIME() {
+        return LocalDateTime.now();
+    }
+    //author athanasios
+    private LocalDateTime parseLocalDateTime(String str) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return LocalDateTime.parse(str, formatter);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
            pastTypeCol.setCellValueFactory(
               new PropertyValueFactory<VehicleBill, String>("bookingType"));
            pastDateCol.setCellValueFactory(
@@ -146,9 +158,20 @@ public class VehicleDetailsController{
            pastRegCol.setCellValueFactory(
               new PropertyValueFactory<VehicleBill, String>("VehID")); 
            pastCostCol.setCellValueFactory(
-              new PropertyValueFactory<VehicleBill, String>("cost"));
+              new PropertyValueFactory<VehicleBill, Float>("cost"));
            
-            pastBookingsTable.setRowFactory((TableView<VehicleBill> tv) -> {
+           
+          //future bookings table
+           futureTypeCol.setCellValueFactory(
+              new PropertyValueFactory<VehicleBill, String>("bookingType"));
+           futureDateCol.setCellValueFactory(
+              new PropertyValueFactory<VehicleBill, String>("bookingDate")); 
+           futureRegCol.setCellValueFactory(
+              new PropertyValueFactory<VehicleBill, String>("VehID")); 
+           futureCostCol.setCellValueFactory(
+              new PropertyValueFactory<VehicleBill, Float>("cost"));
+           
+           futureBookingsTable.setRowFactory((TableView<VehicleBill> tv) -> {
             TableRow<VehicleBill> row = new TableRow<>();
             row.setOnMouseClicked(event2 -> {
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
@@ -159,28 +182,6 @@ public class VehicleDetailsController{
             });
             return row;
         });
-           
-          //future bookings table
-           futureTypeCol.setCellValueFactory(
-              new PropertyValueFactory<VehicleBill, String>("bookingType"));
-           futureDateCol.setCellValueFactory(
-              new PropertyValueFactory<VehicleBill, String>("bookingDate")); 
-           futureRegCol.setCellValueFactory(
-              new PropertyValueFactory<VehicleBill, String>("VehID")); 
-           futureCostCol.setCellValueFactory(
-              new PropertyValueFactory<VehicleBill, String>("cost"));
-           
-         
- }
- 
-     
-    private LocalDateTime NOW_LOCALDATETIME() {
-        return LocalDateTime.now();
-    }
-
-    private LocalDateTime parseLocalDateTime(String str) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return LocalDateTime.parse(str, formatter);
     }
     
 }
