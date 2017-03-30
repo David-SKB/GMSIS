@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -198,6 +199,8 @@ public class StockPartsController implements Initializable {
     }
 
     public void addStockPart(ActionEvent event) {
+        if(!addStockValidation())
+            return;
         String name = partNameTextArea.getText();
         String description = partDescriptionTextArea.getText();
         BigDecimal cost = new BigDecimal((partCostTextArea.getText()));
@@ -210,6 +213,8 @@ public class StockPartsController implements Initializable {
     
     public void deleteStockPart(ActionEvent event) {
         selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        if(!editAndDeleteValidation())
+            return;
         boolean success;
         success = partR.deletePart(selectedPart.getId());
         loadAllParts();
@@ -362,7 +367,7 @@ public class StockPartsController implements Initializable {
         String repairID = selectedRepair.getRepairID();
         int partId = selectedPart.getId();
         BigDecimal cost =  new BigDecimal(selectedPart.getCost());
-        
+        //Date warrantyStart = 
         boolean success = partR.usePart(repairID, partId, new Date(2017, 01, 01).toString(), new Date(2018, 01, 01).toString(), cost);
         if (selectedPart.getStocklevel() > 1) {
             partR.updateStock(selectedPart.getId(), -1);
@@ -390,7 +395,9 @@ public class StockPartsController implements Initializable {
     //view Edit Part
     public void viewEditPart(ActionEvent event){
         try {
-                Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
+                selectedPart = stockTable.getSelectionModel().getSelectedItem();
+                if(!editAndDeleteValidation())
+                    return;
                 FXMLLoader loader = new FXMLLoader();
                 Pane root = loader.load(getClass().getResource("EditPart.fxml").openStream()); 
                 EditPartController controller = (EditPartController)loader.getController();
@@ -573,7 +580,85 @@ public class StockPartsController implements Initializable {
         loadUsedPartsRepair(Integer.parseInt(selectedRepair.getRepairID()));
         loadUsedPartsTable();
     }
+    
+    public boolean addStockValidation(){
+        boolean flag = true;
+        String errors = "You have inputted the following information incorrectly:\n";
+        if(partNameTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Name is required\n";
+            flag = false;
+        }
+        if(partDescriptionTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Description is required\n";
+            flag = false;
+        }
+        if(partCostTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Cost is required\n";
+            flag = false;
+        }
+        else
+        {
+            try{
+                Double.parseDouble(partCostTextArea.getText().trim());
+            }catch(NumberFormatException e){
+                errors += "Part Cost must be a decimal number\n";
+                flag = false;
+            }
+        }
+        if(partStockLevelTextArea.getText().trim().isEmpty())
+        {
+            errors += "Quantity is required\n";
+            flag = false;
+        }
+        else
+        {
+            try{
+                Integer.parseInt(partStockLevelTextArea.getText().trim());
+            }catch(NumberFormatException e){
+                errors += "Quantity must be an integer\n";
+                flag = false;
+            }
+        }
+        if(deliveryDatePicker.getValue()==null)
+        {
+            errors += "Delivery Date is required\n";
+            flag = false;
+        }
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
 
+    public boolean editAndDeleteValidation(){
+        boolean flag = true;
+        String errors = "";
+        if(selectedPart==null)
+        {
+            errors += "Select a Part from the table\n";
+            flag = false;
+        }
+        
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
 }
 //AnchorPane pane = FXMLLoader.load(getClass().getResource("mainFXML.fxml"));
 //rootPane.getChildren().setAll(pane);

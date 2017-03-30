@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
@@ -43,9 +44,62 @@ public class EditPartController implements Initializable {
     }
     
     public void editPart(ActionEvent event){
+        if(!editValidation())
+            return;
         partR.editStockPart(id,partNameTextArea.getText(),partDescriptionTextArea.getText(),new BigDecimal(partCostTextArea.getText()),Integer.parseInt(partStockLevelTextArea.getText()));
         Stage stage = (Stage)editButton.getScene().getWindow();
         stage.close();
     }
-    
+    public boolean editValidation(){
+        boolean flag = true;
+        String errors = "You have inputted the following information incorrectly:\n";
+        if(partNameTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Name is required\n";
+            flag = false;
+        }
+        if(partDescriptionTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Description is required\n";
+            flag = false;
+        }
+        if(partCostTextArea.getText().trim().isEmpty())
+        {
+            errors += "Part Cost is required\n";
+            flag = false;
+        }
+        else
+        {
+            try{
+                Double.parseDouble(partCostTextArea.getText().trim());
+            }catch(NumberFormatException e){
+                errors += "Part Cost must be a decimal number\n";
+                flag = false;
+            }
+        }
+        if(partStockLevelTextArea.getText().trim().isEmpty())
+        {
+            errors += "Quantity is required\n";
+            flag = false;
+        }
+        else
+        {
+            try{
+                Integer.parseInt(partStockLevelTextArea.getText().trim());
+            }catch(NumberFormatException e){
+                errors += "Quantity must be an integer\n";
+                flag = false;
+            }
+        }
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
 }
