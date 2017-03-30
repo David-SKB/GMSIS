@@ -96,7 +96,7 @@ public class DatabaseCreation
 "  PARTID            INTEGER                 NOT NULL,\n" +
 "  QUANTITY          INT                     NOT NULL,\n" +
 "  DELIVERYDATE      TEXT                    NOT NULL,\n" +
-"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE NO ACTION\n" +
+"  FOREIGN KEY (PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE\n" +
 ");\n" +
 "/* SPECIALIST REPAIRS TABLES */\n" +
 "CREATE TABLE REPAIRPARTS\n" +
