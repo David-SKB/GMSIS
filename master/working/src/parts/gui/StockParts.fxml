@@ -9,7 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="1036.0" xmlns="http://javafx.com/javafx/8.0.102" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.StockPartsController">
   <children>
     <AnchorPane fx:id="stockParts" layoutX="6.0" layoutY="39.0" prefHeight="617.0" prefWidth="1030.0" visible="false">
       <children>
@@ -64,7 +64,10 @@
             <TableColumn fx:id="repairIDCol1" prefWidth="89.0" text="Repair ID" />
           </columns>
         </TableView>
-        <AnchorPane layoutX="658.0" layoutY="14.0" prefHeight="240.0" prefWidth="330.0" />
+        <AnchorPane layoutX="658.0" layoutY="14.0" prefHeight="240.0" prefWidth="330.0">
+               <children>
+                  <Button fx:id="viewVehicleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewVehicleDetails" text="View Vehicle Details" />
+               </children></AnchorPane>
         <AnchorPane layoutX="658.0" layoutY="257.0" prefHeight="336.0" prefWidth="330.0" visible="false">
           <children>
             <TextArea fx:id="vehicleRegistrationTextArea" layoutX="142.0" layoutY="71.0" prefHeight="25.0" prefWidth="148.0" />

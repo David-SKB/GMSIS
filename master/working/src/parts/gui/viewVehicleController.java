@@ -30,7 +30,13 @@ public class viewVehicleController implements Initializable {
         vEngine.setText(String.valueOf(v.getEngineSize()));
         vFuel.setText(v.getFuelType());
         vColour.setText(v.getColour());
-        
-        
+        vMOT.setText(v.getMOTRenewal());
+        if(v.getWarranty())
+            vWarranty.setText("Has Warranty");
+        else
+            vWarranty.setText("No Warranty");
+        vLast.setText(v.getLastService());
+        vMile.setText(String.valueOf(v.getCurrentMile()));
+        vType.setText(v.getType());
     }
 }

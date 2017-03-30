@@ -391,6 +391,26 @@ public class StockPartsController implements Initializable {
                 System.err.println("Error: "+ex);
             }
     }
+    
+    public void viewVehicleDetails(ActionEvent event){
+        try {
+                Vehicle veh = vehicleR.searchForEdit(usedPartsTable.getSelectionModel().getSelectedItem().getVehicleRegistration());
+                FXMLLoader loader = new FXMLLoader();
+                Pane root = loader.load(getClass().getResource("viewVehicleDetails.fxml").openStream()); 
+                viewVehicleController controller = (viewVehicleController)loader.getController();
+                controller.loadVehicleData(veh);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.initOwner(root.getScene().getWindow());
+                stage.setScene(scene);
+                stage.showAndWait();
+                loadAllParts();
+                loadStockParts();
+            } catch(IOException ex) {
+                System.err.println("Error: "+ex);
+            }
+    }
 
     
     //CHANGING ANCHOR METHODS
