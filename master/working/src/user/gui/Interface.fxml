@@ -44,7 +44,7 @@
                   
                </content>
                <content>
-                  <fx:include fx:id="vehicleAP" source="../../vehicles/gui/Vehicle.fxml" />
+                  <fx:include fx:id="vehicleAP" source="../../vehicles/gui/vehicle.fxml" />
                </content>
             </Tab>
             <Tab onSelectionChanged="#spcUpdate" text="SPC">

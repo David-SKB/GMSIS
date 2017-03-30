@@ -80,9 +80,9 @@
                   <TableView fx:id="spcTV" layoutX="291.0" layoutY="42.0" prefHeight="225.0" prefWidth="582.0">
                     <columns>
                       <TableColumn fx:id="spcNameTableC" prefWidth="106.0" text="Name" />
-                      <TableColumn fx:id="spcAddrTableC" prefWidth="253.0" text="Address" />
-                        <TableColumn fx:id="spcEmailTableC" prefWidth="139.0" text="Email" />
-                        <TableColumn fx:id="spcPhoneTableC" prefWidth="82.0" text="Telephone" />
+                      <TableColumn fx:id="spcAddrTableC" prefWidth="243.0" text="Address" />
+                        <TableColumn fx:id="spcEmailTableC" prefWidth="142.0" text="Email" />
+                        <TableColumn fx:id="spcPhoneTableC" prefWidth="89.0" text="Telephone" />
                     </columns>
                   </TableView>
                   <Button layoutX="291.0" layoutY="275.0" mnemonicParsing="false" onAction="#getSPCs" prefHeight="25.0" prefWidth="101.0" text="Get SPCs" />

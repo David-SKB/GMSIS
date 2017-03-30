@@ -1,5 +1,7 @@
 package common;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -35,11 +37,13 @@ public class DBConnection {
     }
      public void init(){
         try{
-            c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
+            Class.forName("org.sqlite.JDBC");
+            //c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:database/gmsisdb.db");//allows db to be embed within jar
             stmt = c.createStatement();
             String sql = "PRAGMA foreign_keys = ON";
             stmt.executeUpdate(sql);
-            System.out.println( "connrcted");
+            System.out.println( "connected");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
