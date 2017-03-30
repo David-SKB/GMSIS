@@ -13,7 +13,7 @@ Team 9
 - [Designing](#designing)
   - [Class Model](#class-diagram)
   - [ER Model](#er-diagram)
-- [Download](#download :arrow_down:)
+- [Download](#download)
 - [Credits](#credits)
 - [Team](#team)
 
@@ -41,7 +41,7 @@ Team 9
 
 [:arrow_up:Back to top!](#contents)
 
-## Download :arrow_down:
+## Download 
 
 ### Fork Project
 
