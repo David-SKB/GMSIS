@@ -10,6 +10,8 @@ import customers.logic.CustomerRegistry;
 import diagrep.logic.BookingRegistry;
 import diagrep.logic.DiagRepairBooking;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -61,6 +63,7 @@ public class VehicleCustomersController{
     list.add(c);
     setTable();
     regTextField.setText(reg);
+    getNextBooking(custID);
    }
    else{
     componentLoader cl = new componentLoader();
@@ -92,17 +95,11 @@ public class VehicleCustomersController{
         custDetails.setItems(list);
  }
  
- /**
+ 
  public void getNextBooking(String id){
-  ArrayList<DiagRepairBooking>booking = br.searchBookingByCustID(custID);
-   DiagRepairBooking drb = booking.get(0);
-   if(drb != null){
-   String date = drb.getBookingDate();
-   nextBookingTextField.setText(date); 
-   }
-   else{
-    nextBookingTextField.setText("No booking");   
-   }
+  ArrayList<DiagRepairBooking>booking = br.searchBookingByCustID(id);
+   String date = booking.get(booking.size()-1).getBookdate();
+   nextBookingTextField.setText(date);
  }
- **/
+ 
 }
