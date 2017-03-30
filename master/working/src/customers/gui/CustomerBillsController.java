@@ -199,7 +199,7 @@ public class CustomerBillsController implements Initializable{
          
     
     private void loadParts(String bookingID){
-        ArrayList<UsedPart> pList = PR. getUsedPartByBooking(bookingID);
+        ArrayList<UsedPart> pList = PR. getUsedPartsByRepair(Integer.parseInt(bookingID));
         partObsList.removeAll(partObsList);
         if(pList != null &&
            !pList.isEmpty()){
@@ -230,30 +230,55 @@ public class CustomerBillsController implements Initializable{
     }
     
     @FXML
-    private void changeBillSettlementF(){
+    public void changeBillSettlementF(){
         int fStatus = 0;
         if(tempCustBillF != null){
             if(tempCustBillF.getBill().equalsIgnoreCase("Settled")){
                 tempCustBillF.setBill("Unsettled");
                 changeBillSettlement(tempCustBillF.getDRP(),0);
-                changeCustomerBill(tempCustBillF,"Unsettled");
+                changeCustomerBillF(tempCustBillF,"Unsettled");
             }else{
                 tempCustBillF.setBill("Settled");
                 changeBillSettlement(tempCustBillF.getDRP(),1);
-                changeCustomerBill(tempCustBillF,"Settled");
+                changeCustomerBillF(tempCustBillF,"Settled");
             }
         } 
         tempCustBillF = null;
     }
     
-    private void changeCustomerBill(CustomerBill tempCB, String status){
+    private void changeCustomerBillF(CustomerBill tempCB, String status){
        for(CustomerBill cb : futureBObsList){
            if(cb.getBookingID().equals(tempCB.getBookingID())){
                cb.setBill(status);
-               System.out.println("changed");
            }
        }
        loadBookings(Integer.parseInt(tempCB.getDRP().getCust()));
+    }
+    
+    @FXML
+    public void changeBillSettlementP(){
+        int fStatus = 0;
+        if(tempCustBillP != null){
+            if(tempCustBillP.getBill().equalsIgnoreCase("Settled")){
+                tempCustBillP.setBill("Unsettled");
+                changeBillSettlement(tempCustBillP.getDRP(),0);
+                changeCustomerBillP(tempCustBillP,"Unsettled");
+            }else{
+                tempCustBillP.setBill("Settled");
+                changeBillSettlement(tempCustBillP.getDRP(),1);
+                changeCustomerBillP(tempCustBillP,"Settled");
+            }
+        } 
+        tempCustBillP = null;
+    }
+    
+    private void changeCustomerBillP(CustomerBill tempCB, String status){
+        for(CustomerBill cb: pastBObsList){
+            if(cb.getBookingID().equals(tempCB.getBookingID())){
+                cb.setBill(status);
+            }
+        }
+        loadBookings(Integer.parseInt(tempCB.getDRP().getCust()));
     }
    
     private int getBillStatus(int id){

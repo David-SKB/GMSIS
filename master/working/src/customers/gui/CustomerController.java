@@ -10,8 +10,12 @@ import common.DBConnection;
 import common.Main;
 import customers.logic.Customer;
 import diagrep.gui.AddWindowController;
+import diagrep.logic.BookingRegistry;
+import diagrep.logic.DiagRepairBooking;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -57,6 +61,7 @@ public class CustomerController implements Initializable{
     DBConnection db = DBConnection.getInstance();                                       //Instance of the database to open/close connection
     CustomerRegistry CR = CustomerRegistry.getInstance();                               //Instance of the Customer Registry to add/edit/delete customers from/to db.
     VehicleRegistry VR = VehicleRegistry.getInstance();
+    BookingRegistry BR = BookingRegistry.getInstance();
     @FXML
     private TableView<Customer> customerDetails;                                        //FXML TableView. Table used to display rows of customers and their data.
     @FXML
@@ -326,8 +331,22 @@ public class CustomerController implements Initializable{
                 String fName = c.getFirstname();
                 String phone = c.getPhone();
                 String email = c.getEmail();
-                CR.deleteCustomer(sName, fName, phone, email);
-
+                if(noDebit(c)){                   
+                    CR.deleteCustomer(sName, fName, phone, email);
+                }else{
+                    delStatus.setText("The customer has unsettled bookings. Settle all bookings in order to delete.");
+                    delStatus.setFill(Color.RED);
+                    Timer timer = new Timer();
+                    timer.schedule( 
+                    new java.util.TimerTask() {
+                        public void run() {
+                            delStatus.setText("");
+                            timer.cancel();
+                        }
+                    }, 
+                    2500
+                    ); 
+                }
                 getActiveCustomers(new ActionEvent());
             } else {
                 getActiveCustomers(new ActionEvent());
@@ -346,6 +365,41 @@ public class CustomerController implements Initializable{
             2000
         );
         }
+    }
+    
+    private boolean noDebit(Customer c){
+        ArrayList<DiagRepairBooking> drpList = BR.searchBookingByCustID(Integer.toString(CR.getCustomerID(c.getPhone(),c.getEmail())));
+        boolean status = false;
+        for(DiagRepairBooking drp : drpList){
+            System.out.println("looping bookings");
+            String bID = drp.getId();
+            status = getBillStatus(Integer.parseInt(bID));
+            if(!status){
+                return false;
+            }
+        }
+        return status;
+    }
+    
+    private boolean getBillStatus(int id){
+            db.connect();
+            String query = "SELECT STATUS FROM BILLS\n" +
+                            "WHERE BILLID = " + id + "; "; 
+            try{
+                ResultSet rs = db.query(query);
+                int status = rs.getInt("STATUS");
+                db.closeConnection();  
+                if(status == 1){
+                    System.out.println("settled");
+                    return true;
+                }else {
+                    System.out.println("unsettled");
+                    return false;
+                }
+            }catch(SQLException e){
+                db.closeConnection();  
+                return false;
+            }
     }
     
     private boolean checkIfChanged

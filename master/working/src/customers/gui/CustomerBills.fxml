@@ -38,7 +38,7 @@
             <TableColumn fx:id="pastBBill" prefWidth="106.0" text="Bill" />
          </columns>
       </TableView>
-      <Button layoutX="335.0" layoutY="367.0" mnemonicParsing="false" onAction="#changeBillSettlementF" prefHeight="27.0" prefWidth="158.0" text="Change Bill Settlement" />
+      <Button layoutX="335.0" layoutY="367.0" mnemonicParsing="false" onAction="#changeBillSettlementP" prefHeight="27.0" prefWidth="158.0" text="Change Bill Settlement" />
       <Label layoutX="14.0" layoutY="348.0" text="Past Bookings" textFill="#bc3838">
          <font>
             <Font name="System Bold" size="25.0" />
