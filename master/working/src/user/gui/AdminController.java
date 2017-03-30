@@ -209,12 +209,9 @@ public class AdminController {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK)
                 {
-                    DB.connect();
-
                     int IDNo = tempUser.getIDNumber();
                     boolean qStatus = UR.deleteUser(IDNo);
 
-                    DB.closeConnection();
                     if(qStatus)
                     {
                         getUsers();
@@ -223,10 +220,14 @@ public class AdminController {
                     {
                         EC.TimedMsgRED(delUserStatus, "Could not delete user");
                     }
+                    tempUser = null;
                 }
                 else
                 {
+                    tempUser = null;
                     getUsers();
+                    clearUserDetailsOnEdit();//clear edit field
+                    ClearEditUserStyles();
                 }
             }
         }
@@ -643,7 +644,9 @@ public class AdminController {
                     EC.TimedMsgRED(delSPCStatus, "Could not delete SPC");
                     getSPCs();
                 }
+                
             }
+            tempSPC = null;
             clearSPCEditStyles();//clear edit field once deleted
             clearSPCDetailsEdit();
             submitSPCChangesBTN.setDisable(true);
