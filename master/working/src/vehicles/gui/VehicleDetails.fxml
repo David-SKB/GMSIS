@@ -18,8 +18,8 @@
       </TableView>
       <TableView fx:id="futureBookingsTable" layoutX="25.0" layoutY="259.0" prefHeight="200.0" prefWidth="317.0">
         <columns>
-          <TableColumn fx:id="futureTypeCol" prefWidth="75.0" text="Type" />
-          <TableColumn fx:id="futureDateCol" prefWidth="75.0" text="Date" />
+          <TableColumn fx:id="futureTypeCol" prefWidth="72.0" text="Type" />
+          <TableColumn fx:id="futureDateCol" prefWidth="78.0" text="Date" />
             <TableColumn fx:id="futureRegCol" prefWidth="88.0" text="Registration" />
             <TableColumn fx:id="futureCostCol" prefWidth="75.0" text="Cost" />
         </columns>
