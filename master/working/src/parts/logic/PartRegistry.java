@@ -73,6 +73,7 @@ public class PartRegistry {
         ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
         while (rs.next())
         {
+            int id = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
              System.out.println("booking reg test " + bookingId);
@@ -81,7 +82,7 @@ public class PartRegistry {
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(p, booking, cust, veh));
+            partlist.add(new UsedPart(id, p, booking, cust, veh));
         }
         conn.closeConnection();
         return partlist;
@@ -103,6 +104,7 @@ public class PartRegistry {
         ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
         while (rs.next())
         {
+            int usedPartId = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
              System.out.println("booking reg test " + bookingId);
@@ -111,7 +113,7 @@ public class PartRegistry {
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(p, booking, cust, veh));
+            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
         }
         conn.closeConnection();
         return partlist;
@@ -133,13 +135,14 @@ public class PartRegistry {
         ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
         while (rs.next())
         {
+            int usedPartId = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
             DiagRepairBooking booking = null;
             Vehicle veh = vR.searchReg(booking.getVehreg()).get(0);
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(p, booking, cust, veh));
+            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
         }
         conn.closeConnection();
         return partlist;
@@ -172,7 +175,7 @@ public class PartRegistry {
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "DELETE FROM STOCKPARTS WHERE ID = " +  1 + ";";
+        String query = "DELETE FROM STOCKPARTS WHERE ID = " +  id + ";";
         System.out.println(query);
         success = conn.update(query);
         System.out.println(success);
@@ -206,6 +209,19 @@ public class PartRegistry {
                             wStart + "', '" + 
                             cost + "' );";
         success = conn.update(query);
+        conn.closeConnection();
+        return success;
+    }
+    
+    public boolean deleteUsedPart(int id){
+        boolean success;
+        conn = DBConnection.getInstance();
+        //delete from database
+        conn.connect();
+        String query = "DELETE FROM USEDPARTS WHERE ID = " +  id + ";";
+        System.out.println(query);
+        success = conn.update(query);
+        System.out.println(success);
         conn.closeConnection();
         return success;
     }
@@ -264,7 +280,7 @@ public class PartRegistry {
         ArrayList<Part> partlist = new ArrayList<Part>();
         while (rs.next())
         {
-            System.out.println("registry test");
+            int partId = rs.getInt("ID");
             String name = rs.getString("NAME");
             System.out.println(name);
             String description = rs.getString("DESCRIPTION");
@@ -273,7 +289,7 @@ public class PartRegistry {
             System.out.println(cost);
             int stock = rs.getInt("STOCK");
             System.out.println(stock);
-            partlist.add(new Part(name,description,cost,stock));
+            partlist.add(new Part(partId, name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;

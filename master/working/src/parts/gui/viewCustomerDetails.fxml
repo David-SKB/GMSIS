@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="661.0" prefWidth="353.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="parts.gui.viewCustomerController">
+   <children>
+      <TextArea fx:id="cFirstName" layoutX="120.0" layoutY="35.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="cLastName" layoutX="120.0" layoutY="90.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="cAddress" layoutX="120.0" layoutY="146.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="cPostCode" layoutX="120.0" layoutY="200.0" prefHeight="37.0" prefWidth="200.0" />
+      <TextArea fx:id="cPhone" layoutX="120.0" layoutY="254.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="cEmail" layoutX="120.0" layoutY="312.0" prefHeight="19.0" prefWidth="200.0" />
+      <TextArea fx:id="cType" layoutX="120.0" layoutY="370.0" prefHeight="19.0" prefWidth="200.0" />
+      <Label layoutX="36.0" layoutY="45.0" text="First Name" />
+      <Label layoutX="47.0" layoutY="101.0" text="Last Name" />
+      <Label layoutX="43.0" layoutY="157.0" text="Address" />
+      <Label layoutX="47.0" layoutY="211.0" text="Post Code" />
+      <Label layoutX="43.0" layoutY="265.0" text="Phone" />
+      <Label layoutX="47.0" layoutY="322.0" text="Email" />
+      <Label layoutX="25.0" layoutY="381.0" text="Customer Type" />
+   </children>
+</AnchorPane>
