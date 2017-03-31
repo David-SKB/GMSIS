@@ -74,7 +74,11 @@ public class EditPartController implements Initializable {
         else
         {
             try{
-                Double.parseDouble(partCostTextArea.getText().trim());
+                int n = Integer.parseInt(partCostTextArea.getText().trim());
+                if(n<1){
+                    errors += "Quantity must be an integer greater than 0\n";
+                    flag = false;
+                }
             }catch(NumberFormatException e){
                 errors += "Part Cost must be a decimal number\n";
                 flag = false;

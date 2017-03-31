@@ -678,7 +678,11 @@ public class StockPartsController implements Initializable {
         else
         {
             try{
-                Integer.parseInt(partStockLevelTextArea.getText().trim());
+                int n = Integer.parseInt(partStockLevelTextArea.getText().trim());
+                if(n<1){
+                    errors += "Quantity must be an integer greater than 0\n";
+                    flag = false;
+                }
             }catch(NumberFormatException e){
                 errors += "Quantity must be an integer\n";
                 flag = false;
@@ -717,7 +721,11 @@ public class StockPartsController implements Initializable {
         else
         {
             try{
-                Integer.parseInt(quantityTextField.getText().trim());
+                int n = Integer.parseInt(quantityTextField.getText().trim());
+                if(n<1){
+                    errors += "Quantity must be an integer greater than 0\n";
+                    flag = false;
+                }
             }catch(NumberFormatException e){
                 errors += "Quantity must be an integer\n";
                 flag = false;
