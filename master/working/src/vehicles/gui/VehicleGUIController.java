@@ -278,7 +278,7 @@ public class VehicleGUIController implements Initializable {
    Template car2 = new Template("VW","Golf",1.8,"Diesel");
    Template car3 = new Template("Honda","Civic",1.6,"Petrol");
    Template car4 = new Template("BMW","X3",1.8,"Diesel");
-   Template car5 = new Template("Land rover","Discovery",2.0,"Petrol");
+   Template car5 = new Template("Landrover","Discovery",2.0,"Petrol");
    Template car6 = new Template("Audi","A3",1.6,"Diesel");
    Template car7 = new Template("Audi","A4",2.0,"Petrol");
    Template car8 = new Template("BMW","5 series",3.0,"Petrol");
