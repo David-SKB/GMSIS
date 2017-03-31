@@ -14,7 +14,7 @@ Team 9
   - [Class Model](#class-diagram)
   - [ER Model](#er-diagram)
 - [Download](#download)
-- [Credits](#credits)
+- [Credits](#login details)
 - [Team](#team)
 
 ## Project Description
@@ -81,7 +81,7 @@ cd SE9
 - **ControlsFX:** http://fxexperience.com/controlsfx/
 - **Various Libraries from:** http://jfxtras.org/
 
-## Credits
+## Login Details
 
 [:arrow_up:Back to top!](#contents)
 
