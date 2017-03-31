@@ -497,12 +497,12 @@ public class StockPartsController implements Initializable {
     }
     
     public void searchUsedParts() {
-        oPartList.clear();
+        oUsedPartList.clear();
         ArrayList<UsedPart> partlist;
         if(searchBy.getValue().toString().equalsIgnoreCase("Vehicle Registration"))
-            partlist = partR.getUsedPartByVehicle(searchTextField.getText());
+            partlist = partR.getUsedPartsByVehicle(searchTextField.getText());
         else 
-            partlist = partR.getUsedPartByBooking(searchTextField.getText());
+            partlist = partR.getUsedPartsByRepair(Integer.parseInt(searchTextField.getText()));
         if (partlist != null) {
             System.out.println("inside if");
             for (int i = 0; i < partlist.size(); i++) {

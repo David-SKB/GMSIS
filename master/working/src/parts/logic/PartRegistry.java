@@ -122,6 +122,37 @@ public class PartRegistry {
         }
     }
      
+    public ArrayList<UsedPart> getUsedPartsByVehicle(String id){
+        VehicleRegistry vR = VehicleRegistry.getInstance();
+        BookingRegistry bR = BookingRegistry.getInstance();
+        CustomerRegistry cR = CustomerRegistry.getInstance();
+        conn = DBConnection.getInstance();
+        //insert into database
+        try{
+        conn.connect();
+        String query = "SELECT * FROM USEDPARTS INNER JOIN BOOKINGS ON USEDPARTS.BOOKINGID = BOOKINGS.ID WHERE BOOKINGS.VEHICLEREGISTRATION = '" + id + "';";
+        ResultSet rs = conn.query(query);
+        ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
+        while (rs.next())
+        {
+            int usedPartId = rs.getInt("ID");
+            int partId = rs.getInt("PARTID");
+            String bookingId = rs.getString("BOOKINGID");
+             System.out.println("booking reg test " + bookingId);
+            DiagRepairBooking booking = bR.searchBookingID(bookingId);
+            System.out.println("booking reg test " + booking.getVehreg());
+            Vehicle veh = vR.searchForEdit(booking.getVehreg());
+            Customer cust = cR.searchCustomerByID(booking.getCust());
+            Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
+            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
+        }
+        conn.closeConnection();
+        return partlist;
+        }catch(SQLException e){
+            return null;
+        }
+    } 
+     
      public int countUsedParts(int id){
         conn = DBConnection.getInstance();
         //insert into database
@@ -150,34 +181,6 @@ public class PartRegistry {
         try{
         conn.connect();
         String query = "SELECT * FROM USEDPARTS WHERE BOOKINGID = '" + id + "';";
-        ResultSet rs = conn.query(query);
-        ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
-        while (rs.next())
-        {
-            int usedPartId = rs.getInt("ID");
-            int partId = rs.getInt("PARTID");
-            String bookingId = rs.getString("BOOKINGID");
-            DiagRepairBooking booking = null;
-            Vehicle veh = vR.searchReg(booking.getVehreg()).get(0);
-            Customer cust = cR.searchCustomerByID(booking.getCust());
-            Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
-        }
-        conn.closeConnection();
-        return partlist;
-        }catch(SQLException e){
-            return null;
-        }
-    }
-    public ArrayList<UsedPart> getUsedPartByVehicle(String id){
-        VehicleRegistry vR = VehicleRegistry.getInstance();
-        BookingRegistry bR = BookingRegistry.getInstance();
-        CustomerRegistry cR = CustomerRegistry.getInstance();
-        conn = DBConnection.getInstance();
-        //insert into database
-        try{
-        conn.connect();
-        String query = "SELECT * FROM USEDPARTS INNER JOIN BOOKINGS ON USEDPARTS.BOOKINGID = BOOKINGS.ID WHERE BOOKINGS.VEHICLEREGISTRATION = '" + id + "';";
         ResultSet rs = conn.query(query);
         ArrayList<UsedPart> partlist = new ArrayList<UsedPart>();
         while (rs.next())
