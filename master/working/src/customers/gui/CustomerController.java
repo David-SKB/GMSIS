@@ -1,4 +1,4 @@
-
+    
 /***********************************************
  * @author athanasiosgkanos - ec15252
  **********************************************/
@@ -124,6 +124,19 @@ public class CustomerController implements Initializable{
                 new PropertyValueFactory<Customer, String>("customerType"));
         cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Registration No.");
         searchType.setItems(cmBoxOptions);
+        
+        customerDetails.setRowFactory((TableView<Customer> tv) -> {
+            TableRow<Customer> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
+                                    && event2.getClickCount() == 2) {
+                     tempCustomer = row.getItem();
+                     loadOnEditPane();
+                }
+            });
+            return row;
+        });
+
     }
     
     
@@ -185,18 +198,6 @@ public class CustomerController implements Initializable{
         showBillCBox.setItems(obsListData);
         initBookingCBox.setItems(obsListData);
         
-        customerDetails.setRowFactory((TableView<Customer> tv) -> {
-            TableRow<Customer> row = new TableRow<>();
-            row.setOnMouseClicked(event2 -> {
-                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
-                                    && event2.getClickCount() == 2) {
-                     tempCustomer = row.getItem();
-                     loadOnEditPane();
-                }
-            });
-            return row;
-        });
-
     }
     
     /* ------------------------------------------------------------------
@@ -369,9 +370,8 @@ public class CustomerController implements Initializable{
     
     private boolean noDebit(Customer c){
         ArrayList<DiagRepairBooking> drpList = BR.searchBookingByCustID(Integer.toString(CR.getCustomerID(c.getPhone(),c.getEmail())));
-        boolean status = false;
+        boolean status = true;        
         for(DiagRepairBooking drp : drpList){
-            System.out.println("looping bookings");
             String bID = drp.getId();
             status = getBillStatus(Integer.parseInt(bID));
             if(!status){
@@ -390,10 +390,8 @@ public class CustomerController implements Initializable{
                 int status = rs.getInt("STATUS");
                 db.closeConnection();  
                 if(status == 1){
-                    System.out.println("settled");
                     return true;
                 }else {
-                    System.out.println("unsettled");
                     return false;
                 }
             }catch(SQLException e){
