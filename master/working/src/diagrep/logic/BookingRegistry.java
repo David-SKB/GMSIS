@@ -385,7 +385,7 @@ public class BookingRegistry {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
             conn = DBConnection.getInstance();
             conn.connect();
-            String query = "SELECT * FROM BOOKINGS WHERE VECHID = (SELECT ID FROM VEHICLE WHERE LIKE MODEL = '%" + model + "%';";
+            String query = "SELECT * FROM BOOKINGS WHERE VECHID = (SELECT REGISTRATION FROM VEHICLE WHERE LIKE MODEL = '%" + model + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
                 String ID = Integer.toString(result.getInt("ID"));

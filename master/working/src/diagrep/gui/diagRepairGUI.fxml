@@ -16,8 +16,8 @@
          <font>
             <Font name="System Bold" size="15.0" />
          </font></Button>
-      <Button fx:id="pastButton" layoutX="216.0" layoutY="606.0" mnemonicParsing="false" onAction="#displayPastBookings" prefHeight="70.0" prefWidth="148.0" text="Future Bookings" />
-      <Button fx:id="futureButton" layoutX="392.0" layoutY="606.0" mnemonicParsing="false" onAction="#displayFutureBookings" prefHeight="70.0" prefWidth="148.0" text="Past Bookings" />
+      <Button fx:id="pastButton" layoutX="216.0" layoutY="606.0" mnemonicParsing="false" onAction="#displayPastBookings" prefHeight="70.0" prefWidth="148.0" text="Past Bookings" />
+      <Button fx:id="futureButton" layoutX="392.0" layoutY="606.0" mnemonicParsing="false" onAction="#displayFutureBookings" prefHeight="70.0" prefWidth="148.0" text="Future Bookings" />
       <Button layoutX="637.0" layoutY="606.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="70.0" prefWidth="148.0" text="Add Booking" />
       <Button layoutX="943.0" layoutY="100.0" mnemonicParsing="false" onAction="#editEntry" prefHeight="70.0" prefWidth="148.0" text="Edit Booking" />
       <Button layoutX="822.0" layoutY="606.0" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="70.0" prefWidth="148.0" text="Delete Booking" />

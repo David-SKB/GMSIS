@@ -57,6 +57,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
+import specialist.logic.ErrorChecks;
 import vehicles.logic.Template;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
@@ -74,6 +75,7 @@ public class VehicleGUIController implements Initializable {
     VehicleRegistry vr = VehicleRegistry.getInstance();
     BookingRegistry br = BookingRegistry.getInstance();
     CustomerRegistry cr = CustomerRegistry.getInstance();
+    ErrorChecks ec = ErrorChecks.getInstance();
     
    @FXML
    private TextField regTextField,
@@ -600,7 +602,7 @@ public class VehicleGUIController implements Initializable {
    }
    //CHECK VEHICLE REGISTARITON 
    String reg = regTextField.getText();
-    regCheck = checkTextField(reg);
+    regCheck = ec.isPlate(reg);
    //CHECK VEHICLE MAKE TEXT FIELD    
    String make = makeTextField.getText();
     makeCheck = checkTextField(make); 
@@ -721,7 +723,7 @@ public class VehicleGUIController implements Initializable {
    }
    //CHECK VEHICLE REGISTRATION
    String reg = regTextField.getText();
-    regCheck = checkTextField(reg);
+    regCheck = ec.isPlate(reg);
    //CHECK VEHICLE MAKE 
    String make = makeTextField.getText();
     makeCheck = checkTextField(make); 
@@ -841,7 +843,7 @@ public class VehicleGUIController implements Initializable {
    }
    //CHECK REG TEXT FIELD NOT EMPTY
    String reg = regTextField.getText();
-    regCheck = checkTextField(reg);
+    regCheck = ec.isPlate(reg);
    //CHECK MAKE TEXT FIELD NOT EMPTY 
    String make = makeTextField.getText();
     makeCheck = checkTextField(make); 

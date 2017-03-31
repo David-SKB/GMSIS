@@ -155,9 +155,9 @@ public class StockPartsController implements Initializable {
         cmBoxOptions =  FXCollections.observableArrayList("Part Name");
         searchBy.setItems(cmBoxOptions);
         searchBy.getSelectionModel().selectFirst();
-        EC.DisableDatesBefore(deliveryDatePicker, LocalDate.now());
-        EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
-        EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
+        //EC.DisableDatesBefore(deliveryDatePicker, LocalDate.now());
+        //EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
+        //EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
         EC.SetWordSpaceRestriction(partNameTextArea);
         EC.SetAddressRestriction(partDescriptionTextArea);
         
@@ -817,7 +817,7 @@ public class StockPartsController implements Initializable {
             errors += "Installation Date is required\n";
             flag = false;
         }
-        else if(partR.countUsedParts(Integer.parseInt(selectedRepair.getVehicleRegistration()))>=10)
+        else if(partR.countUsedParts(selectedRepair.getVehicleRegistration())>=10)
         {
             errors += "You cannot add another part to this vehicle\n";
             flag = false;

@@ -280,6 +280,7 @@ public class ErrorChecks
     */
     public boolean isPlate(String word) 
     {
+        word = word.replaceAll("\\s+","");
         if (word.matches("[A-Za-z0-9]+"))
         {
             if(word.length() <= 7)
@@ -287,6 +288,7 @@ public class ErrorChecks
                 return true;
             }
         }
+        
         return false;
     }
     
