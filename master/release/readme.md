@@ -96,7 +96,7 @@ cd SE9
 
 ### Diagnosis and Repair Bookings
 
-<h1>Requirements not met</h1>
+<h6>Requirements not met</h6>
 - Adding works (partially).
 - The opening hours of the garage are Mon-Fri 9am to 5.30pm and Sat 9am-12
 noon.
