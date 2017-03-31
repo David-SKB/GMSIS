@@ -85,34 +85,23 @@ public class EditWindowController implements Initializable {
         entryTime.setText(entry.getStarttime());
         entryDuration.setText(entry.getDuration());
         entryMileage.setText(entry.getMileage());
-        ObservableList<String> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
-        ArrayList<Vehicle> rsV = new ArrayList<Vehicle>();
-        rsV = VR.getAllVehicles();
-        for (int i = 0; i < rsV.size(); i++) {
-            vehicleList.add(rsV.get(i).getRegistration());
-        }
+        ObservableList<Vehicle> vehicleList = FXCollections.observableArrayList();		//vehicle choicebox
+        ArrayList<Vehicle> currentVehicle = VR.getAllVehicles();
+        vehicleList.addAll(currentVehicle);
         entryReg.setItems(vehicleList);
-        entryReg.getSelectionModel().select(entry.getVehreg());	//set the options to search from in dropdown list
+        entryReg.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 
-        ObservableList<String> customerList = FXCollections.observableArrayList();	//customer choicebox
-        ArrayList<Customer> rsC = new ArrayList<Customer>();
-        rsC = CR.getActiveCustomers();
-        for (int i = 0; i < rsC.size(); i++) {
-            customerList.add(rsC.get(i).getFirstname());
-            customerList.add(rsC.get(i).getFirstname());
-        }
+        ObservableList<Customer> customerList = FXCollections.observableArrayList();	//customer choicebox
+        ArrayList<Customer> currentCustomers = CR.getActiveCustomers();
+        customerList.addAll(currentCustomers);
         entryCustomer.setItems(customerList);
-        entryCustomer.getSelectionModel().select(entry.getCust());	//set the options to search from in dropdown list
+        entryCustomer.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 
-        ObservableList<String> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
-        ArrayList<Mechanic> rsU = new ArrayList<Mechanic>();
-        rsU = UR.getMechanic();
-        for (int i = 0; i < rsU.size(); i++) {
-            mechanicList.add(rsU.get(i).getFirstName());
-            mechanicList.add(rsU.get(i).getSurname());
-        }
+        ObservableList<Mechanic> mechanicList = FXCollections.observableArrayList();	//mechanic choicebox
+        ArrayList<Mechanic> currentMechs = UR.getMechanic();
+        mechanicList.addAll(currentMechs);
         entryMechanic.setItems(mechanicList);
-        entryMechanic.getSelectionModel().select(entry.getEmp());	//set the options to search from in dropdown list
+        entryMechanic.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
 
     }
 
@@ -129,7 +118,7 @@ public class EditWindowController implements Initializable {
         String mechID = Integer.toString(m.getIDNumber());
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         BR.editBooking(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, entryMileage.getText(), mechID);
-        VR.changeMileage((String) entryReg.getSelectionModel().getSelectedItem());
+        VR.changeMileage(v.getRegistration(), Integer.parseInt(entryMileage.getText()));
         parentController.reset();
         Stage stage = (Stage) confirmButton.getScene().getWindow();
         stage.close();
