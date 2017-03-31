@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" fx:id="bookingDetailsButton" prefHeight="474.0" prefWidth="904.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleGUIController">
+<AnchorPane id="AnchorPane" fx:id="bookingDetailsButton" prefHeight="504.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vehicles.gui.VehicleGUIController">
  <children>
       <Button fx:id="carButton" layoutX="103.0" layoutY="70.0" mnemonicParsing="false" onAction="#addCarButton" prefHeight="26.0" prefWidth="76.0" text="Add car" />
       <Button fx:id="vanButton" layoutX="103.0" layoutY="100.0" mnemonicParsing="false" onAction="#addVanButton" prefHeight="26.0" prefWidth="76.0" text="Add van" />
@@ -41,7 +41,7 @@
       <Label layoutX="402.0" layoutY="90.0" text="Mileage:" />
       <CheckBox fx:id="warrantyCheckBox" layoutX="354.0" layoutY="118.0" mnemonicParsing="false" text="Warranty?" />
       <Button fx:id="clearButton" layoutX="524.0" layoutY="99.0" mnemonicParsing="false" onAction="#clearButton" prefHeight="26.0" prefWidth="56.0" text="Clear" />
-      <TableView fx:id="vehDetails" layoutX="17.0" layoutY="193.0" prefHeight="254.0" prefWidth="826.0">
+      <TableView fx:id="vehDetails" layoutX="16.0" layoutY="229.0" prefHeight="262.0" prefWidth="826.0">
         <columns>
           <TableColumn id="regCol" fx:id="regCol" prefWidth="75.0" text="REG" />
           <TableColumn fx:id="makeCol" prefWidth="75.0" text="MAKE" />
@@ -75,10 +75,13 @@
       <TextField fx:id="customerIDTextField" layoutX="62.0" layoutY="105.0" prefHeight="26.0" prefWidth="27.0" />
       <Button fx:id="selectCustomerButton" layoutX="27.0" layoutY="69.0" mnemonicParsing="false" onAction="#selectCustomerButton" text="Select" />
       <Label layoutX="54.0" layoutY="15.0" text="Active Customers" />
-      <Button fx:id="detailsButton" layoutX="845.0" layoutY="160.0" mnemonicParsing="false" onAction="#detailsButton" text="Booking details" />
-      <Button fx:id="searchCarButton" layoutX="854.0" layoutY="200.0" mnemonicParsing="false" onAction="#searchCarButton" text="Search Cars" />
+      <Button fx:id="detailsButton" layoutX="249.0" layoutY="198.0" mnemonicParsing="false" onAction="#detailsButton" text="Booking details" />
+      <Button fx:id="searchCarButton" layoutX="854.0" layoutY="160.0" mnemonicParsing="false" onAction="#searchCarButton" text="Search Cars" />
       <Button fx:id="searchVanButton" layoutX="855.0" layoutY="237.0" mnemonicParsing="false" onAction="#searchVanButton" text="Search Vans" />
-      <Button fx:id="searchTruckButton" layoutX="850.0" layoutY="274.0" mnemonicParsing="false" onAction="#searchTruckButton" text="Search Trucks" />
-      <Button fx:id="vehicleDetailsButton" layoutX="850.0" layoutY="307.0" mnemonicParsing="false" onAction="#vehicleDetailsButton" text="Vehicle Details" />
+      <Button fx:id="searchTruckButton" layoutX="849.0" layoutY="198.0" mnemonicParsing="false" onAction="#searchTruckButton" text="Search Trucks" />
+      <Button fx:id="vehicleDetailsButton" layoutX="393.0" layoutY="198.0" mnemonicParsing="false" onAction="#vehicleDetailsButton" text="Vehicle Details" />
+      <Separator layoutX="189.0" layoutY="10.0" orientation="VERTICAL" prefHeight="178.0" prefWidth="7.0" />
+      <Separator layoutX="194.0" layoutY="185.0" prefHeight="8.0" prefWidth="402.0" />
+      <Separator layoutX="3.0" layoutY="184.0" prefHeight="8.0" prefWidth="251.0" />
    </children>   
 </AnchorPane>
