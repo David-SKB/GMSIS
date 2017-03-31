@@ -1,6 +1,8 @@
 package user.gui;
 
+import common.Authentication;
 import common.DBConnection;
+import common.Main;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -27,6 +29,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import specialist.logic.*;
 import user.logic.Employee;
 import user.logic.Mechanic;
@@ -850,5 +853,22 @@ public class AdminController {
             EC.TimedMsgRED(editSPCStatus, "SPC already exists");
             clearSPCDetailsEdit();
         }          
+    }
+    
+    @FXML
+    private void WipeData()
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Wipe System Data");
+            alert.setHeaderText("Are you sure you want to reset the system?");
+            alert.setContentText("This will wipe and reset all user data, current user will be logged out");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                boolean Success = UR.wipeData();
+                Main.stage.close();
+                Authentication authenticate = new Authentication();
+                authenticate.start(new Stage()); 
+            }  
     }
 }

@@ -176,4 +176,23 @@ public class UserRegistry {
         }
 
     }
+    
+    public boolean wipeData() 
+    {
+        boolean success;
+        DBInstance.connect();
+        String query =  "DELETE FROM BILLS;\n" +
+                        "DELETE FROM BOOKINGS;\n" +
+                        "DELETE FROM CENTRES;\n" +
+                        "DELETE FROM CUSTOMER;\n" +
+                        "DELETE FROM DELIVERIES;\n" +
+                        "DELETE FROM REPAIRPARTS;\n" +
+                        "DELETE FROM REPAIRVEHICLE;\n" +
+                        "DELETE FROM STOCKPARTS;\n" +
+                        "DELETE FROM USEDPARTS;\n" +
+                        "DELETE FROM USERS;\n" +
+                        "INSERT INTO USERS (ID, PASSWORD, FIRSTNAME, SURNAME, SYSADM) VALUES ('10000', 'ADMIN', 'GMSIS', 'ADMIN', 'TRUE');";
+        success = DBInstance.update(query);
+        return success;
+    }
 }
