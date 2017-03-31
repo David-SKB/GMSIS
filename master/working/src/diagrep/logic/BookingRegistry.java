@@ -292,15 +292,11 @@ public class BookingRegistry {
         }
     }
     
-    public ArrayList<DiagRepairBooking> searchBookingByCustFirstName(String firstName) {
+    public ArrayList<DiagRepairBooking> searchBookingByCustomerFirstName(String firstName) {
         try {
-            if (firstName == null || firstName.isEmpty()) {
-                return null;
-            }
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
-            conn = DBConnection.getInstance();
             conn.connect();
-            String query = "SELECT * FROM BOOKINGS WHERE CUSTID = (SELECT ID FROM CUSTOMER WHERE FIRSTNAME LIKE '%" + firstName + "%');";
+            String query = "SELECT * FROM BOOKINGS INNER JOIN CUSTOMER ON BOOKINGS.CUSTOMERID = CUSTOMER.ID WHERE CUSTOMER.FIRSTNAME LIKE '%" + firstName + "%';";
             ResultSet result = conn.query(query);
             while (result.next()) {
                 String ID = Integer.toString(result.getInt("ID"));
@@ -308,7 +304,7 @@ public class BookingRegistry {
                 String start = result.getString("STARTTIME");
                 String length = result.getString("DURATION");
                 String type = result.getString("TYPE");
-                String cusID = result.getString("CUSTOMERID");
+                String cusID = String.valueOf(result.getInt("CUSTOMERID"));
                 String vechID = result.getString("VEHICLEREGISTRATION");
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
@@ -317,7 +313,33 @@ public class BookingRegistry {
             conn.closeConnection();
             return BookingList;
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    public ArrayList<DiagRepairBooking> searchBookingByCustomerSurname(String surname) {
+        try {
+            ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
+            conn.connect();
+            String query = "SELECT * FROM BOOKINGS INNER JOIN CUSTOMER ON BOOKINGS.CUSTOMERID = CUSTOMER.ID WHERE CUSTOMER.SURNAME LIKE '%" + surname + "%';";
+            ResultSet result = conn.query(query);
+            while (result.next()) {
+                String ID = Integer.toString(result.getInt("ID"));
+                String date = result.getString("BOOKDATE");
+                String start = result.getString("STARTTIME");
+                String length = result.getString("DURATION");
+                String type = result.getString("TYPE");
+                String cusID = String.valueOf(result.getInt("CUSTOMERID"));
+                String vechID = result.getString("VEHICLEREGISTRATION");
+                String mileage = result.getString("MILEAGE");
+                String empID = result.getString("EMPLOYEEID");
+                BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
+            }
+            conn.closeConnection();
+            return BookingList;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

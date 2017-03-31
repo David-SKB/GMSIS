@@ -119,7 +119,8 @@ public class StockPartsController implements Initializable {
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
     
-
+    @FXML
+    private DatePicker usedPartInstallationDatePicker;
     private RepairWrapper selectedRepair;
     @FXML
     private TableView<RepairWrapper> repairTable;
@@ -190,8 +191,10 @@ public class StockPartsController implements Initializable {
     }
 
     public void updateStockLevel(ActionEvent event) {
-        System.out.println("in update stock level");
-        Part selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        selectedPart = null;
+        selectedPart = stockTable.getSelectionModel().getSelectedItem();
+        if(!increaseStockQuantityValidation())
+            return;
         System.out.println(selectedPart.getName());
         partR.updateStock(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()));
         loadAllParts();
@@ -199,7 +202,7 @@ public class StockPartsController implements Initializable {
     }
 
     public void addStockPart(ActionEvent event) {
-        if(!addStockValidation())
+        if(!addStockPartValidation())
             return;
         String name = partNameTextArea.getText();
         String description = partDescriptionTextArea.getText();
@@ -294,7 +297,10 @@ public class StockPartsController implements Initializable {
     }
     
     public void deleteUsedPart(ActionEvent event) {
+        selectedUsedPart = null;
         selectedUsedPart = usedPartsTable.getSelectionModel().getSelectedItem();
+        if(!viewDetailsAndDeleteValidation())
+            return;
         boolean success;
         success = partR.deleteUsedPart(Integer.parseInt(selectedUsedPart.getId()));
         //if (loadAllUsed)
@@ -361,9 +367,12 @@ public class StockPartsController implements Initializable {
     }
 
     public void addPartToRepair(ActionEvent event) {
-
+        selectedPart = null;
+        selectedRepair = null;
         selectedPart = rStockTable.getSelectionModel().getSelectedItem();
         selectedRepair = repairTable.getSelectionModel().getSelectedItem();
+        if(!addPartToRepairValidation())
+            return;
         String repairID = selectedRepair.getRepairID();
         int partId = selectedPart.getId();
         BigDecimal cost =  new BigDecimal(selectedPart.getCost());
@@ -417,7 +426,11 @@ public class StockPartsController implements Initializable {
     
     public void viewVehicleDetails(ActionEvent event){
         try {
-                Vehicle veh = vehicleR.searchForEdit(usedPartsTable.getSelectionModel().getSelectedItem().getVehicleRegistration());
+                selectedUsedPart = null;
+                selectedUsedPart = usedPartsTable.getSelectionModel().getSelectedItem();
+                if(!viewDetailsAndDeleteValidation())
+                    return;
+                Vehicle veh = vehicleR.searchForEdit(selectedUsedPart.getVehicleRegistration());
                 FXMLLoader loader = new FXMLLoader();
                 Pane root = loader.load(getClass().getResource("viewVehicleDetails.fxml").openStream()); 
                 viewVehicleController controller = (viewVehicleController)loader.getController();
@@ -437,7 +450,11 @@ public class StockPartsController implements Initializable {
     
     public void viewCustomerDetails(ActionEvent event){
         try {
-                Customer cust = customerR.searchCustomerByID(usedPartsTable.getSelectionModel().getSelectedItem().getCustomerID());
+                selectedUsedPart = null;
+                selectedUsedPart = usedPartsTable.getSelectionModel().getSelectedItem();
+                if(!viewDetailsAndDeleteValidation())
+                    return;
+                Customer cust = customerR.searchCustomerByID(selectedUsedPart.getCustomerID());
                 FXMLLoader loader = new FXMLLoader();
                 Pane root = loader.load(getClass().getResource("viewCustomerDetails.fxml").openStream()); 
                 viewCustomerController controller = (viewCustomerController)loader.getController();
@@ -498,9 +515,11 @@ public class StockPartsController implements Initializable {
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
         ArrayList<DiagRepairBooking> bookings;
         if(searchBy.getValue().toString().equalsIgnoreCase("Vehicle Registration"))
-                bookings = bookingR.searchBookingByVechID(searchTextField.getText());
-            else
-                 bookings = bookingR.searchBookingByVechID(searchTextField.getText());
+            bookings = bookingR.searchBookingByVechID(searchTextField.getText());
+        else if(searchBy.getValue().toString().equalsIgnoreCase("First Name"))
+            bookings = bookingR.searchBookingByCustomerFirstName(searchTextField.getText());
+        else
+            bookings = bookingR.searchBookingByCustomerSurname(searchTextField.getText());
         for (int i = 0; i < bookings.size(); i++) {
             Vehicle vehicle = vehicleR.searchForEdit(bookings.get(i).getVehreg());
             Customer customer = customerR.searchCustomerByID(bookings.get(i).getCust());
@@ -569,11 +588,14 @@ public class StockPartsController implements Initializable {
     }
     
     public void viewUsedPartsAnchorForRepair(ActionEvent event) {
+        selectedRepair = null;
+        selectedRepair = repairTable.getSelectionModel().getSelectedItem();
+        if(!viewRepairPartsValidation())
+            return;
         cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
         tableToSearch = "USEDPARTS";
         loadAllUsed = false;
-        selectedRepair = repairTable.getSelectionModel().getSelectedItem();
         repairs.setVisible(false);
         stockParts.setVisible(false);
         usedParts.setVisible(true);
@@ -581,7 +603,9 @@ public class StockPartsController implements Initializable {
         loadUsedPartsTable();
     }
     
-    public boolean addStockValidation(){
+    //validation for stock parts
+    
+    public boolean addStockPartValidation(){
         boolean flag = true;
         String errors = "You have inputted the following information incorrectly:\n";
         if(partNameTextArea.getText().trim().isEmpty())
@@ -638,6 +662,45 @@ public class StockPartsController implements Initializable {
         }
         return flag;
     }
+    
+    public boolean increaseStockQuantityValidation(){
+        boolean flag = true;
+        String errors = "You have inputted the following information incorrectly:\n";
+        if(selectedPart==null)
+        {
+            errors += "A part from the table must be selected\n";
+            flag = false;
+        }
+        if(quantityTextField.getText().trim().isEmpty())
+        {
+            errors += "Quantity is required\n";
+            flag = false;
+        }
+        else
+        {
+            try{
+                Integer.parseInt(quantityTextField.getText().trim());
+            }catch(NumberFormatException e){
+                errors += "Quantity must be an integer\n";
+                flag = false;
+            }
+        }
+        if(deliveryDatePickerQuantity.getValue()==null)
+        {
+            errors += "Delivery Date is required\n";
+            flag = false;
+        }
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
 
     public boolean editAndDeleteValidation(){
         boolean flag = true;
@@ -648,6 +711,84 @@ public class StockPartsController implements Initializable {
             flag = false;
         }
         
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
+    
+    //validation for used parts
+    public boolean viewDetailsAndDeleteValidation(){
+        boolean flag = true;
+        String errors = "";
+        if(selectedUsedPart==null)
+        {
+            errors += "Select a Part from the table\n";
+            flag = false;
+        }
+        
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
+    
+    //validation for repairs
+    public boolean addPartToRepairValidation(){
+        boolean flag = true;
+        String errors = "";
+        if(selectedRepair==null)
+        {
+            errors += "Select a Repair from the table\n";
+            flag = false;
+        }
+        if(selectedPart==null)
+        {
+            errors += "Select a Part from the table\n";
+            flag = false;
+        }
+        if(usedPartInstallationDatePicker.getValue()==null)
+        {
+            errors += "Installation Date is required\n";
+            flag = false;
+        }
+        else if(partR.countUsedParts(Integer.parseInt(selectedRepair.getVehicleRegistration()))>=10)
+        {
+            errors += "You cannot add another part to this vehicle\n";
+            flag = false;
+        }
+        if(!flag)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText(null);
+            alert.setContentText(errors);
+            alert.showAndWait();
+            return flag;
+        }
+        return flag;
+    }
+    
+    public boolean viewRepairPartsValidation(){
+        boolean flag = true;
+        String errors = "";
+        if(selectedRepair==null)
+        {
+            errors += "Select a Repair from the table\n";
+            flag = false;
+        }
         if(!flag)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR);
