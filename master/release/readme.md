@@ -15,6 +15,7 @@ Team 9
   - [ER Model](#er-diagram)
 - [Download](#download)
 - [Login](#login)
+- [Issues](#issues)
 - [Team](#team)
 
 ## Project Description
@@ -88,6 +89,22 @@ cd SE9
    <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/54746934-1609-11e7-99ea-ed897ebecb4d" width="70%">
   </a>
 </div>
+
+[:arrow_up:Back to top!](#contents)
+
+## Issues
+
+### Diagnosis and Repair Bookings
+
+- Adding works (partially).
+- The opening hours of the garage are Mon-Fri 9am to 5.30pm and Sat 9am-12
+noon.
+- The garage is not open on public and bank holidays.
+- Current mileage of the vehicle must be recorded during the diagnosis and
+repair booking.
+- Edit and delete bookings directly from this list.
+- For each vehicle, the system user should be able to access lists of past and
+future booking dates, customer name and type of booking.
 
 [:arrow_up:Back to top!](#contents)
 
