@@ -117,6 +117,7 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
+                  <Button layoutX="1054.0" layoutY="331.0" mnemonicParsing="false" onAction="#WipeData" text="Reset Data" />
                </children>
             </AnchorPane>
         </items>
