@@ -70,6 +70,7 @@ public class RepairsController /*extends Application*/ implements Initializable
     boolean SearchedBySPC = false;
     boolean JustDeleted = false;
     boolean PartsBySPC = false;
+    static boolean tabSwitched = false;
     //Send Vehicle Pane
     @FXML private TitledPane SendVehicle;
     @FXML private TextField RegNoVehicle;
@@ -280,6 +281,7 @@ public class RepairsController /*extends Application*/ implements Initializable
                 {
                     OutstandingErrorTemp.setText("");
                 }
+                tabSwitched = true;
             }
         }
     }
@@ -1438,22 +1440,7 @@ public class RepairsController /*extends Application*/ implements Initializable
         EC.SetWordRestriction(FirstNameSearch);
         EC.SetWordRestriction(LastNameSearch);
         //Autocomplete stuff
-        ArrayList<String> VehicleList;
-        try 
-        {
-            VehicleList = repairs.getAllVehicles();
-        } 
-        catch (SQLException ex) 
-        {
-            VehicleList = null;
-        }
-        if (VehicleList !=null)
-        {
-            double size = 175.0;
-            TextFields.bindAutoCompletion(RegNoVehicle, VehicleList).setMaxWidth(size); 
-            TextFields.bindAutoCompletion(RegNoVehicle2, VehicleList).setMaxWidth(size);
-            TextFields.bindAutoCompletion(RegNoPart, VehicleList).setMaxWidth(size);
-        };
+        UpdateAC();
     }
     //DatePicker Stuff
     private Callback< DatePicker, DateCell > DCF = (final DatePicker myDP) -> new DateCell()
@@ -1485,6 +1472,36 @@ public class RepairsController /*extends Application*/ implements Initializable
             }
         } 
     };  
+    
+    @FXML private void checkUpdate() throws SQLException 
+    {
+        if (tabSwitched)
+        {
+            UpdateAC();
+            tabSwitched = false;
+        }
+    }
+    
+    private void UpdateAC()
+    {
+        ArrayList<String> VehicleList;
+        try 
+        {
+            VehicleList = repairs.getAllVehicles();
+        } 
+        catch (SQLException ex) 
+        {
+            VehicleList = null;
+        }
+        if (VehicleList !=null)
+        {
+            double size = 175.0;
+            TextFields.bindAutoCompletion(RegNoVehicle, VehicleList).setMaxWidth(size);
+            TextFields.bindAutoCompletion(RegNoVehicle2, VehicleList).setMaxWidth(size);
+            TextFields.bindAutoCompletion(RegNoPart, VehicleList).setMaxWidth(size);
+            TextFields.bindAutoCompletion(RegNoPart2, VehicleList).setMaxWidth(size);
+        };
+    }
     
     /*public static void main (String args[]) throws Exception
     {

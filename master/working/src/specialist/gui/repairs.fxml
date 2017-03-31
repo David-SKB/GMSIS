@@ -21,7 +21,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="244.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="25.0" layoutY="35.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <TextField fx:id="RegNoVehicle" alignment="CENTER" layoutX="25.0" layoutY="35.0" onMouseClicked="#checkUpdate" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <ComboBox fx:id="SPCIDVehicle" layoutX="25.0" layoutY="67.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <DatePicker fx:id="ExpDelVehicle" editable="false" layoutX="25.0" layoutY="99.0" onAction="#DPUpdateAV" prefWidth="175.0" promptText="              Exp Delivery" />
                   <DatePicker fx:id="ExpRetVehicle" editable="false" layoutX="25.0" layoutY="132.0" prefWidth="175.0" promptText="               Exp Return" />
@@ -36,7 +36,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="229.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoPart" alignment="CENTER" layoutX="25.0" layoutY="36.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <TextField fx:id="RegNoPart" alignment="CENTER" layoutX="25.0" layoutY="36.0" onMouseClicked="#checkUpdate" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <ComboBox fx:id="IDPart" layoutX="26.0" layoutY="69.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="175.0" promptText="                    PART" />
                   <ComboBox fx:id="SPCIDPart" layoutX="25.0" layoutY="101.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <DatePicker fx:id="ExpDelPart" editable="false" layoutX="26.0" layoutY="133.0" onAction="#DPUpdateAP" prefHeight="25.0" prefWidth="175.0" promptText="              Exp Delivery" />
@@ -51,7 +51,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="196.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="25.0" layoutY="31.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <TextField fx:id="RegNoVehicle2" alignment="CENTER" layoutX="25.0" layoutY="31.0" onMouseClicked="#checkUpdate" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <ComboBox fx:id="SPCIDVehicle2" layoutX="24.0" layoutY="63.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <DatePicker fx:id="ExpDelVehicle2" editable="false" layoutX="25.0" layoutY="95.0" onAction="#DPUpdateUV" prefWidth="175.0" promptText="              Exp Delivery" />
                   <DatePicker fx:id="ExpRetVehicle2" editable="false" layoutX="25.0" layoutY="127.0" prefWidth="175.0" promptText="               Exp Return" />
@@ -66,7 +66,7 @@
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="229.0" prefWidth="225.0">
                <children>
-                  <TextField fx:id="RegNoPart2" alignment="CENTER" layoutX="25.0" layoutY="31.0" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
+                  <TextField fx:id="RegNoPart2" alignment="CENTER" layoutX="25.0" layoutY="31.0" onMouseClicked="#checkUpdate" prefHeight="25.0" prefWidth="175.0" promptText="Registration No." />
                   <ComboBox fx:id="IDPart2" layoutX="26.0" layoutY="64.0" onShowing="#LoadComboListPart" prefHeight="25.0" prefWidth="175.0" promptText="                    PART" />
                   <ComboBox fx:id="SPCIDPart2" layoutX="25.0" layoutY="96.0" onShowing="#LoadComboListSPC" prefHeight="25.0" prefWidth="175.0" promptText="                      SPC" />
                   <DatePicker fx:id="ExpDelPart2" editable="false" layoutX="26.0" layoutY="128.0" onAction="#DPUpdateUP" prefHeight="25.0" prefWidth="175.0" promptText="              Exp Delivery" />
