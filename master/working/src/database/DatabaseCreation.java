@@ -85,8 +85,8 @@ public class DatabaseCreation
 "  ID                INTEGER   PRIMARY KEY  ,\n" +
 "  BOOKINGID         INT                     NOT NULL,\n" +
 "  PARTID            INTEGER                 NOT NULL,\n" +
-"  WARRANTYEND       DATE                    NOT NULL,\n" +
-"  WARRANTYSTART     DATE                    NOT NULL,\n" +
+"  WARRANTYEND       TEXT                    NOT NULL,\n" +
+"  WARRANTYSTART     TEXT                    NOT NULL,\n" +
 "  COST		     INT		     NOT NULL,\n" +
 "  FOREIGN KEY(PARTID)  REFERENCES STOCKPARTS(ID) ON DELETE CASCADE,\n" +
 "  FOREIGN KEY(BOOKINGID) REFERENCES BOOKINGS(ID) ON DELETE CASCADE\n" +

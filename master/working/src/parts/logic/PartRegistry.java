@@ -59,6 +59,28 @@ public class PartRegistry {
             return null;
         }
     }
+     
+     //get Stock level for part
+     public int getStockPartCount(int id){
+        conn = DBConnection.getInstance();
+        //insert into database
+        try{
+        conn.connect();
+        String query = "SELECT STOCK FROM STOCKPARTS WHERE ID = " + id + ";";
+        ResultSet rs = conn.query(query);
+        ArrayList<Part> partlist = new ArrayList<Part>();
+        int count = 0;
+        if (rs.next())
+        {
+            count = rs.getInt("STOCK");
+        }
+        conn.closeConnection();
+        return count;
+        }catch(SQLException e){
+            System.out.println("IN exception");
+            return 0;
+        }
+    }
      //returns all parts relevant to a given booking
      public ArrayList<UsedPart> getAllUsedParts(){
         VehicleRegistry vR = VehicleRegistry.getInstance();
@@ -76,13 +98,13 @@ public class PartRegistry {
             int id = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
-             System.out.println("booking reg test " + bookingId);
             DiagRepairBooking booking = bR.searchBookingID(bookingId);
-            System.out.println("booking reg test " + booking.getVehreg());
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(id, p, booking, cust, veh));
+            String wS = rs.getString("WARRANTYSTART");
+            String wE = rs.getString("WARRANTYEND");
+            partlist.add(new UsedPart(id, p, booking, cust, veh, wS, wE));
         }
         conn.closeConnection();
         return partlist;
@@ -113,7 +135,9 @@ public class PartRegistry {
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
+            String wS = rs.getString("WARRANTYSTART");
+            String wE = rs.getString("WARRANTYEND");
+            partlist.add(new UsedPart(id, p, booking, cust, veh, wS, wE));
         }
         conn.closeConnection();
         return partlist;
@@ -144,7 +168,9 @@ public class PartRegistry {
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
+            String wS = rs.getString("WARRANTYSTART");
+            String wE = rs.getString("WARRANTYEND");
+            partlist.add(new UsedPart(partId, p, booking, cust, veh, wS, wE));
         }
         conn.closeConnection();
         return partlist;
@@ -192,7 +218,9 @@ public class PartRegistry {
             Vehicle veh = vR.searchReg(booking.getVehreg()).get(0);
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
-            partlist.add(new UsedPart(usedPartId, p, booking, cust, veh));
+            String wS = rs.getString("WARRANTYSTART");
+            String wE = rs.getString("WARRANTYEND");
+            partlist.add(new UsedPart(partId, p, booking, cust, veh, wS, wE));
         }
         conn.closeConnection();
         return partlist;
@@ -277,12 +305,12 @@ public class PartRegistry {
         return success;
     }
     //Add delivery
-    public boolean addDelivery(int partID, int quantity, Date date){
+    public boolean addDelivery(int partID, int quantity, String date){
         boolean success;
         conn = DBConnection.getInstance();
         //delete from database
         conn.connect();
-        String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES ( " + partID +", "  + quantity + ", " + date.toString() + ");";
+        String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES ( " + partID +", "  + quantity + ", '" + date + "');";
         System.out.println("in addDelievery " + partID);
         success = conn.update(query);
         conn.closeConnection();

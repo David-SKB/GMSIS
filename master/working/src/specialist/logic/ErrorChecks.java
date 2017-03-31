@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
@@ -154,6 +155,19 @@ public class ErrorChecks
         };
         field.setTextFormatter(new TextFormatter<String>(intFilter));
     }
+    
+    public void SetWordSpaceRestriction(TextArea field)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[a-zA-Z ]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
+    
     
     /**
     * Restricts input to letters only (no spaces)

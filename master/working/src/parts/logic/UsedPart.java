@@ -21,12 +21,16 @@ public class UsedPart {
     private DiagRepairBooking booking;
     private Customer customer;
     private Vehicle vehicle;
-    public UsedPart(int ID, Part p, DiagRepairBooking bId, Customer cId, Vehicle vId) {
+    private String warrantyStart;
+    private String warrantyEnd;
+    public UsedPart(int ID, Part p, DiagRepairBooking bId, Customer cId, Vehicle vId, String wS, String wE) {
         id = new SimpleStringProperty(String.valueOf(ID));
         part = p;
         booking = bId;
         customer = cId;
         vehicle = vId;
+        warrantyStart = wS;
+        warrantyEnd = wE;
     }
     
     public String toString(){
@@ -83,5 +87,15 @@ public class UsedPart {
     public String getDate()
     {
         return booking.getBookdate();
+    }
+    
+    public String getWarrantyStart()
+    {
+        return warrantyStart;
+    }
+    
+    public String getWarrantyEnd()
+    {
+        return warrantyEnd;
     }
 }

@@ -17,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import parts.logic.Part;
 import parts.logic.PartRegistry;
+import specialist.logic.ErrorChecks;
 
 /**
  *
@@ -30,9 +31,11 @@ public class EditPartController implements Initializable {
     @FXML
     private TextArea partNameTextArea, partDescriptionTextArea,
             partCostTextArea, partStockLevelTextArea;
+    private ErrorChecks EC = ErrorChecks.getInstance();
     
     public void initialize(URL url, ResourceBundle rb) {
-        //loadDeliveriesTable();
+        EC.SetWordSpaceRestriction(partNameTextArea);
+        EC.SetWordSpaceRestriction(partDescriptionTextArea);
     }
     public void loadPart(Part p){
         id = p.getId();

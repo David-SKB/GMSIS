@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import parts.logic.Part;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -52,6 +53,7 @@ import javafx.stage.Stage;
 import parts.logic.UsedPart;
 import vehicles.logic.Vehicle;
 import vehicles.logic.VehicleRegistry;
+import specialist.logic.ErrorChecks;
 //
 
 /**
@@ -66,7 +68,8 @@ public class StockPartsController implements Initializable {
     private BookingRegistry bookingR = BookingRegistry.getInstance();
     private CustomerRegistry customerR = CustomerRegistry.getInstance();
     private VehicleRegistry vehicleR = VehicleRegistry.getInstance();
-
+    private ErrorChecks EC = ErrorChecks.getInstance();
+    
     private final ObservableList<Part> oPartList = FXCollections.observableArrayList();
     //Stock Parts
     
@@ -108,7 +111,7 @@ public class StockPartsController implements Initializable {
     @FXML
     private TableColumn usedPartIdCol, nameCol1, descriptionCol1, costCol1, //FXML TableColumn. Columns form the TableView element.
             vehicleCol1, customerCol1, firstNameCol1,
-            lastNameCol1, repairIDCol1;
+            lastNameCol1, repairIDCol1, warrantyStartCol, warrantyEndCol;
     @FXML
     private TextArea usedPartNameTextArea, usedPartDescriptionTextArea,
             usedPartCostTextArea, usedPartStockLevelTextArea,
@@ -118,7 +121,7 @@ public class StockPartsController implements Initializable {
 
     //repairs gui
     private final ObservableList<RepairWrapper> oRepairList = FXCollections.observableArrayList();
-    
+    int currentRepairID;
     @FXML
     private DatePicker usedPartInstallationDatePicker;
     private RepairWrapper selectedRepair;
@@ -151,6 +154,14 @@ public class StockPartsController implements Initializable {
         tableToSearch = "STOCKPARTS";
         cmBoxOptions =  FXCollections.observableArrayList("Part Name");
         searchBy.setItems(cmBoxOptions);
+        searchBy.getSelectionModel().selectFirst();
+        EC.DisableDatesBefore(deliveryDatePicker, LocalDate.now());
+        EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
+        EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
+        EC.SetWordSpaceRestriction(partNameTextArea);
+        EC.SetWordSpaceRestriction(partDescriptionTextArea);
+        
+        
     }
 
     //STOCK METHODS
@@ -187,7 +198,7 @@ public class StockPartsController implements Initializable {
                 oPartList.add(partlist.get(i));
             }
         }
-        loadStockParts();
+        //loadStockParts();
     }
 
     public void updateStockLevel(ActionEvent event) {
@@ -198,7 +209,7 @@ public class StockPartsController implements Initializable {
         System.out.println(selectedPart.getName());
         partR.updateStock(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()));
         loadAllParts();
-        partR.addDelivery(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()), java.sql.Date.valueOf(deliveryDatePickerQuantity.getValue()));
+        partR.addDelivery(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()), EC.toString(deliveryDatePickerQuantity));
     }
 
     public void addStockPart(ActionEvent event) {
@@ -211,7 +222,8 @@ public class StockPartsController implements Initializable {
         partR.addPart(name, description, cost, Integer.parseInt(quantity));
         loadAllParts();
         int id = oPartList.get(oPartList.size()-1).getId();
-        partR.addDelivery(id, Integer.parseInt(quantity), java.sql.Date.valueOf(deliveryDatePicker.getValue()));
+        System.out.println(EC.toString(deliveryDatePicker));
+        partR.addDelivery(id, Integer.parseInt(quantity), EC.toString(deliveryDatePicker));
     }
     
     public void deleteStockPart(ActionEvent event) {
@@ -266,6 +278,10 @@ public class StockPartsController implements Initializable {
                 new PropertyValueFactory<UsedPart, String>("CustomerSurname"));
         repairIDCol1.setCellValueFactory(
                 new PropertyValueFactory<UsedPart, String>("RepairID"));
+        warrantyStartCol.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("warrantyStart"));
+        warrantyEndCol.setCellValueFactory(
+                new PropertyValueFactory<UsedPart, String>("warrantyEnd"));
         usedPartsTable.setItems(oUsedPartList);
 
     }
@@ -303,10 +319,10 @@ public class StockPartsController implements Initializable {
             return;
         boolean success;
         success = partR.deleteUsedPart(Integer.parseInt(selectedUsedPart.getId()));
-        //if (loadAllUsed)
+        if (loadAllUsed)
             loadUsedParts();
-        //else
-            //loadUsedPartsRepair(int id);
+        else
+            loadUsedPartsRepair(currentRepairID);
         loadUsedPartsTable();
         
     }
@@ -377,10 +393,18 @@ public class StockPartsController implements Initializable {
         int partId = selectedPart.getId();
         BigDecimal cost =  new BigDecimal(selectedPart.getCost());
         //Date warrantyStart = 
-        boolean success = partR.usePart(repairID, partId, new Date(2017, 01, 01).toString(), new Date(2018, 01, 01).toString(), cost);
-        if (selectedPart.getStocklevel() > 1) {
+        boolean success = partR.usePart(repairID, partId, EC.toString(usedPartInstallationDatePicker),  EC.addYear(usedPartInstallationDatePicker), cost);
+        if (selectedPart.getStocklevel() > 0) {
             partR.updateStock(selectedPart.getId(), -1);
         }
+        loadAllParts();
+        loadRStockParts();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("SUCCESS");
+        alert.setHeaderText(null);
+        alert.setContentText("Part Added to Repair Successfully");
+        alert.showAndWait();
+        
     }
 
     //view Deliveries
@@ -514,10 +538,16 @@ public class StockPartsController implements Initializable {
     }
     
     public void searchRepairs() {
+        
+        
         oRepairList.clear();
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
         ArrayList<DiagRepairBooking> bookings;
-        if(searchBy.getValue().toString().equalsIgnoreCase("Vehicle Registration"))
+        if (searchTextField.getText().isEmpty())
+        {
+            bookings = bookingR.getListBookings();
+        }
+        else if(searchBy.getValue().toString().equalsIgnoreCase("Vehicle Registration"))
             bookings = bookingR.searchBookingByVechID(searchTextField.getText());
         else if(searchBy.getValue().toString().equalsIgnoreCase("First Name"))
             bookings = bookingR.searchBookingByCustomerFirstName(searchTextField.getText());
@@ -557,6 +587,7 @@ public class StockPartsController implements Initializable {
     public void viewUsedPartsAnchor(ActionEvent event) {
         cmBoxOptions =  FXCollections.observableArrayList("Repair ID","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
+        searchBy.getSelectionModel().selectFirst();
         tableToSearch = "USEDPARTS";
         loadAllUsed = true;
         repairs.setVisible(false);
@@ -569,6 +600,7 @@ public class StockPartsController implements Initializable {
     public void viewStockPartsAnchor(ActionEvent event) {
         cmBoxOptions =  FXCollections.observableArrayList("Part Name");
         searchBy.setItems(cmBoxOptions);
+        searchBy.getSelectionModel().selectFirst();
         tableToSearch = "STOCKPARTS";
         repairs.setVisible(false);
         usedParts.setVisible(false);
@@ -580,6 +612,7 @@ public class StockPartsController implements Initializable {
     public void viewRepairsAnchor(ActionEvent event) {
         cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
+        searchBy.getSelectionModel().selectFirst();
         tableToSearch = "BOOKINGS";
         stockParts.setVisible(false);
         usedParts.setVisible(false);
@@ -595,8 +628,10 @@ public class StockPartsController implements Initializable {
         selectedRepair = repairTable.getSelectionModel().getSelectedItem();
         if(!viewRepairPartsValidation())
             return;
+        currentRepairID = Integer.parseInt(selectedRepair.getRepairID());
         cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
+        searchBy.getSelectionModel().selectFirst();
         tableToSearch = "USEDPARTS";
         loadAllUsed = false;
         repairs.setVisible(false);
@@ -760,6 +795,11 @@ public class StockPartsController implements Initializable {
         if(selectedPart==null)
         {
             errors += "Select a Part from the table\n";
+            flag = false;
+        }
+        else if(partR.getStockPartCount(selectedPart.getId())<=0)
+        {
+            errors += "This part is currenly out of stock\n";
             flag = false;
         }
         if(usedPartInstallationDatePicker.getValue()==null)
