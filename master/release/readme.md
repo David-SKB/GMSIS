@@ -86,7 +86,7 @@ cd SE9
 
 <div align="center">
   <a href="#">
-   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/706d7ff2-1624-11e7-8ba3-db48c0b07f19" width="70%">
+   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/6112e74e-1634-11e7-8fb9-8016a5d74e19" width="70%">
   </a>
 </div>
 
