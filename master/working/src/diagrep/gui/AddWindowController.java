@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -62,6 +63,7 @@ public class AddWindowController implements Initializable {
     private VehicleRegistry VR = VehicleRegistry.getInstance();
     private UserRegistry UR = UserRegistry.getInstance();
     private BookingRegistry BR = BookingRegistry.getInstance();
+    private Date currentDate = new Date();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,6 +71,7 @@ public class AddWindowController implements Initializable {
         entryType.setItems(FXCollections.observableArrayList("Diagnosis", new Separator(), "Repair"));
         entryType.getSelectionModel().selectFirst();	//set the options to search from in dropdown list	
         entryDate.setValue(NOW_LOCALDATE());
+        
         entryTime.setText("09:00");
         entryDuration.setText("1");
 
@@ -104,7 +107,8 @@ public class AddWindowController implements Initializable {
         Mechanic m = (Mechanic) entryMechanic.getValue();
         String mechID = Integer.toString(m.getIDNumber());
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        if (parseLocalDate(date).compareTo(NOW_LOCALDATETIME()) > 0) {
+        Date CheckDate = new Date(date);
+        if (CheckDate.compareTo(currentDate) < 0) {
             BR.addBooking(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, mechID);
             parentController.reset();
             Stage stage = (Stage) confirmButton.getScene().getWindow();
@@ -121,10 +125,6 @@ public class AddWindowController implements Initializable {
     }
 
     public LocalDate NOW_LOCALDATE() {
-        return LocalDate.now();
-    }
-
-    public LocalDate NOW_LOCALDATETIME() {
         return LocalDate.now();
     }
 

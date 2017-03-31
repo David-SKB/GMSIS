@@ -15,6 +15,8 @@ import java.util.*;
 import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.UserRegistry;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
 public class BookingRegistry {
 
@@ -75,6 +77,9 @@ public class BookingRegistry {
         boolean result = conn.update(query);
         if(result){
             result = editBill(ID ,length, EID);
+            VehicleRegistry VR = VehicleRegistry.getInstance();
+            Vehicle rV = VR.searchForEdit(VID);
+            rV.setCurrentMile(Integer.parseInt(miles));
         }
         conn.closeConnection();
         return result;
@@ -117,15 +122,12 @@ public class BookingRegistry {
                 String mileage = result.getString("MILEAGE");
                 String empID = result.getString("EMPLOYEEID");
                 resultBooking = new DiagRepairBooking(BID, date, start, length, type, cusID, vechID, mileage, empID);
-                System.out.println("in searchBookingID " + vechID);
             } else {
-                System.out.println("in searchBookingID null" );
                 resultBooking = null;
             }
             conn.closeConnection();
             return resultBooking;
         } catch (SQLException e) {
-            System.out.println("in searchBookingID error: " + e );
             return null;
         }
     }
@@ -161,7 +163,6 @@ public class BookingRegistry {
                 String empID = result.getString("EMPLOYEEID");
   
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
-                System.out.println("in getbookings list while");
             }
             conn.closeConnection();
             return BookingList;
@@ -178,7 +179,6 @@ public class BookingRegistry {
             conn.connect();
             String query = "SELECT * FROM BOOKINGS;";// WHERE TYPE = DIAGREP;";
             ResultSet result = conn.query(query);
-            System.out.println("in getbookings list");
             while (result.next()) {
                 String ID = result.getString("ID");
           
@@ -200,7 +200,6 @@ public class BookingRegistry {
                 }
                 String empID = result.getString("EMPLOYEEID");
                 BookingList.add(new DiagRepairBooking(ID, date, start, length, type, cusID, vechID, mileage, empID));
-                System.out.println("in getbookings list while");
             }
             conn.closeConnection();
             return BookingList;
