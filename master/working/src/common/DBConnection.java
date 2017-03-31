@@ -43,7 +43,7 @@ public class DBConnection {
             stmt = c.createStatement();
             String sql = "PRAGMA foreign_keys = ON";
             stmt.executeUpdate(sql);
-            System.out.println( "connected");
+            //System.out.println( "connected");
         }catch ( Exception e ) {
             System.err.println( e.getClass().getName() + ": " + e.getMessage() );
         }  
@@ -78,7 +78,7 @@ public class DBConnection {
             stmt.executeUpdate(sql);           
             return true;
         } catch ( Exception e ) {
-            System.out.println(e);
+            //System.out.println(e);
             return false;
         }
     }   

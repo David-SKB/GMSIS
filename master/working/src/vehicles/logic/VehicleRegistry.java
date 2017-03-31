@@ -276,11 +276,10 @@ public class VehicleRegistry {
                             mile + "' );";
          c.update(query);
          c.closeConnection();
-         System.out.println("Van added successfully");
+         //System.out.println("Van added successfully");
    }
    catch(Exception e){
-    System.err.println(e.getClass().getName() + ": " + e.getMessage() );
-     System.exit(0);   
+    //System.err.println(e.getClass().getName() + ": " + e.getMessage() );
   } 
  }
 }
@@ -313,7 +312,7 @@ public class VehicleRegistry {
                             mile + "' );";
          c.update(query);
          c.closeConnection();
-         System.out.println("Truck added successfully");
+         //System.out.println("Truck added successfully");
     }
     catch(Exception e){
      System.err.println(e.getClass().getName() + ": " + e.getMessage() );
@@ -334,8 +333,7 @@ public class VehicleRegistry {
         }
      }
    catch(Exception e){
-      System.err.println(e.getClass().getName() + ": " + e.getMessage() );
-        System.exit(0);   
+      //System.err.println(e.getClass().getName() + ": " + e.getMessage() ); 
      }   
     }
   
@@ -343,11 +341,11 @@ public class VehicleRegistry {
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
-    System.out.println("ENTER THE NEW MOT DATE");
+    //System.out.println("ENTER THE NEW MOT DATE");
     String changed = input.nextLine();
     String query = "UPDATE VEHICLE SET MOTDATE = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
     c.update(query);
-    System.out.println("MOT date updated successfully");
+    //System.out.println("MOT date updated successfully");
     c.closeConnection();
     
   }
@@ -355,11 +353,11 @@ public class VehicleRegistry {
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
-    System.out.println("ENTER THE NEW LAST SERVICE DATE");
+    //System.out.println("ENTER THE NEW LAST SERVICE DATE");
     String changed = input.nextLine();
     String query = "UPDATE VEHICLE SET LASTSERVICE = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
     c.update(query);
-    System.out.println("Last service updated successfully");
+    //System.out.println("Last service updated successfully");
     c.closeConnection();
   }
   public void changeMileage(String registration, int mileage){
@@ -367,18 +365,18 @@ public class VehicleRegistry {
    c.connect();
     String query = "UPDATE VEHICLE SET MILEAGE = " + mileage + " WHERE REGISTRATION = " + registration + ";";
     c.update(query);
-    System.out.println("MILEAGE UPDATED");
+    //System.out.println("MILEAGE UPDATED");
     c.closeConnection();   
   }
   public void changeColour(String registration){
    DBConnection c = DBConnection.getInstance();
    c.connect();
     Scanner input = new Scanner(System.in);
-    System.out.println("ENTER THE NEW COLOUR");
+    //System.out.println("ENTER THE NEW COLOUR");
     String changed = input.nextLine();
     String query = "UPDATE VEHICLE SET COLOUR = '" + changed + "' WHERE REGISTRATION = " + registration + ";";
     c.update(query);
-    System.out.println("colour updated successfully");
+    //System.out.println("colour updated successfully");
     c.closeConnection();  
   }
   
@@ -450,7 +448,7 @@ public class VehicleRegistry {
         else{
          warranty = true;   
         }
-        System.out.println("veh reg test");
+        //System.out.println("veh reg test");
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);

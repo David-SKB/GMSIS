@@ -38,14 +38,14 @@ public class ViewDeliveriesController implements Initializable {
         loadDeliveriesTable();
     }
     public void loadDeliveriesList(){
-        System.out.println("test4");
+        //System.out.println("test4");
         oDeliveryList.clear();
         ArrayList<Delivery> deliveryList = partR.getDeliveries();
 
         if (deliveryList != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < deliveryList.size(); i++) {
-                System.out.println(deliveryList.get(i).getPart());
+                //System.out.println(deliveryList.get(i).getPart());
                 oDeliveryList.add(deliveryList.get(i));
             }
         }

@@ -169,7 +169,7 @@ public class AdminController {
         updateUserAP(userAP);
         AnchorPane spcAP = (AnchorPane)OL2.get(1);
         updateSPCAP(spcAP);
-        System.out.println("UserID " + ID);
+        //System.out.println("UserID " + ID);
     }
     
     private void updateUserAP(AnchorPane AP){
@@ -199,7 +199,7 @@ public class AdminController {
         if(tempUser != null)
         {
             String ID2 = Integer.toString(tempUser.getIDNumber());
-            System.out.println(ID + " " + tempUser.getIDNumber());
+            //System.out.println(ID + " " + tempUser.getIDNumber());
             if (ID.equals(ID2))
             {
                 EC.TimedMsgRED(delUserStatus, "Cannot Delete Current User");

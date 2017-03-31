@@ -55,7 +55,7 @@ public class PartRegistry {
         conn.closeConnection();
         return partlist;
         }catch(SQLException e){
-            System.out.println("IN exception");
+            //System.out.println("IN exception");
             return null;
         }
     }
@@ -77,7 +77,7 @@ public class PartRegistry {
         conn.closeConnection();
         return count;
         }catch(SQLException e){
-            System.out.println("IN exception");
+            //System.out.println("IN exception");
             return 0;
         }
     }
@@ -129,9 +129,9 @@ public class PartRegistry {
             int usedPartId = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
-             System.out.println("booking reg test " + bookingId);
+             //System.out.println("booking reg test " + bookingId);
             DiagRepairBooking booking = bR.searchBookingID(bookingId);
-            System.out.println("booking reg test " + booking.getVehreg());
+            //System.out.println("booking reg test " + booking.getVehreg());
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
@@ -162,9 +162,9 @@ public class PartRegistry {
             int usedPartId = rs.getInt("ID");
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
-             System.out.println("booking reg test " + bookingId);
+             //System.out.println("booking reg test " + bookingId);
             DiagRepairBooking booking = bR.searchBookingID(bookingId);
-            System.out.println("booking reg test " + booking.getVehreg());
+            //System.out.println("booking reg test " + booking.getVehreg());
             Vehicle veh = vR.searchForEdit(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
@@ -189,7 +189,7 @@ public class PartRegistry {
         int count = 0;
         if(rs.isBeforeFirst()){
             count = rs.getInt("count");
-            System.out.println(count);
+            //System.out.println(count);
         }
         conn.closeConnection();
         return count;
@@ -255,10 +255,10 @@ public class PartRegistry {
         //delete from database
         conn.connect();
         String query = "DELETE FROM STOCKPARTS WHERE ID = " +  id + ";";
-        System.out.println(query);
+        //System.out.println(query);
         success = conn.update(query);
-        System.out.println(success);
-        System.out.println("in delete " + id);
+        //System.out.println(success);
+        //System.out.println("in delete " + id);
         conn.closeConnection();
         return success;
     }
@@ -269,7 +269,7 @@ public class PartRegistry {
         conn.connect();
         String query = "UPDATE STOCKPARTS SET NAME = '" + name + "', DESCRIPTION = '" + description 
                 +"', COST = '" + cost + "', STOCK = " + stocklevel + " WHERE ID = " + id + ";";
-        System.out.println("edit part test" + id);
+        //System.out.println("edit part test" + id);
         conn.update(query);
         conn.closeConnection();
     }
@@ -298,9 +298,9 @@ public class PartRegistry {
         //delete from database
         conn.connect();
         String query = "DELETE FROM USEDPARTS WHERE ID = " +  id + ";";
-        System.out.println(query);
+        //System.out.println(query);
         success = conn.update(query);
-        System.out.println(success);
+        //System.out.println(success);
         conn.closeConnection();
         return success;
     }
@@ -311,7 +311,7 @@ public class PartRegistry {
         //delete from database
         conn.connect();
         String query = "INSERT INTO DELIVERIES (PARTID, QUANTITY, DELIVERYDATE) VALUES ( " + partID +", "  + quantity + ", '" + date + "');";
-        System.out.println("in addDelievery " + partID);
+        //System.out.println("in addDelievery " + partID);
         success = conn.update(query);
         conn.closeConnection();
         return success;
@@ -340,11 +340,11 @@ public class PartRegistry {
 "                 ON STOCKPARTS.ID = DELIVERIES.PARTID;";
             
             ResultSet rs = conn.query(query);
-            System.out.println("getDeliveries test");
+            //System.out.println("getDeliveries test");
             ArrayList<Delivery> deliverylist = new ArrayList<Delivery>();
             while (rs.next())
             {
-                System.out.println("getDeliveries test2");
+                //System.out.println("getDeliveries test2");
                 String name = rs.getString(1);
                 int quantity = rs.getInt(2);
                 String date = rs.getString(3);
@@ -353,7 +353,7 @@ public class PartRegistry {
             conn.closeConnection();
             return deliverylist;
         }catch(SQLException e){
-            System.out.println("IN exception");
+            //System.out.println("IN exception");
             return null;
         }
     }
@@ -373,19 +373,19 @@ public class PartRegistry {
         {
             int partId = rs.getInt("ID");
             String name = rs.getString("NAME");
-            System.out.println(name);
+            //System.out.println(name);
             String description = rs.getString("DESCRIPTION");
-            System.out.println(description);
+            //System.out.println(description);
             BigDecimal cost = new BigDecimal(rs.getString("COST"));
-            System.out.println(cost);
+            //System.out.println(cost);
             int stock = rs.getInt("STOCK");
-            System.out.println(stock);
+            //System.out.println(stock);
             partlist.add(new Part(partId, name,description,cost,stock));
         }
         conn.closeConnection();
         return partlist;
         }catch(SQLException e){
-            System.out.println("IN exception");
+            //System.out.println("IN exception");
             return null;
         }
     }

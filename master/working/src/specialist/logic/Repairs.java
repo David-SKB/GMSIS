@@ -104,7 +104,7 @@ public class Repairs
     {
         DBC.connect();
         String SQL = "SELECT COUNT(ID) FROM REPAIRVEHICLE WHERE REGNO = '" + RegNo + "' AND DELIVERYDATE >= Datetime('"+ LocalDate.now().toString() + "');"; //AND RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "')   ";
-        System.out.println(SQL);
+        //System.out.println(SQL);
         int count = 0;
         ResultSet rs = DBC.query(SQL);
         //System.out.println(rs.toString());
@@ -131,7 +131,7 @@ public class Repairs
     {
         DBC.connect();    
         String SQL = "SELECT COUNT(ID) FROM REPAIRVEHICLE WHERE REGNO = '" + RegNo + "' AND RETURNDATE >= Datetime('"+ LocalDate.now().toString() + "');";
-        System.out.println(SQL);
+        //System.out.println(SQL);
         int count = 0;
         ResultSet rs = DBC.query(SQL);
         //System.out.println(rs.toString());
@@ -214,7 +214,7 @@ public class Repairs
     {
         DBC.connect();
         String SQL = "SELECT SPCID FROM CENTRES WHERE NAME = '" + Name + "';";
-        System.out.println(SQL);
+        //System.out.println(SQL);
         ResultSet rs = DBC.query(SQL);
         int ID = 0;
         if(rs.next())
@@ -322,7 +322,7 @@ public class Repairs
         ObservableList<RepairParts> resultList = FXCollections.observableArrayList();
         DBC.connect(); 
         String SQL = "SELECT REPAIRPARTS.ID, REGNO, STOCKPARTS.NAME, CENTRES.NAME, DELIVERYDATE, RETURNDATE, COST FROM REPAIRPARTS, CENTRES, STOCKPARTS WHERE REPAIRPARTS.SPCID = '" + SPCID + "' AND REPAIRPARTS.SPCID = CENTRES.SPCID AND PARTID = STOCKPARTS.ID;";
-        System.out.println(SQL);
+        //System.out.println(SQL);
         ResultSet rs = DBC.query(SQL);
         while(rs.next())
             {
@@ -426,10 +426,10 @@ public class Repairs
     {
         DBC.connect();
         String SQL = "SELECT COUNT(REGISTRATION) FROM VEHICLE WHERE REGISTRATION =  '" + regNo + "';";
-        System.out.println(SQL);
+        //System.out.println(SQL);
         int count = 0;
         ResultSet rs = DBC.query(SQL);
-        System.out.println(rs.toString());
+        //System.out.println(rs.toString());
         try {
             if(rs.next())
             {

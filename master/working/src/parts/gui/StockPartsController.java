@@ -142,9 +142,9 @@ public class StockPartsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("test");
+        //System.out.println("test");
         //partR.addPart("axis", "circular", 100);
-        System.out.println("test2");
+        //System.out.println("test2");
         stockParts.setVisible(true);
         usedParts.setVisible(false);
         repairs.setVisible(false);
@@ -186,15 +186,15 @@ public class StockPartsController implements Initializable {
     }
 
     public void loadAllParts() {//ActionEvent event){
-        System.out.println("test4");
+        //System.out.println("test4");
         oPartList.clear();
         ArrayList<Part> partlist = partR.getStockParts();
-        System.out.println(partlist == null);
-        System.out.println(partlist == null);
+        //System.out.println(partlist == null);
+        //System.out.println(partlist == null);
         if (partlist != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < partlist.size(); i++) {
-                System.out.println("inside for");
+                //System.out.println("inside for");
                 oPartList.add(partlist.get(i));
             }
         }
@@ -206,7 +206,7 @@ public class StockPartsController implements Initializable {
         selectedPart = stockTable.getSelectionModel().getSelectedItem();
         if(!increaseStockQuantityValidation())
             return;
-        System.out.println(selectedPart.getName());
+        //System.out.println(selectedPart.getName());
         partR.updateStock(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()));
         loadAllParts();
         partR.addDelivery(selectedPart.getId(), Integer.parseInt(quantityTextField.getText()), EC.toString(deliveryDatePickerQuantity));
@@ -222,7 +222,7 @@ public class StockPartsController implements Initializable {
         partR.addPart(name, description, cost, Integer.parseInt(quantity));
         loadAllParts();
         int id = oPartList.get(oPartList.size()-1).getId();
-        System.out.println(EC.toString(deliveryDatePicker));
+        //System.out.println(EC.toString(deliveryDatePicker));
         partR.addDelivery(id, Integer.parseInt(quantity), EC.toString(deliveryDatePicker));
     }
     
@@ -260,7 +260,7 @@ public class StockPartsController implements Initializable {
     //USED PARTS METHODS
     public void loadUsedPartsTable() {//ActionEvent event){
 
-        System.out.println("test3");
+        //System.out.println("test3");
         usedPartsTable.setEditable(true);
         usedPartIdCol.setCellValueFactory(
                 new PropertyValueFactory<UsedPart, String>("Id"));
@@ -364,7 +364,7 @@ public class StockPartsController implements Initializable {
     //loads relevant data in RepairWrapper
     public void loadAllRepairs() {//ActionEvent event){
 
-        System.out.println("test4");
+        //System.out.println("test4");
         oRepairList.clear();
         ArrayList<RepairWrapper> repairList = new ArrayList<RepairWrapper>();
         ArrayList<DiagRepairBooking> bookings = bookingR.getListBookings();
@@ -374,9 +374,9 @@ public class StockPartsController implements Initializable {
             repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
         }
         if (repairList != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < repairList.size(); i++) {
-                System.out.println("repair cust id" + repairList.get(i).getCustomerID());
+                //System.out.println("repair cust id" + repairList.get(i).getCustomerID());
                 oRepairList.add(repairList.get(i));
             }
         }
@@ -511,11 +511,11 @@ public class StockPartsController implements Initializable {
     public void searchParts() {
         oPartList.clear();
         ArrayList<Part> partlist = partR.searchStockParts(searchTextField.getText(), "NAME");
-        System.out.println(partlist == null);
+        //System.out.println(partlist == null);
         if (partlist != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < partlist.size(); i++) {
-                System.out.println("inside for");
+                //System.out.println("inside for");
                 oPartList.add(partlist.get(i));
             }
         }
@@ -530,9 +530,9 @@ public class StockPartsController implements Initializable {
         else 
             partlist = partR.getUsedPartsByRepair(Integer.parseInt(searchTextField.getText()));
         if (partlist != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < partlist.size(); i++) {
-                System.out.println("inside for");
+                //System.out.println("inside for");
                 oUsedPartList.add(partlist.get(i));
             }
         }
@@ -561,9 +561,9 @@ public class StockPartsController implements Initializable {
             repairList.add(new RepairWrapper(customer, vehicle, bookings.get(i)));
         }
         if (repairList != null) {
-            System.out.println("inside if");
+            //System.out.println("inside if");
             for (int i = 0; i < repairList.size(); i++) {
-                System.out.println("repair cust id" + repairList.get(i).getCustomerID());
+                //System.out.println("repair cust id" + repairList.get(i).getCustomerID());
                 oRepairList.add(repairList.get(i));
             }
         }
@@ -574,11 +574,11 @@ public class StockPartsController implements Initializable {
         
         oPartList.clear();
         ArrayList<Part> partlist = partR.searchStockParts(repairStockSearchTextField.getText(), "NAME");
-        System.out.println(partlist == null);
+        //System.out.println(partlist == null);
         if (partlist != null) {
             System.out.println("inside if");
             for (int i = 0; i < partlist.size(); i++) {
-                System.out.println("inside for");
+                //System.out.println("inside for");
                 oPartList.add(partlist.get(i));
             }
         }

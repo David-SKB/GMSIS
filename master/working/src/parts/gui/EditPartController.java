@@ -39,7 +39,7 @@ public class EditPartController implements Initializable {
     }
     public void loadPart(Part p){
         id = p.getId();
-        System.out.println(id);
+        //System.out.println(id);
         partNameTextArea.setText(p.getName());
         partDescriptionTextArea.setText(p.getDescription());
         partCostTextArea.setText(p.getCost());
