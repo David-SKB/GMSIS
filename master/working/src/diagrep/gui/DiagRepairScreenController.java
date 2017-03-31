@@ -76,7 +76,7 @@ public class DiagRepairScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         conn = DBConnection.getInstance();
-        searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Manufacturer", new Separator(), "Customer Name"));
+        searchOptions.setItems(FXCollections.observableArrayList("Vehicle Registration No.", new Separator(), "Vehicle Model", new Separator(), "Customer Surname"));
         searchOptions.getSelectionModel().selectFirst();	//set the options to search from in dropdown list
         colID.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, Integer>("id"));
         colDate.setCellValueFactory(new PropertyValueFactory<DiagRepairBooking, String>("bookdate"));
@@ -168,12 +168,11 @@ public class DiagRepairScreenController implements Initializable {
             case "Vehicle Registration No.":
                 result = BR.searchBookingByVechID(search);
                 break;
-            case "Vehicle Manufacturer":
+            case "Vehicle Model":
                 result = BR.searchBookingByVechModel(search);
                 break;
-            case "Customer Name":
-                String[] names = search.split("\\s+");
-                result = BR.searchBookingByCustName(names[0], names[1]);
+            case "Customer Surname":
+                result = BR.searchBookingByCustomerSurname(search);
                 break;
         }
         dataList.clear();
@@ -251,7 +250,7 @@ public class DiagRepairScreenController implements Initializable {
             ArrayList<DiagRepairBooking> result = BR.getListBookings();
             for (int i = 0; i < result.size(); i++) {
                 Date date = new Date(result.get(i).getBookdate());
-                if (date.compareTo(currentDate) >= 0) {
+                if (date.compareTo(currentDate) > 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -271,7 +270,7 @@ public class DiagRepairScreenController implements Initializable {
             ArrayList<DiagRepairBooking> result = BR.searchBookingByVechID(input);
             for (int i = 0; i < result.size(); i++) {
                 Date date = new Date(result.get(i).getBookdate());
-                if (date.compareTo(currentDate) >= 0) {
+                if (date.compareTo(currentDate) > 0) {
                     dataList.add(result.get(i));
                 }
             }
