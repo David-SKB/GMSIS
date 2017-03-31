@@ -29,7 +29,7 @@
                   <Label layoutX="5.0" layoutY="302.0" text="Date of delivery" />
           </children>
         </AnchorPane>
-        <TableView fx:id="stockTable" layoutY="14.0" prefHeight="578.0" prefWidth="623.0">
+        <TableView fx:id="stockTable" layoutY="38.0" prefHeight="554.0" prefWidth="623.0">
           <columns>
                   <TableColumn fx:id="stockIDCol" prefWidth="83.0" text="ID" />
             <TableColumn fx:id="nameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="143.0" text="Name" />
@@ -46,11 +46,12 @@
             <Button layoutX="633.0" layoutY="567.0" mnemonicParsing="false" onAction="#viewDeliveries" text="View Deliveries" />
             <Button fx:id="deleteButton" layoutX="633.0" layoutY="411.0" mnemonicParsing="false" onAction="#deleteStockPart" text="Delete Selected Part" />
             <Button fx:id="editPartButton" layoutX="775.0" layoutY="411.0" mnemonicParsing="false" onAction="#viewEditPart" text="Edit Selected Part" />
+            <Label layoutY="9.0" text="Stock Parts Table" />
       </children>
     </AnchorPane>
     <AnchorPane fx:id="usedParts" layoutX="-1.0" layoutY="45.0" prefHeight="636.0" prefWidth="1036.0">
       <children>
-        <TableView fx:id="usedPartsTable" layoutX="14.0" layoutY="14.0" prefHeight="569.0" prefWidth="1004.0">
+        <TableView fx:id="usedPartsTable" layoutX="14.0" layoutY="21.0" prefHeight="562.0" prefWidth="1004.0">
           <columns>
                   <TableColumn fx:id="usedPartIdCol" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="nameCol1" maxWidth="5000.0" minWidth="10.0" prefWidth="94.0" text="Name" />
@@ -64,7 +65,7 @@
               </columns>
             </TableColumn>
             <TableColumn fx:id="repairIDCol1" prefWidth="85.0" text="Repair ID" />
-                  <TableColumn fx:id="warrantyStartCol" prefWidth="143.0" text="Warranty Start" />
+                  <TableColumn fx:id="warrantyStartCol" prefWidth="143.0" text="Date Installed" />
                   <TableColumn fx:id="warrantyEndCol" prefWidth="139.0" text="Warranty End" />
           </columns>
         </TableView>
@@ -85,6 +86,7 @@
             <Button fx:id="deleteUsedPartButton" layoutX="157.0" layoutY="592.0" mnemonicParsing="false" onAction="#deleteUsedPart" text="Delete Selected Part" />
             <Button fx:id="viewCustomerDetails" layoutX="14.0" layoutY="592.0" mnemonicParsing="false" onAction="#viewCustomerDetails" text="View Customer Details" />
             <Button fx:id="viewVehicleButton" layoutX="287.0" layoutY="592.0" mnemonicParsing="false" onAction="#viewVehicleDetails" text="View Vehicle Details" />
+            <Label layoutX="14.0" text="Used Parts Table" />
       </children>
     </AnchorPane>
     <Button fx:id="viewRepairsButton" layoutX="607.0" layoutY="15.0" mnemonicParsing="false" onAction="#viewRepairsAnchor" prefHeight="25.0" prefWidth="148.0" text="View Repairs" />
@@ -93,7 +95,7 @@
     <TextField fx:id="searchTextField" layoutX="14.0" layoutY="15.0" prefHeight="25.0" prefWidth="395.0" />
     <AnchorPane id="usedParts1" fx:id="repairs" layoutY="43.0" prefHeight="636.0" prefWidth="1036.0" visible="false">
       <children>
-        <TableView fx:id="repairTable" layoutX="14.0" layoutY="45.0" prefHeight="569.0" prefWidth="586.0">
+        <TableView fx:id="repairTable" layoutX="14.0" layoutY="52.0" prefHeight="562.0" prefWidth="586.0">
           <columns>
             <TableColumn fx:id="repairIDCol" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Repair ID" />
             <TableColumn fx:id="rVehicleRegistrationCol" maxWidth="5000.0" minWidth="10.0" prefWidth="204.0" text="Vehicle Registration" />
@@ -105,15 +107,15 @@
             <TableColumn fx:id="rDateCol" maxWidth="5000.0" minWidth="0.0" prefWidth="105.0" text="Date" />
           </columns>
         </TableView>
-        <AnchorPane layoutX="607.0" layoutY="393.0" prefHeight="238.0" prefWidth="405.0">
+        <AnchorPane layoutX="606.0" layoutY="432.0" prefHeight="159.0" prefWidth="405.0">
           <children>
-            <Button fx:id="addRepairButton" layoutX="14.0" layoutY="199.0" mnemonicParsing="false" onAction="#addPartToRepair" prefHeight="25.0" prefWidth="382.0" text="Add Part to Repair" />
-                  <DatePicker fx:id="usedPartInstallationDatePicker" editable="false" layoutX="109.0" layoutY="160.0" />
-                  <Label layoutX="14.0" layoutY="164.0" text="Installation Date" />
-                  <Button fx:id="viewUsedPartsForRepairButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewUsedPartsAnchorForRepair" text="View Parts for Selected Repairs" />
+            <Button fx:id="addRepairButton" layoutX="12.0" layoutY="127.0" mnemonicParsing="false" onAction="#addPartToRepair" prefHeight="25.0" prefWidth="382.0" text="Add Part to Repair" />
+                  <DatePicker fx:id="usedPartInstallationDatePicker" editable="false" layoutX="107.0" layoutY="88.0" />
+                  <Label layoutX="13.0" layoutY="92.0" text="Installation Date" />
+                  <Button fx:id="viewUsedPartsForRepairButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#viewUsedPartsAnchorForRepair" text="View Parts for Selected Repairs" />
           </children>
         </AnchorPane>
-        <TableView fx:id="rStockTable" layoutX="606.0" layoutY="46.0" prefHeight="342.0" prefWidth="405.0">
+        <TableView fx:id="rStockTable" layoutX="606.0" layoutY="52.0" prefHeight="336.0" prefWidth="405.0">
           <columns>
             <TableColumn fx:id="rNameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="121.0" text="Name" />
             <TableColumn fx:id="rDescriptionCol" maxWidth="5000.0" minWidth="10.0" prefWidth="88.0" text="Description" />
@@ -121,8 +123,10 @@
             <TableColumn fx:id="rStockCol" maxWidth="5000.0" minWidth="0.0" prefWidth="89.0" text="Stock Level" />
           </columns>
         </TableView>
-        <TextField fx:id="repairStockSearchTextField" layoutX="606.0" layoutY="14.0" prefHeight="25.0" prefWidth="307.0" promptText="Search for a part" />
-        <Button fx:id="rSeachButton" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchrParts" prefHeight="25.0" prefWidth="91.0" text="Search" />
+        <TextField fx:id="repairStockSearchTextField" layoutX="606.0" layoutY="6.0" prefHeight="25.0" prefWidth="307.0" promptText="Search for a part" />
+        <Button fx:id="rSeachButton" layoutX="920.0" layoutY="6.0" mnemonicParsing="false" onAction="#searchrParts" prefHeight="25.0" prefWidth="91.0" text="Search" />
+            <Label layoutX="14.0" layoutY="31.0" text="Repairs Table" />
+            <Label layoutX="606.0" layoutY="396.0" text="Stock Parts Table" />
       </children>
     </AnchorPane>
     <Button fx:id="viewStockButton" layoutX="940.0" layoutY="15.0" mnemonicParsing="false" onAction="#viewStockPartsAnchor" prefHeight="25.0" text="View Stock" />
