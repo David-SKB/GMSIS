@@ -53,6 +53,17 @@ public class ErrorChecks
         return sqlDate.toString();
     }
     
+    public String addYear(DatePicker DatePickerObject)
+    {
+        String currentDate = toString(DatePickerObject);
+        String[] DateSections = currentDate.split("-");
+        int year = Integer.parseInt(DateSections[0]);
+        year++;
+        String newYear = String.valueOf(year) + "-" + DateSections[1] + "-" + DateSections[2];
+        System.out.println(newYear);
+        return newYear;
+    }
+    
     /**
     * Converts a DatePicker Object to a Date object (java.sql.Date object not java.util.Date)
     */
