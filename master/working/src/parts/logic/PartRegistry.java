@@ -317,6 +317,18 @@ public class PartRegistry {
         return success;
     }
     
+    //update bill
+    public boolean updateBill(String cost, String id){
+        boolean success;
+        conn = DBConnection.getInstance();
+        //delete from database
+        conn.connect();
+        String query = "UPDATE BILLS SET PARTSCOST = PARTSCOST + " + cost + " WHERE BILLID = " + id + ";";
+        success = conn.update(query);
+        conn.closeConnection();
+        return success;
+    }
+    
     //get all deliveries
     public ArrayList<Delivery> getDeliveries(){
         conn = DBConnection.getInstance();

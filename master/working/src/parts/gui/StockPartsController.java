@@ -159,7 +159,7 @@ public class StockPartsController implements Initializable {
         EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
         EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
         EC.SetWordSpaceRestriction(partNameTextArea);
-        EC.SetWordSpaceRestriction(partDescriptionTextArea);
+        EC.SetAddressRestriction(partDescriptionTextArea);
         
         
     }
@@ -319,6 +319,7 @@ public class StockPartsController implements Initializable {
             return;
         boolean success;
         success = partR.deleteUsedPart(Integer.parseInt(selectedUsedPart.getId()));
+        partR.updateBill("-"+selectedUsedPart.getCost().toString(), selectedUsedPart.getRepairID());
         if (loadAllUsed)
             loadUsedParts();
         else
@@ -393,10 +394,11 @@ public class StockPartsController implements Initializable {
         int partId = selectedPart.getId();
         BigDecimal cost =  new BigDecimal(selectedPart.getCost());
         //Date warrantyStart = 
-        boolean success = partR.usePart(repairID, partId, EC.toString(usedPartInstallationDatePicker),  EC.addYear(usedPartInstallationDatePicker), cost);
+        boolean success = partR.usePart(repairID, partId, EC.addYear(usedPartInstallationDatePicker),EC.toString(usedPartInstallationDatePicker), cost);
         if (selectedPart.getStocklevel() > 0) {
             partR.updateStock(selectedPart.getId(), -1);
         }
+        partR.updateBill(cost.toString(), repairID);
         loadAllParts();
         loadRStockParts();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -629,7 +631,7 @@ public class StockPartsController implements Initializable {
         if(!viewRepairPartsValidation())
             return;
         currentRepairID = Integer.parseInt(selectedRepair.getRepairID());
-        cmBoxOptions =  FXCollections.observableArrayList("First Name","Last Name","Vehicle Registration");
+        cmBoxOptions =  FXCollections.observableArrayList("Repair ID","Vehicle Registration");
         searchBy.setItems(cmBoxOptions);
         searchBy.getSelectionModel().selectFirst();
         tableToSearch = "USEDPARTS";

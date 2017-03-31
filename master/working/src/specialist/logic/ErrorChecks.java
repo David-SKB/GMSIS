@@ -213,6 +213,18 @@ public class ErrorChecks
         };
         field.setTextFormatter(new TextFormatter<String>(intFilter));
     }
+    
+    public void SetAddressRestriction(TextArea field)
+    {
+        UnaryOperator<Change> intFilter = change -> {
+        String input = change.getText();
+        if (input.matches("[0-9a-zA-Z, ]*")) { 
+            return change;
+        }
+        return null;
+        };
+        field.setTextFormatter(new TextFormatter<String>(intFilter));
+    }
 
     /**
     * returns false if passed String is not Alphanumeric (letters and numbers)
