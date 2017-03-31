@@ -109,8 +109,8 @@ public class CustomerBillsController implements Initializable{
                 if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY 
                                     && event2.getClickCount() == 2) {
                     tempCustBillP = row.getItem();
-                    //loadParts(tempCustBillP.getBookingID());
-                    //partsList.setItems(partObsList);
+                    loadParts(tempCustBillP.getBookingID());
+                    partsList.setItems(partObsList);
                 }
             });
             return row;
