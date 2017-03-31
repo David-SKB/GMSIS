@@ -38,8 +38,8 @@ public class DBConnection {
      public void init(){
         try{
             Class.forName("org.sqlite.JDBC");
-            c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
-            //c = DriverManager.getConnection("jdbc:sqlite::resource:database/gmsisdb.db");//allows db to be embed within jar
+            //c = DriverManager.getConnection("jdbc:sqlite:src/database/gmsisdb.db");
+            c = DriverManager.getConnection("jdbc:sqlite::resource:database/gmsisdb.db");//allows db to be embed within jar
             stmt = c.createStatement();
             String sql = "PRAGMA foreign_keys = ON";
             stmt.executeUpdate(sql);

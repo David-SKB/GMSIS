@@ -99,7 +99,7 @@ public class PartRegistry {
             int partId = rs.getInt("PARTID");
             String bookingId = rs.getString("BOOKINGID");
             DiagRepairBooking booking = bR.searchBookingID(bookingId);
-            Vehicle veh = vR.searchForEdit(booking.getVehreg());
+            Vehicle veh = vR.searchForVeh(booking.getVehreg());
             Customer cust = cR.searchCustomerByID(booking.getCust());
             Part p = searchStockParts(String.valueOf(partId), "ID").get(0);
             String wS = rs.getString("WARRANTYSTART");

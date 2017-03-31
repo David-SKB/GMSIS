@@ -567,7 +567,7 @@ public class AdminController {
         }else
         {
             
-            EC.TimedMsgRED(editUserStatus, "User already exists.");
+            EC.TimedMsgRED(editUserStatus, "User Not Found");
             clearUserDetailsOnEdit();
         } 
     }
@@ -582,7 +582,7 @@ public class AdminController {
         }
         else
         {
-            EC.TimedMsgRED(editUserStatus, "User already exists.");
+            EC.TimedMsgRED(editUserStatus, "User already exists");
             clearUserDetailsOnEdit();
         }      
     }

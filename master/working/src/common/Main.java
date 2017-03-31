@@ -29,10 +29,10 @@ public class Main extends Application{
     @Override
     public void init() {
         //only needed if db is kept outside or jar
-        File f = new File("src/database/gmsisdb.db");
+        /*File f = new File("src/database/gmsisdb.db");
         if(!f.exists() && !f.isDirectory()) { 
             DatabaseCreation.createDB();
-        }
+        }*/
     }
     
 

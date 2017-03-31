@@ -155,9 +155,9 @@ public class StockPartsController implements Initializable {
         cmBoxOptions =  FXCollections.observableArrayList("Part Name");
         searchBy.setItems(cmBoxOptions);
         searchBy.getSelectionModel().selectFirst();
-        //EC.DisableDatesBefore(deliveryDatePicker, LocalDate.now());
-        //EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
-        //EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
+        EC.DisableDatesBefore(deliveryDatePicker, LocalDate.now());
+        EC.DisableDatesBefore(deliveryDatePickerQuantity, LocalDate.now());
+        EC.DisableDatesBefore(usedPartInstallationDatePicker, LocalDate.now());
         EC.SetWordSpaceRestriction(partNameTextArea);
         EC.SetAddressRestriction(partDescriptionTextArea);
         
@@ -587,10 +587,11 @@ public class StockPartsController implements Initializable {
     
     //CHANGING ANCHOR METHODS
     public void viewUsedPartsAnchor(ActionEvent event) {
-        cmBoxOptions =  FXCollections.observableArrayList("Repair ID","Vehicle Registration");
-        searchBy.setItems(cmBoxOptions);
-        searchBy.getSelectionModel().selectFirst();
-        tableToSearch = "USEDPARTS";
+        //cmBoxOptions =  FXCollections.observableArrayList("Repair ID","Vehicle Registration");
+        //searchBy.setItems(cmBoxOptions);
+        //searchBy.getSelectionModel().selectFirst();
+        //tableToSearch = "USEDPARTS";
+        System.out.println("in view used");
         loadAllUsed = true;
         repairs.setVisible(false);
         stockParts.setVisible(false);

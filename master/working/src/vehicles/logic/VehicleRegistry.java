@@ -452,8 +452,49 @@ public class VehicleRegistry {
         String Lastdate = rs.getString("LASTSERVICE");
         int mile = rs.getInt("MILEAGE");
         Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
+        System.out.println("in veh reg " + reg);
         return v;
        }   
+      }
+    return null;
+   }
+   catch(SQLException e){
+    return null;   
+   }
+  }
+  
+    public Vehicle searchForVeh(String registration){
+   try{
+     DBConnection c = DBConnection.getInstance();
+     c.connect();
+     String sql = "SELECT * FROM VEHICLE WHERE REGISTRATION = '" + registration + "';";
+      ResultSet rs = c.query(sql);
+      while( rs.next() ){
+       
+        String reg = rs.getString("REGISTRATION");
+        String type = rs.getString("TYPE");
+        int cID = rs.getInt("CUSTOMERID");
+        String make = rs.getString("MAKE");
+        String model = rs.getString("MODEL");
+        int engine = rs.getInt("ENGINESIZE");
+        String fuel = rs.getString("FUELTYPE");
+        String colour = rs.getString("COLOUR");
+        String MOTdate = rs.getString("MOTDATE");
+        int warr = rs.getInt("WARRANTY");
+        boolean warranty = false;
+        if(warr == 0){
+         warranty = false;   
+        }
+        else{
+         warranty = true;   
+        }
+        //System.out.println("veh reg test");
+        String Lastdate = rs.getString("LASTSERVICE");
+        int mile = rs.getInt("MILEAGE");
+        Vehicle v = new Vehicle(reg,cID,type,make,model,engine,fuel,colour,MOTdate,warranty,Lastdate,mile);
+        System.out.println("in veh reg " + reg);
+        return v;
+        
       }
     return null;
    }
