@@ -179,12 +179,12 @@ public class PartRegistry {
         }
     } 
      
-     public int countUsedParts(int id){
+     public int countUsedParts(String id){
         conn = DBConnection.getInstance();
         //insert into database
         try{
         conn.connect();
-        String query = "SELECT COUNT(*) as count FROM USEDPARTS INNER JOIN BOOKINGS ON USEDPARTS.BOOKINGID = BOOKINGS.ID WHERE BOOKINGS.VEHICLEREGISTRATION = " + id + ";";
+        String query = "SELECT COUNT(*) as count FROM USEDPARTS INNER JOIN BOOKINGS ON USEDPARTS.BOOKINGID = BOOKINGS.ID WHERE BOOKINGS.VEHICLEREGISTRATION = '" + id + "';";
         ResultSet rs = conn.query(query);
         int count = 0;
         if(rs.isBeforeFirst()){

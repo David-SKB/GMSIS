@@ -817,7 +817,7 @@ public class StockPartsController implements Initializable {
             errors += "Installation Date is required\n";
             flag = false;
         }
-        else if(partR.countUsedParts(Integer.parseInt(selectedRepair.getVehicleRegistration()))>=10)
+        else if(partR.countUsedParts(selectedRepair.getVehicleRegistration())>=10)
         {
             errors += "You cannot add another part to this vehicle\n";
             flag = false;
