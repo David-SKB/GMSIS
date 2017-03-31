@@ -86,7 +86,7 @@ cd SE9
 
 <div align="center">
   <a href="#">
-   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/54746934-1609-11e7-99ea-ed897ebecb4d" width="70%">
+   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/706d7ff2-1624-11e7-8ba3-db48c0b07f19" width="70%">
   </a>
 </div>
 
@@ -96,7 +96,7 @@ cd SE9
 
 ### Diagnosis and Repair Bookings
 
-<h6>Requirements not met</h6>
+<h6>The following requirements were not met:</h6>
 - The opening hours of the garage are Mon-Fri 9am to 5.30pm and Sat 9am-12
 noon.
 - The garage is not open on public and bank holidays.
