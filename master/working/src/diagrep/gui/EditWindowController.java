@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -64,6 +65,7 @@ public class EditWindowController implements Initializable {
     private final VehicleRegistry VR = VehicleRegistry.getInstance();
     private final UserRegistry UR = UserRegistry.getInstance();
     private  final BookingRegistry BR = BookingRegistry.getInstance();
+    private Date currentDate = new Date();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

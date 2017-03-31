@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -70,6 +71,7 @@ public class DiagRepairScreenController implements Initializable {
 
     private ObservableList<DiagRepairBooking> dataList;
     private DBConnection conn;
+    private Date currentDate = new Date();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -108,9 +110,13 @@ public class DiagRepairScreenController implements Initializable {
     @FXML
     public void editEntry() throws IOException {
         DiagRepairBooking entry = diagrepTable.getSelectionModel().getSelectedItem();
+        Date date = new Date(entry.getBookdate());
         if (entry == null) {
             JOptionPane.showMessageDialog(null, "Please select a booking to edit.");
             return;
+        }
+        else if(date.compareTo(currentDate) < 0){
+            JOptionPane.showMessageDialog(null, "You cannot edit a past booking.");
         }
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editWindow.fxml"));
         Parent root = (Parent) fxmlLoader.load();
@@ -199,14 +205,14 @@ public class DiagRepairScreenController implements Initializable {
     public void displayPastBookings() {
         dataList = FXCollections.observableArrayList();
         BookingRegistry BR = BookingRegistry.getInstance();
-
         int choice = bookingPrompt("past");
         if (choice == -1) {
             return;
         } else if (choice == 0) {
             ArrayList<DiagRepairBooking> result = BR.getListBookings();
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0) {
+                Date date = new Date(result.get(i).getBookdate());
+                if (date.compareTo(currentDate) < 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -225,7 +231,8 @@ public class DiagRepairScreenController implements Initializable {
             }
             ArrayList<DiagRepairBooking> result = BR.searchBookingByVechID(input);
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) < 0) {
+                Date date = new Date(result.get(i).getBookdate());
+                if (date.compareTo(currentDate) < 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -243,7 +250,8 @@ public class DiagRepairScreenController implements Initializable {
         } else if (choice == 0) {
             ArrayList<DiagRepairBooking> result = BR.getListBookings();
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                Date date = new Date(result.get(i).getBookdate());
+                if (date.compareTo(currentDate) >= 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -262,7 +270,8 @@ public class DiagRepairScreenController implements Initializable {
             }
             ArrayList<DiagRepairBooking> result = BR.searchBookingByVechID(input);
             for (int i = 0; i < result.size(); i++) {
-                if (parseLocalDateTime(result.get(i).getBookdate()).compareTo(NOW_LOCALDATETIME()) >= 0) {
+                Date date = new Date(result.get(i).getBookdate());
+                if (date.compareTo(currentDate) >= 0) {
                     dataList.add(result.get(i));
                 }
             }
@@ -274,14 +283,5 @@ public class DiagRepairScreenController implements Initializable {
     {
         String[] options = {"All", "Specific"};
         return JOptionPane.showOptionDialog(null, "Would you like to view the " + str + " bookings of all vehicles, or a specific one?", "Booking Prompt", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-    }
-
-    public LocalDateTime NOW_LOCALDATETIME() {
-        return LocalDateTime.now();
-    }
-
-    public LocalDateTime parseLocalDateTime(String str) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return LocalDateTime.parse(str, formatter);
     }
 }

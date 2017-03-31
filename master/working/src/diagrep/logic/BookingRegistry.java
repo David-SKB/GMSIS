@@ -15,6 +15,8 @@ import java.util.*;
 import user.logic.Employee;
 import user.logic.Mechanic;
 import user.logic.UserRegistry;
+import vehicles.logic.Vehicle;
+import vehicles.logic.VehicleRegistry;
 
 public class BookingRegistry {
 
@@ -75,6 +77,9 @@ public class BookingRegistry {
         boolean result = conn.update(query);
         if(result){
             result = editBill(ID ,length, EID);
+            VehicleRegistry VR = VehicleRegistry.getInstance();
+            Vehicle rV = VR.searchForEdit(VID);
+            rV.setCurrentMile(Integer.parseInt(miles));
         }
         conn.closeConnection();
         return result;
