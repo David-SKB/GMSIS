@@ -525,14 +525,6 @@ public class RepairsController /*extends Application*/ implements Initializable
             vehiclefound = false;
             RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
         }
-        else
-        {
-            if (RegNoVehicle2.getText().length() > 7)
-            {
-                valid = false;
-                RegNoVehicle2.setStyle("-fx-border-color: #ff1e1e;");
-            }
-        }
         if (SPCIDVehicle2.getValue() == null)
         {
             valid = false;

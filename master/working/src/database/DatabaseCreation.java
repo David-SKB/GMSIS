@@ -50,7 +50,7 @@ public class DatabaseCreation
 "/* VEHICLE TABLE */\n" +
 "CREATE TABLE VEHICLE\n" +
 "(\n" +
-" REGISTRATION INT PRIMARY KEY NOT NULL,\n" +
+" REGISTRATION TEXT PRIMARY KEY NOT NULL,\n" +
 " CUSTOMERID   INT NOT NULL,\n" +
 " TYPE         TEXT  NOT NULL,\n" +
 " MAKE         TEXT  NOT NULL,\n" +
