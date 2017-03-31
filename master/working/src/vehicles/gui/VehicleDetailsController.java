@@ -38,7 +38,8 @@ import vehicles.logic.VehicleRegistry;
 /**
  * FXML Controller class
  *
- * @author joshuascott
+ * @author joshuascott copied and made from Athanasios's CustomerBillsController class
+ * //not fully my own work used his class as a template
  */
 public class VehicleDetailsController implements Initializable{
 
@@ -75,11 +76,11 @@ public class VehicleDetailsController implements Initializable{
  
  @FXML
  private VehicleBill tempVehicleBill;
- 
+ //sets everything
  public void setDetails(String reg){
   getBookings(reg);   
  }
- 
+ //sets all parts on double click of booking in the tableview
  public void getParts(String bookID){
   parts.clear();
    ArrayList<UsedPart> partsUsed = new ArrayList();
@@ -89,7 +90,9 @@ public class VehicleDetailsController implements Initializable{
     partsUsedList.setItems(parts);
    }
  }
- 
+ //gets bookings checks if each booking compared to todays date and time
+ //if greater than or equal to 0 its a future date
+ //if less than its a past date
  public void getBookings(String reg){
   past.clear();
   future.clear();

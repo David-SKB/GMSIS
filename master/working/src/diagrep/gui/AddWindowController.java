@@ -108,7 +108,7 @@ public class AddWindowController implements Initializable {
         String mechID = Integer.toString(m.getIDNumber());
         String date = entryDate.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         Date CheckDate = new Date(date);
-        if (CheckDate.compareTo(currentDate) < 0) {
+        if (CheckDate.compareTo(currentDate) > 0) {
             BR.addBooking(date, entryTime.getText(), entryDuration.getText(), (String) entryType.getSelectionModel().getSelectedItem(), custID, reg, mechID);
             parentController.reset();
             Stage stage = (Stage) confirmButton.getScene().getWindow();

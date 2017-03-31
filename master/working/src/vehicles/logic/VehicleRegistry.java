@@ -362,14 +362,10 @@ public class VehicleRegistry {
     System.out.println("Last service updated successfully");
     c.closeConnection();
   }
-  public void changeMileage(String registration){
+  public void changeMileage(String registration, int mileage){
    DBConnection c = DBConnection.getInstance();
    c.connect();
-    Scanner input = new Scanner(System.in);
-    System.out.println("ENTER THE MOST RECENT MILEAGE");
-    String changed = input.nextLine();
-    int mile = Integer.parseInt(changed);
-    String query = "UPDATE VEHICLE SET MILEAGE = " + mile + " WHERE REGISTRATION = " + registration + ";";
+    String query = "UPDATE VEHICLE SET MILEAGE = " + mileage + " WHERE REGISTRATION = " + registration + ";";
     c.update(query);
     System.out.println("MILEAGE UPDATED");
     c.closeConnection();   

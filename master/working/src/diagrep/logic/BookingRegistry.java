@@ -22,7 +22,8 @@ public class BookingRegistry {
 
     DBConnection conn = DBConnection.getInstance();
     private static BookingRegistry BRInstance = null;
-
+    
+    //Only one instance of the registry at any time
     public static BookingRegistry getInstance() {
         if (BRInstance == null) {
             BRInstance = new BookingRegistry();
@@ -30,8 +31,8 @@ public class BookingRegistry {
         return BRInstance;
     }
 
+    //insert booking into database
     public boolean addBooking(String date, String start, String length, String type, String CID, String VID, String EID) {
-        //insert booking into database
         conn.connect();
         String query = "INSERT INTO BOOKINGS (BOOKDATE, STARTTIME, DURATION, TYPE, CUSTOMERID, VEHICLEREGISTRATION, EMPLOYEEID) "
                 + "VALUES( '"
@@ -51,6 +52,7 @@ public class BookingRegistry {
         return result;
     }
     
+    //inserts a bill created from booking into bills table
     public boolean addBill(int ID,String length, String EID){
         UserRegistry UR = UserRegistry.getInstance();
         Mechanic mech = (Mechanic) UR.searchUserByID(EID);
@@ -60,9 +62,8 @@ public class BookingRegistry {
         return result;
     }
 
-
+    //edit booking in database
     public boolean editBooking(String date, String start, String length, String type, String CID, String VID, String miles, String EID) {
-        //edit booking in database
         conn.connect();
         String ID = this.findID(date, start, length, type, CID, VID, EID);
         String query = "UPDATE BOOKINGS SET BOOKDATE = '"
@@ -85,6 +86,7 @@ public class BookingRegistry {
         return result;
     }
     
+    //updates bill for the recently edited booking
     public boolean editBill(String ID, String length, String EID){
         UserRegistry UR = UserRegistry.getInstance();
         Mechanic mech = (Mechanic) UR.searchUserByID(EID);
@@ -94,7 +96,8 @@ public class BookingRegistry {
         return result;
     }
 
-  public boolean deleteBooking(String ID) {
+    //removes booking from database
+    public boolean deleteBooking(String ID) {
         //delete booking from database
         conn.connect();
         String query = "DELETE FROM BOOKINGS WHERE ID = " + Integer.parseInt(ID) + ";";
@@ -103,7 +106,7 @@ public class BookingRegistry {
         return result;
     }
 
-
+    //search a booking by its ID
     public DiagRepairBooking searchBookingID(String ID) {
         conn.connect();
         try {
@@ -132,6 +135,7 @@ public class BookingRegistry {
         }
     }
 
+    //Gets a list of all bookings in the database
     public ArrayList<DiagRepairBooking> getListBookings() {
         try {
             
@@ -211,6 +215,7 @@ public class BookingRegistry {
         }
     }
 
+    //Finds all bookings from a given date
     public ArrayList<DiagRepairBooking> searchBookingByDate(String date) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -235,7 +240,8 @@ public class BookingRegistry {
             return null;
         }
     }
-
+    
+    //Finds all bookings associated with a given customer ID
     public ArrayList<DiagRepairBooking> searchBookingByCustID(String CustID) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -262,6 +268,7 @@ public class BookingRegistry {
         }
     }
 
+    //Finds all bookings associated with a customer, found with full or partial first name, surname or full name. 
     public ArrayList<DiagRepairBooking> searchBookingByCustName(String firstName, String surname) {
         try {
             if (firstName == null || firstName.isEmpty() || surname == null || surname.isEmpty()) {
@@ -291,6 +298,7 @@ public class BookingRegistry {
         }
     }
     
+    //Retrieves all bookings for a given customer first name.
     public ArrayList<DiagRepairBooking> searchBookingByCustomerFirstName(String firstName) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -317,6 +325,7 @@ public class BookingRegistry {
         }
     }
     
+    //Retrieves all bookings for a given customer surname.
     public ArrayList<DiagRepairBooking> searchBookingByCustomerSurname(String surname) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -343,6 +352,7 @@ public class BookingRegistry {
         }
     }
 
+    //Finds all bookings associated with a given vehicle ID.
     public ArrayList<DiagRepairBooking> searchBookingByVechID(String vechID) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -369,6 +379,7 @@ public class BookingRegistry {
         }
     }
 
+    //Finds all bookings with a specific model of vehicle
     public ArrayList<DiagRepairBooking> searchBookingByVechModel(String model) {
         try {
             ArrayList<DiagRepairBooking> BookingList = new ArrayList<>();
@@ -397,6 +408,7 @@ public class BookingRegistry {
         }
     }
 
+    //Finds the ID of a booking given its other details.
     public String findID(String date, String start, String length, String type, String CID, String VID, String EID) {
         try {
             conn.connect();

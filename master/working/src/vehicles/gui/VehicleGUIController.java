@@ -155,6 +155,7 @@ public class VehicleGUIController implements Initializable {
    ObservableList<Template> carsTemplate = FXCollections.observableArrayList();
 
    
+   //button that searches and displays only all cars in the table   
    @FXML
    public void searchCarButton(ActionEvent event){
     ArrayList<Vehicle> cars = vr.searchCar();
@@ -163,6 +164,7 @@ public class VehicleGUIController implements Initializable {
     vehDetails.setItems(list);
    }
    
+  //button that searches and displays only all vans in the table
    @FXML
    public void searchVanButton(ActionEvent event){
     ArrayList<Vehicle> vans = vr.searchVan();
@@ -170,7 +172,7 @@ public class VehicleGUIController implements Initializable {
     list.addAll(vans);
     vehDetails.setItems(list);  
    }
-   
+  //button that searches and displays only all trucks in the table 
    @FXML
    public void searchTruckButton(ActionEvent event){
     ArrayList<Vehicle> trucks = vr.searchTruck();
@@ -178,7 +180,8 @@ public class VehicleGUIController implements Initializable {
     list.addAll(trucks);
     vehDetails.setItems(list);   
    }
-   
+   //button when clicked gets list of parts used and past/future bookings for vehicle
+   //I got this method from Athanasios's module as he already had it working.
    @FXML
    public void vehicleDetailsButton(ActionEvent event){
      String reg = regTextField.getText();
@@ -209,6 +212,7 @@ public class VehicleGUIController implements Initializable {
       }
    }
    
+   //gets customer details and next booking date for a specific vehicle 
    @FXML
    public void detailsButton(ActionEvent event){
     String reg = regTextField.getText();
@@ -239,7 +243,7 @@ public class VehicleGUIController implements Initializable {
       }
       }
      }
-     
+   //updates everything everytime tab is loaded  
    public void updateAnchorPane(AnchorPane AP){
        ObservableList<Node> OL = AP.getChildren();
        TableView<Vehicle> vehTV = null;
@@ -267,7 +271,7 @@ public class VehicleGUIController implements Initializable {
             vehTV.setItems(list);
        }
    }
-    
+   //list of 20 template cars  
    @FXML
    public void addTemplateCars(){
    Template car1 = new Template("Ford","Focus",1.2,"Petrol");
@@ -307,15 +311,16 @@ public class VehicleGUIController implements Initializable {
    templateList.setCellFactory(ComboBoxListCell.forListView(carsTemplate));
    templateList.toString();
   }
-   
+  //displays all active customers in choice box 
   @FXML 
   public void displayCustomers(){
+    activeCustomers.clear();
     ArrayList<Customer> currentCustomers = cr.getActiveCustomers();
     activeCustomers.addAll(currentCustomers);
      customerSelectorChoiceBox.setItems(activeCustomers);
      customerSelectorChoiceBox.getSelectionModel().selectFirst();
   }
-  
+  //handles the selecting of the customer from choice box via a button
   @FXML
   public void selectCustomerButton(ActionEvent event){
    Customer c = (Customer) customerSelectorChoiceBox.getValue();
@@ -327,7 +332,7 @@ public class VehicleGUIController implements Initializable {
      customerIDTextField.setText(idString);
   }
   
-  
+  //displays all vehicles
   public void vehicleDisplay(ActionEvent event){
    displayCustomers();
    list.removeAll(list);
@@ -338,7 +343,7 @@ public class VehicleGUIController implements Initializable {
     vehDetails.setItems(list);
      
   }
-  
+   //loads everything on tab
     public void loadDisplay(){
    //select customer
     activeCustomers.removeAll(activeCustomers);
@@ -351,7 +356,7 @@ public class VehicleGUIController implements Initializable {
     vehDetails.setItems(list);
    
   }
-    
+  
   public Vehicle getVehicle(){
    String reg = regTextField.getText();
    String idText = customerIDTextField.getText();
@@ -375,7 +380,7 @@ public class VehicleGUIController implements Initializable {
    return v;
   }
   
-  
+  //button when clicked opens edit tab to allow updates and changes
   @FXML
   public void editButton(ActionEvent event)throws Exception{
       Parent root;
@@ -423,14 +428,14 @@ public class VehicleGUIController implements Initializable {
     warrantyCheckBox.setSelected(false);  
    }
   }
-   
+  //loads all current vehicles 
   public ArrayList<Vehicle> loadVehicles(){
    db.connect();
     ArrayList<Vehicle> vehList = vr.getAllVehicles();
      db.closeConnection();
      return vehList;
   }
-  
+ //search fucntionality 
   @FXML
   public void searchButon(ActionEvent event){
    if(!regSearchTextField.getText().isEmpty() && !manuSearchTextField.getText().isEmpty()){
@@ -493,7 +498,7 @@ public class VehicleGUIController implements Initializable {
     }
    }   
   }
-  
+  //the delete button
   @FXML 
   public void deleteButton(ActionEvent event){
    String reg = regTextField.getText();    
@@ -508,7 +513,7 @@ public class VehicleGUIController implements Initializable {
       cl.showFailure();
      }
   }
-  
+  //clears all text fields
   @FXML
   public void clearButton(ActionEvent event){
      //top text fields
@@ -528,7 +533,7 @@ public class VehicleGUIController implements Initializable {
      customerIDTextField.clear();
  }
     
-
+ //add searched vehicles to vehicle list
   @FXML
   public void addSearchedVehicles(ObservableList<Vehicle>list,ArrayList<Vehicle>data){
    if(data != null){
@@ -549,19 +554,19 @@ public class VehicleGUIController implements Initializable {
     manuSearchTextField.clear();
     return result;
   }
-   
+   //handles the add car event   
     @FXML
   public void addCarButton(ActionEvent event){
      addCarDetails(event);
      vehicleDisplay(event);
   }
-  
+  //handles the add van button
     @FXML
   public void addVanButton(ActionEvent event){
      addVanDetails(event);
      vehicleDisplay(event);
   }
-  
+  //handles the add truck button
     @FXML
   public void addTruckButton(ActionEvent event){
      addTruckDetails(event);
@@ -939,7 +944,7 @@ public class VehicleGUIController implements Initializable {
     return true;   
    }
   }  
-
+ //initializes table view when tab loaded
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         vehDetails.setEditable(true);
