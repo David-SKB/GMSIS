@@ -97,7 +97,17 @@ cd SE9
 ### Diagnosis and Repair Bookings
 
 <h6>Requirements not met</h6>
-
+- The opening hours of the garage are Mon-Fri 9am to 5.30pm and Sat 9am-12
+noon.
+- The garage is not open on public and bank holidays.
+- Current mileage of the vehicle must be recorded during the diagnosis and
+repair booking.
+- For each vehicle, the system user should be able to access lists of past and
+future booking dates, customer name and type of booking.
+- It will be necessary to easily view and edit bookings such that lists of bookings
+can be viewed and edited on an hourly, daily and monthly basis.
+- The user should be able to search for a booking by partial or full vehicle
+registration number, vehicle manufacturer or customer surname and firstname.
 
 [:arrow_up:Back to top!](#contents)
 
