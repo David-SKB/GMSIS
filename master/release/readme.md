@@ -14,7 +14,7 @@ Team 9
   - [Class Model](#class-diagram)
   - [ER Model](#er-diagram)
 - [Download](#download)
-- [Credits](#login details)
+- [Login Details](#login details)
 - [Team](#team)
 
 ## Project Description
