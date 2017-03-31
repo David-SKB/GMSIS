@@ -27,7 +27,7 @@ Team 9
 
 <div align="center">
   <a href="#">
-   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/076d5792-1602-11e7-8262-83fae5328c22" width="70%">
+   <img src="https://media.github.research.its.qmul.ac.uk/user/136/files/076d5792-1602-11e7-8262-83fae5328c22" width="150%">
   </a>
 </div>
 
